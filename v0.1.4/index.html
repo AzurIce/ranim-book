@@ -1,0 +1,420 @@
+<!DOCTYPE HTML>
+<html lang="zh" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Getting Started - Ranim Book</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/pagetoc.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Ranim Book</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="getting-started"><a class="header" href="#getting-started">Getting Started</a></h1>
+<div class="warning">
+<p>注意：</p>
+<p>当前本章内容非常不完善，结构不清晰、内容不完整，目前建议结合 Example 和源码来了解。</p>
+</div>
+<p>在 Ranim 中，定义并渲染一段动画的代码基本长成下面这个样子：</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[scene]
+#[output]
+fn scene_name(r: &amp;mut RanimScene) {
+    let _r_cam = r.insert_and_show(CameraFrame::default());
+
+    let r_square = r.insert(square);
+    r.timeline_mut(&amp;r_square)
+        .play_with(|square| square.fade_in())
+        .forward(0.5);
+    // ...
+}
+<span class="boring">}</span></code></pre></pre>
+<p>形如 <code>fn(&amp;mut RanimScene)</code> 的函数被称为场景函数，在其中可以通过 <code>RanimScene</code> 这个核心结构来对时间线进行操作以编码动画。</p>
+<p>上面的例子中涉及了一些宏：</p>
+<ul>
+<li><code>#[scene]</code>：为场景函数生成一个对应的 <code>static &lt;scene_name&gt;_scene: &amp;'static Scene</code>，包含了场景名称、函数指针、场景设置、输出设置（通过 <code>#[output]</code> 来设置）等信息。
+可以配置一些属性：
+<ul>
+<li><code>#[scene(name = "...")]</code>：为场景指定一个名称，默认与函数名相同。</li>
+<li><code>#[scene(frame_height = 8.0)]</code>：为场景指定一个默认的高度，默认值为 8.0。</li>
+<li><code>#[scene(clear_color = "#ffffffff")]</code>：为场景指定一个清除颜色，默认值为 <code>#333333ff</code>。</li>
+<li><code>#[output]</code>：为场景添加一个输出：
+输出的文件名 <code>&lt;output_name&gt;</code> 会被命名为 <code>&lt;scene_name&gt;_&lt;width&gt;x&lt;height&gt;_&lt;frame_rate&gt;</code>。
+<ul>
+<li><code>#[output(dir = "...")]</code>：设置相对于 <code>./output</code> 的输出目录，也可以是绝对路径</li>
+<li><code>#[output(pixel_size = (1920, 1080))]</code>：设置输出像素大小</li>
+<li><code>#[output(frame_rate = 60)]</code>：设置输出帧率</li>
+<li><code>#[output(save_frames = true)]</code>：设置是否保存每一帧（保存在 <code>&lt;dir&gt;/&lt;output_name&gt;-frames/</code> 下）</li>
+</ul>
+</li>
+<li><code>#[wasm_demo_doc]</code>：为场景指定一个文档字符串，默认值为空字符串。</li>
+</ul>
+</li>
+</ul>
+<p>使用 <em>ranim-cli</em> 可以方便的对场景进行预览、渲染：</p>
+<div class="warning">
+注意：
+<p>如果想要使用 <em>ranim-cli</em>，需要为 <code>crate-type</code> 添加 <code>dylib</code>。</p>
+</div>
+<ul>
+<li>
+<p><code>ranim preview</code>：调用 Cargo 构建指定的 target，然后启动一个预览应用加载编译出的 dylib，并监听改动进行重载。</p>
+<pre><code class="language-bash">ranim preview # 预览根 package 的 lib target
+ranim preview -p package_name # 预览 package_name 包的 lib target
+ranim preview -p package_name --example example_name # 预览 package_name 包的 example_name 示例
+</code></pre>
+</li>
+<li>
+<p><code>ranim render</code>：调用 Cargo 构建指定的 target，然后启动一个渲染应用加载编译出的 dylib，并渲染动画。</p>
+<pre><code class="language-bash">ranim render # 渲染根 package 的全部场景的所有输出
+ranim render scene_name # 渲染根 package 中名称为 scene_name 的场景的所有输出
+ranim render -p package_name # 渲染 package_name 包的全部场景的所有输出
+ranim render -p package_name --example example_name # 渲染 package_name 包的 example_name 示例中的全部场景的所有输出
+</code></pre>
+</li>
+</ul>
+<p>此外，<code>ranim</code> 还提供了一些 api 来直接渲染或预览场景。</p>
+<pre><code class="language-rust ignore">render_scene(hello_ranim_scene);
+preview_scene(hello_ranim_scene); // 需要 `app` feature</code></pre>
+<h2 id="1-场景的构造"><a class="header" href="#1-场景的构造">1. 场景的构造</a></h2>
+<p>任何实现了 <code>SceneConstructor</code> Trait 的类型都可以被用于构造场景：</p>
+<pre><code class="language-rust ignore">/// A scene constructor
+///
+/// It can be a simple fn pointer of `fn(&amp;mut RanimScene)`,
+/// or any type implements `Fn(&amp;mut RanimScene) + Send + Sync`.
+pub trait SceneConstructor: Send + Sync {
+    /// The construct logic
+    fn construct(&amp;self, r: &amp;mut RanimScene);
+
+    /// Use the constructor to build a [`SealedRanimScene`]
+    fn build_scene(&amp;self) -&gt; SealedRanimScene {
+        let mut scene = RanimScene::new();
+        self.construct(&amp;mut scene);
+        scene.seal()
+    }
+}</code></pre>
+<p><em>ranim</em> 自动为 <code>F:  Fn(&amp;mut RanimScene) + Send + Sync</code> 实现了该 Trait。</p>
+<p>也就是说，对于要求 <code>impl SceneConstructor</code> 的参数：</p>
+<ul>
+<li>既可以传入函数指针 <code>fn(&amp;mut RanimScene)</code></li>
+<li>也可以传入一个闭包 <code>|r: &amp;mut RanimScene| { /*...*/ }</code>。</li>
+</ul>
+<p>整个构造过程围绕着 <code>&amp;mut RanimScene</code>，它是 ranim 中编码动画 api 的主入口。</p>
+<h2 id="2-时间线"><a class="header" href="#2-时间线">2. 时间线</a></h2>
+<p>每一个被插入时间线的物件都有一个唯一的 <code>ItemId</code>，同时也有一条对应的时间线。</p>
+<p>时间线是一种用于编码物件动画的结构，它的内部有一个存储了动画以及展示时间的列表，以及用于编码静态动画的物件状态。</p>
+<p>编码动画的过程本质上是在向时间线中插入动态或静态的动画：</p>
+<p><img src="timeline.png" alt="Timeline" /></p>
+<h3 id="21-插入物件创建时间线"><a class="header" href="#21-插入物件创建时间线">2.1 插入物件（创建时间线）</a></h3>
+<p>通过 <code>r.insert(state)</code> 可以插入一个物件并为其创建一条时间线：</p>
+<pre><code class="language-rust ignore">let square = Square::new(2.0).with(|x| {
+    x.set_color(manim::BLUE_C);
+});
+let circle = Circle::new(1.0).with(|x| {
+    x.set_color(manim::RED_C);
+});
+
+let r_square1 = r.insert(square.clone()); // 类型为 `ItemId&lt;Square&gt;`
+let r_square2 = r.insert(square); // 类型为 `ItemId&lt;Square&gt;`
+let r_circle = r.insert(circle); // 类型为 `ItemId&lt;Circle&gt;`</code></pre>
+<h3 id="21-访问时间线"><a class="header" href="#21-访问时间线">2.1 访问时间线</a></h3>
+<p>时间线在被创建之后，需要通过 <code>r.timeline(&amp;index)</code> 或 <code>r.timeline_mut(&amp;index)</code> 来访问：</p>
+<pre><code class="language-rust ignore">{
+    // 类型为 `&amp;ItemTimeline&lt;Square&gt;`
+    let square_timeline_ref = r.timeline(&amp;r_square1);
+}
+{
+    // 类型为 `&amp;ItemTimeline&lt;Circle&gt;`
+    let circle_timeline_ref = r.timeline(&amp;r_circle);
+}</code></pre>
+<p>除了通过单一的 <code>&amp;ItemId</code> 来访问单一的时间线，也可以通过 <code>&amp;[&amp;ItemId&lt;T&gt;; N]</code> 来访问多条时间线：</p>
+<pre><code class="language-rust ignore">// 类型为 `[&amp;mut ItemTimeline&lt;Square&gt;]`
+let [sq1_timeline_ref, sq2_timeline_ref] = r.timeline_ref(&amp;[&amp;r_square1, &amp;r_square2]);</code></pre>
+<p>同时也可以访问全部时间线的切片的不可变/可变引用，不过元素是类型擦除后的 <code>ItemDynTimelines</code>：</p>
+<pre><code class="language-rust ignore">// 类型为 &amp;[ItemDynTimelines]
+let timelines = r.timelines();
+// 类型为 &amp;mut [ItemDynTimelines]
+let timelines = r.timelines_mut();</code></pre>
+<h3 id="22-操作时间线"><a class="header" href="#22-操作时间线">2.2 操作时间线</a></h3>
+<p><code>ItemTimeline&lt;T&gt;</code> 和 <code>ItemDynTimelines</code> 都具有一些用于编码动画的操作方法：</p>
+<div class="table-wrapper"><table><thead><tr><th>方法</th><th><code>ItemTimeline&lt;T&gt;</code></th><th><code>ItemDynTimelines</code></th><th>描述</th></tr></thead><tbody>
+<tr><td><code>show</code> / <code>hide</code></td><td>✅</td><td>✅</td><td>显示/隐藏时间线中的物体</td></tr>
+<tr><td><code>forward</code> / <code>forward_to</code></td><td>✅</td><td>✅</td><td>推进时间线</td></tr>
+<tr><td><code>play</code> / <code>play_with</code></td><td>✅</td><td>❌</td><td>向时间线中插入动画</td></tr>
+<tr><td><code>update</code> / <code>update_with</code></td><td>✅</td><td>❌</td><td>更新时间线中物体状态</td></tr>
+<tr><td><code>state</code></td><td>✅</td><td>❌</td><td>获取时间线中物体状态</td></tr>
+</tbody></table>
+</div>
+<p>有关方法的具体详细定义可以参考 API 文档。</p>
+<p>下面的例子使用一个 <code>Square</code> 物件创建了一个时间线，然后编码了淡入 1 秒、显示 0.5 秒、消失 0.5 秒、显示 0.5 秒、淡出 1 秒的动画：</p>
+<pre><code class="language-rust ignore"><span class="boring">use ranim::{
+</span><span class="boring">    animation::fading::FadingAnim, color::palettes::manim, items::vitem::geometry::Square,
+</span><span class="boring">    prelude::*,
+</span><span class="boring">};
+</span><span class="boring">
+</span>#[scene]
+#[output(dir = "getting_started0")]
+fn getting_started0(r: &amp;mut RanimScene) {
+    let _r_cam = r.insert_and_show(CameraFrame::default());
+    // A Square with size 2.0 and color blue
+    let square = Square::new(2.0).with(|square| {
+        square.set_color(manim::BLUE_C);
+    });
+
+    let r_square = r.insert(square);
+    {
+        let timeline = r.timeline_mut(&amp;r_square);
+        timeline
+            .play_with(|square| square.fade_in())
+            .forward(1.0)
+            .hide()
+            .forward(1.0)
+            .show()
+            .forward(1.0)
+            .play_with(|square| square.fade_out());
+    }
+}</code></pre>
+<h3 id="23-转换时间线类型"><a class="header" href="#23-转换时间线类型">2.3 转换时间线类型</a></h3>
+<p>在对一个物件进行动画编码的过程中有时会涉及物件类型的转换，比如一个 <code>Square</code> 物件需要被转换为更低级的 <code>VItem</code> 才能够被应用 Write 和 UnWrite 动画，
+此时就需要对时间线类型进行转换：</p>
+<pre><code class="language-rust ignore"><span class="boring">use ranim::{
+</span><span class="boring">    animation::{creation::WritingAnim, transform::TransformAnim},
+</span><span class="boring">    color::palettes::manim,
+</span><span class="boring">    items::vitem::{
+</span><span class="boring">        VItem,
+</span><span class="boring">        geometry::{Circle, Square},
+</span><span class="boring">    },
+</span><span class="boring">    prelude::*,
+</span><span class="boring">};
+</span><span class="boring">
+</span>#[scene]
+#[output(dir = "getting_started1")]
+fn getting_started1(r: &amp;mut RanimScene) {
+    let _r_cam = r.insert_and_show(CameraFrame::default());
+    // A Square with size 2.0 and color blue
+    let square = Square::new(2.0).with(|square| {
+        square.set_color(manim::BLUE_C);
+    });
+
+    let circle = Circle::new(2.0).with(|circle| {
+        circle.set_color(manim::RED_C);
+    });
+
+    // In order to do more low-level opeerations,
+    // sometimes we need to convert the item to a low-level item.
+    let r_vitem = r.insert(VItem::from(square));
+    {
+        let timeline = r.timeline_mut(&amp;r_vitem);
+        timeline.play_with(|vitem| vitem.transform_to(VItem::from(circle.clone())));
+        timeline.play_with(|vitem| vitem.unwrite());
+    }
+}</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+                            <a rel="next prefetch" href="cli.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+                    <a rel="next prefetch" href="cli.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="theme/pagetoc.js"></script>
+        <script src="mermaid.min.js"></script>
+        <script src="mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>
