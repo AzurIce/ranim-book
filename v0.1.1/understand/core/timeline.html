@@ -1,0 +1,305 @@
+<!DOCTYPE HTML>
+<html lang="zh" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>时间线 - Ranim Book</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../version-select.css">
+        <link rel="stylesheet" href="../../theme/pagetoc.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Ranim Book</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="时间线"><a class="header" href="#时间线">时间线</a></h1>
+<p>简单来说，时间线的本质是动画的容器，将若干动画以及其起止时间信息打包在一起也就得到了一条时间线。
+一条时间线对应一个物件的全部动画，若干条时间线组合在一起即表示了整个场景的完整动画。</p>
+<p>不过因为涉及泛型以及类型擦除，Ranim 的时间线封装并非简单的一层，而是很多层：</p>
+<pre class="mermaid">classDiagram
+    class ItemDynTimelines {
+        +timelines: Vec~ItemDynTimelines~
+    }
+
+    ItemDynTimelines --* DynTimeline
+
+    class DynTimeline {
+        +CameraFrame(Box~dyn AnyTimelineFunc~)
+        +VisualItem(Box~dyn AnyVisualItemTimelineTrait~)
+    }
+    &lt;&lt;Enumeration&gt;&gt; DynTimeline
+
+    DynTimeline ..* VisualItemTimelineTrait
+    DynTimeline ..* TimelineFunc
+
+    class ItemTimeline~T~
+
+    ItemTimeline --|&gt; TimelineFunc
+    ItemTimeline ..|&gt; VisualItemTimelineTrait : Where T is VisualItem
+
+    class TimelineFunc 
+    &lt;&lt;Trait&gt;&gt; TimelineFunc
+
+    VisualItemTimelineTrait --|&gt; TimelineFunc
+
+    class VisualItemTimelineTrait
+    &lt;&lt;Trait&gt;&gt; VisualItemTimelineTrait
+</pre>
+<h2 id="itemtimelinet"><a class="header" href="#itemtimelinet"><code>ItemTimeline&lt;T&gt;</code></a></h2>
+<p><code>ItemTimeline</code> 是第一层，它的本质就是一个动画的容器：</p>
+<pre><code class="language-rust ignore">/// `ItemTimeline&lt;T&gt;` is used to encode animations for a single type `T`,
+/// it contains a list of [`AnimationSpan&lt;T&gt;`] and the corresponding metadata for each span.
+pub struct ItemTimeline&lt;T&gt; {
+    type_name: String,
+    anims: Vec&lt;(AnimationSpan&lt;T&gt;, std::ops::Range&lt;f64&gt;)&gt;,
+
+    // Followings are states use while constructing
+    cur_sec: f64,
+    /// The state used for static anim.
+    state: T,
+    /// The start time of the planning static anim.
+    /// When it is true, it means that it is showing.
+    planning_static_start_sec: Option&lt;f64&gt;,
+}</code></pre>
+<p>在编写动画时的一系列操作（如 <code>forward</code>、<code>play</code> 等）最后都会转变为对 <code>ItemTimeline</code> 内部属性的操作，
+最终达成的结果就是在其 <code>anims</code> 属性中完成此条时间线所有动画以及其起止时间的编码（即“把动画在时间上放到正确的位置”）。</p>
+<h2 id="dyntimeline"><a class="header" href="#dyntimeline">DynTimeline</a></h2>
+<p><code>DynTimeline</code> 是第二层，用于对 <code>ItemTimeline</code> 进行类型擦除：</p>
+<pre><code class="language-rust ignore">/// A type erased [`ItemTimeline&lt;T&gt;`]
+///
+/// Currently There are two types of Timeline:
+/// - [`DynTimeline::CameraFrame`]: Can be created from [`CameraFrame`], has a boxed [`AnyTimelineFunc`] in it.
+/// - [`DynTimeline::VisualItem`]: Can be created from [`VisualItem`], has a boxed [`AnyVisualItemTimelineTrait`] in it.
+pub enum DynTimeline {
+    /// A type erased timeline for [`CameraFrame`], its inner is a boxed [`AnyTimelineFunc`].
+    CameraFrame(Box&lt;dyn AnyTimelineFunc&gt;),
+    /// A type erased timeline for [`VisualItem`], its inner is a boxed [`AnyVisualItemTimelineTrait`].
+    VisualItem(Box&lt;dyn AnyVisualItemTimelineTrait&gt;),
+}</code></pre>
+<p>在场景中，我们会有多个物件，每个物件都有自己的时间线，为了能够遍历时间线进行求值等操作，必须要对时间线进行类型擦除，从而将不同物件的时间线放到一个容器中。</p>
+<p><code>AnyTimelineFunc</code> 就是 <code>Any + TimelineFunc</code>，带有基础的时间线操作，而 <code>AnyVisualItemTimelineTrait</code> 就是 <code>Any + VisualItemTimelineTrait</code>，在 <code>TimelineFunc</code> 的基础上额外多了 <code>eval_sec</code> 方法：</p>
+<pre><code class="language-rust ignore">/// A visual item timeline, which can eval to `EvalResult&lt;Box&lt;dyn VisualItem&gt;&gt;`.
+///
+/// This is auto implemented for `ItemTimeline&lt;T&gt;` where `T: Clone + VisualItem + 'static`
+pub trait VisualItemTimelineTrait: TimelineFunc {
+    /// Evaluate the timeline at `target_sec`
+    fn eval_sec(&amp;self, target_sec: f64) -&gt; Option&lt;(EvalResult&lt;Box&lt;dyn VisualItem&gt;&gt;, usize)&gt;;
+}</code></pre>
+<p>这样，通过 <code>TimelineId&lt;T&gt;</code> 可以获取对应的 Timeline 并还原类型，而在求值、渲染时没有类型信息，直接使用 Trait 提供的方法进行求值。</p>
+<h2 id="itemdyntimelines"><a class="header" href="#itemdyntimelines">ItemDynTimelines</a></h2>
+<p>其实到 <code>DynTimeline</code> 已经足够了，但是为了支持“变更同一条 Timeline 的类型”，在 <code>DynTimeline</code> 的基础上又包了第三层：</p>
+<pre><code class="language-rust ignore">/// A item timeline which contains multiple [`DynTimeline`], so
+/// that it can contains multiple [`ItemTimeline&lt;T&gt;`] in different type of `T`.
+pub struct ItemDynTimelines {
+    id: usize,
+    timelines: Vec&lt;DynTimeline&gt;,
+}</code></pre>
+<p>简单来说，在实际操作的时候，永远操作的是最后一个 <code>DynTimeline</code>，这使得其表现得像是一个 <code>DynTimeline</code>，不过额外有一个 <code>apply_map</code> 方法，可以使用一个 <code>map_fn: impl FnOnce(T) -&gt; E</code> 来使用最后一个 <code>DynTimeline</code> 的内部状态进行转换，然后再插入一个新的 <code>DynTimeline</code>。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../understand/core/animation.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../understand/core/animation.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../version-select.js"></script>
+        <script src="../../theme/pagetoc.js"></script>
+        <script src="../../mermaid.min.js"></script>
+        <script src="../../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>
