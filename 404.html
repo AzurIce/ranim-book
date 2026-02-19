@@ -3,7 +3,8 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Getting Started - Ranim Book</title>
+        <title>Page not found - Ranim Book</title>
+        <base href="/ranim-book/">
 
 
         <!-- Custom HTML head -->
@@ -175,224 +176,14 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="getting-started"><a class="header" href="#getting-started">Getting Started</a></h1>
-<blockquote class="blockquote-tag blockquote-tag-caution">
-<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M4.47.22A.749.749 0 0 1 5 0h6c.199 0 .389.079.53.22l4.25 4.25c.141.14.22.331.22.53v6a.749.749 0 0 1-.22.53l-4.25 4.25A.749.749 0 0 1 11 16H5a.749.749 0 0 1-.53-.22L.22 11.53A.749.749 0 0 1 0 11V5c0-.199.079-.389.22-.53Zm.84 1.28L1.5 5.31v5.38l3.81 3.81h5.38l3.81-3.81V5.31L10.69 1.5ZM8 4a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 8 4Zm0 8a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Caution</p>
-<p>本章内容已过时，请结合 Example 和源码来了解</p>
-</blockquote>
-<blockquote class="blockquote-tag blockquote-tag-warning">
-<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Warning</p>
-<p>注意：</p>
-<p>当前本章内容非常不完善，结构不清晰、内容不完整，目前建议结合 Example 和源码来了解。</p>
-</blockquote>
-<p>在 Ranim 中，定义并渲染一段动画的代码基本长成下面这个样子：</p>
-<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>#[scene]
-#[output]
-fn scene_name(r: &amp;mut RanimScene) {
-    let _r_cam = r.insert_and_show(CameraFrame::default());
-
-    let r_square = r.insert(square);
-    r.timeline_mut(&amp;r_square)
-        .play_with(|square| square.fade_in())
-        .forward(0.5);
-    // ...
-}
-<span class="boring">}</span></code></pre>
-<p>形如 <code>fn(&amp;mut RanimScene)</code> 的函数被称为场景函数，在其中可以通过 <code>RanimScene</code> 这个核心结构来对时间线进行操作以编码动画。</p>
-<p>上面的例子中涉及了一些宏：</p>
-<ul>
-<li><code>#[scene]</code>：为场景函数生成一个对应的 <code>static &lt;scene_name&gt;_scene: &amp;'static Scene</code>，包含了场景名称、函数指针、场景设置、输出设置（通过 <code>#[output]</code> 来设置）等信息。
-可以配置一些属性：
-<ul>
-<li><code>#[scene(name = "...")]</code>：为场景指定一个名称，默认与函数名相同。</li>
-<li><code>#[scene(clear_color = "#ffffffff")]</code>：为场景指定一个清除颜色，默认值为 <code>#333333ff</code>。</li>
-<li><code>#[output]</code>：为场景添加一个输出：
-输出的文件名 <code>&lt;output_name&gt;</code> 会被命名为 <code>&lt;scene_name&gt;_&lt;width&gt;x&lt;height&gt;_&lt;frame_rate&gt;</code>。
-<ul>
-<li><code>#[output(dir = "...")]</code>：设置相对于 <code>./output</code> 的输出目录，也可以是绝对路径</li>
-<li><code>#[output(pixel_size = (1920, 1080))]</code>：设置输出像素大小</li>
-<li><code>#[output(frame_rate = 60)]</code>：设置输出帧率</li>
-<li><code>#[output(save_frames = true)]</code>：设置是否保存每一帧（保存在 <code>&lt;dir&gt;/&lt;output_name&gt;-frames/</code> 下）</li>
-</ul>
-</li>
-<li><code>#[wasm_demo_doc]</code>：为场景指定一个文档字符串，默认值为空字符串。</li>
-</ul>
-</li>
-</ul>
-<p>使用 <em>ranim-cli</em> 可以方便的对场景进行预览、渲染：</p>
-<blockquote class="blockquote-tag blockquote-tag-important">
-<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v9.5A1.75 1.75 0 0 1 14.25 13H8.06l-2.573 2.573A1.458 1.458 0 0 1 3 14.543V13H1.75A1.75 1.75 0 0 1 0 11.25Zm1.75-.25a.25.25 0 0 0-.25.25v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25Zm7 2.25v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Important</p>
-<p>注意：</p>
-<p>如果想要使用 <em>ranim-cli</em>，需要为 <code>crate-type</code> 添加 <code>dylib</code>。</p>
-</blockquote>
-<ul>
-<li>
-<p><code>ranim preview</code>：调用 Cargo 构建指定的 target，然后启动一个预览应用加载编译出的 dylib，并监听改动进行重载。</p>
-<pre><code class="language-bash">ranim preview # 预览根 package 的 lib target
-ranim preview -p package_name # 预览 package_name 包的 lib target
-ranim preview -p package_name --example example_name # 预览 package_name 包的 example_name 示例
-</code></pre>
-</li>
-<li>
-<p><code>ranim render</code>：调用 Cargo 构建指定的 target，然后启动一个渲染应用加载编译出的 dylib，并渲染动画。</p>
-<pre><code class="language-bash">ranim render # 渲染根 package 的全部场景的所有输出
-ranim render scene_name # 渲染根 package 中名称为 scene_name 的场景的所有输出
-ranim render -p package_name # 渲染 package_name 包的全部场景的所有输出
-ranim render -p package_name --example example_name # 渲染 package_name 包的 example_name 示例中的全部场景的所有输出
-</code></pre>
-</li>
-</ul>
-<p>此外，<code>ranim</code> 还提供了一些 api 来直接渲染或预览场景。</p>
-<pre><code class="language-rust ignore">render_scene(hello_ranim_scene);
-preview_scene(hello_ranim_scene); // 需要 `app` feature</code></pre>
-<h2 id="1-场景的构造"><a class="header" href="#1-场景的构造">1. 场景的构造</a></h2>
-<p>任何实现了 <code>SceneConstructor</code> Trait 的类型都可以被用于构造场景：</p>
-<pre><code class="language-rust ignore"></code></pre>
-<p><em>ranim</em> 自动为 <code>F:  Fn(&amp;mut RanimScene) + Send + Sync</code> 实现了该 Trait。</p>
-<p>也就是说，对于要求 <code>impl SceneConstructor</code> 的参数：</p>
-<ul>
-<li>既可以传入函数指针 <code>fn(&amp;mut RanimScene)</code></li>
-<li>也可以传入一个闭包 <code>|r: &amp;mut RanimScene| { /*...*/ }</code>。</li>
-</ul>
-<p>整个构造过程围绕着 <code>&amp;mut RanimScene</code>，它是 ranim 中编码动画 api 的主入口。</p>
-<h2 id="2-时间线"><a class="header" href="#2-时间线">2. 时间线</a></h2>
-<p>每一条被插入到场景中的时间线都有一个唯一的 <code>TimelineId</code>。</p>
-<p>时间线是一种用于编码物件动画的结构，它的内部有一个存储了动画以及展示时间的列表，以及用于编码静态动画的物件状态。</p>
-<p>编码动画的过程本质上是在向时间线中插入动态或静态的动画：</p>
-<p><img src="timeline.png" alt="Timeline"></p>
-<h3 id="21-插入物件创建时间线"><a class="header" href="#21-插入物件创建时间线">2.1 插入物件（创建时间线）</a></h3>
-<p>使用 <code>r.new_timeline()</code> 可以插入一条空白的时间线：</p>
-<pre><code class="language-rust ignore">let tid: TimelineId = r.new_timeline();</code></pre>
-<p>// TODO: 后面还没更新</p>
-<p>通过 <code>r.insert(state)</code> 可以插入一个物件并为其创建一条时间线：</p>
-<pre><code class="language-rust ignore">let square = Square::new(2.0).with(|x| {
-    x.set_color(manim::BLUE_C);
-});
-let circle = Circle::new(1.0).with(|x| {
-    x.set_color(manim::RED_C);
-});
-
-let r_square1 = r.insert(square.clone());
-let r_square2 = r.insert(square);
-let r_circle = r.insert(circle);</code></pre>
-<h3 id="21-访问时间线"><a class="header" href="#21-访问时间线">2.1 访问时间线</a></h3>
-<p>时间线在被创建之后，需要通过 <code>r.timeline(&amp;index)</code> 或 <code>r.timeline_mut(&amp;index)</code> 来访问：</p>
-<pre><code class="language-rust ignore">{
-    // 类型为 `&amp;ItemTimeline&lt;Square&gt;`
-    let square_timeline_ref = r.timeline(&amp;r_square1);
-}
-{
-    // 类型为 `&amp;ItemTimeline&lt;Circle&gt;`
-    let circle_timeline_ref = r.timeline(&amp;r_circle);
-}</code></pre>
-<p>除了通过单一的 <code>&amp;ItemId</code> 来访问单一的时间线，也可以通过 <code>&amp;[&amp;ItemId&lt;T&gt;; N]</code> 来访问多条时间线：</p>
-<pre><code class="language-rust ignore">// 类型为 `[&amp;mut ItemTimeline&lt;Square&gt;]`
-let [sq1_timeline_ref, sq2_timeline_ref] = r.timeline_ref(&amp;[&amp;r_square1, &amp;r_square2]);</code></pre>
-<p>同时也可以访问全部时间线的切片的不可变/可变引用，不过元素是类型擦除后的 <code>ItemDynTimelines</code>：</p>
-<pre><code class="language-rust ignore">// 类型为 &amp;[ItemDynTimelines]
-let timelines = r.timelines();
-// 类型为 &amp;mut [ItemDynTimelines]
-let timelines = r.timelines_mut();</code></pre>
-<h3 id="22-操作时间线"><a class="header" href="#22-操作时间线">2.2 操作时间线</a></h3>
-<p><code>ItemTimeline&lt;T&gt;</code> 和 <code>ItemDynTimelines</code> 都具有一些用于编码动画的操作方法：</p>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th>方法</th><th><code>ItemTimeline&lt;T&gt;</code></th><th><code>ItemDynTimelines</code></th><th>描述</th></tr>
-</thead>
-<tbody>
-<tr><td><code>show</code> / <code>hide</code></td><td>✅</td><td>✅</td><td>显示/隐藏时间线中的物体</td></tr>
-<tr><td><code>forward</code> / <code>forward_to</code></td><td>✅</td><td>✅</td><td>推进时间线</td></tr>
-<tr><td><code>play</code> / <code>play_with</code></td><td>✅</td><td>❌</td><td>向时间线中插入动画</td></tr>
-<tr><td><code>update</code> / <code>update_with</code></td><td>✅</td><td>❌</td><td>更新时间线中物体状态</td></tr>
-<tr><td><code>state</code></td><td>✅</td><td>❌</td><td>获取时间线中物体状态</td></tr>
-</tbody>
-</table>
-</div>
-<p>有关方法的具体详细定义可以参考 API 文档。</p>
-<p>下面的例子使用一个 <code>Square</code> 物件创建了一个时间线，然后编码了淡入 1 秒、显示 0.5 秒、消失 0.5 秒、显示 0.5 秒、淡出 1 秒的动画：</p>
-<pre><code class="language-rust ignore"><span class="boring">#[cfg(target_arch = "wasm32")]
-</span><span class="boring">use ranim_app as _;
-</span><span class="boring">
-</span><span class="boring">use ranim::{
-</span><span class="boring">    anims::fading::FadingAnim, color::palettes::manim, items::vitem::geometry::Square, prelude::*,
-</span><span class="boring">};
-</span><span class="boring">
-</span>#[scene]
-#[output(dir = "getting_started0")]
-fn getting_started0(r: &amp;mut RanimScene) {
-    // Equivalent to creating a new timeline then playing `CameraFrame::default().show()` on it
-    let _r_cam = r.insert(CameraFrame::default());
-    // A Square with size 2.0 and color blue
-    let square = Square::new(2.0).with(|square| {
-        square.set_color(manim::BLUE_C);
-    });
-
-    let r_square = r.insert_empty();
-    {
-        let timeline = r.timeline_mut(r_square);
-        timeline
-            .play(square.clone().fade_in()) // Can be written as `square.fade_in_ref()`
-            .forward(1.0)
-            .hide()
-            .forward(1.0)
-            .show()
-            .forward(1.0)
-            .play(square.clone().fade_out()); // Can be written as `square.fade_out_ref()`
-    }
-    // In the end, ranim will automatically sync all timelines and forward to the end.
-    // Equivalent to `r.timelines_mut().sync();`
-}</code></pre>
-<h3 id="23-转换时间线类型"><a class="header" href="#23-转换时间线类型">2.3 转换时间线类型</a></h3>
-<p>在对一个物件进行动画编码的过程中有时会涉及物件类型的转换，比如一个 <code>Square</code> 物件需要被转换为更低级的 <code>VItem</code> 才能够被应用 Write 和 UnWrite 动画，
-此时就需要对时间线类型进行转换：</p>
-<pre><code class="language-rust ignore"><span class="boring">#[cfg(target_arch = "wasm32")]
-</span><span class="boring">use ranim_app as _;
-</span><span class="boring">
-</span><span class="boring">use ranim::{
-</span><span class="boring">    anims::{creation::WritingAnim, morph::MorphAnim},
-</span><span class="boring">    color::palettes::manim,
-</span><span class="boring">    items::vitem::{
-</span><span class="boring">        VItem,
-</span><span class="boring">        geometry::{Circle, Square},
-</span><span class="boring">    },
-</span><span class="boring">    prelude::*,
-</span><span class="boring">};
-</span><span class="boring">
-</span>#[scene]
-#[output(dir = "getting_started1")]
-fn getting_started1(r: &amp;mut RanimScene) {
-    let _r_cam = r.insert(CameraFrame::default());
-    // A Square with size 2.0 and color blue
-    let square = Square::new(2.0).with(|square| {
-        square.set_color(manim::BLUE_C);
-    });
-
-    let circle = Circle::new(2.0).with(|circle| {
-        circle.set_color(manim::RED_C);
-    });
-
-    let r_vitem = r.insert_empty();
-    {
-        let timeline = r.timeline_mut(r_vitem);
-        // In order to do more low-level opeerations,
-        // sometimes we need to convert the item to a low-level item.
-        timeline.play(VItem::from(square).morph_to(VItem::from(circle.clone())));
-        timeline.play(VItem::from(circle).unwrite());
-    }
-}</code></pre>
+                        <h1 id="document-not-found-404"><a class="header" href="#document-not-found-404">Document not found (404)</a></h1>
+<p>This URL is invalid, sorry. Please use the navigation bar or search to continue.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
 
-                            <a rel="next prefetch" href="packages.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
-                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -401,9 +192,6 @@ fn getting_started1(r: &amp;mut RanimScene) {
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
 
-                    <a rel="next prefetch" href="packages.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
-                    </a>
             </nav>
 
         </div>

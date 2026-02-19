@@ -3,7 +3,8 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Getting Started - Ranim Book</title>
+        <title>Ranim Book</title>
+        <meta name="robots" content="noindex">
 
 
         <!-- Custom HTML head -->
@@ -384,15 +385,249 @@ fn getting_started1(r: &amp;mut RanimScene) {
         timeline.play(VItem::from(circle).unwrite());
     }
 }</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="packages"><a class="header" href="#packages">Packages</a></h1>
+<pre><code class="language-text">.
+├── src/                        # ranim - 顶层 facade crate
+├── packages/
+│   ├── ranim-core/             # 核心动画引擎（时间线、组件、动画 trait）
+│   ├── ranim-macros/           # proc-macro（#[scene]、#[output] 等）
+│   ├── ranim-items/            # 内置可视元素（VItem、几何图形、SVG、文本）
+│   ├── ranim-anims/            # 内置动画（淡入淡出、变形、书写等）
+│   ├── ranim-render/           # GPU 渲染层（wgpu）
+│   ├── ranim-app/              # 交互式预览应用（egui，支持 native/WASM）
+│   └── ranim-cli/              # CLI 工具（渲染、预览、热加载）
+├── example-packages/app/       # 示例应用
+├── benches/                    # 性能基准测试
+└── xtasks/xtask-examples/      # 示例构建自动化
+</code></pre>
+<pre class="mermaid">graph BT
+    macros[ranim-macros]
+    core[ranim-core] --&gt; macros
+    items[ranim-items] --&gt; core
+    anims[ranim-anims] --&gt; core
+    render[ranim-render] --&gt; core
+    ranim[ranim] --&gt; core
+    ranim --&gt; items
+    ranim --&gt; anims
+    ranim --&gt; render
+    app[ranim-app] --&gt; ranim
+    cli[ranim-cli] --&gt; ranim
+    cli --&gt; app
+</pre>
+
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="ranim-cli"><a class="header" href="#ranim-cli">Ranim Cli</a></h1>
+<p>使用 Ranim Cli 可以更方便地进行场景地预览、输出属性等的定义：</p>
+<pre><code class="language-rust ignore">#[scene]
+#[output]
+pub fn scene_constructor1(r: &amp;mut RanimScene) {
+    // ...
+}
+
+#[scene(clear_color = "#000000", name = "custom")]
+#[output(width = 1920, height = 1080, frame_rate = 60, save_frames = false, dir = "output")]
+pub fn scene_constructor2(r: &amp;mut RanimScene) {
+    // ...
+}</code></pre>
+<p>同时，不必再编写 <code>main.rs</code> 来手动调用渲染或预览 api，直接通过 cli 命令即可完成场景的预览或渲染（而且预览支持热重载）：</p>
+<ul>
+<li><code>ranim preview</code>：调用 Cargo 构建指定的 lib，然后启动一个预览应用加载编译出的 dylib，并监听改动进行重载。</li>
+<li><code>ranim render</code>：调用 Cargo 构建指定的 lib，然后加载它并渲染动画。</li>
+</ul>
+<p>但是，要注意为你的 lib 添加 <code>crate-type = ["dylib"]</code> 来使得它能被编译为动态库。</p>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="核心概念"><a class="header" href="#核心概念">核心概念</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="动画"><a class="header" href="#动画">动画</a></h1>
+<p>本节将对 Ranim 中 <em>动画</em> 的实现思路进行讲解。</p>
+<h2 id="evalt-trait"><a class="header" href="#evalt-trait"><code>Eval&lt;T&gt;</code> Trait</a></h2>
+<p>一个标准化的动画其实本质上就是一个函数 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span></span></span></span>，它的输入是一个进度值 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">a</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mclose">]</span></span></span></span>，输出是该动画在对应进度处的结果 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span>：</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal">a</span><span class="mclose">)</span></span></span></span></span></p>
+<p>这个函数 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span></span></span></span> 不仅定义了动画的 <em>求值</em>，同时其内部也包含了求值所需要的 <em>信息</em>。对应到计算机世界，其实也就是 <em>算法</em> 和 <em>数据</em>，而对应到编程语言上也就是 <em>方法</em> 和 <em>数据类型</em>。</p>
+<p>在由 Rust 实现的 Ranim 中也就是 <code>Eval&lt;T&gt;</code> Trait 和实现了它的类型 <code>T</code>：</p>
+<pre><code class="language-rust ignore">/// This is the core of any animation, an animation is basically a function on time.
+///
+/// This represents a normalized animation function for type `T`, which accepts
+/// a progress value `alpha` in range [0, 1] and returns the evaluation result in type `T`.
+pub trait Eval&lt;T&gt; {
+    /// Evaluates at the given progress value `alpha` in range [0, 1].
+    fn eval_alpha(&amp;self, alpha: f64) -&gt; T;
+
+    // ...
+}</code></pre>
+<p>它接受自身的不可变引用和一个进度值作为输入，经过计算，输出一个自身类型的结果。</p>
+<h3 id="例--static-动画"><a class="header" href="#例--static-动画">例 | <code>Static</code> 动画</a></h3>
+<p><code>ranim_core::animation::Static</code> 动画是最基础的，也是唯一一个内置进 <code>ranim-core</code> 的动画：</p>
+<pre><code class="language-rust ignore">/// A static animation.
+pub struct Static&lt;T&gt;(pub T);
+
+impl&lt;T: Clone&gt; Eval&lt;T&gt; for Static&lt;T&gt; {
+    fn eval_alpha(&amp;self, _alpha: f64) -&gt; T {
+        self.0.clone()
+    }
+}</code></pre>
+<p>非常简单，其内置的 <em>信息</em> 就是物件本身，其 <em>求值</em> 就是简单的返回相同的物件。</p>
+<h3 id="例--transform-动画"><a class="header" href="#例--transform-动画">例 | <code>Transform</code> 动画</a></h3>
+<p>以 <code>ranim_anims::transform::Transform</code> 动画为例，其内部包含了物件初始状态和目标状态，以及用于插值的对齐后的初始和目标状态，在 <code>EvalDynamic&lt;T&gt;</code> 的实现中使用内部的数据进行计算求值得到结果：</p>
+<pre><code class="language-rust ignore">{{#include ../../../../packages/ranim-anims/src/transform.rs:Transform}}
+
+{{#include ../../../../packages/ranim-anims/src/transform.rs:Transform-Eval}}</code></pre>
+<h2 id="animationcell"><a class="header" href="#animationcell">AnimationCell</a></h2>
+<p>一个动画还会有很多额外的信息：</p>
+<ul>
+<li>开始时间 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7651em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></li>
+<li>持续时间 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord">Δ</span><span class="mord mathnormal">t</span></span></span></span></li>
+<li>速率函数 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span></span></span></span></li>
+<li>…</li>
+</ul>
+<p>在 Ranim 中，这些被信息被表示为一个 <code>AnimationInfo</code> 结构：</p>
+<pre><code class="language-rust ignore">/// Info of an animation.
+///
+/// When [`AnimationInfo::enabled`] is `false`, the animation will not be evaluated.
+#[derive(Debug, Clone)]
+pub struct AnimationInfo {
+    /// The rate function used for evaluating, default value: [`linear`]
+    pub rate_func: fn(f64) -&gt; f64,
+    /// Start sec, default value: 0.0
+    pub start_sec: f64,
+    /// The duration seconds, default value: 1.0
+    pub duration_secs: f64,
+    /// Is enabled, default value: true
+    pub enabled: bool,
+}
+
+impl Default for AnimationInfo {
+    fn default() -&gt; Self {
+        Self {
+            rate_func: linear,
+            start_sec: 0.0,
+            duration_secs: 1.0,
+            enabled: true,
+        }
+    }
+}</code></pre>
+<p>通过这些信息，我们可以将全局的秒映射到局部的 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">a</span></span></span></span>，并将局部的 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">a</span></span></span></span> 映射到内部标准化的 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">a</span></span></span></span>：</p>
+<pre><code class="language-rust ignore">impl AnimationInfo {
+    /// Map the global sec to outer alpha
+    ///
+    /// note that this uses a range_inclusive
+    pub fn map_sec_to_alpha(&amp;self, sec: f64) -&gt; Option&lt;f64&gt; {
+        if self.range_inclusive().contains(&amp;sec) {
+            let alpha = (sec - self.start_sec) / self.duration_secs;
+            let alpha = if alpha.is_nan() { 1.0 } else { alpha };
+            Some(alpha)
+        } else {
+            None
+        }
+    }
+    /// Map the outer alpha to inner alpha
+    pub fn map_alpha(&amp;self, alpha: f64) -&gt; f64 {
+        (self.rate_func)(alpha)
+    }
+    // ...
+}</code></pre>
+<p>如此，将以 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">a</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mclose">]</span></span></span></span> 为输入标准化的动画函数与这些信息结合，也就构造除了一个以秒 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6542em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord"><span class="mord mathnormal">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">Δ</span><span class="mord mathnormal">t</span><span class="mclose">]</span></span></span></span> 为输入的动画函数 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mclose">)</span></span></span></span>：</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:3.6em;vertical-align:-1.55em;"></span><span class="minner"><span class="mopen"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:2.05em;"><span style="top:-2.5em;"><span class="pstrut" style="height:3.15em;"></span><span class="delimsizinginner delim-size4"><span>⎩</span></span></span><span style="top:-2.492em;"><span class="pstrut" style="height:3.15em;"></span><span style="height:0.016em;width:0.8889em;"><svg xmlns="http://www.w3.org/2000/svg" width="0.8889em" height="0.016em" style="width:0.8889em" viewbox="0 0 888.89 16" preserveaspectratio="xMinYMin"><path d="M384 0 H504 V16 H384z M384 0 H504 V16 H384z" /></svg></span></span><span style="top:-3.15em;"><span class="pstrut" style="height:3.15em;"></span><span class="delimsizinginner delim-size4"><span>⎨</span></span></span><span style="top:-4.292em;"><span class="pstrut" style="height:3.15em;"></span><span style="height:0.016em;width:0.8889em;"><svg xmlns="http://www.w3.org/2000/svg" width="0.8889em" height="0.016em" style="width:0.8889em" viewbox="0 0 888.89 16" preserveaspectratio="xMinYMin"><path d="M384 0 H504 V16 H384z M384 0 H504 V16 H384z" /></svg></span></span><span style="top:-4.3em;"><span class="pstrut" style="height:3.15em;"></span><span class="delimsizinginner delim-size4"><span>⎧</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.55em;"><span></span></span></span></span></span></span><span class="mord"><span class="mtable"><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.959em;"><span style="top:-3.959em;"><span class="pstrut" style="height:3.2921em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mopen">(</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.2921em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">Δ</span><span class="mord mathnormal">t</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose">))</span><span class="mpunct">,</span></span></span><span style="top:-2.265em;"><span class="pstrut" style="height:3.2921em;"></span><span class="mord"><span class="mord">1.0</span><span class="mpunct">,</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.459em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:1em;"></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.959em;"><span style="top:-3.959em;"><span class="pstrut" style="height:3.2921em;"></span><span class="mord"><span class="mord">Δ</span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel"><span class="mrel"><span class="mord vbox"><span class="thinbox"><span class="rlap"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="inner"><span class="mord"><span class="mrel"></span></span></span><span class="fix"></span></span></span></span></span><span class="mrel">=</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord">0</span></span></span><span style="top:-2.265em;"><span class="pstrut" style="height:3.2921em;"></span><span class="mord"><span class="mord">Δ</span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.459em;"><span></span></span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p>
+<p>在 Ranim 中，这对应着 <code>AnimationCell</code> 结构：</p>
+<pre><code class="language-rust ignore">/// A cell of an animation
+pub struct AnimationCell&lt;T&gt; {
+    inner: Box&lt;dyn Eval&lt;T&gt;&gt;,
+    /// The animation info
+    pub info: AnimationInfo,
+// ...
+}
+
+impl&lt;T&gt; Eval&lt;T&gt; for AnimationCell&lt;T&gt; {
+    fn eval_alpha(&amp;self, alpha: f64) -&gt; T {
+        self.inner.eval_alpha(self.info.map_alpha(alpha))
+    }
+}</code></pre>
+<h2 id="requirement-trait-模式"><a class="header" href="#requirement-trait-模式">Requirement Trait 模式</a></h2>
+<p>相信你注意到了，在实际的动画编写中，我们并没有手动构造任何一个动画结构，而是直接在物件身上调用一个方法来构造 <code>AnimationCell</code>：</p>
+<pre><code class="language-rust ignore">let vitem_a = // ...;
+let vitem_b = // ...;
+
+// let anim = Transform::new(vitem_a, vitem_b).to_animation_cell();
+// r.timeline_mut(t_id).play(anim);
+
+r.timeline_mut(t_id).play(vitem_a.clone().transform_to(vitem_b));</code></pre>
+<pre><code class="language-rust ignore">let mut vitem_a = // ...;
+let vitem_b = // ...;
+
+// let anim = Transform::new(vitem_a, vitem_b).to_animation_cell();
+// vitem_a = anim.eval_alpha(1.0);
+// r.timeline_mut(t_id).play(anim);
+
+r.timeline_mut(t_id).play(vitem_a.morph_to(vitem_b));</code></pre>
+<p>这是 Ranim 动画的一种编程模式，每一个动画都有一个对应的 Requirement Trait：</p>
+<pre><code class="language-rust ignore">/// The requirement of [`Morph`]
+pub trait MorphRequirement: Alignable + Interpolatable + Clone {}
+impl&lt;T: Alignable + Interpolatable + Clone&gt; MorphRequirement for T {}</code></pre>
+<p>同时还有一个对应的 Animation Trait，包含了一系列的 Helper 函数，以及为 <code>T: &lt;Requirement Trait&gt;</code> 的实现：</p>
+<pre><code class="language-rust ignore">/// The methods to create animations for `T` that satisfies [`MorphRequirement`]
+pub trait MorphAnim: MorphRequirement + Sized + 'static {
+    /// Create a [`Morph`] anim with a func.
+    fn morph&lt;F: Fn(&amp;mut Self)&gt;(&amp;mut self, f: F) -&gt; AnimationCell&lt;Self&gt;;
+    /// Create a [`Morph`] anim from src.
+    fn morph_from(&amp;mut self, src: Self) -&gt; AnimationCell&lt;Self&gt;;
+    /// Create a [`Morph`] anim to dst.
+    fn morph_to(&amp;mut self, dst: Self) -&gt; AnimationCell&lt;Self&gt;;
+}
+
+impl&lt;T: MorphRequirement + 'static&gt; MorphAnim for T {
+    fn morph&lt;F: Fn(&amp;mut T)&gt;(&amp;mut self, f: F) -&gt; AnimationCell&lt;T&gt; {
+        let mut dst = self.clone();
+        (f)(&amp;mut dst);
+        Morph::new(self.clone(), dst)
+            .into_animation_cell()
+            .with_rate_func(smooth)
+            .apply_to(self)
+    }
+    fn morph_from(&amp;mut self, s: T) -&gt; AnimationCell&lt;T&gt; {
+        Morph::new(s, self.clone())
+            .into_animation_cell()
+            .with_rate_func(smooth)
+            .apply_to(self)
+    }
+    fn morph_to(&amp;mut self, d: T) -&gt; AnimationCell&lt;T&gt; {
+        Morph::new(self.clone(), d)
+            .into_animation_cell()
+            .with_rate_func(smooth)
+            .apply_to(self)
+    }
+}</code></pre>
+<p>通过这种模式可以便捷地构造动画，并将动画的效果应用到物件状态上。</p>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="时间线"><a class="header" href="#时间线">时间线</a></h1>
+<p>简单来说，时间线的本质是类型擦除后的 <code>AnimationCell&lt;T&gt;</code> 的容器，若干条时间线组合在一起即表示了整个场景的完整动画。</p>
+<p>因为 <code>AnimationCell&lt;T&gt;</code> 带有范性参数，所以也就涉及类型擦除，满足于 <code>T: AnyExtractCoreItem</code> 的 <code>AnimationCell&lt;T&gt;</code> 会被擦除为 <code>Box&lt;dyn CoreItemAnimation&gt;</code>：</p>
+<pre><code class="language-rust ignore">impl&lt;T: AnyExtractCoreItem&gt; CoreItemAnimation for AnimationCell&lt;T&gt; {
+    fn eval_alpha_dyn(&amp;self, alpha: f64) -&gt; DynItem {
+        DynItem(Box::new(self.eval_alpha(alpha)))
+    }
+    fn eval_alpha_core_item(&amp;self, alpha: f64) -&gt; Vec&lt;CoreItem&gt; {
+        self.eval_alpha(alpha).extract()
+    }
+    // ...
+}</code></pre>
+<pre><code class="language-rust ignore">/// A timeline for a animations.
+#[derive(Default)]
+pub struct Timeline {
+    anims: Vec&lt;Box&lt;dyn CoreItemAnimation&gt;&gt;,
+    // Followings are states use while constructing
+    cur_sec: f64,
+    /// The start time of the planning static anim.
+    /// When it is some, it means that it is showing and has a planning static anim.
+    planning_static_start_sec: Option&lt;f64&gt;,
+}</code></pre>
+<p>在编写动画时的一系列操作（如 <code>forward</code>、<code>play</code> 等）最后都会转变为对 <code>Timeline</code> 内部属性的操作，最终达成的结果就是在其 <code>anims</code> 属性中完成此条时间线所有动 <code>AnimationCell</code> 的编码（即“把动画在时间上放到正确的位置”）。</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
 
-                            <a rel="next prefetch" href="packages.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
-                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -401,9 +636,6 @@ fn getting_started1(r: &amp;mut RanimScene) {
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
 
-                    <a rel="next prefetch" href="packages.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
-                    </a>
             </nav>
 
         </div>
@@ -434,6 +666,11 @@ fn getting_started1(r: &amp;mut RanimScene) {
         <script src="mermaid-eefea253.min.js"></script>
         <script src="mermaid-init-025d9952.js"></script>
 
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
 
 
     </div>
