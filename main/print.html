@@ -38,7 +38,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-411f0139.js";
+            window.path_to_searchindex_js = "searchindex-70245d2f.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-2994c201.js"></script>
@@ -316,10 +316,7 @@ let timelines = r.timelines_mut();</code></pre>
 </div>
 <p>有关方法的具体详细定义可以参考 API 文档。</p>
 <p>下面的例子使用一个 <code>Square</code> 物件创建了一个时间线，然后编码了淡入 1 秒、显示 0.5 秒、消失 0.5 秒、显示 0.5 秒、淡出 1 秒的动画：</p>
-<pre><code class="language-rust ignore"><span class="boring">#[cfg(target_arch = "wasm32")]
-</span><span class="boring">use ranim_app as _;
-</span><span class="boring">
-</span><span class="boring">use ranim::{
+<pre><code class="language-rust ignore"><span class="boring">use ranim::{
 </span><span class="boring">    anims::fading::FadingAnim, color::palettes::manim, items::vitem::geometry::Square, prelude::*,
 </span><span class="boring">};
 </span><span class="boring">
@@ -351,10 +348,7 @@ fn getting_started0(r: &amp;mut RanimScene) {
 <h3 id="23-转换时间线类型"><a class="header" href="#23-转换时间线类型">2.3 转换时间线类型</a></h3>
 <p>在对一个物件进行动画编码的过程中有时会涉及物件类型的转换，比如一个 <code>Square</code> 物件需要被转换为更低级的 <code>VItem</code> 才能够被应用 Write 和 UnWrite 动画，
 此时就需要对时间线类型进行转换：</p>
-<pre><code class="language-rust ignore"><span class="boring">#[cfg(target_arch = "wasm32")]
-</span><span class="boring">use ranim_app as _;
-</span><span class="boring">
-</span><span class="boring">use ranim::{
+<pre><code class="language-rust ignore"><span class="boring">use ranim::{
 </span><span class="boring">    anims::{creation::WritingAnim, morph::MorphAnim},
 </span><span class="boring">    color::palettes::manim,
 </span><span class="boring">    items::vitem::{
