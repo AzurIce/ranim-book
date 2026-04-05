@@ -1,0 +1,994 @@
+<!DOCTYPE HTML>
+<html lang="zh" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Getting Started - Ranim Book</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-2459343d.css">
+        <link rel="stylesheet" href="css/chrome-ae938929.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="version-select-0246a208.css">
+        <link rel="stylesheet" href="theme/pagetoc-6390151b.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-d5f3e3bf.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-2c0e2932.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Ranim Book</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="getting-started"><a class="header" href="#getting-started">Getting Started</a></h1>
+<blockquote class="blockquote-tag blockquote-tag-caution">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M4.47.22A.749.749 0 0 1 5 0h6c.199 0 .389.079.53.22l4.25 4.25c.141.14.22.331.22.53v6a.749.749 0 0 1-.22.53l-4.25 4.25A.749.749 0 0 1 11 16H5a.749.749 0 0 1-.53-.22L.22 11.53A.749.749 0 0 1 0 11V5c0-.199.079-.389.22-.53Zm.84 1.28L1.5 5.31v5.38l3.81 3.81h5.38l3.81-3.81V5.31L10.69 1.5ZM8 4a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 8 4Zm0 8a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Caution</p>
+<p>本章内容已过时，请结合 Example 和源码来了解</p>
+</blockquote>
+<blockquote class="blockquote-tag blockquote-tag-warning">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Warning</p>
+<p>注意：</p>
+<p>当前本章内容非常不完善，结构不清晰、内容不完整，目前建议结合 Example 和源码来了解。</p>
+</blockquote>
+<p>在 Ranim 中，定义并渲染/预览一段动画的代码基本长成下面这个样子：</p>
+<pre class="playground"><code class="language-rust">fn scene_name(r: &amp;mut RanimScene) {
+    let _r_cam = r.insert_and_show(CameraFrame::default());
+
+    let r_square = r.insert(square);
+    r.timeline_mut(&amp;r_square)
+        .play_with(|square| square.fade_in())
+        .forward(0.5);
+    // ...
+}
+
+fn main() {
+    // Scene and output defination
+    let scene = Scene {
+        name: "scene_name".to_string(),
+        constructor: scene_name,
+        config: SceneConfig {
+            clear_color: "#000000" // Or any css color
+        },
+        outputs: vec![
+            Output {
+                /// The width of the output texture in pixels.
+                width: 1280,
+                height: 720,
+                fps: 30,
+                format: OutputFormat::Mp4,
+                ..Default::default()
+            }
+        ],
+    };
+    
+    // Render a scene, the seccond argument is the number of frame buffers used during rendering.
+    ranim::cmd::render_scene(&amp;scene, 2);
+    // Needs "preview" feature
+    ranim::cmd::preview_scene(&amp;scene);
+}</code></pre>
+<p>形如 <code>fn(&amp;mut RanimScene)</code> 的函数被称为场景函数，在其中可以通过 <code>RanimScene</code> 这个核心结构来对时间线进行操作以编码动画。</p>
+<p>此外，ranim 提供了一些过程宏来简化 <code>Scene</code> 结构的定义：</p>
+<pre class="playground"><code class="language-rust">#[scene(clear_color = "#000000")]
+#[output(width = 1280, height = 720, fps = 30, format = "mp4")]
+fn scene_name(r: &amp;mut RanimScene) {
+    let _r_cam = r.insert_and_show(CameraFrame::default());
+
+    let r_square = r.insert(square);
+    r.timeline_mut(&amp;r_square)
+        .play_with(|square| square.fade_in())
+        .forward(0.5);
+    // ...
+}
+
+fn main() {
+    // Render a scene, use 2 frame buffers
+    ranim::cmd::render_scene!(scene_name);
+    // Needs "preview" feature
+    ranim::cmd::preview_scene!(scene_name);
+}</code></pre>
+<p>会在一个同名模块内定义一个同名函数返回对应的 <code>Scene</code>，宏的内部是这样的：</p>
+<h1 id="mod-scene"><a class="header" href="#mod-scene">mod scene;</a></h1>
+<h1 id="mod-utils"><a class="header" href="#mod-utils">mod utils;</a></h1>
+<h1 id=""><a class="header" href="#"></a></h1>
+<h1 id="use-proc_macrotokenstream"><a class="header" href="#use-proc_macrotokenstream">use proc_macro::TokenStream;</a></h1>
+<h1 id="use-proc_macro_cratefoundcrate-crate_name"><a class="header" href="#use-proc_macro_cratefoundcrate-crate_name">use proc_macro_crate::{FoundCrate, crate_name};</a></h1>
+<h1 id="use-proc_macro2span"><a class="header" href="#use-proc_macro2span">use proc_macro2::Span;</a></h1>
+<h1 id="use-quotequote"><a class="header" href="#use-quotequote">use quote::quote;</a></h1>
+<h1 id="use-syndata-deriveinput-fields-ident-itemfn-parse_macro_input"><a class="header" href="#use-syndata-deriveinput-fields-ident-itemfn-parse_macro_input">use syn::{Data, DeriveInput, Fields, Ident, ItemFn, parse_macro_input};</a></h1>
+<h1 id="-1"><a class="header" href="#-1"></a></h1>
+<h1 id="use-cratesceneparse_scene_attrs"><a class="header" href="#use-cratesceneparse_scene_attrs">use crate::scene::parse_scene_attrs;</a></h1>
+<h1 id="-2"><a class="header" href="#-2"></a></h1>
+<h1 id="const-ranim_crate_name-str--ranim"><a class="header" href="#const-ranim_crate_name-str--ranim">const RANIM_CRATE_NAME: &amp;str = “ranim”;</a></h1>
+<h1 id="-3"><a class="header" href="#-3"></a></h1>
+<h1 id="fn-ranim_path---proc_macro2tokenstream-"><a class="header" href="#fn-ranim_path---proc_macro2tokenstream-">fn ranim_path() -&gt; proc_macro2::TokenStream {</a></h1>
+<h1 id="match-"><a class="header" href="#match-">match (</a></h1>
+<h1 id="crate_nameranim_crate_name"><a class="header" href="#crate_nameranim_crate_name">crate_name(RANIM_CRATE_NAME),</a></h1>
+<h1 id="stdenvvarcargo_crate_nameas_deref"><a class="header" href="#stdenvvarcargo_crate_nameas_deref">std::env::var(“CARGO_CRATE_NAME”).as_deref(),</a></h1>
+<h1 id="-"><a class="header" href="#-">) {</a></h1>
+<h1 id="okfoundcrateitself-okranim_crate_name--quotecrate"><a class="header" href="#okfoundcrateitself-okranim_crate_name--quotecrate">(Ok(FoundCrate::Itself), Ok(RANIM_CRATE_NAME)) =&gt; quote!(crate),</a></h1>
+<h1 id="okfoundcratenamename-_--"><a class="header" href="#okfoundcratenamename-_--">(Ok(FoundCrate::Name(name)), _) =&gt; {</a></h1>
+<h1 id="let-ident--identnewname-spancall_site"><a class="header" href="#let-ident--identnewname-spancall_site">let ident = Ident::new(&amp;name, Span::call_site());</a></h1>
+<h1 id="quoteident"><a class="header" href="#quoteident">quote!(::#ident)</a></h1>
+<h1 id="-4"><a class="header" href="#-4">}</a></h1>
+<h1 id="_--quoteranim"><a class="header" href="#_--quoteranim">_ =&gt; quote!(::ranim),</a></h1>
+<h1 id="-5"><a class="header" href="#-5">}</a></h1>
+<h1 id="-6"><a class="header" href="#-6">}</a></h1>
+<h1 id="-7"><a class="header" href="#-7"></a></h1>
+<h1 id="fn-ranim_core_path---proc_macro2tokenstream-"><a class="header" href="#fn-ranim_core_path---proc_macro2tokenstream-">fn ranim_core_path() -&gt; proc_macro2::TokenStream {</a></h1>
+<h1 id="if-let-okres--crate_nameranim-core-"><a class="header" href="#if-let-okres--crate_nameranim-core-">if let Ok(res) = crate_name(“ranim-core”) {</a></h1>
+<h1 id="match-res-stdenvvarcargo_crate_nameas_deref-"><a class="header" href="#match-res-stdenvvarcargo_crate_nameas_deref-">match (res, std::env::var(“CARGO_CRATE_NAME”).as_deref()) {</a></h1>
+<h1 id="foundcrateitself-okranim-core--okranim_core--return-quotecrate"><a class="header" href="#foundcrateitself-okranim-core--okranim_core--return-quotecrate">(FoundCrate::Itself, Ok(“ranim-core”) | Ok(“ranim_core”)) =&gt; return quote!(crate),</a></h1>
+<h1 id="foundcratenamename-_--"><a class="header" href="#foundcratenamename-_--">(FoundCrate::Name(name), _) =&gt; {</a></h1>
+<h1 id="let-ident--identnewname-spancall_site-1"><a class="header" href="#let-ident--identnewname-spancall_site-1">let ident = Ident::new(&amp;name, Span::call_site());</a></h1>
+<h1 id="return-quoteident"><a class="header" href="#return-quoteident">return quote!(::#ident);</a></h1>
+<h1 id="-8"><a class="header" href="#-8">}</a></h1>
+<h1 id="_--"><a class="header" href="#_--">_ =&gt; (),</a></h1>
+<h1 id="-9"><a class="header" href="#-9">}</a></h1>
+<h1 id="-else-if-let-okres--crate_nameranim-"><a class="header" href="#-else-if-let-okres--crate_nameranim-">} else if let Ok(res) = crate_name(“ranim”) {</a></h1>
+<h1 id="match-res-stdenvvarcargo_crate_nameas_deref--1"><a class="header" href="#match-res-stdenvvarcargo_crate_nameas_deref--1">match (res, std::env::var(“CARGO_CRATE_NAME”).as_deref()) {</a></h1>
+<h1 id="foundcrateitself-okranim--return-quotecratecore"><a class="header" href="#foundcrateitself-okranim--return-quotecratecore">(FoundCrate::Itself, Ok(“ranim”)) =&gt; return quote!(crate::core),</a></h1>
+<h1 id="foundcratenamename-_---1"><a class="header" href="#foundcratenamename-_---1">(FoundCrate::Name(name), _) =&gt; {</a></h1>
+<h1 id="let-ident--identnewname-spancall_site-2"><a class="header" href="#let-ident--identnewname-spancall_site-2">let ident = Ident::new(&amp;name, Span::call_site());</a></h1>
+<h1 id="return-quoteidentcore"><a class="header" href="#return-quoteidentcore">return quote!(::#ident::core);</a></h1>
+<h1 id="-10"><a class="header" href="#-10">}</a></h1>
+<h1 id="_---1"><a class="header" href="#_---1">_ =&gt; (),</a></h1>
+<h1 id="-11"><a class="header" href="#-11">}</a></h1>
+<h1 id="-12"><a class="header" href="#-12">}</a></h1>
+<h1 id="ranim_path"><a class="header" href="#ranim_path">ranim_path()</a></h1>
+<h1 id="-13"><a class="header" href="#-13">}</a></h1>
+<h1 id="-14"><a class="header" href="#-14"></a></h1>
+<h1 id="-解析单个属性scene----output"><a class="header" href="#-解析单个属性scene----output">/// 解析单个属性（#[scene(…)] /  / #[output(…)]）</a></h1>
+<h1 id="derivedefault"><a class="header" href="#derivedefault">#[derive(Default)]</a></h1>
+<h1 id="struct-sceneattrs-"><a class="header" href="#struct-sceneattrs-">struct SceneAttrs {</a></h1>
+<h1 id="name-option---------scenename--"><a class="header" href="#name-option---------scenename--">name: Option<string>,        // #[scene(name = “…”)]</string></a></h1>
+<h1 id="clear_color-option--sceneclear_color--000000"><a class="header" href="#clear_color-option--sceneclear_color--000000">clear_color: Option<string>, // #[scene(clear_color = “#000000”)]</string></a></h1>
+<h1 id="wasm_demo_doc-bool----------wasm_demo_doc"><a class="header" href="#wasm_demo_doc-bool----------wasm_demo_doc">wasm_demo_doc: bool,         // #[wasm_demo_doc]</a></h1>
+<h1 id="outputs-vec------output"><a class="header" href="#outputs-vec------output">outputs: Vec<outputdef>,     // #[output(…)]</outputdef></a></h1>
+<h1 id="-15"><a class="header" href="#-15">}</a></h1>
+<h1 id="-16"><a class="header" href="#-16"></a></h1>
+<h1 id="-一个-output-里的字段"><a class="header" href="#-一个-output-里的字段">/// 一个 #[output(…)] 里的字段</a></h1>
+<h1 id="derivedefault-1"><a class="header" href="#derivedefault-1">#[derive(Default)]</a></h1>
+<h1 id="struct-outputdef-"><a class="header" href="#struct-outputdef-">struct OutputDef {</a></h1>
+<h1 id="width-u32"><a class="header" href="#width-u32">width: u32,</a></h1>
+<h1 id="height-u32"><a class="header" href="#height-u32">height: u32,</a></h1>
+<h1 id="fps-u32"><a class="header" href="#fps-u32">fps: u32,</a></h1>
+<h1 id="save_frames-bool"><a class="header" href="#save_frames-bool">save_frames: bool,</a></h1>
+<h1 id="name-option"><a class="header" href="#name-option">name: Option<string>,</string></a></h1>
+<h1 id="dir-string"><a class="header" href="#dir-string">dir: String,</a></h1>
+<h1 id="format-option"><a class="header" href="#format-option">format: Option<string>,</string></a></h1>
+<h1 id="-17"><a class="header" href="#-17">}</a></h1>
+<h1 id="-18"><a class="header" href="#-18"></a></h1>
+<h1 id="-mark-scene"><a class="header" href="#-mark-scene">// MARK: scene</a></h1>
+<h1 id="proc_macro_attribute"><a class="header" href="#proc_macro_attribute">#[proc_macro_attribute]</a></h1>
+<h1 id="pub-fn-sceneargs-tokenstream-input-tokenstream---tokenstream-"><a class="header" href="#pub-fn-sceneargs-tokenstream-input-tokenstream---tokenstream-">pub fn scene(args: TokenStream, input: TokenStream) -&gt; TokenStream {</a></h1>
+<h1 id="let-ranim--ranim_path"><a class="header" href="#let-ranim--ranim_path">let ranim = ranim_path();</a></h1>
+<h1 id="let-input_fn--parse_macro_inputinput-as-itemfn"><a class="header" href="#let-input_fn--parse_macro_inputinput-as-itemfn">let input_fn = parse_macro_input!(input as ItemFn);</a></h1>
+<h1 id="let-attrs--parse_scene_attrsargs-input_fnattrsas_sliceunwrap"><a class="header" href="#let-attrs--parse_scene_attrsargs-input_fnattrsas_sliceunwrap">let attrs = parse_scene_attrs(args, input_fn.attrs.as_slice()).unwrap();</a></h1>
+<h1 id="-19"><a class="header" href="#-19"></a></h1>
+<h1 id="let-fn_name--input_fnsigident"><a class="header" href="#let-fn_name--input_fnsigident">let fn_name = &amp;input_fn.sig.ident;</a></h1>
+<h1 id="let-vis--input_fnvis"><a class="header" href="#let-vis--input_fnvis">let vis = &amp;input_fn.vis;</a></h1>
+<h1 id="let-fn_body--input_fnblock"><a class="header" href="#let-fn_body--input_fnblock">let fn_body = &amp;input_fn.block;</a></h1>
+<h1 id="let-doc_attrs-vec_--input_fn"><a class="header" href="#let-doc_attrs-vec_--input_fn">let doc_attrs: Vec&lt;_&gt; = input_fn</a></h1>
+<h1 id="attrs"><a class="header" href="#attrs">.attrs</a></h1>
+<h1 id="iter"><a class="header" href="#iter">.iter()</a></h1>
+<h1 id="filterattr-attrpathis_identdoc"><a class="header" href="#filterattr-attrpathis_identdoc">.filter(|attr| attr.path().is_ident(“doc”))</a></h1>
+<h1 id="collect"><a class="header" href="#collect">.collect();</a></h1>
+<h1 id="-20"><a class="header" href="#-20"></a></h1>
+<h1 id="-场景名称"><a class="header" href="#-场景名称">// 场景名称</a></h1>
+<h1 id="let-scene_name--attrsnameunwrap_or_else-fn_nameto_string"><a class="header" href="#let-scene_name--attrsnameunwrap_or_else-fn_nameto_string">let scene_name = attrs.name.unwrap_or_else(|| fn_name.to_string());</a></h1>
+<h1 id="-21"><a class="header" href="#-21"></a></h1>
+<h1 id="-staticsceneconfig"><a class="header" href="#-staticsceneconfig">// StaticSceneConfig</a></h1>
+<h1 id="let-clear_color--attrsclear_colorunwrap_or333333ffto_string"><a class="header" href="#let-clear_color--attrsclear_colorunwrap_or333333ffto_string">let clear_color = attrs.clear_color.unwrap_or(“#333333ff”.to_string());</a></h1>
+<h1 id="let-scene_config--quote-"><a class="header" href="#let-scene_config--quote-">let scene_config = quote! {</a></h1>
+<h1 id="ranimstaticsceneconfig-"><a class="header" href="#ranimstaticsceneconfig-">#ranim::StaticSceneConfig {</a></h1>
+<h1 id="clear_color-clear_color"><a class="header" href="#clear_color-clear_color">clear_color: #clear_color,</a></h1>
+<h1 id="-22"><a class="header" href="#-22">}</a></h1>
+<h1 id="-23"><a class="header" href="#-23">};</a></h1>
+<h1 id="-24"><a class="header" href="#-24"></a></h1>
+<h1 id="-staticoutput-列表"><a class="header" href="#-staticoutput-列表">// StaticOutput 列表</a></h1>
+<h1 id="let-mut-outputs--vecnew"><a class="header" href="#let-mut-outputs--vecnew">let mut outputs = Vec::new();</a></h1>
+<h1 id="for-outputdef-"><a class="header" href="#for-outputdef-">for OutputDef {</a></h1>
+<h1 id="width"><a class="header" href="#width">width,</a></h1>
+<h1 id="height"><a class="header" href="#height">height,</a></h1>
+<h1 id="fps"><a class="header" href="#fps">fps,</a></h1>
+<h1 id="save_frames"><a class="header" href="#save_frames">save_frames,</a></h1>
+<h1 id="name"><a class="header" href="#name">name,</a></h1>
+<h1 id="dir"><a class="header" href="#dir">dir,</a></h1>
+<h1 id="format"><a class="header" href="#format">format,</a></h1>
+<h1 id="-in-attrsoutputs"><a class="header" href="#-in-attrsoutputs">} in attrs.outputs</a></h1>
+<h1 id="-25"><a class="header" href="#-25">{</a></h1>
+<h1 id="let-name_token--match-nameas_deref-"><a class="header" href="#let-name_token--match-nameas_deref-">let name_token = match name.as_deref() {</a></h1>
+<h1 id="somen-if-nis_empty--quote--somen-"><a class="header" href="#somen-if-nis_empty--quote--somen-">Some(n) if !n.is_empty() =&gt; quote! { Some(#n) },</a></h1>
+<h1 id="_--quote--none-"><a class="header" href="#_--quote--none-">_ =&gt; quote! { None },</a></h1>
+<h1 id="-26"><a class="header" href="#-26">};</a></h1>
+<h1 id="let-format_token--match-formatas_deref-"><a class="header" href="#let-format_token--match-formatas_deref-">let format_token = match format.as_deref() {</a></h1>
+<h1 id="somemp4--none--quote--ranimoutputformatmp4-"><a class="header" href="#somemp4--none--quote--ranimoutputformatmp4-">Some(“mp4”) | None =&gt; quote! { #ranim::OutputFormat::Mp4 },</a></h1>
+<h1 id="somewebm--quote--ranimoutputformatwebm-"><a class="header" href="#somewebm--quote--ranimoutputformatwebm-">Some(“webm”) =&gt; quote! { #ranim::OutputFormat::Webm },</a></h1>
+<h1 id="somemov--quote--ranimoutputformatmov-"><a class="header" href="#somemov--quote--ranimoutputformatmov-">Some(“mov”) =&gt; quote! { #ranim::OutputFormat::Mov },</a></h1>
+<h1 id="somegif--quote--ranimoutputformatgif-"><a class="header" href="#somegif--quote--ranimoutputformatgif-">Some(“gif”) =&gt; quote! { #ranim::OutputFormat::Gif },</a></h1>
+<h1 id="someother--panicunknown-output-format-other"><a class="header" href="#someother--panicunknown-output-format-other">Some(other) =&gt; panic!(“unknown output format: {other:?}”),</a></h1>
+<h1 id="-27"><a class="header" href="#-27">};</a></h1>
+<h1 id="outputspushquote-"><a class="header" href="#outputspushquote-">outputs.push(quote! {</a></h1>
+<h1 id="ranimstaticoutput-"><a class="header" href="#ranimstaticoutput-">#ranim::StaticOutput {</a></h1>
+<h1 id="width-width"><a class="header" href="#width-width">width: #width,</a></h1>
+<h1 id="height-height"><a class="header" href="#height-height">height: #height,</a></h1>
+<h1 id="fps-fps"><a class="header" href="#fps-fps">fps: #fps,</a></h1>
+<h1 id="save_frames-save_frames"><a class="header" href="#save_frames-save_frames">save_frames: #save_frames,</a></h1>
+<h1 id="name-name_token"><a class="header" href="#name-name_token">name: #name_token,</a></h1>
+<h1 id="dir-dir"><a class="header" href="#dir-dir">dir: #dir,</a></h1>
+<h1 id="format-format_token"><a class="header" href="#format-format_token">format: #format_token,</a></h1>
+<h1 id="-28"><a class="header" href="#-28">}</a></h1>
+<h1 id="-29"><a class="header" href="#-29">});</a></h1>
+<h1 id="-30"><a class="header" href="#-30">}</a></h1>
+<h1 id="if-outputsis_empty-"><a class="header" href="#if-outputsis_empty-">if outputs.is_empty() {</a></h1>
+<h1 id="outputspushquote--1"><a class="header" href="#outputspushquote--1">outputs.push(quote! {</a></h1>
+<h1 id="ranimstaticoutputdefault"><a class="header" href="#ranimstaticoutputdefault">#ranim::StaticOutput::DEFAULT</a></h1>
+<h1 id="-31"><a class="header" href="#-31">});</a></h1>
+<h1 id="-32"><a class="header" href="#-32">}</a></h1>
+<h1 id="-33"><a class="header" href="#-33"></a></h1>
+<h1 id="let-doc--if-attrswasm_demo_doc-"><a class="header" href="#let-doc--if-attrswasm_demo_doc-">let doc = if attrs.wasm_demo_doc {</a></h1>
+<h1 id="quote-"><a class="header" href="#quote-">quote! {</a></h1>
+<h1 id="doc--concatcanvas-idranim-app--stringifyfn_name--width1280-height720-stylewidth-100"><a class="header" href="#doc--concatcanvas-idranim-app--stringifyfn_name--width1280-height720-stylewidth-100">#[doc = concat!(“&lt;canvas id="ranim-app-”, stringify!(#fn_name), “" width="1280" height="720" style="width: 100%;"&gt;”)]</a></h1>
+<h1 id="doc--concatscript-typemodule"><a class="header" href="#doc--concatscript-typemodule">#[doc = concat!(“&lt;script type="module"&gt;”)]</a></h1>
+<h1 id="doc--concat--const--find_scene-preview_scene---await-ranim_examples"><a class="header" href="#doc--concat--const--find_scene-preview_scene---await-ranim_examples">#[doc = concat!(“  const { find_scene, preview_scene } = await ranim_examples;“)]</a></h1>
+<h1 id="doc--concat--preview_scenefind_scene-stringifyfn_name-"><a class="header" href="#doc--concat--preview_scenefind_scene-stringifyfn_name-">#[doc = concat!(“  preview_scene(find_scene("“, stringify!(#fn_name), “"));”)]</a></h1>
+<h1 id="doc--"><a class="header" href="#doc--">#[doc = “”]</a></h1>
+<h1 id="-34"><a class="header" href="#-34">}</a></h1>
+<h1 id="-else-"><a class="header" href="#-else-">} else {</a></h1>
+<h1 id="quote"><a class="header" href="#quote">quote!</a></h1>
+<h1 id="-35"><a class="header" href="#-35">};</a></h1>
+<h1 id="-36"><a class="header" href="#-36"></a></h1>
+<h1 id="let-static_output_name--synidentnew__outputs-fn_namespan"><a class="header" href="#let-static_output_name--synidentnew__outputs-fn_namespan">let static_output_name = syn::Ident::new(“__OUTPUTS”, fn_name.span());</a></h1>
+<h1 id="let-static_scene_name--synidentnew__scene-fn_namespan"><a class="header" href="#let-static_scene_name--synidentnew__scene-fn_namespan">let static_scene_name = syn::Ident::new(“__SCENE”, fn_name.span());</a></h1>
+<h1 id="-37"><a class="header" href="#-37"></a></h1>
+<h1 id="let-output_cnt--outputslen"><a class="header" href="#let-output_cnt--outputslen">let output_cnt = outputs.len();</a></h1>
+<h1 id="-38"><a class="header" href="#-38"></a></h1>
+<h1 id="let-scene--quote-"><a class="header" href="#let-scene--quote-">let scene = quote! {</a></h1>
+<h1 id="ranimstaticscene-"><a class="header" href="#ranimstaticscene-">#ranim::StaticScene {</a></h1>
+<h1 id="name-scene_name"><a class="header" href="#name-scene_name">name: #scene_name,</a></h1>
+<h1 id="constructor-superfn_name"><a class="header" href="#constructor-superfn_name">constructor: super::#fn_name,</a></h1>
+<h1 id="config-scene_config"><a class="header" href="#config-scene_config">config: #scene_config,</a></h1>
+<h1 id="outputs-static_output_name"><a class="header" href="#outputs-static_output_name">outputs: &amp;#static_output_name,</a></h1>
+<h1 id="-39"><a class="header" href="#-39">}</a></h1>
+<h1 id="-40"><a class="header" href="#-40">};</a></h1>
+<h1 id="-41"><a class="header" href="#-41"></a></h1>
+<pre><code>let expanded = quote! {
+    #doc
+    #(#doc_attrs)*
+    #vis fn #fn_name(r: &amp;mut #ranim::RanimScene) #fn_body
+
+    #[doc(hidden)]
+    #vis mod #fn_name {
+        /// The static outputs.
+        pub static #static_output_name: [#ranim::StaticOutput; #output_cnt] = [#(#outputs),*];
+        /// The static scene descriptor.
+        pub static #static_scene_name: #ranim::StaticScene = #scene;
+        #ranim::inventory::submit!{
+            #scene
+        }
+
+        pub fn scene() -&gt; #ranim::Scene {
+            #ranim::Scene::from(&amp;#static_scene_name)
+        }
+    }
+};
+</code></pre>
+<h1 id="-42"><a class="header" href="#-42"></a></h1>
+<h1 id="tokenstreamfromexpanded"><a class="header" href="#tokenstreamfromexpanded">TokenStream::from(expanded)</a></h1>
+<h1 id="-43"><a class="header" href="#-43">}</a></h1>
+<h1 id="-44"><a class="header" href="#-44"></a></h1>
+<h1 id="-define-a-video-output"><a class="header" href="#-define-a-video-output">/// Define a video output.</a></h1>
+<h1 id="-45"><a class="header" href="#-45">///</a></h1>
+<h1 id="-default-1920x1080-60fps-save_frames--false"><a class="header" href="#-default-1920x1080-60fps-save_frames--false">/// Default: 1920x1080 60fps, save_frames = false</a></h1>
+<h1 id="-46"><a class="header" href="#-46">///</a></h1>
+<h1 id="-available-attributes"><a class="header" href="#-available-attributes">/// Available attributes:</a></h1>
+<h1 id="---width-output-width-in-pixels"><a class="header" href="#---width-output-width-in-pixels">/// - <code>width</code>: output width in pixels</a></h1>
+<h1 id="---height-output-height-in-pixels"><a class="header" href="#---height-output-height-in-pixels">/// - <code>height</code>: output height in pixels</a></h1>
+<h1 id="---fps-frames-per-second"><a class="header" href="#---fps-frames-per-second">/// - <code>fps</code>: frames per second</a></h1>
+<h1 id="---save_frames-save-frames-to-disk"><a class="header" href="#---save_frames-save-frames-to-disk">/// - <code>save_frames</code>: save frames to disk</a></h1>
+<h1 id="---dir-directory-for-output"><a class="header" href="#---dir-directory-for-output">/// - <code>dir</code>: directory for output</a></h1>
+<h1 id="proc_macro_attribute-1"><a class="header" href="#proc_macro_attribute-1">#[proc_macro_attribute]</a></h1>
+<h1 id="pub-fn-output_-tokenstream-_-tokenstream---tokenstream-"><a class="header" href="#pub-fn-output_-tokenstream-_-tokenstream---tokenstream-">pub fn output(_: TokenStream, _: TokenStream) -&gt; TokenStream {</a></h1>
+<h1 id="tokenstreamnew"><a class="header" href="#tokenstreamnew">TokenStream::new()</a></h1>
+<h1 id="-47"><a class="header" href="#-47">}</a></h1>
+<h1 id="-48"><a class="header" href="#-48"></a></h1>
+<h1 id="-proc_macro_attribute"><a class="header" href="#-proc_macro_attribute">// #[proc_macro_attribute]</a></h1>
+<h1 id="-pub-fn-preview_-tokenstream-_-tokenstream---tokenstream-"><a class="header" href="#-pub-fn-preview_-tokenstream-_-tokenstream---tokenstream-">// pub fn preview(_: TokenStream, _: TokenStream) -&gt; TokenStream {</a></h1>
+<h1 id="-----tokenstreamnew"><a class="header" href="#-----tokenstreamnew">//     TokenStream::new()</a></h1>
+<h1 id="--1"><a class="header" href="#--1">// }</a></h1>
+<h1 id="-49"><a class="header" href="#-49"></a></h1>
+<h1 id="proc_macro_attribute-2"><a class="header" href="#proc_macro_attribute-2">#[proc_macro_attribute]</a></h1>
+<h1 id="pub-fn-wasm_demo_doc_attr-tokenstream-_-tokenstream---tokenstream-"><a class="header" href="#pub-fn-wasm_demo_doc_attr-tokenstream-_-tokenstream---tokenstream-">pub fn wasm_demo_doc(_attr: TokenStream, _: TokenStream) -&gt; TokenStream {</a></h1>
+<h1 id="tokenstreamnew-1"><a class="header" href="#tokenstreamnew-1">TokenStream::new()</a></h1>
+<h1 id="-50"><a class="header" href="#-50">}</a></h1>
+<h1 id="-51"><a class="header" href="#-51"></a></h1>
+<h1 id="-mark-derive-traits"><a class="header" href="#-mark-derive-traits">// MARK: derive Traits</a></h1>
+<h1 id="-52"><a class="header" href="#-52"></a></h1>
+<h1 id="proc_macro_derivefill"><a class="header" href="#proc_macro_derivefill">#[proc_macro_derive(Fill)]</a></h1>
+<h1 id="pub-fn-derive_fillinput-tokenstream---tokenstream-"><a class="header" href="#pub-fn-derive_fillinput-tokenstream---tokenstream-">pub fn derive_fill(input: TokenStream) -&gt; TokenStream {</a></h1>
+<h1 id="let-core--ranim_core_path"><a class="header" href="#let-core--ranim_core_path">let core = ranim_core_path();</a></h1>
+<h1 id="impl_deriveinput-quote-coretraitsfill-field_positions-"><a class="header" href="#impl_deriveinput-quote-coretraitsfill-field_positions-">impl_derive(input, quote! {#core::traits::Fill}, |field_positions| {</a></h1>
+<h1 id="quote--1"><a class="header" href="#quote--1">quote! {</a></h1>
+<h1 id="fn-set_fill_opacitymut-self-opacity-f32---mut-self-"><a class="header" href="#fn-set_fill_opacitymut-self-opacity-f32---mut-self-">fn set_fill_opacity(&amp;mut self, opacity: f32) -&gt; &amp;mut Self {</a></h1>
+<h1 id="-53"><a class="header" href="#-53">#(</a></h1>
+<h1 id="selffield_positionsset_fill_opacityopacity"><a class="header" href="#selffield_positionsset_fill_opacityopacity">self.#field_positions.set_fill_opacity(opacity);</a></h1>
+<h1 id="-54"><a class="header" href="#-54">)*</a></h1>
+<h1 id="self"><a class="header" href="#self">self</a></h1>
+<h1 id="-55"><a class="header" href="#-55">}</a></h1>
+<h1 id="fn-fill_colorself---corecoloralphacolorcorecolorsrgb-"><a class="header" href="#fn-fill_colorself---corecoloralphacolorcorecolorsrgb-">fn fill_color(&amp;self) -&gt; #core::color::AlphaColor&lt;#core::color::Srgb&gt; {</a></h1>
+<h1 id="selffield_positionsfill_color-firstclonedunwrap"><a class="header" href="#selffield_positionsfill_color-firstclonedunwrap">[#(self.#field_positions.fill_color(), )*].first().cloned().unwrap()</a></h1>
+<h1 id="-56"><a class="header" href="#-56">}</a></h1>
+<h1 id="fn-set_fill_colormut-self-color-corecoloralphacolorcorecolorsrgb---mut-self-"><a class="header" href="#fn-set_fill_colormut-self-color-corecoloralphacolorcorecolorsrgb---mut-self-">fn set_fill_color(&amp;mut self, color: #core::color::AlphaColor&lt;#core::color::Srgb&gt;) -&gt; &amp;mut Self {</a></h1>
+<h1 id="-57"><a class="header" href="#-57">#(</a></h1>
+<h1 id="selffield_positionsset_fill_colorcolor"><a class="header" href="#selffield_positionsset_fill_colorcolor">self.#field_positions.set_fill_color(color);</a></h1>
+<h1 id="-58"><a class="header" href="#-58">)*</a></h1>
+<h1 id="self-1"><a class="header" href="#self-1">self</a></h1>
+<h1 id="-59"><a class="header" href="#-59">}</a></h1>
+<h1 id="-60"><a class="header" href="#-60">}</a></h1>
+<h1 id="-61"><a class="header" href="#-61">})</a></h1>
+<h1 id="-62"><a class="header" href="#-62">}</a></h1>
+<h1 id="-63"><a class="header" href="#-63"></a></h1>
+<h1 id="proc_macro_derivestroke"><a class="header" href="#proc_macro_derivestroke">#[proc_macro_derive(Stroke)]</a></h1>
+<h1 id="pub-fn-derive_strokeinput-tokenstream---tokenstream-"><a class="header" href="#pub-fn-derive_strokeinput-tokenstream---tokenstream-">pub fn derive_stroke(input: TokenStream) -&gt; TokenStream {</a></h1>
+<h1 id="let-core--ranim_core_path-1"><a class="header" href="#let-core--ranim_core_path-1">let core = ranim_core_path();</a></h1>
+<h1 id="impl_deriveinput-quote-coretraitsstroke-field_positions-"><a class="header" href="#impl_deriveinput-quote-coretraitsstroke-field_positions-">impl_derive(input, quote! {#core::traits::Stroke}, |field_positions| {</a></h1>
+<h1 id="quote--2"><a class="header" href="#quote--2">quote! {</a></h1>
+<h1 id="fn-stroke_colorself---corecoloralphacolorcorecolorsrgb-"><a class="header" href="#fn-stroke_colorself---corecoloralphacolorcorecolorsrgb-">fn stroke_color(&amp;self) -&gt; #core::color::AlphaColor&lt;#core::color::Srgb&gt; {</a></h1>
+<h1 id="selffield_positionsstroke_color-firstclonedunwrap"><a class="header" href="#selffield_positionsstroke_color-firstclonedunwrap">[#(self.#field_positions.stroke_color(), )*].first().cloned().unwrap()</a></h1>
+<h1 id="-64"><a class="header" href="#-64">}</a></h1>
+<h1 id="fn-apply_stroke_funcmut-self-f-impl-fora-fna-mut-corecomponentswidthwidth---mut-self-"><a class="header" href="#fn-apply_stroke_funcmut-self-f-impl-fora-fna-mut-corecomponentswidthwidth---mut-self-">fn apply_stroke_func(&amp;mut self, f: impl for&lt;’a&gt; Fn(&amp;’a mut [#core::components::width::Width])) -&gt; &amp;mut Self {</a></h1>
+<h1 id="-65"><a class="header" href="#-65">#(</a></h1>
+<h1 id="selffield_positionsapply_stroke_funcf"><a class="header" href="#selffield_positionsapply_stroke_funcf">self.#field_positions.apply_stroke_func(&amp;f);</a></h1>
+<h1 id="-66"><a class="header" href="#-66">)*</a></h1>
+<h1 id="self-2"><a class="header" href="#self-2">self</a></h1>
+<h1 id="-67"><a class="header" href="#-67">}</a></h1>
+<h1 id="fn-set_stroke_colormut-self-color-corecoloralphacolorcorecolorsrgb---mut-self-"><a class="header" href="#fn-set_stroke_colormut-self-color-corecoloralphacolorcorecolorsrgb---mut-self-">fn set_stroke_color(&amp;mut self, color: #core::color::AlphaColor&lt;#core::color::Srgb&gt;) -&gt; &amp;mut Self {</a></h1>
+<h1 id="-68"><a class="header" href="#-68">#(</a></h1>
+<h1 id="selffield_positionsset_stroke_colorcolor"><a class="header" href="#selffield_positionsset_stroke_colorcolor">self.#field_positions.set_stroke_color(color);</a></h1>
+<h1 id="-69"><a class="header" href="#-69">)*</a></h1>
+<h1 id="self-3"><a class="header" href="#self-3">self</a></h1>
+<h1 id="-70"><a class="header" href="#-70">}</a></h1>
+<h1 id="fn-set_stroke_opacitymut-self-opacity-f32---mut-self-"><a class="header" href="#fn-set_stroke_opacitymut-self-opacity-f32---mut-self-">fn set_stroke_opacity(&amp;mut self, opacity: f32) -&gt; &amp;mut Self {</a></h1>
+<h1 id="-71"><a class="header" href="#-71">#(</a></h1>
+<h1 id="selffield_positionsset_stroke_opacityopacity"><a class="header" href="#selffield_positionsset_stroke_opacityopacity">self.#field_positions.set_stroke_opacity(opacity);</a></h1>
+<h1 id="-72"><a class="header" href="#-72">)*</a></h1>
+<h1 id="self-4"><a class="header" href="#self-4">self</a></h1>
+<h1 id="-73"><a class="header" href="#-73">}</a></h1>
+<h1 id="-74"><a class="header" href="#-74">}</a></h1>
+<h1 id="-75"><a class="header" href="#-75">})</a></h1>
+<h1 id="-76"><a class="header" href="#-76">}</a></h1>
+<h1 id="-77"><a class="header" href="#-77"></a></h1>
+<h1 id="proc_macro_derivepartial"><a class="header" href="#proc_macro_derivepartial">#[proc_macro_derive(Partial)]</a></h1>
+<h1 id="pub-fn-derive_partialinput-tokenstream---tokenstream-"><a class="header" href="#pub-fn-derive_partialinput-tokenstream---tokenstream-">pub fn derive_partial(input: TokenStream) -&gt; TokenStream {</a></h1>
+<h1 id="let-core--ranim_core_path-2"><a class="header" href="#let-core--ranim_core_path-2">let core = ranim_core_path();</a></h1>
+<h1 id="impl_deriveinput-quote-coretraitspartial-field_positions-"><a class="header" href="#impl_deriveinput-quote-coretraitspartial-field_positions-">impl_derive(input, quote! {#core::traits::Partial}, |field_positions| {</a></h1>
+<h1 id="quote--3"><a class="header" href="#quote--3">quote! {</a></h1>
+<h1 id="fn-get_partialself-range-stdopsrange---self-"><a class="header" href="#fn-get_partialself-range-stdopsrange---self-">fn get_partial(&amp;self, range: std::ops::Range<f64>) -&gt; Self {</f64></a></h1>
+<h1 id="self-"><a class="header" href="#self-">Self {</a></h1>
+<h1 id="-78"><a class="header" href="#-78">#(</a></h1>
+<h1 id="field_positions-selffield_positionsget_partialrangeclone"><a class="header" href="#field_positions-selffield_positionsget_partialrangeclone">#field_positions: self.#field_positions.get_partial(range.clone()),</a></h1>
+<h1 id="-79"><a class="header" href="#-79">)*</a></h1>
+<h1 id="-80"><a class="header" href="#-80">}</a></h1>
+<h1 id="-81"><a class="header" href="#-81">}</a></h1>
+<h1 id="fn-get_partial_closedself-range-stdopsrange---self-"><a class="header" href="#fn-get_partial_closedself-range-stdopsrange---self-">fn get_partial_closed(&amp;self, range: std::ops::Range<f64>) -&gt; Self {</f64></a></h1>
+<h1 id="self--1"><a class="header" href="#self--1">Self {</a></h1>
+<h1 id="-82"><a class="header" href="#-82">#(</a></h1>
+<h1 id="field_positions-selffield_positionsget_partialrangeclone-1"><a class="header" href="#field_positions-selffield_positionsget_partialrangeclone-1">#field_positions: self.#field_positions.get_partial(range.clone()),</a></h1>
+<h1 id="-83"><a class="header" href="#-83">)*</a></h1>
+<h1 id="-84"><a class="header" href="#-84">}</a></h1>
+<h1 id="-85"><a class="header" href="#-85">}</a></h1>
+<h1 id="-86"><a class="header" href="#-86">}</a></h1>
+<h1 id="-87"><a class="header" href="#-87">})</a></h1>
+<h1 id="-88"><a class="header" href="#-88">}</a></h1>
+<h1 id="-89"><a class="header" href="#-89"></a></h1>
+<h1 id="proc_macro_deriveempty"><a class="header" href="#proc_macro_deriveempty">#[proc_macro_derive(Empty)]</a></h1>
+<h1 id="pub-fn-derive_emptyinput-tokenstream---tokenstream-"><a class="header" href="#pub-fn-derive_emptyinput-tokenstream---tokenstream-">pub fn derive_empty(input: TokenStream) -&gt; TokenStream {</a></h1>
+<h1 id="let-core--ranim_core_path-3"><a class="header" href="#let-core--ranim_core_path-3">let core = ranim_core_path();</a></h1>
+<h1 id="let-input--parse_macro_inputinput-as-deriveinput"><a class="header" href="#let-input--parse_macro_inputinput-as-deriveinput">let input = parse_macro_input!(input as DeriveInput);</a></h1>
+<h1 id="let-name--inputident"><a class="header" href="#let-name--inputident">let name = &amp;input.ident;</a></h1>
+<h1 id="let-generics--inputgenerics"><a class="header" href="#let-generics--inputgenerics">let generics = &amp;input.generics;</a></h1>
+<h1 id="let-impl_generics-ty_generics-where_clause--genericssplit_for_impl"><a class="header" href="#let-impl_generics-ty_generics-where_clause--genericssplit_for_impl">let (impl_generics, ty_generics, where_clause) = generics.split_for_impl();</a></h1>
+<h1 id="-90"><a class="header" href="#-90"></a></h1>
+<h1 id="let-fields--match-inputdata-"><a class="header" href="#let-fields--match-inputdata-">let fields = match &amp;input.data {</a></h1>
+<h1 id="datastructdata--datafields"><a class="header" href="#datastructdata--datafields">Data::Struct(data) =&gt; &amp;data.fields,</a></h1>
+<h1 id="_--panicempty-can-only-be-derived-for-structs"><a class="header" href="#_--panicempty-can-only-be-derived-for-structs">_ =&gt; panic!(“Empty can only be derived for structs”),</a></h1>
+<h1 id="-91"><a class="header" href="#-91">};</a></h1>
+<h1 id="-92"><a class="header" href="#-92"></a></h1>
+<h1 id="let-field_impls--match-fields-"><a class="header" href="#let-field_impls--match-fields-">let field_impls = match fields {</a></h1>
+<h1 id="fieldsnamedfields--"><a class="header" href="#fieldsnamedfields--">Fields::Named(fields) =&gt; {</a></h1>
+<h1 id="let-field_names-field_types-vec-vec-"><a class="header" href="#let-field_names-field_types-vec-vec-">let (field_names, field_types): (Vec&lt;<em>&gt;, Vec&lt;</em>&gt;) =</a></h1>
+<h1 id="fieldsnameditermapf-fident-ftyunzip"><a class="header" href="#fieldsnameditermapf-fident-ftyunzip">fields.named.iter().map(|f| (&amp;f.ident, &amp;f.ty)).unzip();</a></h1>
+<h1 id="-93"><a class="header" href="#-93"></a></h1>
+<h1 id="quote--4"><a class="header" href="#quote--4">quote! {</a></h1>
+<h1 id="self--2"><a class="header" href="#self--2">Self {</a></h1>
+<h1 id="-94"><a class="header" href="#-94">#(</a></h1>
+<h1 id="field_names-field_typesempty"><a class="header" href="#field_names-field_typesempty">#field_names: #field_types::empty(),</a></h1>
+<h1 id="-95"><a class="header" href="#-95">)*</a></h1>
+<h1 id="-96"><a class="header" href="#-96">}</a></h1>
+<h1 id="-97"><a class="header" href="#-97">}</a></h1>
+<h1 id="-98"><a class="header" href="#-98">}</a></h1>
+<h1 id="fieldsunnamedfields--"><a class="header" href="#fieldsunnamedfields--">Fields::Unnamed(fields) =&gt; {</a></h1>
+<h1 id="let-field_types--fieldsunnameditermapf-fty"><a class="header" href="#let-field_types--fieldsunnameditermapf-fty">let field_types = fields.unnamed.iter().map(|f| &amp;f.ty);</a></h1>
+<h1 id="quote--5"><a class="header" href="#quote--5">quote! {</a></h1>
+<h1 id="self--3"><a class="header" href="#self--3">Self (</a></h1>
+<h1 id="-99"><a class="header" href="#-99">#(</a></h1>
+<h1 id="field_typesempty"><a class="header" href="#field_typesempty">#field_types::empty(),</a></h1>
+<h1 id="-100"><a class="header" href="#-100">)*</a></h1>
+<h1 id="-101"><a class="header" href="#-101">)</a></h1>
+<h1 id="-102"><a class="header" href="#-102">}</a></h1>
+<h1 id="-103"><a class="header" href="#-103">}</a></h1>
+<h1 id="fieldsunit--quote-"><a class="header" href="#fieldsunit--quote-">Fields::Unit =&gt; quote! {},</a></h1>
+<h1 id="-104"><a class="header" href="#-104">};</a></h1>
+<h1 id="-105"><a class="header" href="#-105"></a></h1>
+<h1 id="let-expanded--quote-"><a class="header" href="#let-expanded--quote-">let expanded = quote! {</a></h1>
+<h1 id="impl-impl_generics-coretraitsempty-for-name-ty_generics-where_clause-"><a class="header" href="#impl-impl_generics-coretraitsempty-for-name-ty_generics-where_clause-">impl #impl_generics #core::traits::Empty for #name #ty_generics #where_clause {</a></h1>
+<h1 id="fn-empty---self-"><a class="header" href="#fn-empty---self-">fn empty() -&gt; Self {</a></h1>
+<h1 id="field_impls"><a class="header" href="#field_impls">#field_impls</a></h1>
+<h1 id="-106"><a class="header" href="#-106">}</a></h1>
+<h1 id="-107"><a class="header" href="#-107">}</a></h1>
+<h1 id="-108"><a class="header" href="#-108">};</a></h1>
+<h1 id="-109"><a class="header" href="#-109"></a></h1>
+<h1 id="tokenstreamfromexpanded-1"><a class="header" href="#tokenstreamfromexpanded-1">TokenStream::from(expanded)</a></h1>
+<h1 id="-110"><a class="header" href="#-110">}</a></h1>
+<h1 id="-111"><a class="header" href="#-111"></a></h1>
+<h1 id="proc_macro_deriveopacity"><a class="header" href="#proc_macro_deriveopacity">#[proc_macro_derive(Opacity)]</a></h1>
+<h1 id="pub-fn-derive_opacityinput-tokenstream---tokenstream-"><a class="header" href="#pub-fn-derive_opacityinput-tokenstream---tokenstream-">pub fn derive_opacity(input: TokenStream) -&gt; TokenStream {</a></h1>
+<h1 id="let-core--ranim_core_path-4"><a class="header" href="#let-core--ranim_core_path-4">let core = ranim_core_path();</a></h1>
+<h1 id="impl_deriveinput-quote-coretraitsopacity-field_positions-"><a class="header" href="#impl_deriveinput-quote-coretraitsopacity-field_positions-">impl_derive(input, quote! {#core::traits::Opacity}, |field_positions| {</a></h1>
+<h1 id="quote--6"><a class="header" href="#quote--6">quote! {</a></h1>
+<h1 id="fn-set_opacitymut-self-opacity-f32---mut-self-"><a class="header" href="#fn-set_opacitymut-self-opacity-f32---mut-self-">fn set_opacity(&amp;mut self, opacity: f32) -&gt; &amp;mut Self {</a></h1>
+<h1 id="-112"><a class="header" href="#-112">#(</a></h1>
+<h1 id="selffield_positionsset_opacityopacity"><a class="header" href="#selffield_positionsset_opacityopacity">self.#field_positions.set_opacity(opacity);</a></h1>
+<h1 id="-113"><a class="header" href="#-113">)*</a></h1>
+<h1 id="self-5"><a class="header" href="#self-5">self</a></h1>
+<h1 id="-114"><a class="header" href="#-114">}</a></h1>
+<h1 id="-115"><a class="header" href="#-115">}</a></h1>
+<h1 id="-116"><a class="header" href="#-116">})</a></h1>
+<h1 id="-117"><a class="header" href="#-117">}</a></h1>
+<h1 id="-118"><a class="header" href="#-118"></a></h1>
+<h1 id="proc_macro_derivealignable"><a class="header" href="#proc_macro_derivealignable">#[proc_macro_derive(Alignable)]</a></h1>
+<h1 id="pub-fn-derive_alignableinput-tokenstream---tokenstream-"><a class="header" href="#pub-fn-derive_alignableinput-tokenstream---tokenstream-">pub fn derive_alignable(input: TokenStream) -&gt; TokenStream {</a></h1>
+<h1 id="let-core--ranim_core_path-5"><a class="header" href="#let-core--ranim_core_path-5">let core = ranim_core_path();</a></h1>
+<h1 id="impl_derive"><a class="header" href="#impl_derive">impl_derive(</a></h1>
+<h1 id="input"><a class="header" href="#input">input,</a></h1>
+<h1 id="quote-coretraitsalignable"><a class="header" href="#quote-coretraitsalignable">quote! {#core::traits::Alignable},</a></h1>
+<h1 id="field_positions-"><a class="header" href="#field_positions-">|field_positions| {</a></h1>
+<h1 id="quote--7"><a class="header" href="#quote--7">quote! {</a></h1>
+<h1 id="fn-is_alignedself-other-self---bool-"><a class="header" href="#fn-is_alignedself-other-self---bool-">fn is_aligned(&amp;self, other: &amp;Self) -&gt; bool {</a></h1>
+<h1 id="-119"><a class="header" href="#-119">#(</a></h1>
+<h1 id="selffield_positionsis_alignedotherfield_positions-"><a class="header" href="#selffield_positionsis_alignedotherfield_positions-">self.#field_positions.is_aligned(&amp;other.#field_positions) &amp;&amp;</a></h1>
+<h1 id="-true"><a class="header" href="#-true">)* true</a></h1>
+<h1 id="-120"><a class="header" href="#-120">}</a></h1>
+<h1 id="fn-align_withmut-self-other-mut-self-"><a class="header" href="#fn-align_withmut-self-other-mut-self-">fn align_with(&amp;mut self, other: &amp;mut Self) {</a></h1>
+<h1 id="-121"><a class="header" href="#-121">#(</a></h1>
+<h1 id="selffield_positionsalign_withmut-otherfield_positions"><a class="header" href="#selffield_positionsalign_withmut-otherfield_positions">self.#field_positions.align_with(&amp;mut other.#field_positions);</a></h1>
+<h1 id="-122"><a class="header" href="#-122">)*</a></h1>
+<h1 id="-123"><a class="header" href="#-123">}</a></h1>
+<h1 id="-124"><a class="header" href="#-124">}</a></h1>
+<h1 id="-125"><a class="header" href="#-125">},</a></h1>
+<h1 id="-126"><a class="header" href="#-126">)</a></h1>
+<h1 id="-127"><a class="header" href="#-127">}</a></h1>
+<h1 id="-128"><a class="header" href="#-128"></a></h1>
+<h1 id="proc_macro_deriveinterpolatable"><a class="header" href="#proc_macro_deriveinterpolatable">#[proc_macro_derive(Interpolatable)]</a></h1>
+<h1 id="pub-fn-derive_interpolatableinput-tokenstream---tokenstream-"><a class="header" href="#pub-fn-derive_interpolatableinput-tokenstream---tokenstream-">pub fn derive_interpolatable(input: TokenStream) -&gt; TokenStream {</a></h1>
+<h1 id="let-core--ranim_core_path-6"><a class="header" href="#let-core--ranim_core_path-6">let core = ranim_core_path();</a></h1>
+<h1 id="impl_derive-1"><a class="header" href="#impl_derive-1">impl_derive(</a></h1>
+<h1 id="input-1"><a class="header" href="#input-1">input,</a></h1>
+<h1 id="quote-coretraitsinterpolatable"><a class="header" href="#quote-coretraitsinterpolatable">quote! {#core::traits::Interpolatable},</a></h1>
+<h1 id="field_positions--1"><a class="header" href="#field_positions--1">|field_positions| {</a></h1>
+<h1 id="quote--8"><a class="header" href="#quote--8">quote! {</a></h1>
+<h1 id="fn-lerpself-other-self-t-f64---self-"><a class="header" href="#fn-lerpself-other-self-t-f64---self-">fn lerp(&amp;self, other: &amp;Self, t: f64) -&gt; Self {</a></h1>
+<h1 id="self--4"><a class="header" href="#self--4">Self {</a></h1>
+<h1 id="-129"><a class="header" href="#-129">#(</a></h1>
+<h1 id="field_positions-coretraitsinterpolatablelerpselffield_positions-otherfield_positions-t"><a class="header" href="#field_positions-coretraitsinterpolatablelerpselffield_positions-otherfield_positions-t">#field_positions: #core::traits::Interpolatable::lerp(&amp;self.#field_positions, &amp;other.#field_positions, t),</a></h1>
+<h1 id="-130"><a class="header" href="#-130">)*</a></h1>
+<h1 id="-131"><a class="header" href="#-131">}</a></h1>
+<h1 id="-132"><a class="header" href="#-132">}</a></h1>
+<h1 id="-133"><a class="header" href="#-133">}</a></h1>
+<h1 id="-134"><a class="header" href="#-134">},</a></h1>
+<h1 id="-135"><a class="header" href="#-135">)</a></h1>
+<h1 id="-136"><a class="header" href="#-136">}</a></h1>
+<h1 id="-137"><a class="header" href="#-137"></a></h1>
+<h1 id="proc_macro_deriveshifttransform"><a class="header" href="#proc_macro_deriveshifttransform">#[proc_macro_derive(ShiftTransform)]</a></h1>
+<h1 id="pub-fn-derive_shift_implinput-tokenstream---tokenstream-"><a class="header" href="#pub-fn-derive_shift_implinput-tokenstream---tokenstream-">pub fn derive_shift_impl(input: TokenStream) -&gt; TokenStream {</a></h1>
+<h1 id="let-core--ranim_core_path-7"><a class="header" href="#let-core--ranim_core_path-7">let core = ranim_core_path();</a></h1>
+<h1 id="impl_derive-2"><a class="header" href="#impl_derive-2">impl_derive(</a></h1>
+<h1 id="input-2"><a class="header" href="#input-2">input,</a></h1>
+<h1 id="quote-coretraitsshifttransform"><a class="header" href="#quote-coretraitsshifttransform">quote! {#core::traits::ShiftTransform},</a></h1>
+<h1 id="field_positions--2"><a class="header" href="#field_positions--2">|field_positions| {</a></h1>
+<h1 id="quote--9"><a class="header" href="#quote--9">quote! {</a></h1>
+<h1 id="fn-shiftmut-self-shift-coreglamdvec3---mut-self-"><a class="header" href="#fn-shiftmut-self-shift-coreglamdvec3---mut-self-">fn shift(&amp;mut self, shift: #core::glam::DVec3) -&gt; &amp;mut Self {</a></h1>
+<h1 id="selffield_positionsshiftshift"><a class="header" href="#selffield_positionsshiftshift">#(self.#field_positions.shift(shift);)*</a></h1>
+<h1 id="self-6"><a class="header" href="#self-6">self</a></h1>
+<h1 id="-138"><a class="header" href="#-138">}</a></h1>
+<h1 id="-139"><a class="header" href="#-139">}</a></h1>
+<h1 id="-140"><a class="header" href="#-140">},</a></h1>
+<h1 id="-141"><a class="header" href="#-141">)</a></h1>
+<h1 id="-142"><a class="header" href="#-142">}</a></h1>
+<h1 id="-143"><a class="header" href="#-143"></a></h1>
+<h1 id="proc_macro_deriverotatetransform"><a class="header" href="#proc_macro_deriverotatetransform">#[proc_macro_derive(RotateTransform)]</a></h1>
+<h1 id="pub-fn-derive_rotate_implinput-tokenstream---tokenstream-"><a class="header" href="#pub-fn-derive_rotate_implinput-tokenstream---tokenstream-">pub fn derive_rotate_impl(input: TokenStream) -&gt; TokenStream {</a></h1>
+<h1 id="let-core--ranim_core_path-8"><a class="header" href="#let-core--ranim_core_path-8">let core = ranim_core_path();</a></h1>
+<h1 id="impl_derive-3"><a class="header" href="#impl_derive-3">impl_derive(</a></h1>
+<h1 id="input-3"><a class="header" href="#input-3">input,</a></h1>
+<h1 id="quote-coretraitsrotatetransform"><a class="header" href="#quote-coretraitsrotatetransform">quote! {#core::traits::RotateTransform},</a></h1>
+<h1 id="field_positions--3"><a class="header" href="#field_positions--3">|field_positions| {</a></h1>
+<h1 id="quote--10"><a class="header" href="#quote--10">quote! {</a></h1>
+<h1 id="fn-rotate_on_axismut-self-axis-coreglamdvec3-angle-f64---mut-self-"><a class="header" href="#fn-rotate_on_axismut-self-axis-coreglamdvec3-angle-f64---mut-self-">fn rotate_on_axis(&amp;mut self, axis: #core::glam::DVec3, angle: f64) -&gt; &amp;mut Self {</a></h1>
+<h1 id="selffield_positionsrotate_on_axisaxis-angle"><a class="header" href="#selffield_positionsrotate_on_axisaxis-angle">#(self.#field_positions.rotate_on_axis(axis, angle);)*</a></h1>
+<h1 id="self-7"><a class="header" href="#self-7">self</a></h1>
+<h1 id="-144"><a class="header" href="#-144">}</a></h1>
+<h1 id="-145"><a class="header" href="#-145">}</a></h1>
+<h1 id="-146"><a class="header" href="#-146">},</a></h1>
+<h1 id="-147"><a class="header" href="#-147">)</a></h1>
+<h1 id="-148"><a class="header" href="#-148">}</a></h1>
+<h1 id="-149"><a class="header" href="#-149"></a></h1>
+<h1 id="proc_macro_derivescaletransform"><a class="header" href="#proc_macro_derivescaletransform">#[proc_macro_derive(ScaleTransform)]</a></h1>
+<h1 id="pub-fn-derive_scale_implinput-tokenstream---tokenstream-"><a class="header" href="#pub-fn-derive_scale_implinput-tokenstream---tokenstream-">pub fn derive_scale_impl(input: TokenStream) -&gt; TokenStream {</a></h1>
+<h1 id="let-core--ranim_core_path-9"><a class="header" href="#let-core--ranim_core_path-9">let core = ranim_core_path();</a></h1>
+<h1 id="impl_derive-4"><a class="header" href="#impl_derive-4">impl_derive(</a></h1>
+<h1 id="input-4"><a class="header" href="#input-4">input,</a></h1>
+<h1 id="quote-coretraitsscaletransform"><a class="header" href="#quote-coretraitsscaletransform">quote! {#core::traits::ScaleTransform},</a></h1>
+<h1 id="field_positions--4"><a class="header" href="#field_positions--4">|field_positions| {</a></h1>
+<h1 id="quote--11"><a class="header" href="#quote--11">quote! {</a></h1>
+<h1 id="fn-scalemut-self-scale-coreglamdvec3---mut-self-"><a class="header" href="#fn-scalemut-self-scale-coreglamdvec3---mut-self-">fn scale(&amp;mut self, scale: #core::glam::DVec3) -&gt; &amp;mut Self {</a></h1>
+<h1 id="selffield_positionsscalescale"><a class="header" href="#selffield_positionsscalescale">#(self.#field_positions.scale(scale);)*</a></h1>
+<h1 id="self-8"><a class="header" href="#self-8">self</a></h1>
+<h1 id="-150"><a class="header" href="#-150">}</a></h1>
+<h1 id="-151"><a class="header" href="#-151">}</a></h1>
+<h1 id="-152"><a class="header" href="#-152">},</a></h1>
+<h1 id="-153"><a class="header" href="#-153">)</a></h1>
+<h1 id="-154"><a class="header" href="#-154">}</a></h1>
+<h1 id="-155"><a class="header" href="#-155"></a></h1>
+<h1 id="proc_macro_derivepointsfunc"><a class="header" href="#proc_macro_derivepointsfunc">#[proc_macro_derive(PointsFunc)]</a></h1>
+<h1 id="pub-fn-derive_point_funcinput-tokenstream---tokenstream-"><a class="header" href="#pub-fn-derive_point_funcinput-tokenstream---tokenstream-">pub fn derive_point_func(input: TokenStream) -&gt; TokenStream {</a></h1>
+<h1 id="let-core--ranim_core_path-10"><a class="header" href="#let-core--ranim_core_path-10">let core = ranim_core_path();</a></h1>
+<h1 id="impl_derive-5"><a class="header" href="#impl_derive-5">impl_derive(</a></h1>
+<h1 id="input-5"><a class="header" href="#input-5">input,</a></h1>
+<h1 id="quote-coretraitspointsfunc"><a class="header" href="#quote-coretraitspointsfunc">quote! {#core::traits::PointsFunc},</a></h1>
+<h1 id="field_positions--5"><a class="header" href="#field_positions--5">|field_positions| {</a></h1>
+<h1 id="quote--12"><a class="header" href="#quote--12">quote! {</a></h1>
+<h1 id="fn-apply_points_funcmut-self-f-impl-fora-fna-mut-dvec3---mut-self-"><a class="header" href="#fn-apply_points_funcmut-self-f-impl-fora-fna-mut-dvec3---mut-self-">fn apply_points_func(&amp;mut self, f: impl for&lt;’a&gt; Fn(&amp;’a mut [DVec3])) -&gt; &amp;mut Self {</a></h1>
+<h1 id="selffield_positionsapply_points_funcf"><a class="header" href="#selffield_positionsapply_points_funcf">#(self.#field_positions.apply_points_func(f);)*</a></h1>
+<h1 id="self-9"><a class="header" href="#self-9">self</a></h1>
+<h1 id="-156"><a class="header" href="#-156">}</a></h1>
+<h1 id="-157"><a class="header" href="#-157">}</a></h1>
+<h1 id="-158"><a class="header" href="#-158">},</a></h1>
+<h1 id="-159"><a class="header" href="#-159">)</a></h1>
+<h1 id="-160"><a class="header" href="#-160">}</a></h1>
+<h1 id="-161"><a class="header" href="#-161"></a></h1>
+<h1 id="fn-impl_derive"><a class="header" href="#fn-impl_derive">fn impl_derive(</a></h1>
+<h1 id="input-tokenstream"><a class="header" href="#input-tokenstream">input: TokenStream,</a></h1>
+<h1 id="trait_path-proc_macro2tokenstream"><a class="header" href="#trait_path-proc_macro2tokenstream">trait_path: proc_macro2::TokenStream,</a></h1>
+<h1 id="impl_token-impl-fnvecproc_macro2tokenstream---proc_macro2tokenstream"><a class="header" href="#impl_token-impl-fnvecproc_macro2tokenstream---proc_macro2tokenstream">impl_token: impl Fn(Vec&lt;proc_macro2::TokenStream&gt;) -&gt; proc_macro2::TokenStream,</a></h1>
+<h1 id="---tokenstream-"><a class="header" href="#---tokenstream-">) -&gt; TokenStream {</a></h1>
+<h1 id="let-input--parse_macro_inputinput-as-deriveinput-1"><a class="header" href="#let-input--parse_macro_inputinput-as-deriveinput-1">let input = parse_macro_input!(input as DeriveInput);</a></h1>
+<h1 id="let-name--inputident-1"><a class="header" href="#let-name--inputident-1">let name = &amp;input.ident;</a></h1>
+<h1 id="let-generics--inputgenerics-1"><a class="header" href="#let-generics--inputgenerics-1">let generics = &amp;input.generics;</a></h1>
+<h1 id="let-impl_generics-ty_generics-where_clause--genericssplit_for_impl-1"><a class="header" href="#let-impl_generics-ty_generics-where_clause--genericssplit_for_impl-1">let (impl_generics, ty_generics, where_clause) = generics.split_for_impl();</a></h1>
+<h1 id="-162"><a class="header" href="#-162"></a></h1>
+<h1 id="let-fields--match-inputdata--1"><a class="header" href="#let-fields--match-inputdata--1">let fields = match &amp;input.data {</a></h1>
+<h1 id="datastructdata--datafields-1"><a class="header" href="#datastructdata--datafields-1">Data::Struct(data) =&gt; &amp;data.fields,</a></h1>
+<h1 id="_--paniccan-only-be-derived-for-structs"><a class="header" href="#_--paniccan-only-be-derived-for-structs">_ =&gt; panic!(“Can only be derived for structs”),</a></h1>
+<h1 id="-163"><a class="header" href="#-163">};</a></h1>
+<h1 id="-164"><a class="header" href="#-164"></a></h1>
+<h1 id="let-field_positions--get_field_positionsfields"><a class="header" href="#let-field_positions--get_field_positionsfields">let field_positions = get_field_positions(fields)</a></h1>
+<h1 id="ok_orcannot-get-field-from-unit-struct"><a class="header" href="#ok_orcannot-get-field-from-unit-struct">.ok_or(“cannot get field from unit struct”)</a></h1>
+<h1 id="unwrap"><a class="header" href="#unwrap">.unwrap();</a></h1>
+<h1 id="-165"><a class="header" href="#-165"></a></h1>
+<h1 id="let-impl_token--impl_tokenfield_positions"><a class="header" href="#let-impl_token--impl_tokenfield_positions">let impl_token = impl_token(field_positions);</a></h1>
+<h1 id="let-expanded--quote--1"><a class="header" href="#let-expanded--quote--1">let expanded = quote! {</a></h1>
+<h1 id="impl-impl_generics-trait_path-for-name-ty_generics-where_clause-"><a class="header" href="#impl-impl_generics-trait_path-for-name-ty_generics-where_clause-">impl #impl_generics #trait_path for #name #ty_generics #where_clause {</a></h1>
+<h1 id="impl_token"><a class="header" href="#impl_token">#impl_token</a></h1>
+<h1 id="-166"><a class="header" href="#-166">}</a></h1>
+<h1 id="-167"><a class="header" href="#-167">};</a></h1>
+<h1 id="-168"><a class="header" href="#-168"></a></h1>
+<h1 id="tokenstreamfromexpanded-2"><a class="header" href="#tokenstreamfromexpanded-2">TokenStream::from(expanded)</a></h1>
+<h1 id="-169"><a class="header" href="#-169">}</a></h1>
+<h1 id="-170"><a class="header" href="#-170"></a></h1>
+<h1 id="fn-get_field_positionsfields-fields---optionvecproc_macro2tokenstream-"><a class="header" href="#fn-get_field_positionsfields-fields---optionvecproc_macro2tokenstream-">fn get_field_positions(fields: &amp;Fields) -&gt; Option&lt;Vec&lt;proc_macro2::TokenStream&gt;&gt; {</a></h1>
+<h1 id="match-fields-"><a class="header" href="#match-fields-">match fields {</a></h1>
+<h1 id="fieldsnamedfields--some"><a class="header" href="#fieldsnamedfields--some">Fields::Named(fields) =&gt; Some(</a></h1>
+<h1 id="fields"><a class="header" href="#fields">fields</a></h1>
+<h1 id="named"><a class="header" href="#named">.named</a></h1>
+<h1 id="iter-1"><a class="header" href="#iter-1">.iter()</a></h1>
+<h1 id="mapf-"><a class="header" href="#mapf-">.map(|f| {</a></h1>
+<h1 id="let-pos--fident"><a class="header" href="#let-pos--fident">let pos = &amp;f.ident;</a></h1>
+<h1 id="pos"><a class="header" href="#pos">quote!</a></h1>
+<h1 id="-171"><a class="header" href="#-171">})</a></h1>
+<h1 id="collectvec_"><a class="header" href="#collectvec_">.collect::&lt;Vec&lt;_&gt;&gt;(),</a></h1>
+<h1 id="-172"><a class="header" href="#-172">),</a></h1>
+<h1 id="fieldsunnamedfields--some"><a class="header" href="#fieldsunnamedfields--some">Fields::Unnamed(fields) =&gt; Some(</a></h1>
+<h1 id="0fieldsunnamedlen"><a class="header" href="#0fieldsunnamedlen">(0..fields.unnamed.len())</a></h1>
+<h1 id="mapsynindexfrom"><a class="header" href="#mapsynindexfrom">.map(syn::Index::from)</a></h1>
+<h1 id="mapi-"><a class="header" href="#mapi-">.map(|i| {</a></h1>
+<h1 id="i"><a class="header" href="#i">quote!</a></h1>
+<h1 id="-173"><a class="header" href="#-173">})</a></h1>
+<h1 id="collectvec_-1"><a class="header" href="#collectvec_-1">.collect::&lt;Vec&lt;_&gt;&gt;(),</a></h1>
+<h1 id="-174"><a class="header" href="#-174">),</a></h1>
+<h1 id="fieldsunit--none"><a class="header" href="#fieldsunit--none">Fields::Unit =&gt; None,</a></h1>
+<h1 id="-175"><a class="header" href="#-175">}</a></h1>
+<h1 id="-176"><a class="header" href="#-176">}</a></h1>
+<p>支持的属性：</p>
+<ul>
+<li><code>#[scene]</code>：为场景函数生成一个对应的 <code>static &lt;scene_name&gt;_scene: &amp;'static Scene</code>，包含了场景名称、函数指针、场景设置、输出设置（通过 <code>#[output]</code> 来设置）等信息。
+可以配置一些属性：
+<ul>
+<li><code>#[scene(name = "...")]</code>：为场景指定一个名称，默认与函数名相同。</li>
+<li><code>#[scene(clear_color = "#ffffffff")]</code>：为场景指定一个清除颜色，默认值为 <code>#333333ff</code>。</li>
+<li><code>#[output]</code>：为场景添加一个输出：
+输出的文件名 <code>&lt;output_name&gt;</code> 会被命名为 <code>&lt;scene_name&gt;_&lt;width&gt;x&lt;height&gt;_&lt;frame_rate&gt;</code>。
+<ul>
+<li><code>#[output(dir = "...")]</code>：设置相对于 <code>.</code> 的输出目录，也可以是绝对路径，默认是 <code>./output</code></li>
+<li><code>#[output(width = 1920)]</code>：设置输出宽度</li>
+<li><code>#[output(height = 1080)]</code>：设置输出高度</li>
+<li><code>#[output(fps = 60)]</code>：设置输出帧率</li>
+<li><code>#[output(save_frames = true)]</code>：设置是否保存每一帧（保存在 <code>&lt;dir&gt;/&lt;output_name&gt;-frames/</code> 下）</li>
+<li><code>#[output(format = "mp4")]</code>：设置输出格式 <code>mp4</code>, <code>webm</code>, <code>mov</code>, <code>gif</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>使用 <em>ranim-cli</em> 可以方便的对场景进行预览、渲染：</p>
+<blockquote class="blockquote-tag blockquote-tag-important">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v9.5A1.75 1.75 0 0 1 14.25 13H8.06l-2.573 2.573A1.458 1.458 0 0 1 3 14.543V13H1.75A1.75 1.75 0 0 1 0 11.25Zm1.75-.25a.25.25 0 0 0-.25.25v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25Zm7 2.25v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Important</p>
+<p>注意：</p>
+<p>如果想要使用 <em>ranim-cli</em>，需要为 <code>crate-type</code> 添加 <code>dylib</code>。</p>
+</blockquote>
+<ul>
+<li>
+<p><code>ranim preview</code>：调用 Cargo 构建指定的 target，然后启动一个预览应用加载编译出的 dylib，并监听改动进行重载。</p>
+<pre><code class="language-bash">ranim preview # 预览根 package 的 lib target
+ranim preview -p package_name # 预览 package_name 包的 lib target
+ranim preview -p package_name --example example_name # 预览 package_name 包的 example_name 示例
+</code></pre>
+</li>
+<li>
+<p><code>ranim render</code>：调用 Cargo 构建指定的 target，然后启动一个渲染应用加载编译出的 dylib，并渲染动画。</p>
+<pre><code class="language-bash">ranim render # 渲染根 package 的全部场景的所有输出
+ranim render scene_name # 渲染根 package 中名称为 scene_name 的场景的所有输出
+ranim render -p package_name # 渲染 package_name 包的全部场景的所有输出
+ranim render -p package_name --example example_name # 渲染 package_name 包的 example_name 示例中的全部场景的所有输出
+</code></pre>
+</li>
+</ul>
+<h2 id="1-场景的构造"><a class="header" href="#1-场景的构造">1. 场景的构造</a></h2>
+<p>场景函数是一个签名为 <code>fn(&amp;mut RanimScene)</code> 的函数，通过 <code>#[scene]</code> 宏标注后会自动生成对应的场景配置。</p>
+<p>整个构造过程围绕着 <code>&amp;mut RanimScene</code>，它是 ranim 中编码动画 API 的主入口。</p>
+<h2 id="2-时间线"><a class="header" href="#2-时间线">2. 时间线</a></h2>
+<p>每一条被插入到场景中的时间线都有一个唯一的 <code>TimelineId</code>。</p>
+<p>时间线（<code>Timeline</code>）是用于编码物件动画的核心结构，它内部存储了一系列动画及其展示时间。</p>
+<p>编码动画的过程本质上是在向时间线中插入动态或静态的动画：</p>
+<p><img src="timeline.png" alt="Timeline"></p>
+<h3 id="21-创建时间线"><a class="header" href="#21-创建时间线">2.1 创建时间线</a></h3>
+<p>有两种方式创建时间线：</p>
+<p><strong>1. 创建空白时间线</strong></p>
+<pre><code class="language-rust ignore">let tid: TimelineId = r.insert_empty();</code></pre>
+<p><strong>2. 插入物件并创建时间线</strong></p>
+<p>通过 <code>r.insert(item)</code> 可以插入一个物件，自动为其创建时间线并播放 <code>show</code> 动画：</p>
+<pre><code class="language-rust ignore">let square = Square::new(2.0).with(|x| {
+    x.set_color(manim::BLUE_C);
+});
+let circle = Circle::new(1.0).with(|x| {
+    x.set_color(manim::RED_C);
+});
+
+let r_square = r.insert(square);
+let r_circle = r.insert(circle);</code></pre>
+<h3 id="22-访问时间线"><a class="header" href="#22-访问时间线">2.2 访问时间线</a></h3>
+<p>时间线创建后，通过 <code>r.timeline()</code> 或 <code>r.timeline_mut()</code> 来访问：</p>
+<pre><code class="language-rust ignore">// 获取不可变引用
+let timeline_ref: &amp;Timeline = r.timeline(r_square);
+
+// 获取可变引用
+let timeline_mut: &amp;mut Timeline = r.timeline_mut(r_square);</code></pre>
+<p>也可以同时访问多条时间线：</p>
+<pre><code class="language-rust ignore">// 访问多条时间线的可变引用
+let [t1, t2] = r.timeline_mut([r_square1, r_square2]);</code></pre>
+<p>访问全部时间线：</p>
+<pre><code class="language-rust ignore">// 类型为 &amp;[Timeline]
+let timelines = r.timelines();
+// 类型为 &amp;mut [Timeline]
+let timelines = r.timelines_mut();</code></pre>
+<h3 id="23-操作时间线"><a class="header" href="#23-操作时间线">2.3 操作时间线</a></h3>
+<p><code>Timeline</code> 提供了以下方法用于编码动画：</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>方法</th><th>描述</th></tr>
+</thead>
+<tbody>
+<tr><td><code>show()</code></td><td>显示时间线中的物体</td></tr>
+<tr><td><code>hide()</code></td><td>隐藏时间线中的物体</td></tr>
+<tr><td><code>forward(secs)</code></td><td>推进时间线指定秒数</td></tr>
+<tr><td><code>forward_to(target_sec)</code></td><td>推进时间线到指定时间点</td></tr>
+<tr><td><code>play(anim)</code></td><td>向时间线中插入动画</td></tr>
+</tbody>
+</table>
+</div>
+<p>所有方法都返回 <code>&amp;mut Self</code>，支持链式调用。</p>
+<p>下面的例子使用一个 <code>Square</code> 物件创建了一个时间线，然后编码了淡入 1 秒、显示 1 秒、隐藏、显示 1 秒、淡出 1 秒的动画：</p>
+<pre><code class="language-rust ignore"><span class="boring">use ranim::{
+</span><span class="boring">    anims::fading::FadingAnim, color::palettes::manim, items::vitem::geometry::Square, prelude::*,
+</span><span class="boring">};
+</span><span class="boring">
+</span>#[scene]
+#[output(dir = "./output/getting_started0")]
+fn getting_started0(r: &amp;mut RanimScene) {
+    // Equivalent to creating a new timeline then playing `CameraFrame::default().show()` on it
+    let _r_cam = r.insert(CameraFrame::default());
+    // A Square with size 2.0 and color blue
+    let square = Square::new(2.0).with(|square| {
+        square.set_color(manim::BLUE_C);
+    });
+
+    let r_square = r.insert_empty();
+    {
+        let timeline = r.timeline_mut(r_square);
+        timeline
+            .play(square.clone().fade_in()) // Can be written as `square.fade_in_ref()`
+            .forward(1.0)
+            .hide()
+            .forward(1.0)
+            .show()
+            .forward(1.0)
+            .play(square.clone().fade_out()); // Can be written as `square.fade_out_ref()`
+    }
+    // In the end, ranim will automatically sync all timelines and forward to the end.
+    // Equivalent to `r.timelines_mut().sync();`
+}</code></pre>
+<h3 id="24-物件类型转换"><a class="header" href="#24-物件类型转换">2.4 物件类型转换</a></h3>
+<p>在对物件进行动画编码时，有时需要进行类型转换。例如，<code>Square</code> 需要转换为更低级的 <code>VItem</code> 才能应用 <code>write</code> 和 <code>unwrite</code> 等动画：</p>
+<pre><code class="language-rust ignore"><span class="boring">use ranim::{
+</span><span class="boring">    anims::{creation::WritingAnim, morph::MorphAnim},
+</span><span class="boring">    color::palettes::manim,
+</span><span class="boring">    items::vitem::{
+</span><span class="boring">        VItem,
+</span><span class="boring">        geometry::{Circle, Square},
+</span><span class="boring">    },
+</span><span class="boring">    prelude::*,
+</span><span class="boring">};
+</span><span class="boring">
+</span>#[scene]
+#[output(dir = "./output/getting_started1")]
+fn getting_started1(r: &amp;mut RanimScene) {
+    let _r_cam = r.insert(CameraFrame::default());
+    // A Square with size 2.0 and color blue
+    let square = Square::new(2.0).with(|square| {
+        square.set_color(manim::BLUE_C);
+    });
+
+    let circle = Circle::new(2.0).with(|circle| {
+        circle.set_color(manim::RED_C);
+    });
+
+    let r_vitem = r.insert_empty();
+    {
+        let timeline = r.timeline_mut(r_vitem);
+        // In order to do more low-level opeerations,
+        // sometimes we need to convert the item to a low-level item.
+        timeline.play(VItem::from(square).morph_to(VItem::from(circle.clone())));
+        timeline.play(VItem::from(circle).unwrite());
+    }
+}</code></pre>
+<p>在这个例子中：</p>
+<ol>
+<li>创建了一个空白时间线</li>
+<li>将 <code>Square</code> 转换为 <code>VItem</code> 后应用 <code>morph_to</code> 动画</li>
+<li>将 <code>Circle</code> 转换为 <code>VItem</code> 后应用 <code>unwrite</code> 动画</li>
+</ol>
+<p>类型转换通过 <code>VItem::from()</code> 或 <code>.into()</code> 完成，转换后的物件可以使用更多底层动画效果。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+                            <a rel="next prefetch" href="packages.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+                    <a rel="next prefetch" href="packages.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-c2a407aa.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="version-select-fdcb80bd.js"></script>
+        <script src="theme/pagetoc-ad23158a.js"></script>
+        <script src="mermaid-eefea253.min.js"></script>
+        <script src="mermaid-init-025d9952.js"></script>
+
+
+
+    </div>
+    </body>
+</html>
