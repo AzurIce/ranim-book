@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Ranim Packages - Ranim Book</title>
+        <title>v0.3 - Ranim Book</title>
 
 
         <!-- Custom HTML head -->
@@ -12,35 +12,35 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 
-        <link rel="icon" href="favicon-de23e50b.svg">
-        <link rel="shortcut icon" href="favicon-8114d1fc.png">
-        <link rel="stylesheet" href="css/variables-8adf115d.css">
-        <link rel="stylesheet" href="css/general-2459343d.css">
-        <link rel="stylesheet" href="css/chrome-ae938929.css">
-        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+        <link rel="icon" href="../../favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="../../favicon-8114d1fc.png">
+        <link rel="stylesheet" href="../../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+        <link rel="stylesheet" href="../../fonts/fonts-9644e21d.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
-        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
-        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="version-select-0246a208.css">
-        <link rel="stylesheet" href="theme/pagetoc-6390151b.css">
+        <link rel="stylesheet" href="../../version-select-0246a208.css">
+        <link rel="stylesheet" href="../../theme/pagetoc-6390151b.css">
 
 
         <!-- Provide site root and default themes to javascript -->
         <script>
-            const path_to_root = "";
+            const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-3ba4f9c0.js";
+            window.path_to_searchindex_js = "../../searchindex-3ba4f9c0.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-f371d97a.js"></script>
+        <script src="../../toc-f371d97a.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -107,7 +107,7 @@
             <!-- populated by js -->
             <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
             <noscript>
-                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
             </noscript>
             <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -142,7 +142,7 @@
                     <h1 class="menu-title">Ranim Book</h1>
 
                     <div class="right-buttons">
-                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
                             <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
                         </a>
 
@@ -176,45 +176,148 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="packages"><a class="header" href="#packages">Packages</a></h1>
-<pre><code class="language-text">.
-├── src/                        # ranim - 顶层 facade crate
-├── packages/
-│   ├── ranim-core/             # 核心动画引擎（求值、组合、组件与动画 trait）
-│   ├── ranim-macros/           # proc-macro（#[scene]、#[output] 等）
-│   ├── ranim-items/            # 内置可视元素（VItem、几何图形、SVG、文本）
-│   ├── ranim-anims/            # 内置动画（淡入淡出、变形、书写等）
-│   ├── ranim-render/           # GPU 渲染层（wgpu）
-│   └── ranim-cli/              # CLI 工具（渲染、预览、热加载）
-├── example-packages/app/       # 示例应用
-├── benches/                    # 性能基准测试
-└── xtasks/xtask-examples/      # 示例构建自动化
-</code></pre>
-<pre class="mermaid">graph BT
-    macros[ranim-macros]
-    core[ranim-core] --&gt; macros
-    items[ranim-items] --&gt; core
-    anims[ranim-anims] --&gt; core
-    render[ranim-render] --&gt; core
-    ranim[ranim] --&gt; core
-    ranim --&gt; items
-    ranim --&gt; anims
-    ranim --&gt; render
-    cli[ranim-cli] --&gt; ranim
-</pre>
+                        <h1 id="v03"><a class="header" href="#v03">v0.3</a></h1>
+<h2 id="新增"><a class="header" href="#新增">新增</a></h2>
+<h2 id="breaking-changes"><a class="header" href="#breaking-changes">BREAKING CHANGES</a></h2>
+<ul>
+<li>重构动画组织系统
+<ul>
+<li>弃用 <code>Timeline</code>，用 <code>AnimSequence</code> 和 <code>AnimStack</code> 替代</li>
+<li>修改 <code>Eval&lt;T&gt;</code> Trait 的泛型参数为关联类型</li>
+<li>支持直接将 <code>Eval&lt;T&gt;</code> 当作动画使用（不再需要转换为 <code>AnimationCell</code>）</li>
+<li>用 <code>Paramed&lt;A&gt;</code> 和 <code>At&lt;A&gt;</code> 替代原先 <code>AnimationCell&lt;T&gt;</code> 的 <code>AnimationInfo</code></li>
+<li><em>ranim-anims</em> 中全部内置动画创建工具方法现在默认用 <code>linear</code> 速率函数和 <code>1.0</code> 持续秒数。</li>
+</ul>
+</li>
+</ul>
+<h2 id="composable-animation-arrangement"><a class="header" href="#composable-animation-arrangement">Composable Animation Arrangement</a></h2>
+<h3 id="animsequence-和-animstack"><a class="header" href="#animsequence-和-animstack"><code>AnimSequence</code> 和 <code>AnimStack</code></a></h3>
+<p>Ranim 动画编排的本质是构造动画数据表示并放入集合，在之前的设计中整个 <code>RanimScene</code> 通过内部的 <code>Vec&lt;Timeline&gt;</code> 来维护动画。</p>
+<p><code>Timeline</code> 的本质是 <code>Vec&lt;Box&lt;dyn CoreItemAnimation&gt;&gt;</code> 动画序列容器，其中的每个元素都是前后相继的动画表示，同一时间一个 <code>Timeline</code> 只有一个动画激活，于是以前在动画组合代数上非常局限：</p>
+<ul>
+<li>串行的动画必须通过 <code>Timeline</code> 的 API 手动推进/同步时间到对应位置</li>
+<li>并行的动画必须通过创建新的 <code>Timeline</code> 来实现</li>
+<li>整个场景的 <code>Vec&lt;Timeline&gt;</code> 本质是一次性并行组合多个串行编排的性质</li>
+</ul>
+<p>在 Ranim v0.3 中，原本的 <code>Timeline</code> 被弃用，新增了两个可组合的基本动画容器 <code>AnimSequence</code> 和 <code>AnimStack</code>。</p>
+<p>比如对于如下的动画：</p>
+<ul>
+<li>正方形：0.0s ~ 1.0s 淡入 | 1.0s ~ 2.0s 变成圆形 | 2.0s ~ 3.0s 淡出</li>
+<li>文字：0.5s ~ 1.5s 写入 | 1.5s ~ 2.5s 擦除</li>
+</ul>
+<p>在以前的 Timeline API 下要这样编写：</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let r_vitem = r.insert_with(|t| {
+    t.play(item.fade_in())
+        .play(item.morph_to(VItem::from(Circle::default())))
+        .play(item.fade_out())
+});
+let r_text = r.insert_with(|t| {
+    t.forward(0.5)
+        .play(text.write())
+        .play(text.unwrite())
+});
+<span class="boring">}</span></code></pre>
+<p>而使用 <code>AnimSequence</code> 和 <code>AnimStack</code> 可以这样：</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let anim = stack![
+    seq![
+        item.fade_in(),
+        item.morph_to(VItem::from(Circle::default())),
+        item.fade_out(),
+    ],
+    seq![
+        text.write(),
+        text.unwrite()
+    ].at(0.5)
+];
+r.play(anim);
+<span class="boring">}</span></code></pre>
+<p>其中的 <code>seq!</code> 和 <code>stack!</code>（类似 <code>vec!</code>），会构造 <code>AnimSequence</code> 和 <code>AnimStack</code> 并将动画插入其中（类似 <code>Vec</code>）。</p>
+<p>如果要把这段动画播放两遍，原来的 Timeline API 会非常繁琐，或许需要将相关时间线操作封装为闭包，而对于新的可组合 API 很简单：</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>r.play(seq![anim.clone(), anim]);
+<span class="boring">}</span></code></pre>
+<p>更能够表现新系统的可组合与复用能力的例子见 <code>composable_choreaography</code> example。</p>
+<h3 id="animationcelleval-与-animation-trait"><a class="header" href="#animationcelleval-与-animation-trait"><code>AnimationCell</code>、<code>Eval</code> 与 <code>Animation</code> Trait</a></h3>
+<p><code>Eval&lt;T&gt;</code> 的泛型参数被移除并改成了关联类型（一个求值器类型的求值结果类型是唯一的）。</p>
+<p>以前 <code>AnimationCell&lt;T&gt;</code> 被当作动画的组织单元，所有动画必须被表示为 <code>AnimationCell&lt;T&gt;</code> 才能够被插入时间线。现在这个行为被抽象为了一个 <code>Animation</code> Trait：</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// A statically typed animation definition that can be lowered into a runtime animation.
+pub trait Animation: Sized {
+    /// Lower this definition into its local runtime representation.
+    fn build(self) -&gt; AnimationCell;
+}
+<span class="boring">}</span></code></pre>
+<p>同时泛型参数被从 <code>AnimationCell</code> 移除，其内部变成类型擦除的 <code>Box&lt;dyn EvalDyn&gt;</code>。</p>
+<p>所有的 <code>E: Eval where E::Output: AnyExtractCoreItem</code> 都自动实现了 <code>Animation</code>，于是所有的动画创建都不必返回 <code>AnimationCell</code>，可以直接返回自己就可以使用。</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// previous
+impl&lt;T: FadingRequirement + Sized + 'static&gt; FadingAnim for T {
+    fn fade_in(&amp;mut self) -&gt; AnimationCell&lt;Self&gt; {
+        FadeIn::new(self.clone())
+            .into_animation_cell()
+            .with_rate_func(smooth)
+            .apply_to(self)
+    }
+    fn fade_out(&amp;mut self) -&gt; AnimationCell&lt;Self&gt; {
+        FadeOut::new(self.clone())
+            .into_animation_cell()
+            .with_rate_func(smooth)
+            .apply_to(self)
+    }
+}
+<span class="boring">}</span></code></pre>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl&lt;T: FadingRequirement + Sized + 'static&gt; FadingAnim for T {
+    fn fade_in(&amp;mut self) -&gt; FadeIn&lt;Self&gt; {
+        FadeIn::new(self.clone()).apply_to(self)
+    }
+    fn fade_out(&amp;mut self) -&gt; FadeOut&lt;Self&gt; {
+        FadeOut::new(self.clone()).apply_to(self)
+    }
+}
+<span class="boring">}</span></code></pre>
+<p><code>Animation</code> Trait 也是可组合动画的核心，<code>AnimSequence</code>、<code>AnimStack</code>、<code>Paramed&lt;A&gt;</code> 和 <code>At&lt;A&gt;</code> 也实现了该 Trait，可以当作一个动画使用。</p>
+<h3 id="paramedaata"><a class="header" href="#paramedaata"><code>Paramed&lt;A&gt;</code>、<code>At&lt;A&gt;</code></a></h3>
+<p>动画本身在时间轴上“长什么样子”并不依赖于其起始时间，只有在要 <strong>放置</strong> 在某种时间坐标上的时候起始时间才存在作用。对于 <code>AnimSequence</code> 和 <code>AnimStack</code> 来说，前者反而要求动画没有被指定起始时间，因为动画要被相继紧接着放置进序列中。</p>
+<p>原先统一在 <code>AnimationInfo</code> 内的动画参数现在拆分到了 <code>Paramed&lt;A&gt;</code> 和 <code>At&lt;A&gt;</code> 两个泛型结构体内：</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// An animation definition with overridden playback parameters.
+pub struct Paramed&lt;A&gt; {
+    inner: A,
+    param: AnimationParam,
+}
 
+/// An animation fixed at an offset in its parent's time coordinates.
+///
+/// This is a terminal placement entry: it implements [`Animation`] but not
+/// [`Placeable`], so playback parameters must be configured before calling
+/// [`Placeable::at`].
+pub struct At&lt;A&gt; {
+    inner: A,
+    offset_sec: f64,
+}
+<span class="boring">}</span></code></pre>
+<p>使用 <code>.with_duration</code>、<code>with_rate_func</code>、<code>with_enabled</code> 会自动修改或包裹 <code>Paramed&lt;A&gt;</code>，使用 <code>.at</code> 会自动包裹 <code>At&lt;A&gt;</code>。</p>
+<h2 id="preview-app-时间轴控件重构"><a class="header" href="#preview-app-时间轴控件重构">Preview App 时间轴控件重构</a></h2>
+<p>在新的动画组织系统下，Preview App 的时间轴控件也对应做了大幅重构</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="getting_started.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../understand/core/timeline.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                             </a>
 
-                            <a rel="next prefetch" href="understand/core/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
-                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -222,13 +325,10 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="getting_started.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../understand/core/timeline.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
-                    <a rel="next prefetch" href="understand/core/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
-                    </a>
             </nav>
 
         </div>
@@ -246,19 +346,19 @@
         </script>
 
 
-        <script src="elasticlunr-ef4e11c1.min.js"></script>
-        <script src="mark-09e88c2c.min.js"></script>
-        <script src="searcher-09f2665d.js"></script>
+        <script src="../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../mark-09e88c2c.min.js"></script>
+        <script src="../../searcher-09f2665d.js"></script>
 
-        <script src="clipboard-1626706a.min.js"></script>
-        <script src="highlight-abc7f01d.js"></script>
-        <script src="book-a0b12cfe.js"></script>
+        <script src="../../clipboard-1626706a.min.js"></script>
+        <script src="../../highlight-abc7f01d.js"></script>
+        <script src="../../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="version-select-fdcb80bd.js"></script>
-        <script src="theme/pagetoc-ad23158a.js"></script>
-        <script src="mermaid-eefea253.min.js"></script>
-        <script src="mermaid-init-025d9952.js"></script>
+        <script src="../../version-select-fdcb80bd.js"></script>
+        <script src="../../theme/pagetoc-ad23158a.js"></script>
+        <script src="../../mermaid-eefea253.min.js"></script>
+        <script src="../../mermaid-init-025d9952.js"></script>
 
 
 

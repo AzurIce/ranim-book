@@ -37,10 +37,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-d5f3e3bf.js";
+            window.path_to_searchindex_js = "searchindex-3ba4f9c0.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-514a59fd.js"></script>
+        <script src="toc-f371d97a.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -176,727 +176,137 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="getting-started"><a class="header" href="#getting-started">Getting Started</a></h1>
-<blockquote class="blockquote-tag blockquote-tag-caution">
-<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M4.47.22A.749.749 0 0 1 5 0h6c.199 0 .389.079.53.22l4.25 4.25c.141.14.22.331.22.53v6a.749.749 0 0 1-.22.53l-4.25 4.25A.749.749 0 0 1 11 16H5a.749.749 0 0 1-.53-.22L.22 11.53A.749.749 0 0 1 0 11V5c0-.199.079-.389.22-.53Zm.84 1.28L1.5 5.31v5.38l3.81 3.81h5.38l3.81-3.81V5.31L10.69 1.5ZM8 4a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 8 4Zm0 8a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Caution</p>
-<p>本章内容已过时，请结合 Example 和源码来了解</p>
-</blockquote>
-<blockquote class="blockquote-tag blockquote-tag-warning">
-<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Warning</p>
-<p>注意：</p>
-<p>当前本章内容非常不完善，结构不清晰、内容不完整，目前建议结合 Example 和源码来了解。</p>
-</blockquote>
-<p>在 Ranim 中，定义并渲染/预览一段动画的代码基本长成下面这个样子：</p>
-<pre class="playground"><code class="language-rust">fn scene_name(r: &amp;mut RanimScene) {
-    let _r_cam = r.insert_and_show(CameraFrame::default());
-
-    let r_square = r.insert(square);
-    r.timeline_mut(&amp;r_square)
-        .play_with(|square| square.fade_in())
-        .forward(0.5);
-    // ...
-}
-
-fn main() {
-    // Scene and output defination
-    let scene = Scene {
-        name: "scene_name".to_string(),
-        constructor: scene_name,
-        config: SceneConfig {
-            clear_color: "#000000" // Or any css color
-        },
-        outputs: vec![
-            Output {
-                /// The width of the output texture in pixels.
-                width: 1280,
-                height: 720,
-                fps: 30,
-                format: OutputFormat::Mp4,
-                ..Default::default()
-            }
-        ],
-    };
-    
-    // Render a scene, the seccond argument is the number of frame buffers used during rendering.
-    ranim::cmd::render_scene(&amp;scene, 2);
-    // Needs "preview" feature
-    ranim::cmd::preview_scene(&amp;scene);
-}</code></pre>
-<p>形如 <code>fn(&amp;mut RanimScene)</code> 的函数被称为场景函数，在其中可以通过 <code>RanimScene</code> 这个核心结构来对时间线进行操作以编码动画。</p>
-<p>此外，ranim 提供了一些过程宏来简化 <code>Scene</code> 结构的定义：</p>
-<pre class="playground"><code class="language-rust">#[scene(clear_color = "#000000")]
-#[output(width = 1280, height = 720, fps = 30, format = "mp4")]
-fn scene_name(r: &amp;mut RanimScene) {
-    let _r_cam = r.insert_and_show(CameraFrame::default());
-
-    let r_square = r.insert(square);
-    r.timeline_mut(&amp;r_square)
-        .play_with(|square| square.fade_in())
-        .forward(0.5);
-    // ...
-}
-
-fn main() {
-    // Render a scene, use 2 frame buffers
-    ranim::cmd::render_scene!(scene_name);
-    // Needs "preview" feature
-    ranim::cmd::preview_scene!(scene_name);
-}</code></pre>
-<p>会在一个同名模块内定义一个同名函数返回对应的 <code>Scene</code>，宏的内部是这样的：</p>
-<h1 id="mod-scene"><a class="header" href="#mod-scene">mod scene;</a></h1>
-<h1 id="mod-utils"><a class="header" href="#mod-utils">mod utils;</a></h1>
-<h1 id=""><a class="header" href="#"></a></h1>
-<h1 id="use-proc_macrotokenstream"><a class="header" href="#use-proc_macrotokenstream">use proc_macro::TokenStream;</a></h1>
-<h1 id="use-proc_macro_cratefoundcrate-crate_name"><a class="header" href="#use-proc_macro_cratefoundcrate-crate_name">use proc_macro_crate::{FoundCrate, crate_name};</a></h1>
-<h1 id="use-proc_macro2span"><a class="header" href="#use-proc_macro2span">use proc_macro2::Span;</a></h1>
-<h1 id="use-quotequote"><a class="header" href="#use-quotequote">use quote::quote;</a></h1>
-<h1 id="use-syndata-deriveinput-fields-ident-itemfn-parse_macro_input"><a class="header" href="#use-syndata-deriveinput-fields-ident-itemfn-parse_macro_input">use syn::{Data, DeriveInput, Fields, Ident, ItemFn, parse_macro_input};</a></h1>
-<h1 id="-1"><a class="header" href="#-1"></a></h1>
-<h1 id="use-cratesceneparse_scene_attrs"><a class="header" href="#use-cratesceneparse_scene_attrs">use crate::scene::parse_scene_attrs;</a></h1>
-<h1 id="-2"><a class="header" href="#-2"></a></h1>
-<h1 id="const-ranim_crate_name-str--ranim"><a class="header" href="#const-ranim_crate_name-str--ranim">const RANIM_CRATE_NAME: &amp;str = “ranim”;</a></h1>
-<h1 id="-3"><a class="header" href="#-3"></a></h1>
-<h1 id="fn-ranim_path---proc_macro2tokenstream-"><a class="header" href="#fn-ranim_path---proc_macro2tokenstream-">fn ranim_path() -&gt; proc_macro2::TokenStream {</a></h1>
-<h1 id="match-"><a class="header" href="#match-">match (</a></h1>
-<h1 id="crate_nameranim_crate_name"><a class="header" href="#crate_nameranim_crate_name">crate_name(RANIM_CRATE_NAME),</a></h1>
-<h1 id="stdenvvarcargo_crate_nameas_deref"><a class="header" href="#stdenvvarcargo_crate_nameas_deref">std::env::var(“CARGO_CRATE_NAME”).as_deref(),</a></h1>
-<h1 id="-"><a class="header" href="#-">) {</a></h1>
-<h1 id="okfoundcrateitself-okranim_crate_name--quotecrate"><a class="header" href="#okfoundcrateitself-okranim_crate_name--quotecrate">(Ok(FoundCrate::Itself), Ok(RANIM_CRATE_NAME)) =&gt; quote!(crate),</a></h1>
-<h1 id="okfoundcratenamename-_--"><a class="header" href="#okfoundcratenamename-_--">(Ok(FoundCrate::Name(name)), _) =&gt; {</a></h1>
-<h1 id="let-ident--identnewname-spancall_site"><a class="header" href="#let-ident--identnewname-spancall_site">let ident = Ident::new(&amp;name, Span::call_site());</a></h1>
-<h1 id="quoteident"><a class="header" href="#quoteident">quote!(::#ident)</a></h1>
-<h1 id="-4"><a class="header" href="#-4">}</a></h1>
-<h1 id="_--quoteranim"><a class="header" href="#_--quoteranim">_ =&gt; quote!(::ranim),</a></h1>
-<h1 id="-5"><a class="header" href="#-5">}</a></h1>
-<h1 id="-6"><a class="header" href="#-6">}</a></h1>
-<h1 id="-7"><a class="header" href="#-7"></a></h1>
-<h1 id="fn-ranim_core_path---proc_macro2tokenstream-"><a class="header" href="#fn-ranim_core_path---proc_macro2tokenstream-">fn ranim_core_path() -&gt; proc_macro2::TokenStream {</a></h1>
-<h1 id="if-let-okres--crate_nameranim-core-"><a class="header" href="#if-let-okres--crate_nameranim-core-">if let Ok(res) = crate_name(“ranim-core”) {</a></h1>
-<h1 id="match-res-stdenvvarcargo_crate_nameas_deref-"><a class="header" href="#match-res-stdenvvarcargo_crate_nameas_deref-">match (res, std::env::var(“CARGO_CRATE_NAME”).as_deref()) {</a></h1>
-<h1 id="foundcrateitself-okranim-core--okranim_core--return-quotecrate"><a class="header" href="#foundcrateitself-okranim-core--okranim_core--return-quotecrate">(FoundCrate::Itself, Ok(“ranim-core”) | Ok(“ranim_core”)) =&gt; return quote!(crate),</a></h1>
-<h1 id="foundcratenamename-_--"><a class="header" href="#foundcratenamename-_--">(FoundCrate::Name(name), _) =&gt; {</a></h1>
-<h1 id="let-ident--identnewname-spancall_site-1"><a class="header" href="#let-ident--identnewname-spancall_site-1">let ident = Ident::new(&amp;name, Span::call_site());</a></h1>
-<h1 id="return-quoteident"><a class="header" href="#return-quoteident">return quote!(::#ident);</a></h1>
-<h1 id="-8"><a class="header" href="#-8">}</a></h1>
-<h1 id="_--"><a class="header" href="#_--">_ =&gt; (),</a></h1>
-<h1 id="-9"><a class="header" href="#-9">}</a></h1>
-<h1 id="-else-if-let-okres--crate_nameranim-"><a class="header" href="#-else-if-let-okres--crate_nameranim-">} else if let Ok(res) = crate_name(“ranim”) {</a></h1>
-<h1 id="match-res-stdenvvarcargo_crate_nameas_deref--1"><a class="header" href="#match-res-stdenvvarcargo_crate_nameas_deref--1">match (res, std::env::var(“CARGO_CRATE_NAME”).as_deref()) {</a></h1>
-<h1 id="foundcrateitself-okranim--return-quotecratecore"><a class="header" href="#foundcrateitself-okranim--return-quotecratecore">(FoundCrate::Itself, Ok(“ranim”)) =&gt; return quote!(crate::core),</a></h1>
-<h1 id="foundcratenamename-_---1"><a class="header" href="#foundcratenamename-_---1">(FoundCrate::Name(name), _) =&gt; {</a></h1>
-<h1 id="let-ident--identnewname-spancall_site-2"><a class="header" href="#let-ident--identnewname-spancall_site-2">let ident = Ident::new(&amp;name, Span::call_site());</a></h1>
-<h1 id="return-quoteidentcore"><a class="header" href="#return-quoteidentcore">return quote!(::#ident::core);</a></h1>
-<h1 id="-10"><a class="header" href="#-10">}</a></h1>
-<h1 id="_---1"><a class="header" href="#_---1">_ =&gt; (),</a></h1>
-<h1 id="-11"><a class="header" href="#-11">}</a></h1>
-<h1 id="-12"><a class="header" href="#-12">}</a></h1>
-<h1 id="ranim_path"><a class="header" href="#ranim_path">ranim_path()</a></h1>
-<h1 id="-13"><a class="header" href="#-13">}</a></h1>
-<h1 id="-14"><a class="header" href="#-14"></a></h1>
-<h1 id="-解析单个属性scene----output"><a class="header" href="#-解析单个属性scene----output">/// 解析单个属性（#[scene(…)] /  / #[output(…)]）</a></h1>
-<h1 id="derivedefault"><a class="header" href="#derivedefault">#[derive(Default)]</a></h1>
-<h1 id="struct-sceneattrs-"><a class="header" href="#struct-sceneattrs-">struct SceneAttrs {</a></h1>
-<h1 id="name-option---------scenename--"><a class="header" href="#name-option---------scenename--">name: Option<string>,        // #[scene(name = “…”)]</string></a></h1>
-<h1 id="clear_color-option--sceneclear_color--000000"><a class="header" href="#clear_color-option--sceneclear_color--000000">clear_color: Option<string>, // #[scene(clear_color = “#000000”)]</string></a></h1>
-<h1 id="wasm_demo_doc-bool----------wasm_demo_doc"><a class="header" href="#wasm_demo_doc-bool----------wasm_demo_doc">wasm_demo_doc: bool,         // #[wasm_demo_doc]</a></h1>
-<h1 id="outputs-vec------output"><a class="header" href="#outputs-vec------output">outputs: Vec<outputdef>,     // #[output(…)]</outputdef></a></h1>
-<h1 id="-15"><a class="header" href="#-15">}</a></h1>
-<h1 id="-16"><a class="header" href="#-16"></a></h1>
-<h1 id="-一个-output-里的字段"><a class="header" href="#-一个-output-里的字段">/// 一个 #[output(…)] 里的字段</a></h1>
-<h1 id="derivedefault-1"><a class="header" href="#derivedefault-1">#[derive(Default)]</a></h1>
-<h1 id="struct-outputdef-"><a class="header" href="#struct-outputdef-">struct OutputDef {</a></h1>
-<h1 id="width-u32"><a class="header" href="#width-u32">width: u32,</a></h1>
-<h1 id="height-u32"><a class="header" href="#height-u32">height: u32,</a></h1>
-<h1 id="fps-u32"><a class="header" href="#fps-u32">fps: u32,</a></h1>
-<h1 id="save_frames-bool"><a class="header" href="#save_frames-bool">save_frames: bool,</a></h1>
-<h1 id="name-option"><a class="header" href="#name-option">name: Option<string>,</string></a></h1>
-<h1 id="dir-string"><a class="header" href="#dir-string">dir: String,</a></h1>
-<h1 id="format-option"><a class="header" href="#format-option">format: Option<string>,</string></a></h1>
-<h1 id="-17"><a class="header" href="#-17">}</a></h1>
-<h1 id="-18"><a class="header" href="#-18"></a></h1>
-<h1 id="-mark-scene"><a class="header" href="#-mark-scene">// MARK: scene</a></h1>
-<h1 id="proc_macro_attribute"><a class="header" href="#proc_macro_attribute">#[proc_macro_attribute]</a></h1>
-<h1 id="pub-fn-sceneargs-tokenstream-input-tokenstream---tokenstream-"><a class="header" href="#pub-fn-sceneargs-tokenstream-input-tokenstream---tokenstream-">pub fn scene(args: TokenStream, input: TokenStream) -&gt; TokenStream {</a></h1>
-<h1 id="let-ranim--ranim_path"><a class="header" href="#let-ranim--ranim_path">let ranim = ranim_path();</a></h1>
-<h1 id="let-input_fn--parse_macro_inputinput-as-itemfn"><a class="header" href="#let-input_fn--parse_macro_inputinput-as-itemfn">let input_fn = parse_macro_input!(input as ItemFn);</a></h1>
-<h1 id="let-attrs--parse_scene_attrsargs-input_fnattrsas_sliceunwrap"><a class="header" href="#let-attrs--parse_scene_attrsargs-input_fnattrsas_sliceunwrap">let attrs = parse_scene_attrs(args, input_fn.attrs.as_slice()).unwrap();</a></h1>
-<h1 id="-19"><a class="header" href="#-19"></a></h1>
-<h1 id="let-fn_name--input_fnsigident"><a class="header" href="#let-fn_name--input_fnsigident">let fn_name = &amp;input_fn.sig.ident;</a></h1>
-<h1 id="let-vis--input_fnvis"><a class="header" href="#let-vis--input_fnvis">let vis = &amp;input_fn.vis;</a></h1>
-<h1 id="let-fn_body--input_fnblock"><a class="header" href="#let-fn_body--input_fnblock">let fn_body = &amp;input_fn.block;</a></h1>
-<h1 id="let-doc_attrs-vec_--input_fn"><a class="header" href="#let-doc_attrs-vec_--input_fn">let doc_attrs: Vec&lt;_&gt; = input_fn</a></h1>
-<h1 id="attrs"><a class="header" href="#attrs">.attrs</a></h1>
-<h1 id="iter"><a class="header" href="#iter">.iter()</a></h1>
-<h1 id="filterattr-attrpathis_identdoc"><a class="header" href="#filterattr-attrpathis_identdoc">.filter(|attr| attr.path().is_ident(“doc”))</a></h1>
-<h1 id="collect"><a class="header" href="#collect">.collect();</a></h1>
-<h1 id="-20"><a class="header" href="#-20"></a></h1>
-<h1 id="-场景名称"><a class="header" href="#-场景名称">// 场景名称</a></h1>
-<h1 id="let-scene_name--attrsnameunwrap_or_else-fn_nameto_string"><a class="header" href="#let-scene_name--attrsnameunwrap_or_else-fn_nameto_string">let scene_name = attrs.name.unwrap_or_else(|| fn_name.to_string());</a></h1>
-<h1 id="-21"><a class="header" href="#-21"></a></h1>
-<h1 id="-staticsceneconfig"><a class="header" href="#-staticsceneconfig">// StaticSceneConfig</a></h1>
-<h1 id="let-clear_color--attrsclear_colorunwrap_or333333ffto_string"><a class="header" href="#let-clear_color--attrsclear_colorunwrap_or333333ffto_string">let clear_color = attrs.clear_color.unwrap_or(“#333333ff”.to_string());</a></h1>
-<h1 id="let-scene_config--quote-"><a class="header" href="#let-scene_config--quote-">let scene_config = quote! {</a></h1>
-<h1 id="ranimstaticsceneconfig-"><a class="header" href="#ranimstaticsceneconfig-">#ranim::StaticSceneConfig {</a></h1>
-<h1 id="clear_color-clear_color"><a class="header" href="#clear_color-clear_color">clear_color: #clear_color,</a></h1>
-<h1 id="-22"><a class="header" href="#-22">}</a></h1>
-<h1 id="-23"><a class="header" href="#-23">};</a></h1>
-<h1 id="-24"><a class="header" href="#-24"></a></h1>
-<h1 id="-staticoutput-列表"><a class="header" href="#-staticoutput-列表">// StaticOutput 列表</a></h1>
-<h1 id="let-mut-outputs--vecnew"><a class="header" href="#let-mut-outputs--vecnew">let mut outputs = Vec::new();</a></h1>
-<h1 id="for-outputdef-"><a class="header" href="#for-outputdef-">for OutputDef {</a></h1>
-<h1 id="width"><a class="header" href="#width">width,</a></h1>
-<h1 id="height"><a class="header" href="#height">height,</a></h1>
-<h1 id="fps"><a class="header" href="#fps">fps,</a></h1>
-<h1 id="save_frames"><a class="header" href="#save_frames">save_frames,</a></h1>
-<h1 id="name"><a class="header" href="#name">name,</a></h1>
-<h1 id="dir"><a class="header" href="#dir">dir,</a></h1>
-<h1 id="format"><a class="header" href="#format">format,</a></h1>
-<h1 id="-in-attrsoutputs"><a class="header" href="#-in-attrsoutputs">} in attrs.outputs</a></h1>
-<h1 id="-25"><a class="header" href="#-25">{</a></h1>
-<h1 id="let-name_token--match-nameas_deref-"><a class="header" href="#let-name_token--match-nameas_deref-">let name_token = match name.as_deref() {</a></h1>
-<h1 id="somen-if-nis_empty--quote--somen-"><a class="header" href="#somen-if-nis_empty--quote--somen-">Some(n) if !n.is_empty() =&gt; quote! { Some(#n) },</a></h1>
-<h1 id="_--quote--none-"><a class="header" href="#_--quote--none-">_ =&gt; quote! { None },</a></h1>
-<h1 id="-26"><a class="header" href="#-26">};</a></h1>
-<h1 id="let-format_token--match-formatas_deref-"><a class="header" href="#let-format_token--match-formatas_deref-">let format_token = match format.as_deref() {</a></h1>
-<h1 id="somemp4--none--quote--ranimoutputformatmp4-"><a class="header" href="#somemp4--none--quote--ranimoutputformatmp4-">Some(“mp4”) | None =&gt; quote! { #ranim::OutputFormat::Mp4 },</a></h1>
-<h1 id="somewebm--quote--ranimoutputformatwebm-"><a class="header" href="#somewebm--quote--ranimoutputformatwebm-">Some(“webm”) =&gt; quote! { #ranim::OutputFormat::Webm },</a></h1>
-<h1 id="somemov--quote--ranimoutputformatmov-"><a class="header" href="#somemov--quote--ranimoutputformatmov-">Some(“mov”) =&gt; quote! { #ranim::OutputFormat::Mov },</a></h1>
-<h1 id="somegif--quote--ranimoutputformatgif-"><a class="header" href="#somegif--quote--ranimoutputformatgif-">Some(“gif”) =&gt; quote! { #ranim::OutputFormat::Gif },</a></h1>
-<h1 id="someother--panicunknown-output-format-other"><a class="header" href="#someother--panicunknown-output-format-other">Some(other) =&gt; panic!(“unknown output format: {other:?}”),</a></h1>
-<h1 id="-27"><a class="header" href="#-27">};</a></h1>
-<h1 id="outputspushquote-"><a class="header" href="#outputspushquote-">outputs.push(quote! {</a></h1>
-<h1 id="ranimstaticoutput-"><a class="header" href="#ranimstaticoutput-">#ranim::StaticOutput {</a></h1>
-<h1 id="width-width"><a class="header" href="#width-width">width: #width,</a></h1>
-<h1 id="height-height"><a class="header" href="#height-height">height: #height,</a></h1>
-<h1 id="fps-fps"><a class="header" href="#fps-fps">fps: #fps,</a></h1>
-<h1 id="save_frames-save_frames"><a class="header" href="#save_frames-save_frames">save_frames: #save_frames,</a></h1>
-<h1 id="name-name_token"><a class="header" href="#name-name_token">name: #name_token,</a></h1>
-<h1 id="dir-dir"><a class="header" href="#dir-dir">dir: #dir,</a></h1>
-<h1 id="format-format_token"><a class="header" href="#format-format_token">format: #format_token,</a></h1>
-<h1 id="-28"><a class="header" href="#-28">}</a></h1>
-<h1 id="-29"><a class="header" href="#-29">});</a></h1>
-<h1 id="-30"><a class="header" href="#-30">}</a></h1>
-<h1 id="if-outputsis_empty-"><a class="header" href="#if-outputsis_empty-">if outputs.is_empty() {</a></h1>
-<h1 id="outputspushquote--1"><a class="header" href="#outputspushquote--1">outputs.push(quote! {</a></h1>
-<h1 id="ranimstaticoutputdefault"><a class="header" href="#ranimstaticoutputdefault">#ranim::StaticOutput::DEFAULT</a></h1>
-<h1 id="-31"><a class="header" href="#-31">});</a></h1>
-<h1 id="-32"><a class="header" href="#-32">}</a></h1>
-<h1 id="-33"><a class="header" href="#-33"></a></h1>
-<h1 id="let-doc--if-attrswasm_demo_doc-"><a class="header" href="#let-doc--if-attrswasm_demo_doc-">let doc = if attrs.wasm_demo_doc {</a></h1>
-<h1 id="quote-"><a class="header" href="#quote-">quote! {</a></h1>
-<h1 id="doc--concatcanvas-idranim-app--stringifyfn_name--width1280-height720-stylewidth-100"><a class="header" href="#doc--concatcanvas-idranim-app--stringifyfn_name--width1280-height720-stylewidth-100">#[doc = concat!(“&lt;canvas id="ranim-app-”, stringify!(#fn_name), “" width="1280" height="720" style="width: 100%;"&gt;”)]</a></h1>
-<h1 id="doc--concatscript-typemodule"><a class="header" href="#doc--concatscript-typemodule">#[doc = concat!(“&lt;script type="module"&gt;”)]</a></h1>
-<h1 id="doc--concat--const--find_scene-preview_scene---await-ranim_examples"><a class="header" href="#doc--concat--const--find_scene-preview_scene---await-ranim_examples">#[doc = concat!(“  const { find_scene, preview_scene } = await ranim_examples;“)]</a></h1>
-<h1 id="doc--concat--preview_scenefind_scene-stringifyfn_name-"><a class="header" href="#doc--concat--preview_scenefind_scene-stringifyfn_name-">#[doc = concat!(“  preview_scene(find_scene("“, stringify!(#fn_name), “"));”)]</a></h1>
-<h1 id="doc--"><a class="header" href="#doc--">#[doc = “”]</a></h1>
-<h1 id="-34"><a class="header" href="#-34">}</a></h1>
-<h1 id="-else-"><a class="header" href="#-else-">} else {</a></h1>
-<h1 id="quote"><a class="header" href="#quote">quote!</a></h1>
-<h1 id="-35"><a class="header" href="#-35">};</a></h1>
-<h1 id="-36"><a class="header" href="#-36"></a></h1>
-<h1 id="let-static_output_name--synidentnew__outputs-fn_namespan"><a class="header" href="#let-static_output_name--synidentnew__outputs-fn_namespan">let static_output_name = syn::Ident::new(“__OUTPUTS”, fn_name.span());</a></h1>
-<h1 id="let-static_scene_name--synidentnew__scene-fn_namespan"><a class="header" href="#let-static_scene_name--synidentnew__scene-fn_namespan">let static_scene_name = syn::Ident::new(“__SCENE”, fn_name.span());</a></h1>
-<h1 id="-37"><a class="header" href="#-37"></a></h1>
-<h1 id="let-output_cnt--outputslen"><a class="header" href="#let-output_cnt--outputslen">let output_cnt = outputs.len();</a></h1>
-<h1 id="-38"><a class="header" href="#-38"></a></h1>
-<h1 id="let-scene--quote-"><a class="header" href="#let-scene--quote-">let scene = quote! {</a></h1>
-<h1 id="ranimstaticscene-"><a class="header" href="#ranimstaticscene-">#ranim::StaticScene {</a></h1>
-<h1 id="name-scene_name"><a class="header" href="#name-scene_name">name: #scene_name,</a></h1>
-<h1 id="constructor-superfn_name"><a class="header" href="#constructor-superfn_name">constructor: super::#fn_name,</a></h1>
-<h1 id="config-scene_config"><a class="header" href="#config-scene_config">config: #scene_config,</a></h1>
-<h1 id="outputs-static_output_name"><a class="header" href="#outputs-static_output_name">outputs: &amp;#static_output_name,</a></h1>
-<h1 id="-39"><a class="header" href="#-39">}</a></h1>
-<h1 id="-40"><a class="header" href="#-40">};</a></h1>
-<h1 id="-41"><a class="header" href="#-41"></a></h1>
-<pre><code>let expanded = quote! {
-    #doc
-    #(#doc_attrs)*
-    #vis fn #fn_name(r: &amp;mut #ranim::RanimScene) #fn_body
-
-    #[doc(hidden)]
-    #vis mod #fn_name {
-        /// The static outputs.
-        pub static #static_output_name: [#ranim::StaticOutput; #output_cnt] = [#(#outputs),*];
-        /// The static scene descriptor.
-        pub static #static_scene_name: #ranim::StaticScene = #scene;
-        #ranim::inventory::submit!{
-            #scene
-        }
-
-        pub fn scene() -&gt; #ranim::Scene {
-            #ranim::Scene::from(&amp;#static_scene_name)
-        }
-    }
+                        <h1 id="getting-started"><a class="header" href="#getting-started">Getting Started</a></h1>
+<p>Ranim 的场景由一个 <code>fn(&amp;mut RanimScene)</code> 函数构造。场景函数只负责定义动画；预览、渲染和输出配置由 <code>#[scene]</code>、<code>#[output]</code> 与 ranim CLI 处理。</p>
+<h2 id="准备项目"><a class="header" href="#准备项目">准备项目</a></h2>
+<p>使用 CLI 热加载 lib target 时，crate 需要生成动态库：</p>
+<pre><code class="language-toml">[lib]
+crate-type = ["rlib", "cdylib"]
+</code></pre>
+<p>动画代码通常从 prelude、item 类型和对应的动画扩展 trait 中导入 API：</p>
+<pre><code class="language-rust ignore">use ranim::{
+    anims::fading::FadingAnim,
+    color::palettes::manim,
+    items::vitem::geometry::Square,
+    prelude::*,
+};</code></pre>
+<h2 id="第一个场景"><a class="header" href="#第一个场景">第一个场景</a></h2>
+<p>下面的场景让一个蓝色正方形淡入、保持一秒，再淡出。相机作为独立 Sequence 与内容并行播放：</p>
+<pre><code class="language-rust ignore">use ranim::{
+    anims::fading::FadingAnim,
+    color::palettes::manim,
+    items::vitem::geometry::Square,
+    prelude::*,
 };
-</code></pre>
-<h1 id="-42"><a class="header" href="#-42"></a></h1>
-<h1 id="tokenstreamfromexpanded"><a class="header" href="#tokenstreamfromexpanded">TokenStream::from(expanded)</a></h1>
-<h1 id="-43"><a class="header" href="#-43">}</a></h1>
-<h1 id="-44"><a class="header" href="#-44"></a></h1>
-<h1 id="-define-a-video-output"><a class="header" href="#-define-a-video-output">/// Define a video output.</a></h1>
-<h1 id="-45"><a class="header" href="#-45">///</a></h1>
-<h1 id="-default-1920x1080-60fps-save_frames--false"><a class="header" href="#-default-1920x1080-60fps-save_frames--false">/// Default: 1920x1080 60fps, save_frames = false</a></h1>
-<h1 id="-46"><a class="header" href="#-46">///</a></h1>
-<h1 id="-available-attributes"><a class="header" href="#-available-attributes">/// Available attributes:</a></h1>
-<h1 id="---width-output-width-in-pixels"><a class="header" href="#---width-output-width-in-pixels">/// - <code>width</code>: output width in pixels</a></h1>
-<h1 id="---height-output-height-in-pixels"><a class="header" href="#---height-output-height-in-pixels">/// - <code>height</code>: output height in pixels</a></h1>
-<h1 id="---fps-frames-per-second"><a class="header" href="#---fps-frames-per-second">/// - <code>fps</code>: frames per second</a></h1>
-<h1 id="---save_frames-save-frames-to-disk"><a class="header" href="#---save_frames-save-frames-to-disk">/// - <code>save_frames</code>: save frames to disk</a></h1>
-<h1 id="---dir-directory-for-output"><a class="header" href="#---dir-directory-for-output">/// - <code>dir</code>: directory for output</a></h1>
-<h1 id="proc_macro_attribute-1"><a class="header" href="#proc_macro_attribute-1">#[proc_macro_attribute]</a></h1>
-<h1 id="pub-fn-output_-tokenstream-_-tokenstream---tokenstream-"><a class="header" href="#pub-fn-output_-tokenstream-_-tokenstream---tokenstream-">pub fn output(_: TokenStream, _: TokenStream) -&gt; TokenStream {</a></h1>
-<h1 id="tokenstreamnew"><a class="header" href="#tokenstreamnew">TokenStream::new()</a></h1>
-<h1 id="-47"><a class="header" href="#-47">}</a></h1>
-<h1 id="-48"><a class="header" href="#-48"></a></h1>
-<h1 id="-proc_macro_attribute"><a class="header" href="#-proc_macro_attribute">// #[proc_macro_attribute]</a></h1>
-<h1 id="-pub-fn-preview_-tokenstream-_-tokenstream---tokenstream-"><a class="header" href="#-pub-fn-preview_-tokenstream-_-tokenstream---tokenstream-">// pub fn preview(_: TokenStream, _: TokenStream) -&gt; TokenStream {</a></h1>
-<h1 id="-----tokenstreamnew"><a class="header" href="#-----tokenstreamnew">//     TokenStream::new()</a></h1>
-<h1 id="--1"><a class="header" href="#--1">// }</a></h1>
-<h1 id="-49"><a class="header" href="#-49"></a></h1>
-<h1 id="proc_macro_attribute-2"><a class="header" href="#proc_macro_attribute-2">#[proc_macro_attribute]</a></h1>
-<h1 id="pub-fn-wasm_demo_doc_attr-tokenstream-_-tokenstream---tokenstream-"><a class="header" href="#pub-fn-wasm_demo_doc_attr-tokenstream-_-tokenstream---tokenstream-">pub fn wasm_demo_doc(_attr: TokenStream, _: TokenStream) -&gt; TokenStream {</a></h1>
-<h1 id="tokenstreamnew-1"><a class="header" href="#tokenstreamnew-1">TokenStream::new()</a></h1>
-<h1 id="-50"><a class="header" href="#-50">}</a></h1>
-<h1 id="-51"><a class="header" href="#-51"></a></h1>
-<h1 id="-mark-derive-traits"><a class="header" href="#-mark-derive-traits">// MARK: derive Traits</a></h1>
-<h1 id="-52"><a class="header" href="#-52"></a></h1>
-<h1 id="proc_macro_derivefill"><a class="header" href="#proc_macro_derivefill">#[proc_macro_derive(Fill)]</a></h1>
-<h1 id="pub-fn-derive_fillinput-tokenstream---tokenstream-"><a class="header" href="#pub-fn-derive_fillinput-tokenstream---tokenstream-">pub fn derive_fill(input: TokenStream) -&gt; TokenStream {</a></h1>
-<h1 id="let-core--ranim_core_path"><a class="header" href="#let-core--ranim_core_path">let core = ranim_core_path();</a></h1>
-<h1 id="impl_deriveinput-quote-coretraitsfill-field_positions-"><a class="header" href="#impl_deriveinput-quote-coretraitsfill-field_positions-">impl_derive(input, quote! {#core::traits::Fill}, |field_positions| {</a></h1>
-<h1 id="quote--1"><a class="header" href="#quote--1">quote! {</a></h1>
-<h1 id="fn-set_fill_opacitymut-self-opacity-f32---mut-self-"><a class="header" href="#fn-set_fill_opacitymut-self-opacity-f32---mut-self-">fn set_fill_opacity(&amp;mut self, opacity: f32) -&gt; &amp;mut Self {</a></h1>
-<h1 id="-53"><a class="header" href="#-53">#(</a></h1>
-<h1 id="selffield_positionsset_fill_opacityopacity"><a class="header" href="#selffield_positionsset_fill_opacityopacity">self.#field_positions.set_fill_opacity(opacity);</a></h1>
-<h1 id="-54"><a class="header" href="#-54">)*</a></h1>
-<h1 id="self"><a class="header" href="#self">self</a></h1>
-<h1 id="-55"><a class="header" href="#-55">}</a></h1>
-<h1 id="fn-fill_colorself---corecoloralphacolorcorecolorsrgb-"><a class="header" href="#fn-fill_colorself---corecoloralphacolorcorecolorsrgb-">fn fill_color(&amp;self) -&gt; #core::color::AlphaColor&lt;#core::color::Srgb&gt; {</a></h1>
-<h1 id="selffield_positionsfill_color-firstclonedunwrap"><a class="header" href="#selffield_positionsfill_color-firstclonedunwrap">[#(self.#field_positions.fill_color(), )*].first().cloned().unwrap()</a></h1>
-<h1 id="-56"><a class="header" href="#-56">}</a></h1>
-<h1 id="fn-set_fill_colormut-self-color-corecoloralphacolorcorecolorsrgb---mut-self-"><a class="header" href="#fn-set_fill_colormut-self-color-corecoloralphacolorcorecolorsrgb---mut-self-">fn set_fill_color(&amp;mut self, color: #core::color::AlphaColor&lt;#core::color::Srgb&gt;) -&gt; &amp;mut Self {</a></h1>
-<h1 id="-57"><a class="header" href="#-57">#(</a></h1>
-<h1 id="selffield_positionsset_fill_colorcolor"><a class="header" href="#selffield_positionsset_fill_colorcolor">self.#field_positions.set_fill_color(color);</a></h1>
-<h1 id="-58"><a class="header" href="#-58">)*</a></h1>
-<h1 id="self-1"><a class="header" href="#self-1">self</a></h1>
-<h1 id="-59"><a class="header" href="#-59">}</a></h1>
-<h1 id="-60"><a class="header" href="#-60">}</a></h1>
-<h1 id="-61"><a class="header" href="#-61">})</a></h1>
-<h1 id="-62"><a class="header" href="#-62">}</a></h1>
-<h1 id="-63"><a class="header" href="#-63"></a></h1>
-<h1 id="proc_macro_derivestroke"><a class="header" href="#proc_macro_derivestroke">#[proc_macro_derive(Stroke)]</a></h1>
-<h1 id="pub-fn-derive_strokeinput-tokenstream---tokenstream-"><a class="header" href="#pub-fn-derive_strokeinput-tokenstream---tokenstream-">pub fn derive_stroke(input: TokenStream) -&gt; TokenStream {</a></h1>
-<h1 id="let-core--ranim_core_path-1"><a class="header" href="#let-core--ranim_core_path-1">let core = ranim_core_path();</a></h1>
-<h1 id="impl_deriveinput-quote-coretraitsstroke-field_positions-"><a class="header" href="#impl_deriveinput-quote-coretraitsstroke-field_positions-">impl_derive(input, quote! {#core::traits::Stroke}, |field_positions| {</a></h1>
-<h1 id="quote--2"><a class="header" href="#quote--2">quote! {</a></h1>
-<h1 id="fn-stroke_colorself---corecoloralphacolorcorecolorsrgb-"><a class="header" href="#fn-stroke_colorself---corecoloralphacolorcorecolorsrgb-">fn stroke_color(&amp;self) -&gt; #core::color::AlphaColor&lt;#core::color::Srgb&gt; {</a></h1>
-<h1 id="selffield_positionsstroke_color-firstclonedunwrap"><a class="header" href="#selffield_positionsstroke_color-firstclonedunwrap">[#(self.#field_positions.stroke_color(), )*].first().cloned().unwrap()</a></h1>
-<h1 id="-64"><a class="header" href="#-64">}</a></h1>
-<h1 id="fn-apply_stroke_funcmut-self-f-impl-fora-fna-mut-corecomponentswidthwidth---mut-self-"><a class="header" href="#fn-apply_stroke_funcmut-self-f-impl-fora-fna-mut-corecomponentswidthwidth---mut-self-">fn apply_stroke_func(&amp;mut self, f: impl for&lt;’a&gt; Fn(&amp;’a mut [#core::components::width::Width])) -&gt; &amp;mut Self {</a></h1>
-<h1 id="-65"><a class="header" href="#-65">#(</a></h1>
-<h1 id="selffield_positionsapply_stroke_funcf"><a class="header" href="#selffield_positionsapply_stroke_funcf">self.#field_positions.apply_stroke_func(&amp;f);</a></h1>
-<h1 id="-66"><a class="header" href="#-66">)*</a></h1>
-<h1 id="self-2"><a class="header" href="#self-2">self</a></h1>
-<h1 id="-67"><a class="header" href="#-67">}</a></h1>
-<h1 id="fn-set_stroke_colormut-self-color-corecoloralphacolorcorecolorsrgb---mut-self-"><a class="header" href="#fn-set_stroke_colormut-self-color-corecoloralphacolorcorecolorsrgb---mut-self-">fn set_stroke_color(&amp;mut self, color: #core::color::AlphaColor&lt;#core::color::Srgb&gt;) -&gt; &amp;mut Self {</a></h1>
-<h1 id="-68"><a class="header" href="#-68">#(</a></h1>
-<h1 id="selffield_positionsset_stroke_colorcolor"><a class="header" href="#selffield_positionsset_stroke_colorcolor">self.#field_positions.set_stroke_color(color);</a></h1>
-<h1 id="-69"><a class="header" href="#-69">)*</a></h1>
-<h1 id="self-3"><a class="header" href="#self-3">self</a></h1>
-<h1 id="-70"><a class="header" href="#-70">}</a></h1>
-<h1 id="fn-set_stroke_opacitymut-self-opacity-f32---mut-self-"><a class="header" href="#fn-set_stroke_opacitymut-self-opacity-f32---mut-self-">fn set_stroke_opacity(&amp;mut self, opacity: f32) -&gt; &amp;mut Self {</a></h1>
-<h1 id="-71"><a class="header" href="#-71">#(</a></h1>
-<h1 id="selffield_positionsset_stroke_opacityopacity"><a class="header" href="#selffield_positionsset_stroke_opacityopacity">self.#field_positions.set_stroke_opacity(opacity);</a></h1>
-<h1 id="-72"><a class="header" href="#-72">)*</a></h1>
-<h1 id="self-4"><a class="header" href="#self-4">self</a></h1>
-<h1 id="-73"><a class="header" href="#-73">}</a></h1>
-<h1 id="-74"><a class="header" href="#-74">}</a></h1>
-<h1 id="-75"><a class="header" href="#-75">})</a></h1>
-<h1 id="-76"><a class="header" href="#-76">}</a></h1>
-<h1 id="-77"><a class="header" href="#-77"></a></h1>
-<h1 id="proc_macro_derivepartial"><a class="header" href="#proc_macro_derivepartial">#[proc_macro_derive(Partial)]</a></h1>
-<h1 id="pub-fn-derive_partialinput-tokenstream---tokenstream-"><a class="header" href="#pub-fn-derive_partialinput-tokenstream---tokenstream-">pub fn derive_partial(input: TokenStream) -&gt; TokenStream {</a></h1>
-<h1 id="let-core--ranim_core_path-2"><a class="header" href="#let-core--ranim_core_path-2">let core = ranim_core_path();</a></h1>
-<h1 id="impl_deriveinput-quote-coretraitspartial-field_positions-"><a class="header" href="#impl_deriveinput-quote-coretraitspartial-field_positions-">impl_derive(input, quote! {#core::traits::Partial}, |field_positions| {</a></h1>
-<h1 id="quote--3"><a class="header" href="#quote--3">quote! {</a></h1>
-<h1 id="fn-get_partialself-range-stdopsrange---self-"><a class="header" href="#fn-get_partialself-range-stdopsrange---self-">fn get_partial(&amp;self, range: std::ops::Range<f64>) -&gt; Self {</f64></a></h1>
-<h1 id="self-"><a class="header" href="#self-">Self {</a></h1>
-<h1 id="-78"><a class="header" href="#-78">#(</a></h1>
-<h1 id="field_positions-selffield_positionsget_partialrangeclone"><a class="header" href="#field_positions-selffield_positionsget_partialrangeclone">#field_positions: self.#field_positions.get_partial(range.clone()),</a></h1>
-<h1 id="-79"><a class="header" href="#-79">)*</a></h1>
-<h1 id="-80"><a class="header" href="#-80">}</a></h1>
-<h1 id="-81"><a class="header" href="#-81">}</a></h1>
-<h1 id="fn-get_partial_closedself-range-stdopsrange---self-"><a class="header" href="#fn-get_partial_closedself-range-stdopsrange---self-">fn get_partial_closed(&amp;self, range: std::ops::Range<f64>) -&gt; Self {</f64></a></h1>
-<h1 id="self--1"><a class="header" href="#self--1">Self {</a></h1>
-<h1 id="-82"><a class="header" href="#-82">#(</a></h1>
-<h1 id="field_positions-selffield_positionsget_partialrangeclone-1"><a class="header" href="#field_positions-selffield_positionsget_partialrangeclone-1">#field_positions: self.#field_positions.get_partial(range.clone()),</a></h1>
-<h1 id="-83"><a class="header" href="#-83">)*</a></h1>
-<h1 id="-84"><a class="header" href="#-84">}</a></h1>
-<h1 id="-85"><a class="header" href="#-85">}</a></h1>
-<h1 id="-86"><a class="header" href="#-86">}</a></h1>
-<h1 id="-87"><a class="header" href="#-87">})</a></h1>
-<h1 id="-88"><a class="header" href="#-88">}</a></h1>
-<h1 id="-89"><a class="header" href="#-89"></a></h1>
-<h1 id="proc_macro_deriveempty"><a class="header" href="#proc_macro_deriveempty">#[proc_macro_derive(Empty)]</a></h1>
-<h1 id="pub-fn-derive_emptyinput-tokenstream---tokenstream-"><a class="header" href="#pub-fn-derive_emptyinput-tokenstream---tokenstream-">pub fn derive_empty(input: TokenStream) -&gt; TokenStream {</a></h1>
-<h1 id="let-core--ranim_core_path-3"><a class="header" href="#let-core--ranim_core_path-3">let core = ranim_core_path();</a></h1>
-<h1 id="let-input--parse_macro_inputinput-as-deriveinput"><a class="header" href="#let-input--parse_macro_inputinput-as-deriveinput">let input = parse_macro_input!(input as DeriveInput);</a></h1>
-<h1 id="let-name--inputident"><a class="header" href="#let-name--inputident">let name = &amp;input.ident;</a></h1>
-<h1 id="let-generics--inputgenerics"><a class="header" href="#let-generics--inputgenerics">let generics = &amp;input.generics;</a></h1>
-<h1 id="let-impl_generics-ty_generics-where_clause--genericssplit_for_impl"><a class="header" href="#let-impl_generics-ty_generics-where_clause--genericssplit_for_impl">let (impl_generics, ty_generics, where_clause) = generics.split_for_impl();</a></h1>
-<h1 id="-90"><a class="header" href="#-90"></a></h1>
-<h1 id="let-fields--match-inputdata-"><a class="header" href="#let-fields--match-inputdata-">let fields = match &amp;input.data {</a></h1>
-<h1 id="datastructdata--datafields"><a class="header" href="#datastructdata--datafields">Data::Struct(data) =&gt; &amp;data.fields,</a></h1>
-<h1 id="_--panicempty-can-only-be-derived-for-structs"><a class="header" href="#_--panicempty-can-only-be-derived-for-structs">_ =&gt; panic!(“Empty can only be derived for structs”),</a></h1>
-<h1 id="-91"><a class="header" href="#-91">};</a></h1>
-<h1 id="-92"><a class="header" href="#-92"></a></h1>
-<h1 id="let-field_impls--match-fields-"><a class="header" href="#let-field_impls--match-fields-">let field_impls = match fields {</a></h1>
-<h1 id="fieldsnamedfields--"><a class="header" href="#fieldsnamedfields--">Fields::Named(fields) =&gt; {</a></h1>
-<h1 id="let-field_names-field_types-vec-vec-"><a class="header" href="#let-field_names-field_types-vec-vec-">let (field_names, field_types): (Vec&lt;<em>&gt;, Vec&lt;</em>&gt;) =</a></h1>
-<h1 id="fieldsnameditermapf-fident-ftyunzip"><a class="header" href="#fieldsnameditermapf-fident-ftyunzip">fields.named.iter().map(|f| (&amp;f.ident, &amp;f.ty)).unzip();</a></h1>
-<h1 id="-93"><a class="header" href="#-93"></a></h1>
-<h1 id="quote--4"><a class="header" href="#quote--4">quote! {</a></h1>
-<h1 id="self--2"><a class="header" href="#self--2">Self {</a></h1>
-<h1 id="-94"><a class="header" href="#-94">#(</a></h1>
-<h1 id="field_names-field_typesempty"><a class="header" href="#field_names-field_typesempty">#field_names: #field_types::empty(),</a></h1>
-<h1 id="-95"><a class="header" href="#-95">)*</a></h1>
-<h1 id="-96"><a class="header" href="#-96">}</a></h1>
-<h1 id="-97"><a class="header" href="#-97">}</a></h1>
-<h1 id="-98"><a class="header" href="#-98">}</a></h1>
-<h1 id="fieldsunnamedfields--"><a class="header" href="#fieldsunnamedfields--">Fields::Unnamed(fields) =&gt; {</a></h1>
-<h1 id="let-field_types--fieldsunnameditermapf-fty"><a class="header" href="#let-field_types--fieldsunnameditermapf-fty">let field_types = fields.unnamed.iter().map(|f| &amp;f.ty);</a></h1>
-<h1 id="quote--5"><a class="header" href="#quote--5">quote! {</a></h1>
-<h1 id="self--3"><a class="header" href="#self--3">Self (</a></h1>
-<h1 id="-99"><a class="header" href="#-99">#(</a></h1>
-<h1 id="field_typesempty"><a class="header" href="#field_typesempty">#field_types::empty(),</a></h1>
-<h1 id="-100"><a class="header" href="#-100">)*</a></h1>
-<h1 id="-101"><a class="header" href="#-101">)</a></h1>
-<h1 id="-102"><a class="header" href="#-102">}</a></h1>
-<h1 id="-103"><a class="header" href="#-103">}</a></h1>
-<h1 id="fieldsunit--quote-"><a class="header" href="#fieldsunit--quote-">Fields::Unit =&gt; quote! {},</a></h1>
-<h1 id="-104"><a class="header" href="#-104">};</a></h1>
-<h1 id="-105"><a class="header" href="#-105"></a></h1>
-<h1 id="let-expanded--quote-"><a class="header" href="#let-expanded--quote-">let expanded = quote! {</a></h1>
-<h1 id="impl-impl_generics-coretraitsempty-for-name-ty_generics-where_clause-"><a class="header" href="#impl-impl_generics-coretraitsempty-for-name-ty_generics-where_clause-">impl #impl_generics #core::traits::Empty for #name #ty_generics #where_clause {</a></h1>
-<h1 id="fn-empty---self-"><a class="header" href="#fn-empty---self-">fn empty() -&gt; Self {</a></h1>
-<h1 id="field_impls"><a class="header" href="#field_impls">#field_impls</a></h1>
-<h1 id="-106"><a class="header" href="#-106">}</a></h1>
-<h1 id="-107"><a class="header" href="#-107">}</a></h1>
-<h1 id="-108"><a class="header" href="#-108">};</a></h1>
-<h1 id="-109"><a class="header" href="#-109"></a></h1>
-<h1 id="tokenstreamfromexpanded-1"><a class="header" href="#tokenstreamfromexpanded-1">TokenStream::from(expanded)</a></h1>
-<h1 id="-110"><a class="header" href="#-110">}</a></h1>
-<h1 id="-111"><a class="header" href="#-111"></a></h1>
-<h1 id="proc_macro_deriveopacity"><a class="header" href="#proc_macro_deriveopacity">#[proc_macro_derive(Opacity)]</a></h1>
-<h1 id="pub-fn-derive_opacityinput-tokenstream---tokenstream-"><a class="header" href="#pub-fn-derive_opacityinput-tokenstream---tokenstream-">pub fn derive_opacity(input: TokenStream) -&gt; TokenStream {</a></h1>
-<h1 id="let-core--ranim_core_path-4"><a class="header" href="#let-core--ranim_core_path-4">let core = ranim_core_path();</a></h1>
-<h1 id="impl_deriveinput-quote-coretraitsopacity-field_positions-"><a class="header" href="#impl_deriveinput-quote-coretraitsopacity-field_positions-">impl_derive(input, quote! {#core::traits::Opacity}, |field_positions| {</a></h1>
-<h1 id="quote--6"><a class="header" href="#quote--6">quote! {</a></h1>
-<h1 id="fn-set_opacitymut-self-opacity-f32---mut-self-"><a class="header" href="#fn-set_opacitymut-self-opacity-f32---mut-self-">fn set_opacity(&amp;mut self, opacity: f32) -&gt; &amp;mut Self {</a></h1>
-<h1 id="-112"><a class="header" href="#-112">#(</a></h1>
-<h1 id="selffield_positionsset_opacityopacity"><a class="header" href="#selffield_positionsset_opacityopacity">self.#field_positions.set_opacity(opacity);</a></h1>
-<h1 id="-113"><a class="header" href="#-113">)*</a></h1>
-<h1 id="self-5"><a class="header" href="#self-5">self</a></h1>
-<h1 id="-114"><a class="header" href="#-114">}</a></h1>
-<h1 id="-115"><a class="header" href="#-115">}</a></h1>
-<h1 id="-116"><a class="header" href="#-116">})</a></h1>
-<h1 id="-117"><a class="header" href="#-117">}</a></h1>
-<h1 id="-118"><a class="header" href="#-118"></a></h1>
-<h1 id="proc_macro_derivealignable"><a class="header" href="#proc_macro_derivealignable">#[proc_macro_derive(Alignable)]</a></h1>
-<h1 id="pub-fn-derive_alignableinput-tokenstream---tokenstream-"><a class="header" href="#pub-fn-derive_alignableinput-tokenstream---tokenstream-">pub fn derive_alignable(input: TokenStream) -&gt; TokenStream {</a></h1>
-<h1 id="let-core--ranim_core_path-5"><a class="header" href="#let-core--ranim_core_path-5">let core = ranim_core_path();</a></h1>
-<h1 id="impl_derive"><a class="header" href="#impl_derive">impl_derive(</a></h1>
-<h1 id="input"><a class="header" href="#input">input,</a></h1>
-<h1 id="quote-coretraitsalignable"><a class="header" href="#quote-coretraitsalignable">quote! {#core::traits::Alignable},</a></h1>
-<h1 id="field_positions-"><a class="header" href="#field_positions-">|field_positions| {</a></h1>
-<h1 id="quote--7"><a class="header" href="#quote--7">quote! {</a></h1>
-<h1 id="fn-is_alignedself-other-self---bool-"><a class="header" href="#fn-is_alignedself-other-self---bool-">fn is_aligned(&amp;self, other: &amp;Self) -&gt; bool {</a></h1>
-<h1 id="-119"><a class="header" href="#-119">#(</a></h1>
-<h1 id="selffield_positionsis_alignedotherfield_positions-"><a class="header" href="#selffield_positionsis_alignedotherfield_positions-">self.#field_positions.is_aligned(&amp;other.#field_positions) &amp;&amp;</a></h1>
-<h1 id="-true"><a class="header" href="#-true">)* true</a></h1>
-<h1 id="-120"><a class="header" href="#-120">}</a></h1>
-<h1 id="fn-align_withmut-self-other-mut-self-"><a class="header" href="#fn-align_withmut-self-other-mut-self-">fn align_with(&amp;mut self, other: &amp;mut Self) {</a></h1>
-<h1 id="-121"><a class="header" href="#-121">#(</a></h1>
-<h1 id="selffield_positionsalign_withmut-otherfield_positions"><a class="header" href="#selffield_positionsalign_withmut-otherfield_positions">self.#field_positions.align_with(&amp;mut other.#field_positions);</a></h1>
-<h1 id="-122"><a class="header" href="#-122">)*</a></h1>
-<h1 id="-123"><a class="header" href="#-123">}</a></h1>
-<h1 id="-124"><a class="header" href="#-124">}</a></h1>
-<h1 id="-125"><a class="header" href="#-125">},</a></h1>
-<h1 id="-126"><a class="header" href="#-126">)</a></h1>
-<h1 id="-127"><a class="header" href="#-127">}</a></h1>
-<h1 id="-128"><a class="header" href="#-128"></a></h1>
-<h1 id="proc_macro_deriveinterpolatable"><a class="header" href="#proc_macro_deriveinterpolatable">#[proc_macro_derive(Interpolatable)]</a></h1>
-<h1 id="pub-fn-derive_interpolatableinput-tokenstream---tokenstream-"><a class="header" href="#pub-fn-derive_interpolatableinput-tokenstream---tokenstream-">pub fn derive_interpolatable(input: TokenStream) -&gt; TokenStream {</a></h1>
-<h1 id="let-core--ranim_core_path-6"><a class="header" href="#let-core--ranim_core_path-6">let core = ranim_core_path();</a></h1>
-<h1 id="impl_derive-1"><a class="header" href="#impl_derive-1">impl_derive(</a></h1>
-<h1 id="input-1"><a class="header" href="#input-1">input,</a></h1>
-<h1 id="quote-coretraitsinterpolatable"><a class="header" href="#quote-coretraitsinterpolatable">quote! {#core::traits::Interpolatable},</a></h1>
-<h1 id="field_positions--1"><a class="header" href="#field_positions--1">|field_positions| {</a></h1>
-<h1 id="quote--8"><a class="header" href="#quote--8">quote! {</a></h1>
-<h1 id="fn-lerpself-other-self-t-f64---self-"><a class="header" href="#fn-lerpself-other-self-t-f64---self-">fn lerp(&amp;self, other: &amp;Self, t: f64) -&gt; Self {</a></h1>
-<h1 id="self--4"><a class="header" href="#self--4">Self {</a></h1>
-<h1 id="-129"><a class="header" href="#-129">#(</a></h1>
-<h1 id="field_positions-coretraitsinterpolatablelerpselffield_positions-otherfield_positions-t"><a class="header" href="#field_positions-coretraitsinterpolatablelerpselffield_positions-otherfield_positions-t">#field_positions: #core::traits::Interpolatable::lerp(&amp;self.#field_positions, &amp;other.#field_positions, t),</a></h1>
-<h1 id="-130"><a class="header" href="#-130">)*</a></h1>
-<h1 id="-131"><a class="header" href="#-131">}</a></h1>
-<h1 id="-132"><a class="header" href="#-132">}</a></h1>
-<h1 id="-133"><a class="header" href="#-133">}</a></h1>
-<h1 id="-134"><a class="header" href="#-134">},</a></h1>
-<h1 id="-135"><a class="header" href="#-135">)</a></h1>
-<h1 id="-136"><a class="header" href="#-136">}</a></h1>
-<h1 id="-137"><a class="header" href="#-137"></a></h1>
-<h1 id="proc_macro_deriveshifttransform"><a class="header" href="#proc_macro_deriveshifttransform">#[proc_macro_derive(ShiftTransform)]</a></h1>
-<h1 id="pub-fn-derive_shift_implinput-tokenstream---tokenstream-"><a class="header" href="#pub-fn-derive_shift_implinput-tokenstream---tokenstream-">pub fn derive_shift_impl(input: TokenStream) -&gt; TokenStream {</a></h1>
-<h1 id="let-core--ranim_core_path-7"><a class="header" href="#let-core--ranim_core_path-7">let core = ranim_core_path();</a></h1>
-<h1 id="impl_derive-2"><a class="header" href="#impl_derive-2">impl_derive(</a></h1>
-<h1 id="input-2"><a class="header" href="#input-2">input,</a></h1>
-<h1 id="quote-coretraitsshifttransform"><a class="header" href="#quote-coretraitsshifttransform">quote! {#core::traits::ShiftTransform},</a></h1>
-<h1 id="field_positions--2"><a class="header" href="#field_positions--2">|field_positions| {</a></h1>
-<h1 id="quote--9"><a class="header" href="#quote--9">quote! {</a></h1>
-<h1 id="fn-shiftmut-self-shift-coreglamdvec3---mut-self-"><a class="header" href="#fn-shiftmut-self-shift-coreglamdvec3---mut-self-">fn shift(&amp;mut self, shift: #core::glam::DVec3) -&gt; &amp;mut Self {</a></h1>
-<h1 id="selffield_positionsshiftshift"><a class="header" href="#selffield_positionsshiftshift">#(self.#field_positions.shift(shift);)*</a></h1>
-<h1 id="self-6"><a class="header" href="#self-6">self</a></h1>
-<h1 id="-138"><a class="header" href="#-138">}</a></h1>
-<h1 id="-139"><a class="header" href="#-139">}</a></h1>
-<h1 id="-140"><a class="header" href="#-140">},</a></h1>
-<h1 id="-141"><a class="header" href="#-141">)</a></h1>
-<h1 id="-142"><a class="header" href="#-142">}</a></h1>
-<h1 id="-143"><a class="header" href="#-143"></a></h1>
-<h1 id="proc_macro_deriverotatetransform"><a class="header" href="#proc_macro_deriverotatetransform">#[proc_macro_derive(RotateTransform)]</a></h1>
-<h1 id="pub-fn-derive_rotate_implinput-tokenstream---tokenstream-"><a class="header" href="#pub-fn-derive_rotate_implinput-tokenstream---tokenstream-">pub fn derive_rotate_impl(input: TokenStream) -&gt; TokenStream {</a></h1>
-<h1 id="let-core--ranim_core_path-8"><a class="header" href="#let-core--ranim_core_path-8">let core = ranim_core_path();</a></h1>
-<h1 id="impl_derive-3"><a class="header" href="#impl_derive-3">impl_derive(</a></h1>
-<h1 id="input-3"><a class="header" href="#input-3">input,</a></h1>
-<h1 id="quote-coretraitsrotatetransform"><a class="header" href="#quote-coretraitsrotatetransform">quote! {#core::traits::RotateTransform},</a></h1>
-<h1 id="field_positions--3"><a class="header" href="#field_positions--3">|field_positions| {</a></h1>
-<h1 id="quote--10"><a class="header" href="#quote--10">quote! {</a></h1>
-<h1 id="fn-rotate_on_axismut-self-axis-coreglamdvec3-angle-f64---mut-self-"><a class="header" href="#fn-rotate_on_axismut-self-axis-coreglamdvec3-angle-f64---mut-self-">fn rotate_on_axis(&amp;mut self, axis: #core::glam::DVec3, angle: f64) -&gt; &amp;mut Self {</a></h1>
-<h1 id="selffield_positionsrotate_on_axisaxis-angle"><a class="header" href="#selffield_positionsrotate_on_axisaxis-angle">#(self.#field_positions.rotate_on_axis(axis, angle);)*</a></h1>
-<h1 id="self-7"><a class="header" href="#self-7">self</a></h1>
-<h1 id="-144"><a class="header" href="#-144">}</a></h1>
-<h1 id="-145"><a class="header" href="#-145">}</a></h1>
-<h1 id="-146"><a class="header" href="#-146">},</a></h1>
-<h1 id="-147"><a class="header" href="#-147">)</a></h1>
-<h1 id="-148"><a class="header" href="#-148">}</a></h1>
-<h1 id="-149"><a class="header" href="#-149"></a></h1>
-<h1 id="proc_macro_derivescaletransform"><a class="header" href="#proc_macro_derivescaletransform">#[proc_macro_derive(ScaleTransform)]</a></h1>
-<h1 id="pub-fn-derive_scale_implinput-tokenstream---tokenstream-"><a class="header" href="#pub-fn-derive_scale_implinput-tokenstream---tokenstream-">pub fn derive_scale_impl(input: TokenStream) -&gt; TokenStream {</a></h1>
-<h1 id="let-core--ranim_core_path-9"><a class="header" href="#let-core--ranim_core_path-9">let core = ranim_core_path();</a></h1>
-<h1 id="impl_derive-4"><a class="header" href="#impl_derive-4">impl_derive(</a></h1>
-<h1 id="input-4"><a class="header" href="#input-4">input,</a></h1>
-<h1 id="quote-coretraitsscaletransform"><a class="header" href="#quote-coretraitsscaletransform">quote! {#core::traits::ScaleTransform},</a></h1>
-<h1 id="field_positions--4"><a class="header" href="#field_positions--4">|field_positions| {</a></h1>
-<h1 id="quote--11"><a class="header" href="#quote--11">quote! {</a></h1>
-<h1 id="fn-scalemut-self-scale-coreglamdvec3---mut-self-"><a class="header" href="#fn-scalemut-self-scale-coreglamdvec3---mut-self-">fn scale(&amp;mut self, scale: #core::glam::DVec3) -&gt; &amp;mut Self {</a></h1>
-<h1 id="selffield_positionsscalescale"><a class="header" href="#selffield_positionsscalescale">#(self.#field_positions.scale(scale);)*</a></h1>
-<h1 id="self-8"><a class="header" href="#self-8">self</a></h1>
-<h1 id="-150"><a class="header" href="#-150">}</a></h1>
-<h1 id="-151"><a class="header" href="#-151">}</a></h1>
-<h1 id="-152"><a class="header" href="#-152">},</a></h1>
-<h1 id="-153"><a class="header" href="#-153">)</a></h1>
-<h1 id="-154"><a class="header" href="#-154">}</a></h1>
-<h1 id="-155"><a class="header" href="#-155"></a></h1>
-<h1 id="proc_macro_derivepointsfunc"><a class="header" href="#proc_macro_derivepointsfunc">#[proc_macro_derive(PointsFunc)]</a></h1>
-<h1 id="pub-fn-derive_point_funcinput-tokenstream---tokenstream-"><a class="header" href="#pub-fn-derive_point_funcinput-tokenstream---tokenstream-">pub fn derive_point_func(input: TokenStream) -&gt; TokenStream {</a></h1>
-<h1 id="let-core--ranim_core_path-10"><a class="header" href="#let-core--ranim_core_path-10">let core = ranim_core_path();</a></h1>
-<h1 id="impl_derive-5"><a class="header" href="#impl_derive-5">impl_derive(</a></h1>
-<h1 id="input-5"><a class="header" href="#input-5">input,</a></h1>
-<h1 id="quote-coretraitspointsfunc"><a class="header" href="#quote-coretraitspointsfunc">quote! {#core::traits::PointsFunc},</a></h1>
-<h1 id="field_positions--5"><a class="header" href="#field_positions--5">|field_positions| {</a></h1>
-<h1 id="quote--12"><a class="header" href="#quote--12">quote! {</a></h1>
-<h1 id="fn-apply_points_funcmut-self-f-impl-fora-fna-mut-dvec3---mut-self-"><a class="header" href="#fn-apply_points_funcmut-self-f-impl-fora-fna-mut-dvec3---mut-self-">fn apply_points_func(&amp;mut self, f: impl for&lt;’a&gt; Fn(&amp;’a mut [DVec3])) -&gt; &amp;mut Self {</a></h1>
-<h1 id="selffield_positionsapply_points_funcf"><a class="header" href="#selffield_positionsapply_points_funcf">#(self.#field_positions.apply_points_func(f);)*</a></h1>
-<h1 id="self-9"><a class="header" href="#self-9">self</a></h1>
-<h1 id="-156"><a class="header" href="#-156">}</a></h1>
-<h1 id="-157"><a class="header" href="#-157">}</a></h1>
-<h1 id="-158"><a class="header" href="#-158">},</a></h1>
-<h1 id="-159"><a class="header" href="#-159">)</a></h1>
-<h1 id="-160"><a class="header" href="#-160">}</a></h1>
-<h1 id="-161"><a class="header" href="#-161"></a></h1>
-<h1 id="fn-impl_derive"><a class="header" href="#fn-impl_derive">fn impl_derive(</a></h1>
-<h1 id="input-tokenstream"><a class="header" href="#input-tokenstream">input: TokenStream,</a></h1>
-<h1 id="trait_path-proc_macro2tokenstream"><a class="header" href="#trait_path-proc_macro2tokenstream">trait_path: proc_macro2::TokenStream,</a></h1>
-<h1 id="impl_token-impl-fnvecproc_macro2tokenstream---proc_macro2tokenstream"><a class="header" href="#impl_token-impl-fnvecproc_macro2tokenstream---proc_macro2tokenstream">impl_token: impl Fn(Vec&lt;proc_macro2::TokenStream&gt;) -&gt; proc_macro2::TokenStream,</a></h1>
-<h1 id="---tokenstream-"><a class="header" href="#---tokenstream-">) -&gt; TokenStream {</a></h1>
-<h1 id="let-input--parse_macro_inputinput-as-deriveinput-1"><a class="header" href="#let-input--parse_macro_inputinput-as-deriveinput-1">let input = parse_macro_input!(input as DeriveInput);</a></h1>
-<h1 id="let-name--inputident-1"><a class="header" href="#let-name--inputident-1">let name = &amp;input.ident;</a></h1>
-<h1 id="let-generics--inputgenerics-1"><a class="header" href="#let-generics--inputgenerics-1">let generics = &amp;input.generics;</a></h1>
-<h1 id="let-impl_generics-ty_generics-where_clause--genericssplit_for_impl-1"><a class="header" href="#let-impl_generics-ty_generics-where_clause--genericssplit_for_impl-1">let (impl_generics, ty_generics, where_clause) = generics.split_for_impl();</a></h1>
-<h1 id="-162"><a class="header" href="#-162"></a></h1>
-<h1 id="let-fields--match-inputdata--1"><a class="header" href="#let-fields--match-inputdata--1">let fields = match &amp;input.data {</a></h1>
-<h1 id="datastructdata--datafields-1"><a class="header" href="#datastructdata--datafields-1">Data::Struct(data) =&gt; &amp;data.fields,</a></h1>
-<h1 id="_--paniccan-only-be-derived-for-structs"><a class="header" href="#_--paniccan-only-be-derived-for-structs">_ =&gt; panic!(“Can only be derived for structs”),</a></h1>
-<h1 id="-163"><a class="header" href="#-163">};</a></h1>
-<h1 id="-164"><a class="header" href="#-164"></a></h1>
-<h1 id="let-field_positions--get_field_positionsfields"><a class="header" href="#let-field_positions--get_field_positionsfields">let field_positions = get_field_positions(fields)</a></h1>
-<h1 id="ok_orcannot-get-field-from-unit-struct"><a class="header" href="#ok_orcannot-get-field-from-unit-struct">.ok_or(“cannot get field from unit struct”)</a></h1>
-<h1 id="unwrap"><a class="header" href="#unwrap">.unwrap();</a></h1>
-<h1 id="-165"><a class="header" href="#-165"></a></h1>
-<h1 id="let-impl_token--impl_tokenfield_positions"><a class="header" href="#let-impl_token--impl_tokenfield_positions">let impl_token = impl_token(field_positions);</a></h1>
-<h1 id="let-expanded--quote--1"><a class="header" href="#let-expanded--quote--1">let expanded = quote! {</a></h1>
-<h1 id="impl-impl_generics-trait_path-for-name-ty_generics-where_clause-"><a class="header" href="#impl-impl_generics-trait_path-for-name-ty_generics-where_clause-">impl #impl_generics #trait_path for #name #ty_generics #where_clause {</a></h1>
-<h1 id="impl_token"><a class="header" href="#impl_token">#impl_token</a></h1>
-<h1 id="-166"><a class="header" href="#-166">}</a></h1>
-<h1 id="-167"><a class="header" href="#-167">};</a></h1>
-<h1 id="-168"><a class="header" href="#-168"></a></h1>
-<h1 id="tokenstreamfromexpanded-2"><a class="header" href="#tokenstreamfromexpanded-2">TokenStream::from(expanded)</a></h1>
-<h1 id="-169"><a class="header" href="#-169">}</a></h1>
-<h1 id="-170"><a class="header" href="#-170"></a></h1>
-<h1 id="fn-get_field_positionsfields-fields---optionvecproc_macro2tokenstream-"><a class="header" href="#fn-get_field_positionsfields-fields---optionvecproc_macro2tokenstream-">fn get_field_positions(fields: &amp;Fields) -&gt; Option&lt;Vec&lt;proc_macro2::TokenStream&gt;&gt; {</a></h1>
-<h1 id="match-fields-"><a class="header" href="#match-fields-">match fields {</a></h1>
-<h1 id="fieldsnamedfields--some"><a class="header" href="#fieldsnamedfields--some">Fields::Named(fields) =&gt; Some(</a></h1>
-<h1 id="fields"><a class="header" href="#fields">fields</a></h1>
-<h1 id="named"><a class="header" href="#named">.named</a></h1>
-<h1 id="iter-1"><a class="header" href="#iter-1">.iter()</a></h1>
-<h1 id="mapf-"><a class="header" href="#mapf-">.map(|f| {</a></h1>
-<h1 id="let-pos--fident"><a class="header" href="#let-pos--fident">let pos = &amp;f.ident;</a></h1>
-<h1 id="pos"><a class="header" href="#pos">quote!</a></h1>
-<h1 id="-171"><a class="header" href="#-171">})</a></h1>
-<h1 id="collectvec_"><a class="header" href="#collectvec_">.collect::&lt;Vec&lt;_&gt;&gt;(),</a></h1>
-<h1 id="-172"><a class="header" href="#-172">),</a></h1>
-<h1 id="fieldsunnamedfields--some"><a class="header" href="#fieldsunnamedfields--some">Fields::Unnamed(fields) =&gt; Some(</a></h1>
-<h1 id="0fieldsunnamedlen"><a class="header" href="#0fieldsunnamedlen">(0..fields.unnamed.len())</a></h1>
-<h1 id="mapsynindexfrom"><a class="header" href="#mapsynindexfrom">.map(syn::Index::from)</a></h1>
-<h1 id="mapi-"><a class="header" href="#mapi-">.map(|i| {</a></h1>
-<h1 id="i"><a class="header" href="#i">quote!</a></h1>
-<h1 id="-173"><a class="header" href="#-173">})</a></h1>
-<h1 id="collectvec_-1"><a class="header" href="#collectvec_-1">.collect::&lt;Vec&lt;_&gt;&gt;(),</a></h1>
-<h1 id="-174"><a class="header" href="#-174">),</a></h1>
-<h1 id="fieldsunit--none"><a class="header" href="#fieldsunit--none">Fields::Unit =&gt; None,</a></h1>
-<h1 id="-175"><a class="header" href="#-175">}</a></h1>
-<h1 id="-176"><a class="header" href="#-176">}</a></h1>
-<p>支持的属性：</p>
-<ul>
-<li><code>#[scene]</code>：为场景函数生成一个对应的 <code>static &lt;scene_name&gt;_scene: &amp;'static Scene</code>，包含了场景名称、函数指针、场景设置、输出设置（通过 <code>#[output]</code> 来设置）等信息。
-可以配置一些属性：
-<ul>
-<li><code>#[scene(name = "...")]</code>：为场景指定一个名称，默认与函数名相同。</li>
-<li><code>#[scene(clear_color = "#ffffffff")]</code>：为场景指定一个清除颜色，默认值为 <code>#333333ff</code>。</li>
-<li><code>#[output]</code>：为场景添加一个输出：
-输出的文件名 <code>&lt;output_name&gt;</code> 会被命名为 <code>&lt;scene_name&gt;_&lt;width&gt;x&lt;height&gt;_&lt;frame_rate&gt;</code>。
-<ul>
-<li><code>#[output(dir = "...")]</code>：设置相对于 <code>.</code> 的输出目录，也可以是绝对路径，默认是 <code>./output</code></li>
-<li><code>#[output(width = 1920)]</code>：设置输出宽度</li>
-<li><code>#[output(height = 1080)]</code>：设置输出高度</li>
-<li><code>#[output(fps = 60)]</code>：设置输出帧率</li>
-<li><code>#[output(save_frames = true)]</code>：设置是否保存每一帧（保存在 <code>&lt;dir&gt;/&lt;output_name&gt;-frames/</code> 下）</li>
-<li><code>#[output(format = "mp4")]</code>：设置输出格式 <code>mp4</code>, <code>webm</code>, <code>mov</code>, <code>gif</code></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p>使用 <em>ranim-cli</em> 可以方便的对场景进行预览、渲染：</p>
-<blockquote class="blockquote-tag blockquote-tag-important">
-<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v9.5A1.75 1.75 0 0 1 14.25 13H8.06l-2.573 2.573A1.458 1.458 0 0 1 3 14.543V13H1.75A1.75 1.75 0 0 1 0 11.25Zm1.75-.25a.25.25 0 0 0-.25.25v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25Zm7 2.25v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Important</p>
-<p>注意：</p>
-<p>如果想要使用 <em>ranim-cli</em>，需要为 <code>crate-type</code> 添加 <code>dylib</code>。</p>
-</blockquote>
-<ul>
-<li>
-<p><code>ranim preview</code>：调用 Cargo 构建指定的 target，然后启动一个预览应用加载编译出的 dylib，并监听改动进行重载。</p>
-<pre><code class="language-bash">ranim preview # 预览根 package 的 lib target
-ranim preview -p package_name # 预览 package_name 包的 lib target
-ranim preview -p package_name --example example_name # 预览 package_name 包的 example_name 示例
-</code></pre>
-</li>
-<li>
-<p><code>ranim render</code>：调用 Cargo 构建指定的 target，然后启动一个渲染应用加载编译出的 dylib，并渲染动画。</p>
-<pre><code class="language-bash">ranim render # 渲染根 package 的全部场景的所有输出
-ranim render scene_name # 渲染根 package 中名称为 scene_name 的场景的所有输出
-ranim render -p package_name # 渲染 package_name 包的全部场景的所有输出
-ranim render -p package_name --example example_name # 渲染 package_name 包的 example_name 示例中的全部场景的所有输出
-</code></pre>
-</li>
-</ul>
-<h2 id="1-场景的构造"><a class="header" href="#1-场景的构造">1. 场景的构造</a></h2>
-<p>场景函数是一个签名为 <code>fn(&amp;mut RanimScene)</code> 的函数，通过 <code>#[scene]</code> 宏标注后会自动生成对应的场景配置。</p>
-<p>整个构造过程围绕着 <code>&amp;mut RanimScene</code>，它是 ranim 中编码动画 API 的主入口。</p>
-<h2 id="2-时间线"><a class="header" href="#2-时间线">2. 时间线</a></h2>
-<p>每一条被插入到场景中的时间线都有一个唯一的 <code>TimelineId</code>。</p>
-<p>时间线（<code>Timeline</code>）是用于编码物件动画的核心结构，它内部存储了一系列动画及其展示时间。</p>
-<p>编码动画的过程本质上是在向时间线中插入动态或静态的动画：</p>
-<p><img src="timeline.png" alt="Timeline"></p>
-<h3 id="21-创建时间线"><a class="header" href="#21-创建时间线">2.1 创建时间线</a></h3>
-<p>有两种方式创建时间线：</p>
-<p><strong>1. 创建空白时间线</strong></p>
-<pre><code class="language-rust ignore">let tid: TimelineId = r.insert_empty();</code></pre>
-<p><strong>2. 插入物件并创建时间线</strong></p>
-<p>通过 <code>r.insert(item)</code> 可以插入一个物件，自动为其创建时间线并播放 <code>show</code> 动画：</p>
-<pre><code class="language-rust ignore">let square = Square::new(2.0).with(|x| {
-    x.set_color(manim::BLUE_C);
-});
-let circle = Circle::new(1.0).with(|x| {
-    x.set_color(manim::RED_C);
-});
 
-let r_square = r.insert(square);
-let r_circle = r.insert(circle);</code></pre>
-<h3 id="22-访问时间线"><a class="header" href="#22-访问时间线">2.2 访问时间线</a></h3>
-<p>时间线创建后，通过 <code>r.timeline()</code> 或 <code>r.timeline_mut()</code> 来访问：</p>
-<pre><code class="language-rust ignore">// 获取不可变引用
-let timeline_ref: &amp;Timeline = r.timeline(r_square);
+#[scene(clear_color = "#000000")]
+#[output(width = 1280, height = 720, fps = 30, format = "mp4")]
+fn hello(r: &amp;mut RanimScene) {
+    let square = Square::new(2.0).with(|square| {
+        square.set_color(manim::BLUE_C);
+    });
 
-// 获取可变引用
-let timeline_mut: &amp;mut Timeline = r.timeline_mut(r_square);</code></pre>
-<p>也可以同时访问多条时间线：</p>
-<pre><code class="language-rust ignore">// 访问多条时间线的可变引用
-let [t1, t2] = r.timeline_mut([r_square1, r_square2]);</code></pre>
-<p>访问全部时间线：</p>
-<pre><code class="language-rust ignore">// 类型为 &amp;[Timeline]
-let timelines = r.timelines();
-// 类型为 &amp;mut [Timeline]
-let timelines = r.timelines_mut();</code></pre>
-<h3 id="23-操作时间线"><a class="header" href="#23-操作时间线">2.3 操作时间线</a></h3>
-<p><code>Timeline</code> 提供了以下方法用于编码动画：</p>
+    let mut content = AnimSequence::new();
+    content
+        .push(square.clone().fade_in())
+        .hold(1.0)
+        .push(square.fade_out());
+
+    let mut camera = AnimSequence::new();
+    camera
+        .push(CameraFrame::default().show())
+        .hold_to(content.cursor_sec());
+
+    r.play(camera);
+    r.play(content);
+}</code></pre>
+<p><code>#[scene]</code> 会保留场景函数，并生成、注册对应的静态 Scene 描述。通常不需要手工创建 <code>Scene</code> 或编写 <code>main</code>。</p>
+<h2 id="scene-的根是并行-stack"><a class="header" href="#scene-的根是并行-stack">Scene 的根是并行 Stack</a></h2>
+<p><code>RanimScene::play</code> 等价于向根 <code>AnimStack</code> 执行 <code>push</code>：</p>
+<pre><code class="language-rust ignore">r.play(camera);
+r.play(content);</code></pre>
+<p>这两个动画共享局部 0 秒并行播放，互不覆盖。<code>play</code> 不维护全局 cursor，也不会根据 item 值查找并修改之前加入的动画。</p>
+<p>需要顺序播放时，先使用 <code>AnimSequence</code> 组织一条完整状态序列，再将 Sequence 加入 Scene。</p>
+<h2 id="使用-animsequence"><a class="header" href="#使用-animsequence">使用 <code>AnimSequence</code></a></h2>
+<p><code>AnimSequence</code> 维护自己的 cursor：</p>
 <div class="table-wrapper">
 <table>
 <thead>
-<tr><th>方法</th><th>描述</th></tr>
+<tr><th>方法</th><th>行为</th></tr>
 </thead>
 <tbody>
-<tr><td><code>show()</code></td><td>显示时间线中的物体</td></tr>
-<tr><td><code>hide()</code></td><td>隐藏时间线中的物体</td></tr>
-<tr><td><code>forward(secs)</code></td><td>推进时间线指定秒数</td></tr>
-<tr><td><code>forward_to(target_sec)</code></td><td>推进时间线到指定时间点</td></tr>
-<tr><td><code>play(anim)</code></td><td>向时间线中插入动画</td></tr>
+<tr><td><code>push(animation)</code></td><td>在当前 cursor 加入动画，并按其 duration 推进 cursor</td></tr>
+<tr><td><code>forward(secs)</code></td><td>只推进 cursor，空白区间没有输出</td></tr>
+<tr><td><code>forward_to(sec)</code></td><td>将 cursor 推进到指定绝对时间</td></tr>
+<tr><td><code>hold(secs)</code></td><td>保持 cursor 处的 Sequence 状态并推进 cursor</td></tr>
+<tr><td><code>hold_to(sec)</code></td><td>将当前状态保持到指定绝对时间</td></tr>
+<tr><td><code>cursor_sec()</code></td><td>返回当前 Sequence 时长/cursor</td></tr>
 </tbody>
 </table>
 </div>
-<p>所有方法都返回 <code>&amp;mut Self</code>，支持链式调用。</p>
-<p>下面的例子使用一个 <code>Square</code> 物件创建了一个时间线，然后编码了淡入 1 秒、显示 1 秒、隐藏、显示 1 秒、淡出 1 秒的动画：</p>
+<p>完整的 show/hide 示例可以直接查看：</p>
 <pre><code class="language-rust ignore"><span class="boring">use ranim::{
 </span><span class="boring">    anims::fading::FadingAnim, color::palettes::manim, items::vitem::geometry::Square, prelude::*,
+</span><span class="boring">    utils::rate_functions::smooth,
 </span><span class="boring">};
 </span><span class="boring">
 </span>#[scene]
 #[output(dir = "./output/getting_started0")]
 fn getting_started0(r: &amp;mut RanimScene) {
-    // Equivalent to creating a new timeline then playing `CameraFrame::default().show()` on it
-    let _r_cam = r.insert(CameraFrame::default());
     // A Square with size 2.0 and color blue
     let square = Square::new(2.0).with(|square| {
         square.set_color(manim::BLUE_C);
     });
 
-    let r_square = r.insert_empty();
-    {
-        let timeline = r.timeline_mut(r_square);
-        timeline
-            .play(square.clone().fade_in()) // Can be written as `square.fade_in_ref()`
-            .forward(1.0)
-            .hide()
-            .forward(1.0)
+    let mut content = seq![square.clone().fade_in().with_rate_func(smooth)];
+    content
+        .hold(1.0)
+        .push(square.hide())
+        .forward(1.0)
+        .push(square.show())
+        .hold(1.0)
+        .push(square.clone().fade_out().with_rate_func(smooth));
+
+    r.play(
+        CameraFrame::default()
             .show()
-            .forward(1.0)
-            .play(square.clone().fade_out()); // Can be written as `square.fade_out_ref()`
-    }
-    // In the end, ranim will automatically sync all timelines and forward to the end.
-    // Equivalent to `r.timelines_mut().sync();`
+            .with_duration(content.cursor_sec()),
+    );
+    r.play(content);
 }</code></pre>
-<h3 id="24-物件类型转换"><a class="header" href="#24-物件类型转换">2.4 物件类型转换</a></h3>
-<p>在对物件进行动画编码时，有时需要进行类型转换。例如，<code>Square</code> 需要转换为更低级的 <code>VItem</code> 才能应用 <code>write</code> 和 <code>unwrite</code> 等动画：</p>
+<h3 id="hold-与-forward"><a class="header" href="#hold-与-forward"><code>hold</code> 与 <code>forward</code></a></h3>
+<p><code>forward</code> 表示明确的空白时间；<code>hold</code> 表示把当前状态延长一段时间。新模型不会隐式认为一个动画结束后物件仍然存在。</p>
+<pre><code class="language-rust ignore">sequence
+    .push(square.fade_in())
+    .hold(1.0)    // 保持淡入后的状态
+    .forward(0.5) // 接下来 0.5 秒没有该 Sequence 的输出
+    .push(circle.fade_in());</code></pre>
+<h3 id="show-与-hide"><a class="header" href="#show-与-hide"><code>show</code> 与 <code>hide</code></a></h3>
+<p><code>show()</code> 和 <code>hide()</code> 是用于 Sequence 状态切换的零时长事件。cursor 上出现状态事件时，后续 <code>hold</code> 使用这些事件组成新的完整状态快照，不再继承左侧状态。</p>
+<pre><code class="language-rust ignore">sequence
+    .push(square.show())
+    .hold(1.0)
+    .push(square.hide())
+    .hold(1.0);</code></pre>
+<p><code>hide</code> 不会跨 Sequence 查找同一个 item。需要独立显示/隐藏的内容应放在独立 Sequence 中，再通过根 Stack 并行组合。</p>
+<h2 id="并行组合"><a class="header" href="#并行组合">并行组合</a></h2>
+<p>固定数量的并行动画可以使用 <code>stack!</code>：</p>
+<pre><code class="language-rust ignore">let scene = stack![
+    background.show().with_duration(total_secs),
+    content,
+    camera.show().with_duration(total_secs),
+];
+r.play(scene);</code></pre>
+<p>运行时动态生成的动画使用 <code>AnimStack</code>：</p>
+<pre><code class="language-rust ignore">let mut layers = AnimStack::new();
+for animation in animations {
+    layers.push(animation);
+}
+r.play(layers);</code></pre>
+<p><code>AnimStack</code> 的 duration 是最长子动画的 duration。较短子动画结束后不会自动保持到 Stack 结束。</p>
+<h2 id="类型转换与动画扩展-trait"><a class="header" href="#类型转换与动画扩展-trait">类型转换与动画扩展 trait</a></h2>
+<p>动画方法由 requirement/extension trait 提供，使用前需要导入对应 trait。例如 <code>fade_in</code> 来自 <code>FadingAnim</code>，<code>morph_to</code> 来自 <code>MorphAnim</code>，<code>write</code>/<code>unwrite</code> 来自 <code>WritingAnim</code>。</p>
+<p>有些动画只对更底层的 <code>VItem</code> 实现。几何 item 可以通过 <code>VItem::from</code> 或 <code>.into()</code> 转换：</p>
 <pre><code class="language-rust ignore"><span class="boring">use ranim::{
 </span><span class="boring">    anims::{creation::WritingAnim, morph::MorphAnim},
 </span><span class="boring">    color::palettes::manim,
@@ -905,12 +315,12 @@ fn getting_started0(r: &amp;mut RanimScene) {
 </span><span class="boring">        geometry::{Circle, Square},
 </span><span class="boring">    },
 </span><span class="boring">    prelude::*,
+</span><span class="boring">    utils::rate_functions::smooth,
 </span><span class="boring">};
 </span><span class="boring">
 </span>#[scene]
 #[output(dir = "./output/getting_started1")]
 fn getting_started1(r: &amp;mut RanimScene) {
-    let _r_cam = r.insert(CameraFrame::default());
     // A Square with size 2.0 and color blue
     let square = Square::new(2.0).with(|square| {
         square.set_color(manim::BLUE_C);
@@ -920,22 +330,109 @@ fn getting_started1(r: &amp;mut RanimScene) {
         circle.set_color(manim::RED_C);
     });
 
-    let r_vitem = r.insert_empty();
-    {
-        let timeline = r.timeline_mut(r_vitem);
-        // In order to do more low-level opeerations,
-        // sometimes we need to convert the item to a low-level item.
-        timeline.play(VItem::from(square).morph_to(VItem::from(circle.clone())));
-        timeline.play(VItem::from(circle).unwrite());
-    }
+    let content = seq![
+        VItem::from(square)
+            .morph_to(VItem::from(circle.clone()))
+            .with_rate_func(smooth),
+        VItem::from(circle).unwrite().with_rate_func(smooth),
+    ];
+
+    r.play(
+        CameraFrame::default()
+            .show()
+            .with_duration(content.cursor_sec()),
+    );
+    r.play(content);
 }</code></pre>
-<p>在这个例子中：</p>
-<ol>
-<li>创建了一个空白时间线</li>
-<li>将 <code>Square</code> 转换为 <code>VItem</code> 后应用 <code>morph_to</code> 动画</li>
-<li>将 <code>Circle</code> 转换为 <code>VItem</code> 后应用 <code>unwrite</code> 动画</li>
-</ol>
-<p>类型转换通过 <code>VItem::from()</code> 或 <code>.into()</code> 完成，转换后的物件可以使用更多底层动画效果。</p>
+<p>多个独立 Sequence 的组合示例：</p>
+<pre><code class="language-rust ignore">use ranim::{
+    anims::{
+        creation::{CreationAnim, WritingAnim},
+        morph::MorphAnim,
+    },
+    color::palettes::manim,
+    items::vitem::{
+        VItem,
+        geometry::{Circle, Rectangle, Square},
+    },
+    prelude::*,
+    utils::rate_functions::{linear, smooth},
+};
+
+#[scene]
+#[output(dir = "./output/getting_started2")]
+fn getting_started2(r: &amp;mut RanimScene) {
+    let rect = Rectangle::new(4.0, 9.0 / 4.0).with(|rect| {
+        rect.set_stroke_color(manim::GREEN_C);
+    });
+
+    let square: VItem = Square::new(2.0)
+        .with(|square| {
+            square.set_color(manim::BLUE_C);
+        })
+        .into();
+    let circle: VItem = Circle::new(2.0)
+        .with(|circle| {
+            circle.set_color(manim::RED_C);
+        })
+        .into();
+    let mut rect_sequence = seq![rect.clone().show()];
+    rect_sequence
+        .hold(1.0)
+        .push(VItem::from(rect).uncreate().with_rate_func(smooth));
+
+    let mut item_sequence = seq![square.clone().show()];
+    item_sequence
+        .hold(1.0)
+        .push(square.clone().create().with_rate_func(smooth))
+        .push(
+            square
+                .clone()
+                .morph_to(circle.clone())
+                .with_rate_func(linear),
+        )
+        .push(circle.clone().unwrite().with_rate_func(smooth));
+
+    let total_secs = item_sequence.cursor_sec().max(rect_sequence.cursor_sec());
+    r.play(CameraFrame::default().show().with_duration(total_secs));
+    r.play(stack![rect_sequence, item_sequence]);
+}</code></pre>
+<h2 id="scene-与-output-属性"><a class="header" href="#scene-与-output-属性">Scene 与 Output 属性</a></h2>
+<p><code>#[scene]</code> 支持：</p>
+<ul>
+<li><code>name = "..."</code>：设置注册的场景名称，默认使用函数名。</li>
+<li><code>clear_color = "..."</code>：设置 CSS 格式的清屏颜色，默认 <code>#333333ff</code>。</li>
+</ul>
+<p>每个 <code>#[output]</code> 定义一个输出；一个 Scene 可以声明多个 output：</p>
+<ul>
+<li><code>width</code>、<code>height</code>：输出像素尺寸，默认 1920x1080。</li>
+<li><code>fps</code>：帧率，默认 60。</li>
+<li><code>format</code>：<code>mp4</code>、<code>webm</code>、<code>mov</code> 或 <code>gif</code>。</li>
+<li><code>dir</code>：输出目录，默认 <code>./output</code>。</li>
+<li><code>name</code>：输出文件名前缀；未设置时使用 Scene 名称。</li>
+<li><code>save_frames</code>：是否保存逐帧图片，默认 <code>false</code>。</li>
+</ul>
+<p>没有写 <code>#[output]</code> 时会使用默认输出配置。</p>
+<h2 id="预览与渲染"><a class="header" href="#预览与渲染">预览与渲染</a></h2>
+<p>安装 CLI：</p>
+<pre><code class="language-bash">cargo install ranim-cli
+</code></pre>
+<p>预览或渲染当前 package 的 lib target：</p>
+<pre><code class="language-bash">ranim preview
+ranim render
+ranim render hello
+</code></pre>
+<p>指定 workspace package 或 example target：</p>
+<pre><code class="language-bash">ranim preview -p package_name --example example_name
+ranim render -p package_name --example example_name
+</code></pre>
+<p><code>preview</code> 可以接收一个可选 Scene 名称；<code>render</code> 可以接收零个或多个 Scene 名称。额外的 Cargo 构建参数放在 <code>--</code> 后，例如：</p>
+<pre><code class="language-bash">ranim render hello -- --release
+</code></pre>
+<p>在本仓库中可以直接运行 CLI package：</p>
+<pre><code class="language-bash">cargo run -p ranim-cli --release -- preview --example getting_started0
+cargo run -p ranim-cli --release -- render --example getting_started0
+</code></pre>
 
                     </main>
 

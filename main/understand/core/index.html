@@ -37,10 +37,10 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-d5f3e3bf.js";
+            window.path_to_searchindex_js = "../../searchindex-3ba4f9c0.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-514a59fd.js"></script>
+        <script src="../../toc-f371d97a.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -176,8 +176,21 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="核心概念"><a class="header" href="#核心概念">核心概念</a></h1>
+                        <h1 id="核心概念"><a class="header" href="#核心概念">核心概念</a></h1>
+<p>Ranim 将动画定义为可按任意时间采样的值，并通过顺序和并行容器组织场景：</p>
+<pre><code class="language-text">Eval&lt;Output = T&gt;
+  -&gt; default Animation
+  -&gt; Paramed&lt;A&gt;
+  -&gt; AnimSequence / AnimStack
+  -&gt; AnimationCell
+  -&gt; SealedRanimScene
+</code></pre>
+<ul>
+<li><a href="./animation.html"><code>Eval</code>、<code>Animation</code> 与 <code>Paramed</code></a> 描述叶子动画如何根据局部进度产生状态并附加播放参数。</li>
+<li><a href="./timeline.html"><code>AnimSequence</code> 与 <code>AnimStack</code></a> 分别描述顺序状态和并行动画层。</li>
+<li><code>RanimScene</code> 的根节点是一个 <code>AnimStack</code>。<code>r.play(animation)</code> 等价于向根 Stack 执行 <code>push</code>，因此多次根级 <code>play</code> 默认从 0 秒并行。</li>
+</ul>
+<p>新模型不维护 Scene 内可变的 <code>TimelineId</code> 或运行时物件表。需要独立生命周期的内容由各自的 <code>AnimSequence</code> 持有，最后通过 Stack 组合。</p>
 
                     </main>
 
