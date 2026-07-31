@@ -37,7 +37,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-3ba4f9c0.js";
+            window.path_to_searchindex_js = "../../searchindex-c5639e49.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-f371d97a.js"></script>
@@ -191,6 +191,7 @@
 </li>
 </ul>
 <h2 id="composable-animation-arrangement"><a class="header" href="#composable-animation-arrangement">Composable Animation Arrangement</a></h2>
+<p>https://github.com/AzurIce/ranim/pull/170</p>
 <h3 id="animsequence-和-animstack"><a class="header" href="#animsequence-和-animstack"><code>AnimSequence</code> 和 <code>AnimStack</code></a></h3>
 <p>Ranim 动画编排的本质是构造动画数据表示并放入集合，在之前的设计中整个 <code>RanimScene</code> 通过内部的 <code>Vec&lt;Timeline&gt;</code> 来维护动画。</p>
 <p><code>Timeline</code> 的本质是 <code>Vec&lt;Box&lt;dyn CoreItemAnimation&gt;&gt;</code> 动画序列容器，其中的每个元素都是前后相继的动画表示，同一时间一个 <code>Timeline</code> 只有一个动画激活，于是以前在动画组合代数上非常局限：</p>
@@ -308,7 +309,172 @@ pub struct At&lt;A&gt; {
 <span class="boring">}</span></code></pre>
 <p>使用 <code>.with_duration</code>、<code>with_rate_func</code>、<code>with_enabled</code> 会自动修改或包裹 <code>Paramed&lt;A&gt;</code>，使用 <code>.at</code> 会自动包裹 <code>At&lt;A&gt;</code>。</p>
 <h2 id="preview-app-时间轴控件重构"><a class="header" href="#preview-app-时间轴控件重构">Preview App 时间轴控件重构</a></h2>
-<p>在新的动画组织系统下，Preview App 的时间轴控件也对应做了大幅重构</p>
+<p>在新的动画组织系统下，Preview App 的时间轴控件也对应做了大幅重构：</p>
+<p><label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="./composable_choreography.png" alt="composable_choreography.png"><span class="img-wrapper"><img src="./composable_choreography.png" alt="composable_choreography.png"></span></label></p>
+<h2 id="ecs-schedule-取代-rendergraph"><a class="header" href="#ecs-schedule-取代-rendergraph">ECS Schedule 取代 RenderGraph</a></h2>
+<p>https://github.com/AzurIce/ranim/pull/175</p>
+<p>渲染侧的 ECS 化：渲染原语进入内部 <code>RenderWorld</code>，渲染准备与 GPU pass 由 schedule 组织；用户级 item、动画求值仍停留在 World 之外。</p>
+<h3 id="之前coreitemstore-兼任传输与查询"><a class="header" href="#之前coreitemstore-兼任传输与查询">之前：<code>CoreItemStore</code> 兼任传输与查询</a></h3>
+<p>旧实现里，求值结果由 <code>CoreItemStore</code> 承载：</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// A store of [`CoreItem`]s.
+#[derive(Default, Clone)]
+pub struct CoreItemStore {
+    /// Id of [`CameraFrame`]s
+    pub camera_frame_ids: Vec&lt;(usize, usize)&gt;,
+    /// [`CameraFrame`]s
+    pub camera_frames: Vec&lt;CameraFrame&gt;,
+
+    /// Id of [`VItem`]s
+    pub vitem_ids: Vec&lt;(usize, usize)&gt;,
+    /// [`VItem`]s
+    pub vitems: Vec&lt;VItem&gt;,
+
+    /// Id of [`MeshItem`]s
+    pub mesh_item_ids: Vec&lt;(usize, usize)&gt;,
+    /// [`MeshItem`]s
+    pub mesh_items: Vec&lt;MeshItem&gt;,
+}
+<span class="boring">}</span></code></pre>
+<p>它既用于承载并传输求值结果，又用于渲染管线查询访问——两种职责混在一起。</p>
+<h3 id="现在renderframe-传输--renderworld-查询"><a class="header" href="#现在renderframe-传输--renderworld-查询">现在：<code>RenderFrame</code> 传输 + <code>RenderWorld</code> 查询</a></h3>
+<p>拆分为了 <code>RenderFrame</code>（帧级传输缓冲）和 <code>Renderer</code> 内部的 ECS World：</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// A reusable, frame-local transport buffer between evaluation and rendering.
+#[derive(Default)]
+pub struct RenderFrame {
+    items: Vec&lt;(CoreItemId, CoreItem)&gt;,
+}
+<span class="boring">}</span></code></pre>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct Renderer {
+    width: u32,
+    height: u32,
+    world: World,
+}
+<span class="boring">}</span></code></pre>
+<p>前者只用于传输（求值线程 → 渲染线程），后者用于承载运行时的查询、变更检测与 schedule。</p>
+<h3 id="reconcile按身份增量更新实体"><a class="header" href="#reconcile按身份增量更新实体">Reconcile：按身份增量更新实体</a></h3>
+<p>每帧从 <code>RenderFrame</code> 更新 <code>World</code>，再运行渲染 Schedule：</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// Reconcile and render one evaluated frame.
+pub fn render_frame(
+    &amp;mut self,
+    render_textures: &amp;mut RenderTextures,
+    clear_color: wgpu::Color,
+    frame: &amp;RenderFrame,
+) {
+    reconcile(&amp;mut self.world, frame);
+    self.world
+        .insert_resource(FrameTarget::new(render_textures, clear_color));
+    self.world.run_schedule(RenderPrepare);
+    self.world.run_schedule(RenderGraph);
+}
+<span class="boring">}</span></code></pre>
+<p>reconcile 以 <code>CoreItemIdentity(animation_id, part)</code> 为跨帧 key，从 <code>RenderFrame</code> 更新渲染 <code>World</code>：</p>
+<ul>
+<li>每个实体携带 <code>CoreItemIdentity</code> 与 <code>SceneOrder</code>；值相同则不写组件（保留 <code>Changed&lt;T&gt;</code>），值变化才替换，本帧消失的 key 对应实体被移除；</li>
+<li><strong>身份与顺序是两件事</strong>：<code>CoreItemIdentity</code> 回答“是否是上一帧的同一项“，<code>SceneOrder</code> 回答“本帧按什么顺序消费“——ECS query 顺序不构成绘制顺序，prepare 阶段显式按 <code>SceneOrder</code> 排序分桶；</li>
+</ul>
+<h3 id="schedule-组织渲染阶段"><a class="header" href="#schedule-组织渲染阶段">Schedule 组织渲染阶段</a></h3>
+<pre><code class="language-text">RenderPrepare:  Collect → PrepareResources → Upload → PrepareBindGroups
+RenderGraph:    Begin → Render → Submit → Finish
+  └─ ViewRender: Clear → Compute → Depth → Color → OITResolve
+</code></pre>
+<ul>
+<li><code>RenderPrepare</code> 把组件展开为 GPU 输入（storage/index/uniform 数据、上传、绑定组）；</li>
+<li><code>RenderGraph</code> 驱动整个画面生命周期：<code>Begin</code> 创建 frame encoder，<code>Render</code> 运行逐 view 子 schedule，<code>Submit</code> 提交 command buffer，<code>Finish</code> 结束 profiling frame；</li>
+<li>单相机也走完整的 <code>ViewRender</code> 子 schedule（clear、VItem compute、depth、color、OIT resolve），避免单 view 成为以后多 view 的特殊路径；</li>
+<li>自制的 <code>Graph&lt;NodeKey, Box&lt;dyn RenderNode&gt;&gt;</code> 节点图被移除——节点 trait、拓扑容器和查询都在重复 ECS schedule 已提供的能力。</li>
+</ul>
+<h2 id="迭代式动画区段"><a class="header" href="#迭代式动画区段">迭代式动画区段</a></h2>
+<p>https://github.com/AzurIce/ranim/pull/177</p>
+<p>v0.3 之前的动画区段都是<strong>函数式</strong>的：<code>Eval::eval_alpha(alpha)</code> 从归一化进度闭式采样。这类区段无法表达<strong>有状态的迭代式动画</strong>（粒子、弹簧、物理模拟、三体），因为求值器无法保留跨帧状态、也无法按 <code>dt</code> 推进。</p>
+<h3 id="统一求值器单一-eval-trait"><a class="header" href="#统一求值器单一-eval-trait">统一求值器：单一 <code>Eval</code> trait</a></h3>
+<p><code>Eval</code> 从纯函数式求值器扩展为统一求值器：函数式（闭式）与迭代式（有状态）都实现同一个 trait，按各自需要覆盖方法：</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// 统一求值器。
+///
+/// 函数式区段实现 [`Eval::eval_alpha`]；迭代式区段实现
+/// [`Eval::sample`]/[`Eval::reset`]/[`Eval::step`]——`eval_alpha` 无闭式，
+/// 默认调用即 panic。
+pub trait Eval {
+    type Output;
+
+    /// 闭式采样。函数式实现；迭代式无闭式（默认 panic，运行时经 `sample` 驱动）。
+    fn eval_alpha(&amp;self, _alpha: f64) -&gt; Self::Output {
+        unreachable!("iterative segment has no closed form; drive it via `sample`/`step`")
+    }
+
+    /// 采样当前状态（统一入口）。函数式默认 = eval_alpha(time.alpha)。
+    fn sample(&amp;self, time: &amp;SegmentTime) -&gt; Self::Output {
+        self.eval_alpha(time.alpha)
+    }
+
+    /// 回到区段起点（确定性契约：不得依赖墙钟/未播种 RNG）。
+    fn reset(&amp;mut self) {}
+
+    /// 推进一个逻辑步或 substep；`time.local_delta_secs` 是积分步长。
+    /// 函数式默认空操作（免费）；采样不受 step 历史影响。
+    fn step(&amp;mut self, _time: &amp;SegmentTime) {}
+}
+<span class="boring">}</span></code></pre>
+<p>作者视角：</p>
+<ul>
+<li><strong>函数式</strong>：<code>impl Eval { type Output; eval_alpha }</code>——只实现 <code>eval_alpha</code>（<code>sample</code>/<code>reset</code>/<code>step</code> 用默认）；</li>
+<li><strong>迭代式</strong>：<code>impl Eval { type Output; sample; reset; step }</code>——<code>eval_alpha</code> 保持默认（无闭式，不会被调用）。</li>
+</ul>
+<p>cell 对擦除后的公共类型<strong>无条件</strong>调 <code>step</code>：函数式空步免费，且消除了“忘了标记导致 step 被跳过“的 footgun。纯求值路径（<code>eval_at_sec</code>）只支持函数式区段；迭代式区段须用 <code>SceneEvaluator</code>（纯路径调用 <code>eval_alpha</code> 会 panic 以暴露误用）。</p>
+<h3 id="segmenttime传给区段的完整时间上下文"><a class="header" href="#segmenttime传给区段的完整时间上下文"><code>SegmentTime</code>：传给区段的完整时间上下文</a></h3>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct SegmentTime {
+    pub global_secs: f64,          // 全局时间 t（秒）
+    pub global_delta_secs: f64,    // 逻辑步长（恒稳，= 1/logic_fps）
+    pub start_secs: f64,           // 区段起点 s
+    pub duration_secs: f64,        // 区段时长 D
+    pub local_secs: f64,           // 局部时间 u(t) = D·r((t−s)/D)（秒）
+    pub local_delta_secs: f64,     // Δu = u(t_k) − u(t_{k−1})，随 rate 变化（秒）
+    pub alpha: f64,                // local_secs / D
+    pub render_frame: u64,         // 当前渲染帧序号（frame-coupled 内容用）
+    pub is_render_frame_boundary: bool,
+}
+<span class="boring">}</span></code></pre>
+<ul>
+<li><code>global_delta_secs</code> 恒稳（逻辑网格构造保证）；<code>local_delta_secs</code> 仅在线性 rate 下等于逻辑步长——非线性 rate 下逐帧变化是 rate func 的本职（扭曲局部时钟），迭代区段按<strong>变步长积分</strong>编写；</li>
+<li>需要物理真实时间（不被 rate 扭曲）的区段改用 <code>global_delta_secs</code>。</li>
+</ul>
+<h3 id="sceneevaluator轻量会话驱动非-ecs"><a class="header" href="#sceneevaluator轻量会话驱动非-ecs"><code>SceneEvaluator</code>：轻量会话驱动（非 ECS）</a></h3>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl SceneEvaluator {
+    /// 渲染采样时刻驱动：内部把 `render_secs` floor 到逻辑刻并推进。
+    /// 唯一包含 tick 推进逻辑的入口。
+    fn advance_to(&amp;mut self, render_secs: f64);
+
+    /// 纯采样：只读内部 clock（= floor 逻辑刻），不含 tick 逻辑。
+    fn sample_into(&amp;self, out: &amp;mut Vec&lt;((usize, usize), CoreItem)&gt;);
+
+    /// seek：全量 reset + 重放（确定性契约）。
+    fn seek(&amp;mut self, render_secs: f64);
+}
+<span class="boring">}</span></code></pre>
+<ul>
+<li><strong>逻辑帧与渲染帧分离</strong>：固定逻辑网格（默认 120Hz，与 24/30/60/120 整除对齐）驱动模拟，渲染 fps 只决定读取哪些逻辑态；</li>
+<li><strong>确定性</strong>：<code>seek</code> 重放与正向推进逐帧一致（preview scrub 与渲染可复现）；</li>
+<li><strong>迭代区段要求 <code>SceneEvaluator</code></strong>：纯 <code>eval_at_sec</code> 路径不推进其状态。</li>
+</ul>
+<h3 id="示例"><a class="header" href="#示例">示例</a></h3>
+<ul>
+<li><code>iterative_spring</code>：阻尼弹簧（<code>Evaluator</code> 驱动）；</li>
+<li><code>nbody</code>：三体引力模拟（velocity Verlet、混沌弹射终场、无边界）；</li>
+<li><code>cloth_wrap</code>：零重力布料（弹簧力 + 自碰撞 + 球-布碰撞，MeshItem 曲面渲染，球穿布后布料包裹）。</li>
+</ul>
 
                     </main>
 
