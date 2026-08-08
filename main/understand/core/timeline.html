@@ -37,7 +37,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-c5639e49.js";
+            window.path_to_searchindex_js = "../../searchindex-d2eba930.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-f371d97a.js"></script>
@@ -251,6 +251,27 @@ for animation in animations {
     layers.push(animation);
 }
 r.play(layers);</code></pre>
+<h2 id="animlagged"><a class="header" href="#animlagged"><code>AnimLagged</code></a></h2>
+<p><code>AnimLagged</code> 把一组<strong>未放置</strong>（<code>Placeable</code>）的子动画按 stagger 规则相继排布：第 <code>i</code> 个子动画的起点是 <code>start_{i-1} + lag_ratio · d_{i-1}</code>。<code>lag_ratio</code> 插值在两种容器语义之间：</p>
+<ul>
+<li><code>0.0</code> —— 所有子动画同时开始（类似 <code>AnimStack</code>）；</li>
+<li><code>1.0</code> —— 首尾相接（类似 <code>AnimSequence</code>）；</li>
+<li>中间值 —— 重叠相继。</li>
+</ul>
+<pre><code class="language-rust ignore">let animation = lagged![0.2;
+    square.fade_in(),
+    circle.fade_in(),
+    text.write(),
+];
+r.play(animation);</code></pre>
+<p>子动画窗口之外的时间默认由<strong>真实的静态动画</strong>填充：每个元素在 build 时被物化为一条 <code>[前填充][动画][后填充]</code> 的 per-item <code>AnimSequence</code> 轨道（前=初态，后=末态，采样自窗口边缘，空的填充会被跳过），因此 preview 时间线看到的就是实际渲染的内容，没有隐藏的求值规则。每端的行为可以用 <code>with_leading</code>/<code>with_trailing</code> 配置（<code>LaggedFill::{Hold, Empty}</code>，默认都是 <code>Hold</code>）；若希望元素在窗口结束后消失，让它的动画以 <code>hide</code> 结尾即可（如 <code>seq![item.fade_in(), item.hide()]</code>）。</p>
+<p>填充在 build 时采样，因此子动画应当是纯（闭式）动画——迭代式子动画的末态填充会得到其初态。</p>
+<p>对一组元素施加同一个动画时，用迭代器收集（core 的 <code>AnimIterExt</code>）：</p>
+<pre><code class="language-rust ignore">let animation = group
+    .iter_mut()
+    .map(|item| item.fade_in().with_rate_func(smooth))
+    .into_lagged(0.2);</code></pre>
+<p>迭代器还可以收集为另外两个容器：<code>into_stack()</code>/<code>into_seq()</code>，或直接 <code>collect::&lt;AnimStack&gt;()</code>/<code>collect::&lt;AnimSequence&gt;()</code>。</p>
 <h2 id="场景时长与显式生命周期"><a class="header" href="#场景时长与显式生命周期">场景时长与显式生命周期</a></h2>
 <p>Scene 总时长是根 Stack 中最长子动画的 duration。新模型不会像旧 Timeline 那样在 seal 时自动把静态物件和相机延长到 Scene 结束。</p>
 <p>需要全程存在的内容应显式指定生命周期：</p>
@@ -264,7 +285,7 @@ camera
 r.play(camera);
 r.play(content);</code></pre>
 <p>这种写法使空白和保持区间成为动画定义的一部分。后续可以增加默认相机或 <code>through_scene_end</code> 等辅助 API，但它们不改变 Sequence/Stack 的组合语义。</p>
-<h2 id="seq-与-stack"><a class="header" href="#seq-与-stack"><code>seq!</code> 与 <code>stack!</code></a></h2>
+<h2 id="seqstack-与-lagged"><a class="header" href="#seqstack-与-lagged"><code>seq!</code>、<code>stack!</code> 与 <code>lagged!</code></a></h2>
 <p>固定写法可以使用宏简化：</p>
 <pre><code class="language-rust ignore">let intro = seq![
     square.clone().fade_in(),
@@ -273,7 +294,7 @@ r.play(content);</code></pre>
 
 let scene = stack![intro, camera];
 r.play(scene);</code></pre>
-<p><code>seq!</code> 返回 <code>AnimSequence</code>，<code>stack!</code> 返回 <code>AnimStack</code>。二者都只是构造辅助，最终 build 为保留子节点层级的运行时动画树。</p>
+<p><code>seq!</code> 返回 <code>AnimSequence</code>，<code>stack!</code> 返回 <code>AnimStack</code>。二者都只是构造辅助，最终 build 为保留子节点层级的运行时动画树。<code>lagged![0.2; a, b, c]</code> 以 0.2 的 stagger ratio 返回 <code>AnimLagged</code>（见上文）。</p>
 
                     </main>
 
