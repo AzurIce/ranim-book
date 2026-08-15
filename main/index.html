@@ -37,7 +37,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-d2eba930.js";
+            window.path_to_searchindex_js = "searchindex-ed47371b.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-f371d97a.js"></script>
@@ -185,7 +185,7 @@ crate-type = ["rlib", "cdylib"]
 </code></pre>
 <p>动画代码通常从 prelude、item 类型和对应的动画扩展 trait 中导入 API：</p>
 <pre><code class="language-rust ignore">use ranim::{
-    anims::pure::fading::FadingAnim,
+    anims::fading::FadingAnim,
     color::palettes::manim,
     items::vitem::geometry::Square,
     prelude::*,
@@ -193,7 +193,7 @@ crate-type = ["rlib", "cdylib"]
 <h2 id="第一个场景"><a class="header" href="#第一个场景">第一个场景</a></h2>
 <p>下面的场景让一个蓝色正方形淡入、保持一秒，再淡出。相机作为独立 Sequence 与内容并行播放：</p>
 <pre><code class="language-rust ignore">use ranim::{
-    anims::pure::fading::FadingAnim,
+    anims::fading::FadingAnim,
     color::palettes::manim,
     items::vitem::geometry::Square,
     prelude::*,
@@ -246,8 +246,8 @@ r.play(content);</code></pre>
 </div>
 <p>完整的 show/hide 示例可以直接查看：</p>
 <pre><code class="language-rust ignore"><span class="boring">use ranim::{
-</span><span class="boring">    anims::pure::fading::FadingAnim, color::palettes::manim, items::vitem::geometry::Square,
-</span><span class="boring">    prelude::*, utils::rate_functions::smooth,
+</span><span class="boring">    anims::fading::FadingAnim, color::palettes::manim, items::vitem::geometry::Square, prelude::*,
+</span><span class="boring">    utils::rate_functions::smooth,
 </span><span class="boring">};
 </span><span class="boring">
 </span>#[scene]
@@ -308,7 +308,7 @@ r.play(layers);</code></pre>
 <p>动画方法由 requirement/extension trait 提供，使用前需要导入对应 trait。例如 <code>fade_in</code> 来自 <code>FadingAnim</code>，<code>morph_to</code> 来自 <code>MorphAnim</code>，<code>write</code>/<code>unwrite</code> 来自 <code>WritingAnim</code>。</p>
 <p>有些动画只对更底层的 <code>VItem</code> 实现。几何 item 可以通过 <code>VItem::from</code> 或 <code>.into()</code> 转换：</p>
 <pre><code class="language-rust ignore"><span class="boring">use ranim::{
-</span><span class="boring">    anims::pure::{creation::WritingAnim, morph::MorphAnim},
+</span><span class="boring">    anims::{creation::WritingAnim, morph::MorphAnim},
 </span><span class="boring">    color::palettes::manim,
 </span><span class="boring">    items::vitem::{
 </span><span class="boring">        VItem,
@@ -346,7 +346,7 @@ fn getting_started1(r: &amp;mut RanimScene) {
 }</code></pre>
 <p>多个独立 Sequence 的组合示例：</p>
 <pre><code class="language-rust ignore">use ranim::{
-    anims::pure::{
+    anims::{
         creation::{CreationAnim, WritingAnim},
         morph::MorphAnim,
     },

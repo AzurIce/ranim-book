@@ -37,7 +37,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-d2eba930.js";
+            window.path_to_searchindex_js = "../../searchindex-ed47371b.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-f371d97a.js"></script>
@@ -178,66 +178,67 @@
                     <main>
                         <h1 id="动画"><a class="header" href="#动画">动画</a></h1>
 <h2 id="eval"><a class="header" href="#eval"><code>Eval</code></a></h2>
-<p>Ranim 的叶子动画核心是一个统一的求值协议——运行时对一个动画区段能做的全部事情：在时刻上采样输出、把内部状态推进一个逻辑步、回到初始状态。</p>
+<p>Ranim 的叶子动画核心是一个统一的求值协议。动画内容一旦定义就不可变：它是自身归一化进度 <code>alpha ∈ [0, 1]</code> 的纯函数。</p>
 <pre><code class="language-rust ignore">pub trait Eval {
     type Output;
 
-    /// 在时刻 time 采样输出(采样不推进状态,也不携带任何 delta)。
-    fn sample(&amp;self, time: &amp;Time) -&gt; Self::Output;
-    /// 回到区段初始状态(确定性契约:不依赖墙钟/未播种 RNG)。
-    fn reset(&amp;mut self);
-    /// 推进一个逻辑步。
-    fn step(&amp;mut self, time: &amp;Time, delta_time: &amp;DeltaTime);
-}</code></pre>
-<p>三个方法都是 required：有状态的区段忘了 <code>reset</code> 会在编译期报错，而不是悄悄破坏 seek 重放的确定性。无状态区段把 <code>reset</code>/<code>step</code> 留空即可。</p>
-<p><code>Eval</code> 还内置两个经 <code>sample</code> 定义的通用便捷方法：<code>apply_alpha_to(item, alpha)</code> 和 <code>apply_to(item)</code>（即 <code>alpha = 1.0</code>)。它们把动画在某个进度处的状态写入对象并返回动画自身——内置动画的工具方法（<code>fade_in()</code> 等）正是靠它在创建动画的同时把 item 置为动画末态。</p>
-<h2 id="时刻与时段time-与-deltatime"><a class="header" href="#时刻与时段time-与-deltatime">时刻与时段：<code>Time</code> 与 <code>DeltaTime</code></a></h2>
-<p>求值方法接收的时间上下文按“时刻 / 时段“分为两个类型（<code>ranim::core::time</code>):</p>
-<pre><code class="language-rust ignore">pub struct Time {
-    pub alpha: f64,        // rate 扭曲后的进度 r((t-s)/D),由 cell 算好
-    pub global_secs: f64,  // 真实全局时刻
-}
-
-pub struct DeltaTime {
-    pub alpha: f64,        // Δalpha:本逻辑步的进度增量(积分步长)
-    pub global_secs: f64,  // Δt = 1/logic_fps,恒稳
-}</code></pre>
-<ul>
-<li><code>sample</code> 只收 <code>&amp;Time</code>——采样在类型层面就拿不到任何 delta;</li>
-<li><code>step</code> 同时收 <code>&amp;Time</code> 和 <code>&amp;DeltaTime</code>——时变力读时刻，积分读时段；</li>
-<li><code>alpha</code>/<code>Δalpha</code> 由包裹区段的 <code>AnimationCell</code> 用自己的起点、时长、速率函数算好后传入。<strong>动画逻辑只能拿到时间读数，拿不到时间配置</strong>:<code>with_duration</code>/<code>with_rate_func</code> 对所有区段都只是纯播放变换；</li>
-<li>需要墙钟真实时间（不被 rate 扭曲）的区段读 <code>global_secs</code>/<code>global_delta_secs</code>，它们从会话时钟出发、沿任意嵌套深度的容器原样下传。</li>
-</ul>
-<h2 id="两种特化pure-与-iterative"><a class="header" href="#两种特化pure-与-iterative">两种特化：<code>Pure</code> 与 <code>Iterative</code></a></h2>
-<p>用户通常不直接实现 <code>Eval</code>，而是实现 <em>ranim-anims</em> 里两个能力 trait 之一，再用对应的适配结构体包成动画：</p>
-<p><strong>纯（闭式、无状态）——<code>PureEval</code> + <code>Pure</code>:</strong></p>
-<pre><code class="language-rust ignore">pub trait PureEval {
-    type Output;
+    /// 在归一化进度 alpha 处求值。
     fn eval_alpha(&amp;self, alpha: f64) -&gt; Self::Output;
 }</code></pre>
-<p>只有一个方法：<code>Pure</code> 适配器把 <code>sample</code> 实现为 <code>eval_alpha(time.alpha)</code>,<code>reset</code>/<code>step</code> 为空。<code>Fn(f64) -&gt; T</code> 闭包自动实现 <code>PureEval</code>，于是闭包动画写作：</p>
-<pre><code class="language-rust ignore">let animation = Pure(|alpha| Square::new(alpha)).with_duration(2.0);</code></pre>
-<p>具体 evaluator 同时保存求值所需的数据。例如 <code>Static&lt;T&gt;</code> 始终返回同一个值，<code>Morph&lt;T&gt;</code> 保存插值需要的源状态和目标状态。</p>
-<p><strong>迭代（有状态、逐步推进）——<code>IterativeEval</code> + <code>Iterative</code>:</strong></p>
+<ul>
+<li>协议只有一个入口：<code>eval_alpha(&amp;self, alpha)</code>；</li>
+<li>它是 <code>&amp;self</code> 上的纯查询：无论调用顺序和次数，同一个 <code>alpha</code> 得到同一个 <code>Output</code>；</li>
+<li>evaluator 看不到秒、场景时钟或 <code>logic_fps</code>。<code>AnimationCell</code> 负责把场景时间映射成进度后才调用它；</li>
+<li>有状态（迭代）区段在内部记忆化自己的积分快照；纯区段就是闭式。</li>
+</ul>
+<p><code>EvalExt</code> 提供两个 build 期便捷方法：</p>
+<pre><code class="language-rust ignore">pub trait EvalExt: Eval + Sized {
+    fn apply_alpha_to(self, item: &amp;mut Self::Output, alpha: f64) -&gt; Self;
+    fn apply_to(self, item: &amp;mut Self::Output) -&gt; Self; // alpha = 1.0
+}</code></pre>
+<p>内置动画的工具方法（<code>fade_in()</code> 等）正是靠 <code>apply_to</code> 在创建动画的同时把 item 置为动画末态。</p>
+<h2 id="进度是唯一坐标"><a class="header" href="#进度是唯一坐标">进度是唯一坐标</a></h2>
+<p><code>Time</code> / <code>DeltaTime</code> / <code>GlobalTime</code> 已从协议中删除。<code>ranim::core::time</code> 只剩两个类型别名：</p>
+<pre><code class="language-rust ignore">pub type Alpha = f64;       // 归一化进度
+pub type DeltaAlpha = f64;  // 均匀进度步长</code></pre>
+<p>“内容即序列”：迭代动画的内容是作者声明的进度点序列 <code>x₀…x_N</code>。<code>N</code> 是定义而不是采样精度；<code>rate_func</code>、<code>with_duration</code>、placement 都只是“哪个进度何时可见”的采样重映射。</p>
+<h2 id="通用适配器pure-与-iterative"><a class="header" href="#通用适配器pure-与-iterative">通用适配器：<code>Pure</code> 与 <code>Iterative</code></a></h2>
+<p>两个 author-facing 适配器现在都在 <code>ranim_core::animation</code> 中。</p>
+<h3 id="纯闭包pure"><a class="header" href="#纯闭包pure">纯闭包：<code>Pure</code></a></h3>
+<p>闭包是匿名类型，不能按名字实现 <code>Eval</code>，所以用 <code>Pure</code> 包一层：</p>
+<pre><code class="language-rust ignore">use ranim::core::animation::eval::pure::Pure;
+
+let animation = Pure::new(|alpha| Square::new(alpha)).with_duration(2.0);</code></pre>
+<p>具名纯动画（<code>FadeIn</code>、<code>Morph</code>、<code>Create</code> 等）直接实现 <code>Eval</code>，不需要这个 wrapper。</p>
+<h3 id="迭代区段iterativeeval--iterative"><a class="header" href="#迭代区段iterativeeval--iterative">迭代区段：<code>IterativeEval</code> + <code>Iterative</code></a></h3>
 <pre><code class="language-rust ignore">pub trait IterativeEval {
     type Output;
 
-    /// 推进一个逻辑步(状态由适配器持有,以 &amp;mut 传入)。
-    fn step(&amp;self, output: &amp;mut Self::Output, time: &amp;Time, delta_time: &amp;DeltaTime);
+    /// 推进一个内容步。alpha 是当前进度，delta_alpha = 1/N。
+    fn step(&amp;self, output: &amp;mut Self::Output, alpha: f64, delta_alpha: f64);
 }</code></pre>
-<p>一个 evaluator 类型唯一确定其 <code>Output</code>；<code>Iterative::new(initial, evaluator)</code> 持有初始状态与当前状态——<code>sample</code> 是克隆当前状态，<code>reset</code> 是恢复初始状态，两者都是结构性的。闭包的状态类型位于 <code>Fn</code> 的输入位置，无法直接用 blanket impl 反推出关联类型，因此 <code>Iterative::from_fn</code> 通过 <code>IterativeFn&lt;S, F&gt;</code> 将二者绑定：</p>
-<pre><code class="language-rust ignore">let animation = Iterative::from_fn(
+<p><code>Iterative::new(initial, evaluator)</code> 持有不可变的定义（初始状态、<code>sim_step</code>、step 逻辑），把积分快照放在内部 <code>RefCell&lt;Snapshot&gt;</code> 中：</p>
+<pre><code class="language-rust ignore">let sim_secs = 4.0;
+
+let animation = Iterative::from_fn(
     SpringState { x: 1.0, v: 0.0 },
-    |state: &amp;mut SpringState, _time: &amp;Time, dt: &amp;DeltaTime| {
-        let dt = SIM_SECS * dt.alpha; // 逻辑秒
+    move |state: &amp;mut SpringState, _alpha, delta_alpha| {
+        let dt = sim_secs * delta_alpha; // 内容自己的物理秒
         let acc = -K * state.x - C * state.v;
         state.v += acc * dt;
         state.x += state.v * dt;
     },
 )
-.with_duration(4.0);</code></pre>
-<p>常量（物理参数、调色板）放闭包捕获或命名 step 结构体；一切可变状态都必须住在状态值里。区段模拟多久是它自己的参数（如 <code>SIM_SECS</code>)——<code>with_duration</code> 只是播放抻拉。当状态与要渲染的内容不同，为状态类型实现 <code>Extract</code>（投影点，每帧一次）。</p>
-<p><strong>异形区段</strong>——两个适配器覆盖不了的需求（比如以后要查询外部世界的区段），直接在类型上实现 <code>Eval</code>。</p>
+.with_steps(240)
+.with_duration(sim_secs);</code></pre>
+<ul>
+<li>逻辑时长用过程中的局部变量（例如 <code>sim_secs</code>）捕获，并同时传给 <code>with_duration</code>，不要使用全局 <code>const</code>；</li>
+<li>迭代逻辑较复杂时，实现命名 <code>IterativeEval</code> 结构体，把 <code>sim_secs</code> 等参数放在 <code>self</code> 上；</li>
+<li><code>with_steps(N)</code> 声明内容自己的步数，默认 <code>1/120</code>；</li>
+<li><code>eval_alpha(target)</code> 前进时逐 <code>sim_step</code> 积分，回退时从初始状态重置重放，重复查询同一个 <code>alpha</code> 是 O(1)；</li>
+<li>可变状态全部住在 <code>Output</code> 里；</li>
+<li>闭包的状态类型位于 <code>Fn</code> 输入位置，无法从闭包类型反推出关联 <code>Output</code>，所以 <code>Iterative::from_fn</code> 通过 <code>IterativeFn&lt;S, F&gt;</code> 显式绑定二者。</li>
+</ul>
 <h2 id="eval-自动成为叶子动画"><a class="header" href="#eval-自动成为叶子动画"><code>Eval</code> 自动成为叶子动画</a></h2>
 <p>只要 <code>Eval::Output</code> 可以提取为场景元素，该 evaluator 就自动获得默认 linear、1 秒、enabled 的 <code>Animation</code> 实现：</p>
 <pre><code class="language-rust ignore">pub struct FadeIn&lt;T: FadingRequirement&gt; {
@@ -245,39 +246,37 @@ pub struct DeltaTime {
     dst: T,
 }
 
-impl&lt;T: FadingRequirement&gt; PureEval for FadeIn&lt;T&gt; {
+impl&lt;T: FadingRequirement&gt; Eval for FadeIn&lt;T&gt; {
     type Output = T;
-    fn eval_alpha(&amp;self, alpha: f64) -&gt; Self::Output { /* ... */ }
+    fn eval_alpha(&amp;self, alpha: f64) -&gt; Self::Output {
+        self.src.lerp(&amp;self.dst, alpha)
+    }
 }
 
-// Pure&lt;FadeIn&lt;T&gt;&gt; 本身就是一个可组合动画,不需要 marker 或宏:
-let animation = Pure(FadeIn::new(square)).with_duration(1.0);</code></pre>
-<p>具名 evaluator 和 <code>Pure(闭包)</code> 都不会在进入动态容器前擦除类型。<code>AnimSequence::push</code>、<code>AnimStack::push</code> 或 Scene build 时会将直接子节点转换为保留层级的运行时节点。</p>
-<h2 id="parameda"><a class="header" href="#parameda"><code>Paramed&lt;A&gt;</code></a></h2>
+let animation = square.fade_in().with_duration(1.0);</code></pre>
+<h2 id="内置动画家族"><a class="header" href="#内置动画家族">内置动画家族</a></h2>
+<p><code>ranim-anims</code> 现在只包含具名动画家族，不再承载通用适配器：</p>
+<pre><code class="language-text">ranim::anims
+├── camera     （Orbit、CameraFrameAnim）
+├── creation   （Create/UnCreate/Write/Unwrite）
+├── fading     （FadeIn/FadeOut）
+├── morph      （Morph）
+└── rotating   （RotatingAnimation）
+</code></pre>
+<pre><code class="language-rust ignore">use ranim::{
+    anims::fading::FadingAnim,
+    prelude::*,
+};</code></pre>
+<h2 id="parameda-与-ata"><a class="header" href="#parameda-与-ata"><code>Paramed&lt;A&gt;</code> 与 <code>At&lt;A&gt;</code></a></h2>
 <p>所有尚未固定父时间坐标的 <code>Placeable</code> 动画通过 <code>AnimationExt</code> 获得统一的播放参数 API：</p>
 <pre><code class="language-rust ignore">animation
     .with_duration(2.0)
     .with_rate_func(smooth)
     .with_enabled(true)</code></pre>
-<p>第一次调用会生成 <code>Paramed&lt;A&gt;</code>。它只属于 Animation 层，负责 duration override、rate function 和 enabled，不再实现 <code>Eval</code>。裸动画的默认值是 linear、1 秒和 enabled。Sequence 或 Stack 被包装时，rate function 重映射整个组合的局部时间轴。</p>
 <p><code>At&lt;A&gt;</code> 表示已经固定在父时间坐标中的 entry，不再实现 <code>Placeable</code>，因此参数必须在 placement 之前设置：</p>
 <pre><code class="language-rust ignore">animation.with_duration(2.0).at(3.0); // At&lt;Paramed&lt;A&gt;&gt;</code></pre>
-<h2 id="animation-与-build"><a class="header" href="#animation-与-build"><code>Animation</code> 与 build</a></h2>
-<p>所有可组合动画实现：</p>
-<pre><code class="language-rust ignore">pub trait Animation: Sized {
-    fn build(self) -&gt; AnimationCell;
-}</code></pre>
-<p><code>Animation</code> 不再提前暴露 time range 或 duration，它只负责将静态定义 lower 为局部坐标中的 <code>AnimationCell</code>：</p>
-<ul>
-<li>普通叶子 build 为 <code>0.0..1.0</code>；</li>
-<li><code>Paramed&lt;A&gt;</code> build 内层后，在外层应用 duration override、rate function 和 enabled；</li>
-<li><code>At&lt;A&gt;</code> build 内层后移动根 time range；</li>
-<li>Sequence push 时先 build 子动画，再将它移动到 cursor；</li>
-<li>Stack push 时先 build 子动画，再根据 built range 更新整体 duration。</li>
-</ul>
-<p><code>AnimSequence</code> 和 <code>AnimStack</code> 仍提供自己的 <code>duration_secs()</code> 查询，但通用 <code>Animation</code> trait 不再要求每个静态类型重复提供时间信息。</p>
 <h2 id="animationcell"><a class="header" href="#animationcell"><code>AnimationCell</code></a></h2>
-<p>Sequence、Stack 和 Scene 需要保存异构动画，因此每个直接子动画会生成一个 <code>AnimationCell</code>：</p>
+<p>Sequence、Stack 和 Scene 需要保存异构动画，因此每个直接子动画会 lower 成一个 <code>AnimationCell</code>：</p>
 <pre><code class="language-text">AnimationCell
 ├─ Box&lt;dyn EvalDyn&gt;
 ├─ time range
@@ -285,18 +284,16 @@ let animation = Pure(FadeIn::new(square)).with_duration(1.0);</code></pre>
 ├─ enabled
 └─ evaluator name
 </code></pre>
-<p><code>EvalDyn</code> 是私有的 object-safe 求值接口：所有 <code>E: Eval</code> 通过 blanket impl 进入类型擦除，<code>AnimSequence</code> 和 <code>AnimStack</code> 也直接实现该接口。Paramed 直接修改内层 build 出来的 cell，不再额外嵌套一个 <code>AnimationCell</code>。<code>hold</code> 保存的已求值结果直接使用 <code>Static&lt;Vec&lt;DynItem&gt;&gt;</code>。</p>
-<p>动态求值会将结果追加到 <code>Vec&lt;DynItem&gt;</code>，但组合树本身不会被展开。类型擦除只隐藏直接子动画的 Rust 类型，不删除组合层级。时间范围位于 Box 外，供父动画调度和 preview 查询；cell 也负责把时间配置（time range、rate function）换算成 <code>Time</code>/<code>DeltaTime</code> 读数后，再调用擦除后的求值器。</p>
-<h2 id="requirement-trait-模式"><a class="header" href="#requirement-trait-模式">Requirement Trait 模式</a></h2>
-<p>用户通常不直接构造 evaluator，而是通过 Item 的动画扩展 Trait：</p>
-<pre><code class="language-rust ignore">let animation = square
-    .fade_in()
-    .with_duration(2.0)
-    .with_rate_func(smooth);</code></pre>
-<p>返回值就是适配后的具体类型，例如：</p>
-<pre><code class="language-text">Pure&lt;FadeIn&lt;Square&gt;&gt;
-</code></pre>
-<p>只有当它进入 <code>AnimSequence::push</code>、<code>AnimStack::push</code> 或 <code>RanimScene::play</code> 时才会被 build 和擦除。</p>
+<p><code>AnimationCell::eval_at(sec, out)</code> 是唯一的时间管理入口：cell 先检查 enabled / active，再用自己的 <code>time_range</code> 和 <code>rate_func</code> 把 <code>sec</code> 映射成局部 <code>alpha</code>，最后调用擦除后的 <code>eval_dyn(alpha, out)</code>。</p>
+<p>动态求值会把结果追加到 <code>Vec&lt;DynItem&gt;</code>，但组合树本身不会被展开。类型擦除只隐藏直接子动画的 Rust 类型，不删除组合层级。</p>
+<h2 id="sceneevaluator"><a class="header" href="#sceneevaluator"><code>SceneEvaluator</code></a></h2>
+<p><code>SceneEvaluator::sample_at(render_secs, out)</code> 是唯一的 session 交互：</p>
+<ul>
+<li>对每个顶层 cell 调用 <code>eval_at(render_secs)</code>；</li>
+<li>前进 / 回退 / 原地求值的判断在 <code>Iterative</code> 等 stateful 节点内部完成；</li>
+<li>preview 拖拽和 render 采样共用同一条路径。</li>
+</ul>
+<p><code>logic_fps</code> 参数仅为 API 兼容保留，不再驱动步进；步进尺度由每个迭代区段自己的 <code>sim_step</code> 决定。</p>
 
                     </main>
 
