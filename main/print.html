@@ -38,7 +38,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-6a98496b.js";
+            window.path_to_searchindex_js = "searchindex-11d8482f.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-f371d97a.js"></script>
@@ -423,19 +423,22 @@ fn getting_started2(r: &amp;mut RanimScene) {
 </code></pre>
 <p>预览或渲染当前 package 的 lib target：</p>
 <pre><code class="language-bash">ranim preview
-ranim render
+ranim output
+ranim output hello
 ranim render hello
 </code></pre>
 <p>指定 workspace package 或 example target：</p>
 <pre><code class="language-bash">ranim preview -p package_name --example example_name
-ranim render -p package_name --example example_name
+ranim output -p package_name --example example_name
+ranim render -p package_name --example example_name hello
 </code></pre>
-<p><code>preview</code> 可以接收一个可选 Scene 名称；<code>render</code> 可以接收零个或多个 Scene 名称。额外的 Cargo 构建参数放在 <code>--</code> 后，例如：</p>
-<pre><code class="language-bash">ranim render hello -- --release
+<p><code>preview</code> 可以接收一个可选 Scene 名称；<code>output</code> 可以接收零个或多个 Scene 名称，并渲染它们声明的所有 <code>#[output(...)]</code>；<code>render</code> 接收恰好一个 Scene 名称，使用默认输出设置（<code>1920x1080</code>、60 fps、mp4）做一次临时渲染，不读取 <code>#[output(...)]</code>。额外的 Cargo 构建参数放在 <code>--</code> 后，例如：</p>
+<pre><code class="language-bash">ranim output hello -- --release
+ranim render hello -- --release
 </code></pre>
 <p>在本仓库中可以直接运行 CLI package：</p>
 <pre><code class="language-bash">cargo run -p ranim-cli --release -- preview --example getting_started0
-cargo run -p ranim-cli --release -- render --example getting_started0
+cargo run -p ranim-cli --release -- output --example getting_started0
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="packages"><a class="header" href="#packages">Packages</a></h1>
