@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>核心概念 - Ranim Book</title>
+        <title>CoreItem 与 Extract - Ranim Book</title>
 
 
         <!-- Custom HTML head -->
@@ -176,32 +176,72 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="核心概念"><a class="header" href="#核心概念">核心概念</a></h1>
-<p>Ranim 将动画定义为可按任意时间采样的值，并通过顺序和并行容器组织场景：</p>
-<pre><code class="language-text">Eval&lt;Output = T&gt;
-  -&gt; default Animation
-  -&gt; Paramed&lt;A&gt;
-  -&gt; AnimSequence / AnimStack / AnimLagged
-  -&gt; AnimationCell
-  -&gt; SealedRanimScene
-</code></pre>
+                        <h1 id="coreitem-与-extract"><a class="header" href="#coreitem-与-extract">CoreItem 与 Extract</a></h1>
+<p>场景中所有可见内容最终都归结为少数几种 <strong>core item</strong>。动画系统求值得到的是
+用户层 item（<code>ranim-items</code> 中的 <code>VItem</code>、<code>Surface</code> 等高层类型），而渲染器只
+认识 core item；连接二者的是 <code>Extract</code> trait。</p>
+<h2 id="coreitem"><a class="header" href="#coreitem"><code>CoreItem</code></a></h2>
+<p><code>CoreItem</code> 定义在 <code>ranim-core</code> 的 <code>core_item</code> 模块，是渲染管线的输入枚举：</p>
+<pre><code class="language-rust ignore">pub enum CoreItem {
+    CameraFrame(CameraFrame),
+    VItem(VItem),
+    MeshItem(MeshItem),
+}</code></pre>
+<p>三种 core item 的共同特征：数据为 f32（<code>Vec3</code> / <code>Vec4</code> / <code>Mat4</code>）、位于世界
+空间、不再携带任何动画辅助结构，每种直接对应渲染管线的一条路径。字段级的
+说明见 <a href="./core_items/README.html">Core Items</a>。</p>
+<h2 id="extract"><a class="header" href="#extract"><code>Extract</code></a></h2>
+<pre><code class="language-rust ignore">pub trait Extract {
+    type Target: Clone;
+
+    /// 把提取结果追加到 buf。
+    fn extract_into(&amp;self, buf: &amp;mut Vec&lt;Self::Target&gt;);
+
+    /// 提取为新分配的 Vec。
+    fn extract(&amp;self) -&gt; Vec&lt;Self::Target&gt;;
+}</code></pre>
+<p>要点：</p>
 <ul>
-<li><a href="./anim.html"><code>Eval</code>、<code>Animation</code>、容器与运行时</a> 描述叶子动画如何根据局部进度产生状态、附加播放参数，以及顺序 / 并行 / 交错容器如何把场景组织成动画树。</li>
-<li><a href="./core_item.html"><code>CoreItem</code> 与 <code>Extract</code></a> 描述动画求值结果如何经 <code>Extract</code> 展开为渲染器消费的 core item。</li>
-<li><a href="./core_items/README.html">Core Items</a> 逐个介绍三种 core item（<code>CameraFrame</code>、<code>VItem</code>、<code>MeshItem</code>）的字段与渲染语义。</li>
-<li><code>RanimScene</code> 的根节点是一个 <code>AnimStack</code>。<code>r.play(animation)</code> 等价于向根 Stack 执行 <code>push</code>，因此多次根级 <code>play</code> 默认从 0 秒并行。</li>
+<li><strong>提取可以是 1→N</strong>：一个用户层 item 可以 extract 成任意个 core item。
+高层 <code>VItem</code> 恰好产生 1 个 core <code>VItem</code>；<code>Surface</code> 经高层 <code>MeshItem</code> 产生
+1 个 core <code>MeshItem</code>；而 <code>SvgItem</code> / <code>TypstText</code> 这类复合 item 会产生<strong>多个</strong>
+core <code>VItem</code>。</li>
+<li><strong>可组合</strong>：<code>Vec&lt;E&gt;</code>、数组、元组等都有 <code>Extract</code> 实现，逐个把成员的提取
+结果追加进同一个 buffer，因此一帧的输出可以任意拼接。</li>
 </ul>
-<p>新模型不维护 Scene 内可变的 <code>TimelineId</code> 或运行时物件表。需要独立生命周期的内容由各自的 <code>AnimSequence</code> 持有，最后通过 Stack 组合。</p>
+<h2 id="从动画求值到-extract"><a class="header" href="#从动画求值到-extract">从动画求值到 extract</a></h2>
+<p>动画叶子的产出先被类型擦除为 <code>DynItem</code>：</p>
+<pre><code class="language-rust ignore">pub trait AnyExtractCoreItem: Any + Extract&lt;Target = CoreItem&gt; + DynClone {}
+pub struct DynItem(pub Box&lt;dyn AnyExtractCoreItem&gt;);</code></pre>
+<p><code>SceneEvaluator::sample_at(render_secs, out)</code> 对根 Stack 的每个顶层 cell 求值，
+再把每个产出 item 逐个 <code>extract()</code> 展开，得到一帧的 core item 列表：</p>
+<pre><code class="language-text">AnimationCell::eval_at(sec)  -&gt;  Vec&lt;DynItem&gt;
+  每个 DynItem.extract()     -&gt;  Vec&lt;CoreItem&gt;      （这里发生 1→N）
+  汇总                       -&gt;  EvaluatedFrame
+                                 = Vec&lt;((animation_id, part), CoreItem)&gt;
+</code></pre>
+<p><code>EvaluatedFrame</code> 中每个 core item 附带的身份是 <code>(animation_id, part)</code>：</p>
+<ul>
+<li><code>animation_id</code>：该 item 来自的根 Stack 顶层动画序号；</li>
+<li><code>part</code>：extract 展开后的序号。由于存在 1→N 映射，<code>part</code> 是 core item 序号，
+<strong>不</strong>等于用户层 item 的序号——这也是 <code>ranim inspect frame</code> 输出中 <code>part</code>
+字段的含义（见 <a href="../../cli.html">Ranim CLI</a>）。</li>
+</ul>
+<h2 id="谁来消费"><a class="header" href="#谁来消费">谁来消费</a></h2>
+<p>渲染器（<code>ranim-render</code>）按 <code>CoreItem</code> 变体分发到对应的渲染路径：core
+<code>VItem</code> 走矢量渲染（平面投影 + 三角化），core <code>MeshItem</code> 走 3D 网格渲染，
+<code>CameraFrame</code> 提供每帧的视图/投影矩阵。preview 与离线渲染共用同一条
+<code>sample_at</code> → <code>EvaluatedFrame</code> 路径。</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../cli.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../understand/core/anim.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                             </a>
 
-                            <a rel="next prefetch" href="../../understand/core/anim.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../understand/core/core_items/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
@@ -211,11 +251,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../cli.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../understand/core/anim.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
-                    <a rel="next prefetch" href="../../understand/core/anim.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../understand/core/core_items/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>

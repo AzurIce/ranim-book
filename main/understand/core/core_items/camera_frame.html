@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>核心概念 - Ranim Book</title>
+        <title>CameraFrame - Ranim Book</title>
 
 
         <!-- Custom HTML head -->
@@ -12,35 +12,35 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 
-        <link rel="icon" href="../../favicon-de23e50b.svg">
-        <link rel="shortcut icon" href="../../favicon-8114d1fc.png">
-        <link rel="stylesheet" href="../../css/variables-8adf115d.css">
-        <link rel="stylesheet" href="../../css/general-2459343d.css">
-        <link rel="stylesheet" href="../../css/chrome-ae938929.css">
-        <link rel="stylesheet" href="../../css/print-9e4910d8.css" media="print">
+        <link rel="icon" href="../../../favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="../../../favicon-8114d1fc.png">
+        <link rel="stylesheet" href="../../../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../../css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="../../fonts/fonts-9644e21d.css">
+        <link rel="stylesheet" href="../../../fonts/fonts-9644e21d.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="mdbook-highlight-css" href="../../highlight-493f70e1.css">
-        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../tomorrow-night-4c0ae647.css">
-        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../../highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../version-select-0246a208.css">
-        <link rel="stylesheet" href="../../theme/pagetoc-6390151b.css">
+        <link rel="stylesheet" href="../../../version-select-0246a208.css">
+        <link rel="stylesheet" href="../../../theme/pagetoc-6390151b.css">
 
 
         <!-- Provide site root and default themes to javascript -->
         <script>
-            const path_to_root = "../../";
+            const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-7d5c6ba9.js";
+            window.path_to_searchindex_js = "../../../searchindex-7d5c6ba9.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-b25f6c0e.js"></script>
+        <script src="../../../toc-b25f6c0e.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -107,7 +107,7 @@
             <!-- populated by js -->
             <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
             <noscript>
-                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+                <iframe class="sidebar-iframe-outer" src="../../../toc.html"></iframe>
             </noscript>
             <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -142,7 +142,7 @@
                     <h1 class="menu-title">Ranim Book</h1>
 
                     <div class="right-buttons">
-                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                        <a href="../../../print.html" title="Print this book" aria-label="Print this book">
                             <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
                         </a>
 
@@ -176,32 +176,59 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="核心概念"><a class="header" href="#核心概念">核心概念</a></h1>
-<p>Ranim 将动画定义为可按任意时间采样的值，并通过顺序和并行容器组织场景：</p>
-<pre><code class="language-text">Eval&lt;Output = T&gt;
-  -&gt; default Animation
-  -&gt; Paramed&lt;A&gt;
-  -&gt; AnimSequence / AnimStack / AnimLagged
-  -&gt; AnimationCell
-  -&gt; SealedRanimScene
-</code></pre>
+                        <h1 id="core-cameraframe"><a class="header" href="#core-cameraframe">Core <code>CameraFrame</code></a></h1>
+<p>相机数据，定义于 <code>ranim_core::core_item::camera_frame</code>。它同时携带正交与透视
+两套投影参数，由 <code>perspective_blend</code> 在二者之间混合。</p>
+<pre><code class="language-rust ignore">pub struct CameraFrame {
+    pub pos: DVec3,              // 位置
+    pub up: DVec3,               // 上方向单位向量
+    pub facing: DVec3,           // 朝向单位向量
+    pub near: f64,               // 近平面（far &gt; near）
+    pub far: f64,                // 远平面
+    pub perspective_blend: f64,  // 正交(0.0) ↔ 透视(1.0) 混合
+    pub frame_height: f64,       // 正交：视野高度
+    pub scale: f64,              // 正交：缩放系数
+    pub fovy: f64,               // 透视：纵向视场角（弧度）
+}</code></pre>
+<p>默认值（<code>CameraFrame::default()</code>）：位于原点、朝 <code>-Z</code>、<code>+Y</code> 为上；
+<code>perspective_blend = 0.0</code>（纯 2D 正交）；<code>frame_height = 8.0</code>；
+<code>near = -1000</code>、<code>far = 1000</code>；<code>fovy = π/2</code>。2D 场景用默认值即可。</p>
+<h2 id="投影"><a class="header" href="#投影">投影</a></h2>
+<pre><code class="language-rust ignore">let view = cam.view_matrix();                       // look_to(pos, facing, up)
+let proj = cam.projection_matrix(aspect_ratio);
+//   = orthographic_mat(aspect).lerp(perspective_mat(aspect), perspective_blend)</code></pre>
+<p>正交矩阵由 <code>frame_height * scale</code> 与宽高比推出；透视矩阵使用 <code>fovy</code>，且
+<code>near</code> 会被钳到至少 <code>0.1</code>。<code>perspective_blend</code> 取中间值时两矩阵逐元素插值，
+可用于「2D 场景平滑进入 3D 透视」的运镜（见
+<code>examples/perspective_blend</code>）。</p>
+<h2 id="3d-定位"><a class="header" href="#3d-定位">3D 定位</a></h2>
+<pre><code class="language-rust ignore">// 球坐标定位（Z-up），看向原点；perspective_blend 自动设为 1.0
+let cam = CameraFrame::from_spherical(phi, theta, distance);
+// phi：与 +Z 的极角（0 = 正上方，π/2 = XY 平面）
+// theta：方位角（0 = +X，π/2 = +Y）
+
+// 或围绕任意目标点：
+cam.set_spherical(phi, theta, distance, target);
+cam.look_at(target); // 只改朝向</code></pre>
+<p>注意 <code>from_spherical</code> / <code>set_spherical</code> 把 <code>up</code> 固定为 <code>+Z</code>。</p>
+<h2 id="其他"><a class="header" href="#其他">其他</a></h2>
 <ul>
-<li><a href="./anim.html"><code>Eval</code>、<code>Animation</code>、容器与运行时</a> 描述叶子动画如何根据局部进度产生状态、附加播放参数，以及顺序 / 并行 / 交错容器如何把场景组织成动画树。</li>
-<li><a href="./core_item.html"><code>CoreItem</code> 与 <code>Extract</code></a> 描述动画求值结果如何经 <code>Extract</code> 展开为渲染器消费的 core item。</li>
-<li><a href="./core_items/README.html">Core Items</a> 逐个介绍三种 core item（<code>CameraFrame</code>、<code>VItem</code>、<code>MeshItem</code>）的字段与渲染语义。</li>
-<li><code>RanimScene</code> 的根节点是一个 <code>AnimStack</code>。<code>r.play(animation)</code> 等价于向根 Stack 执行 <code>push</code>，因此多次根级 <code>play</code> 默认从 0 秒并行。</li>
+<li><code>set_view_matrix</code> / <code>with_view_matrix</code>：从视图矩阵反解 <code>pos</code> / <code>up</code> /
+<code>facing</code>。</li>
+<li><code>center_canvas_in_frame(center, width, height, up, normal, aspect_ratio)</code>：
+透视模式下调整相机位置，使给定矩形画布恰好充满画面。</li>
+<li><code>CameraFrame</code> 实现了 <code>Interpolatable</code>，可以直接用 <code>morph</code> 做运镜动画。</li>
 </ul>
-<p>新模型不维护 Scene 内可变的 <code>TimelineId</code> 或运行时物件表。需要独立生命周期的内容由各自的 <code>AnimSequence</code> 持有，最后通过 Stack 组合。</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../cli.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../../understand/core/core_items/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                             </a>
 
-                            <a rel="next prefetch" href="../../understand/core/anim.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../../understand/core/core_items/vitem.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
@@ -211,11 +238,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../cli.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../../understand/core/core_items/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
-                    <a rel="next prefetch" href="../../understand/core/anim.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../../understand/core/core_items/vitem.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>
@@ -235,19 +262,19 @@
         </script>
 
 
-        <script src="../../elasticlunr-ef4e11c1.min.js"></script>
-        <script src="../../mark-09e88c2c.min.js"></script>
-        <script src="../../searcher-09f2665d.js"></script>
+        <script src="../../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../../mark-09e88c2c.min.js"></script>
+        <script src="../../../searcher-09f2665d.js"></script>
 
-        <script src="../../clipboard-1626706a.min.js"></script>
-        <script src="../../highlight-abc7f01d.js"></script>
-        <script src="../../book-a0b12cfe.js"></script>
+        <script src="../../../clipboard-1626706a.min.js"></script>
+        <script src="../../../highlight-abc7f01d.js"></script>
+        <script src="../../../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../version-select-fdcb80bd.js"></script>
-        <script src="../../theme/pagetoc-ad23158a.js"></script>
-        <script src="../../mermaid-eefea253.min.js"></script>
-        <script src="../../mermaid-init-025d9952.js"></script>
+        <script src="../../../version-select-fdcb80bd.js"></script>
+        <script src="../../../theme/pagetoc-ad23158a.js"></script>
+        <script src="../../../mermaid-eefea253.min.js"></script>
+        <script src="../../../mermaid-init-025d9952.js"></script>
 
 
 

@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>核心概念 - Ranim Book</title>
+        <title>VItem - Ranim Book</title>
 
 
         <!-- Custom HTML head -->
@@ -176,32 +176,61 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="核心概念"><a class="header" href="#核心概念">核心概念</a></h1>
-<p>Ranim 将动画定义为可按任意时间采样的值，并通过顺序和并行容器组织场景：</p>
-<pre><code class="language-text">Eval&lt;Output = T&gt;
-  -&gt; default Animation
-  -&gt; Paramed&lt;A&gt;
-  -&gt; AnimSequence / AnimStack / AnimLagged
-  -&gt; AnimationCell
-  -&gt; SealedRanimScene
-</code></pre>
-<ul>
-<li><a href="./anim.html"><code>Eval</code>、<code>Animation</code>、容器与运行时</a> 描述叶子动画如何根据局部进度产生状态、附加播放参数，以及顺序 / 并行 / 交错容器如何把场景组织成动画树。</li>
-<li><a href="./core_item.html"><code>CoreItem</code> 与 <code>Extract</code></a> 描述动画求值结果如何经 <code>Extract</code> 展开为渲染器消费的 core item。</li>
-<li><a href="./core_items/README.html">Core Items</a> 逐个介绍三种 core item（<code>CameraFrame</code>、<code>VItem</code>、<code>MeshItem</code>）的字段与渲染语义。</li>
-<li><code>RanimScene</code> 的根节点是一个 <code>AnimStack</code>。<code>r.play(animation)</code> 等价于向根 Stack 执行 <code>push</code>，因此多次根级 <code>play</code> 默认从 0 秒并行。</li>
-</ul>
-<p>新模型不维护 Scene 内可变的 <code>TimelineId</code> 或运行时物件表。需要独立生命周期的内容由各自的 <code>AnimSequence</code> 持有，最后通过 Stack 组合。</p>
+                        <h1 id="vitem"><a class="header" href="#vitem"><code>VItem</code></a></h1>
+<pre><code class="language-rust ignore">pub struct VItem {
+    pub normal: Option&lt;DVec3&gt;,        // 投影平面法向；None 时渲染时推导
+    pub vpoints: VPointVec,           // 点列（二次贝塞尔）
+    pub stroke_widths: PointVec&lt;Width&gt;,
+    pub stroke_rgbas: PointVec&lt;Rgba&gt;,
+    pub fill_rgbas: PointVec&lt;Rgba&gt;,
+}</code></pre>
+<h2 id="vpoints二次贝塞尔路径"><a class="header" href="#vpoints二次贝塞尔路径">vpoints：二次贝塞尔路径</a></h2>
+<p><code>vpoints</code> 是 anchor 与 handle 交替排列的点列：<code>[a₀, h₀, a₁, h₁, a₂, …]</code>，
+每三个连续点 <code>(aᵢ, hᵢ, aᵢ₊₁)</code> 构成一段二次贝塞尔。颜色与线宽数组按<strong>段</strong>
+对齐（长度 = 点数 / 2 向上取整），因此可以给一个 item 的不同段设置不同
+颜色/线宽。</p>
+<pre><code class="language-rust ignore">// 直接用点列构造（默认：白描边 0.02、无填充）
+let vitem = VItem::from_vpoints(vec![
+    dvec3(0.0, 0.0, 0.0),
+    dvec3(1.0, 0.0, 0.0),
+    dvec3(0.5, 1.0, 0.0),
+]);</code></pre>
+<p>常用方法：<code>close()</code>（闭合路径）、<code>shrink()</code>（缩到包围盒中心）、
+<code>get_anchor(idx)</code>（取第 idx 个 anchor）、<code>extend_vpoints(...)</code>（追加，颜色/
+线宽数组自动补齐）、<code>put_start_and_end_on(start, end)</code>（把首尾移到指定位
+置）、<code>with_normal(...)</code> / <code>set_normal(...)</code>（指定投影平面法向）。</p>
+<h2 id="渲染语义平面投影"><a class="header" href="#渲染语义平面投影">渲染语义：平面投影</a></h2>
+<p>渲染时假设 <code>VItem</code> 的所有点共面，实际渲染的是它在投影平面上的投影
+（共面时投影即其本身）。语义细节见 Core Items 的
+<a href="../../understand/core/core_items/vitem.html">VItem</a>。</p>
+<p><code>normal</code> 一般保持默认的 <code>None</code> 即可：投影平面在渲染时从<strong>当前点数据</strong>推导，
+动画中间帧的插值点总是推导出与之一致的法向，不会漂移。反之，显式
+<code>set_normal</code> 之后，插值就发生在法向量本身上（<code>Some(a).lerp(Some(b), t)</code>，
+普通线性插值且不重新归一化），不再跟随点数据。因此只在确有需要时才显式
+设置，例如点共线/重合等自动推导存在歧义的退化情形，或故意要让非共面点
+渲染成投影效果。</p>
+<h2 id="动画相关-trait"><a class="header" href="#动画相关-trait">动画相关 trait</a></h2>
+<p><code>VItem</code> 实现了 <code>Interpolatable</code>（逐点/逐颜色插值）与 <code>Alignable</code>（点数不同
+时自动补齐对齐，<code>morph</code> 依赖它），因此可以直接：</p>
+<pre><code class="language-rust ignore">let anim = square.morph(|sq| {
+    sq.set_fill_color(manim::BLUE_C);
+    sq.shift(DVec3::X * 2.0);
+});</code></pre>
+<p>还实现了 <code>FillColor</code> / <code>StrokeColor</code> / <code>StrokeWidth</code> / <code>Opacity</code> /
+<code>Partial</code>（<code>get_partial(range)</code> 截取路径的一段，<code>Create</code>/<code>Write</code> 动画的
+基础）、<code>PointsFunc</code>（<code>apply_points_func</code> 批量变换点）、<code>Aabb</code> 与
+<code>ShiftTransform</code> / <code>RotateTransform</code> / <code>ScaleTransform</code>。</p>
+<p><code>PointVec</code> 是分量数组的动画包装：对齐时按规则补齐长度，插值逐分量进行。</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../cli.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../items/vitem/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                             </a>
 
-                            <a rel="next prefetch" href="../../understand/core/anim.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../items/vitem/geometry.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
@@ -211,11 +240,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../cli.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../items/vitem/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
-                    <a rel="next prefetch" href="../../understand/core/anim.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../items/vitem/geometry.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>

@@ -37,10 +37,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-11d8482f.js";
+            window.path_to_searchindex_js = "searchindex-7d5c6ba9.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-f371d97a.js"></script>
+        <script src="toc-b25f6c0e.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -274,6 +274,7 @@ fn getting_started0(r: &amp;mut RanimScene) {
             .with_duration(content.cursor_sec()),
     );
     r.play(content);
+    r.insert_time_mark(1.0, TimeMark::Capture("preview.png".to_string()));
 }</code></pre>
 <h3 id="hold-与-forward"><a class="header" href="#hold-与-forward"><code>hold</code> 与 <code>forward</code></a></h3>
 <p><code>forward</code> 表示明确的空白时间；<code>hold</code> 表示把当前状态延长一段时间。新模型不会隐式认为一个动画结束后物件仍然存在。</p>
@@ -339,12 +340,13 @@ fn getting_started1(r: &amp;mut RanimScene) {
         VItem::from(circle).unwrite().with_rate_func(smooth),
     ];
 
-    r.play(
-        CameraFrame::default()
-            .show()
-            .with_duration(content.cursor_sec()),
-    );
+    let total_secs = content.cursor_sec();
+    r.play(CameraFrame::default().show().with_duration(total_secs));
     r.play(content);
+    r.insert_time_mark(
+        total_secs / 2.0,
+        TimeMark::Capture("preview.png".to_string()),
+    );
 }</code></pre>
 <p>多个独立 Sequence 的组合示例：</p>
 <pre><code class="language-rust ignore">use ranim::{
@@ -399,6 +401,10 @@ fn getting_started2(r: &amp;mut RanimScene) {
     let total_secs = item_sequence.cursor_sec().max(rect_sequence.cursor_sec());
     r.play(CameraFrame::default().show().with_duration(total_secs));
     r.play(stack![rect_sequence, item_sequence]);
+    r.insert_time_mark(
+        total_secs / 2.0,
+        TimeMark::Capture("preview.png".to_string()),
+    );
 }</code></pre>
 <h2 id="scene-与-output-属性"><a class="header" href="#scene-与-output-属性">Scene 与 Output 属性</a></h2>
 <p><code>#[scene]</code> 支持：</p>
@@ -431,6 +437,12 @@ ranim render hello
 ranim output -p package_name --example example_name
 ranim render -p package_name --example example_name hello
 </code></pre>
+<p>不渲染、只查询场景信息时使用 <code>inspect</code>：</p>
+<pre><code class="language-bash">ranim inspect scenes --example example_name
+ranim inspect tree --example example_name
+ranim inspect frame &lt;scene_name&gt; --at 1.0 --example example_name
+</code></pre>
+<p><code>tree</code> 的 Scene 名称在只有一个 Scene 时可以省略；<code>frame</code> 必须指定 Scene 名称，<code>--at</code> 为采样时间（秒）。需要完整几何数据时给 <code>frame</code> 加 <code>--verbose</code>，机器可读输出加 <code>--format json</code>。</p>
 <p><code>preview</code> 可以接收一个可选 Scene 名称；<code>output</code> 可以接收零个或多个 Scene 名称，并渲染它们声明的所有 <code>#[output(...)]</code>；<code>render</code> 接收恰好一个 Scene 名称，使用默认输出设置（<code>1920x1080</code>、60 fps、mp4）做一次临时渲染，不读取 <code>#[output(...)]</code>。额外的 Cargo 构建参数放在 <code>--</code> 后，例如：</p>
 <pre><code class="language-bash">ranim output hello -- --release
 ranim render hello -- --release

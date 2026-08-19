@@ -38,10 +38,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-11d8482f.js";
+            window.path_to_searchindex_js = "searchindex-7d5c6ba9.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-f371d97a.js"></script>
+        <script src="toc-b25f6c0e.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -275,6 +275,7 @@ fn getting_started0(r: &amp;mut RanimScene) {
             .with_duration(content.cursor_sec()),
     );
     r.play(content);
+    r.insert_time_mark(1.0, TimeMark::Capture("preview.png".to_string()));
 }</code></pre>
 <h3 id="hold-与-forward"><a class="header" href="#hold-与-forward"><code>hold</code> 与 <code>forward</code></a></h3>
 <p><code>forward</code> 表示明确的空白时间；<code>hold</code> 表示把当前状态延长一段时间。新模型不会隐式认为一个动画结束后物件仍然存在。</p>
@@ -340,12 +341,13 @@ fn getting_started1(r: &amp;mut RanimScene) {
         VItem::from(circle).unwrite().with_rate_func(smooth),
     ];
 
-    r.play(
-        CameraFrame::default()
-            .show()
-            .with_duration(content.cursor_sec()),
-    );
+    let total_secs = content.cursor_sec();
+    r.play(CameraFrame::default().show().with_duration(total_secs));
     r.play(content);
+    r.insert_time_mark(
+        total_secs / 2.0,
+        TimeMark::Capture("preview.png".to_string()),
+    );
 }</code></pre>
 <p>多个独立 Sequence 的组合示例：</p>
 <pre><code class="language-rust ignore">use ranim::{
@@ -400,6 +402,10 @@ fn getting_started2(r: &amp;mut RanimScene) {
     let total_secs = item_sequence.cursor_sec().max(rect_sequence.cursor_sec());
     r.play(CameraFrame::default().show().with_duration(total_secs));
     r.play(stack![rect_sequence, item_sequence]);
+    r.insert_time_mark(
+        total_secs / 2.0,
+        TimeMark::Capture("preview.png".to_string()),
+    );
 }</code></pre>
 <h2 id="scene-与-output-属性"><a class="header" href="#scene-与-output-属性">Scene 与 Output 属性</a></h2>
 <p><code>#[scene]</code> 支持：</p>
@@ -432,6 +438,12 @@ ranim render hello
 ranim output -p package_name --example example_name
 ranim render -p package_name --example example_name hello
 </code></pre>
+<p>不渲染、只查询场景信息时使用 <code>inspect</code>：</p>
+<pre><code class="language-bash">ranim inspect scenes --example example_name
+ranim inspect tree --example example_name
+ranim inspect frame &lt;scene_name&gt; --at 1.0 --example example_name
+</code></pre>
+<p><code>tree</code> 的 Scene 名称在只有一个 Scene 时可以省略；<code>frame</code> 必须指定 Scene 名称，<code>--at</code> 为采样时间（秒）。需要完整几何数据时给 <code>frame</code> 加 <code>--verbose</code>，机器可读输出加 <code>--format json</code>。</p>
 <p><code>preview</code> 可以接收一个可选 Scene 名称；<code>output</code> 可以接收零个或多个 Scene 名称，并渲染它们声明的所有 <code>#[output(...)]</code>；<code>render</code> 接收恰好一个 Scene 名称，使用默认输出设置（<code>1920x1080</code>、60 fps、mp4）做一次临时渲染，不读取 <code>#[output(...)]</code>。额外的 Cargo 构建参数放在 <code>--</code> 后，例如：</p>
 <pre><code class="language-bash">ranim output hello -- --release
 ranim render hello -- --release
@@ -469,6 +481,117 @@ cargo run -p ranim-cli --release -- output --example getting_started0
 </pre>
 
 <div style="break-before: page; page-break-before: always;"></div>
+<h1 id="ranim-cli"><a class="header" href="#ranim-cli">Ranim CLI</a></h1>
+<p><code>ranim-cli</code> 是 Ranim 的命令行工具，二进制名为 <code>ranim</code>。它负责把场景代码构建成
+dylib、加载其中通过 <code>#[scene]</code> 注册的场景，并围绕场景提供四个子命令：</p>
+<pre><code class="language-text">ranim &lt;command&gt;
+├── preview   启动预览 app，watch 场景代码并在变更时自动重建 dylib
+├── output    渲染场景声明的所有 #[output(...)]（成片输出）
+├── render    用默认输出设置快速渲染一个场景一次（冒烟）
+└── inspect   不渲染，纯 CPU 检查场景 / 动画树 / 单帧物件
+</code></pre>
+<p>在仓库内可以直接用 cargo 运行；也可以安装到 PATH：</p>
+<pre><code class="language-bash">cargo run -p ranim-cli -- &lt;command&gt; ...
+cargo install --path packages/ranim-cli   # 之后可直接使用 ranim &lt;command&gt; ...
+</code></pre>
+<h2 id="工作方式"><a class="header" href="#工作方式">工作方式</a></h2>
+<p>每次调用都会先 <code>cargo build</code> 目标（lib 或 example，需为 <code>cdylib</code>），再加载 dylib
+中的 scene inventory。因此命令报错时应先看 cargo 的编译输出——大多数失败是场景
+代码本身的编译错误。</p>
+<h2 id="通用-target-参数"><a class="header" href="#通用-target-参数">通用 target 参数</a></h2>
+<p>以下参数对所有子命令可用：</p>
+<pre><code class="language-text">-p, --package &lt;PACKAGE&gt;   指定 workspace 中的 package（优先于当前目录推断）
+    --lib                 使用 package 的 lib target（与 --example 互斥）
+    --example &lt;EXAMPLE&gt;   构建并加载指定的 example target，并自动解析到声明它的 package
+    --features &lt;FEATURES&gt; 透传给 cargo build
+-- &lt;cargo args&gt;...        其余 cargo 构建参数，例如 `-- --release`
+</code></pre>
+<ul>
+<li>不显式指定时，CLI 根据当前目录推断 package 并使用其 lib target。</li>
+<li><code>-- --release</code> 只影响场景 dylib 的 profile，CLI 本体的 profile 由外层 cargo 决定。</li>
+<li>调试迭代一般不需要 release：仓库为 dev profile 开了 <code>opt-level = 1</code>、依赖
+<code>opt-level = 3</code>，<code>inspect</code> 是纯 CPU 查询，渲染也足够快。</li>
+</ul>
+<h2 id="ranim-preview-scene"><a class="header" href="#ranim-preview-scene"><code>ranim preview [SCENE]</code></a></h2>
+<p>启动预览 app，并 watch 场景代码，文件变更时自动重建 dylib 刷新画面。适合编写场景
+时的实时调试。</p>
+<h2 id="ranim-output-scenes"><a class="header" href="#ranim-output-scenes"><code>ranim output [SCENES...]</code></a></h2>
+<p>渲染每个选中场景声明的<strong>所有</strong> <code>#[output(...)]</code>；不指定场景时渲染全部场景。这是
+交付前的最终验证命令。</p>
+<p><code>#[output(...)]</code> 可用的属性（默认值：<code>1920x1080</code>、60 fps、mp4、
+<code>dir = "./output"</code>、<code>save_frames = false</code>）：</p>
+<pre><code class="language-rust ignore">#[output(
+    width = 1920,            // 像素宽
+    height = 1080,           // 像素高
+    fps = 60,                // 帧率
+    format = "mp4",          // mp4 / webm / mov / gif
+    dir = "./output",        // 输出目录（相对路径基于当前工作目录）
+    name = "my_video",       // 可选，覆盖 {name}（默认用场景名）
+    name_template = "{name}_{width}x{height}_{fps}", // 输出文件主名模板
+    save_frames = false,     // 同时保存 PNG 帧序列
+)]</code></pre>
+<p>一个场景可以声明多个 <code>#[output(...)]</code>（例如同时输出 mp4 和 gif）。</p>
+<p>产物位置（以 <code>dir = "./output"</code>、场景名 <code>hello</code> 为例）：</p>
+<pre><code class="language-text">output/hello_1920x1080_60.mp4            视频：&lt;dir&gt;/&lt;模板展开的主名&gt;.&lt;ext&gt;
+output/hello_1920x1080_60-frames/NNNN.png 帧序列（save_frames = true 时）
+output/hello_1920x1080_60/&lt;filename&gt;     TimeMark::Capture 截图
+</code></pre>
+<p>场景中通过 <code>r.insert_time_mark(sec, TimeMark::Capture("x.png".to_string()))</code>
+声明的截图，在主视频渲染完成后统一处理。</p>
+<p><code>--buffer-count &lt;N&gt;</code>（默认 2）控制 GPU readback 缓冲数量：越大并行度越高，但占用
+更多显存。</p>
+<p>需要 GPU 与 ffmpeg；PATH 中找不到 ffmpeg 时 CLI 会尝试在当前目录查找或下载。</p>
+<h2 id="ranim-render-scene"><a class="header" href="#ranim-render-scene"><code>ranim render &lt;SCENE&gt;</code></a></h2>
+<p>用固定默认设置（<code>1920x1080</code>、60 fps、mp4）把单个场景快速渲染一次，输出到
+<code>./output/&lt;scene&gt;_1920x1080_60.mp4</code>。</p>
+<p>它<strong>不读取</strong>任何 <code>#[output(...)]</code> 声明，也<strong>不处理</strong> <code>TimeMark::Capture</code>。适合
+迭代中只想快速看整体效果的情况；正式验收仍应使用 <code>ranim output</code>。</p>
+<h2 id="ranim-inspect"><a class="header" href="#ranim-inspect"><code>ranim inspect</code></a></h2>
+<p>纯 CPU 检查，不创建 GPU context，可以在无 GPU 的环境运行。所有子命令支持
+<code>--format text|json</code>（默认 <code>text</code>；JSON 输出顶层含 <code>schema_version</code>，适合脚本化）。</p>
+<h3 id="ranim-inspect-scenes"><a class="header" href="#ranim-inspect-scenes"><code>ranim inspect scenes</code></a></h3>
+<pre><code class="language-bash">ranim inspect scenes --example hello_ranim
+</code></pre>
+<p>不调用场景构造函数，只列出 dylib 中注册的场景及其 <code>#[output(...)]</code> 摘要（尺寸、
+fps、格式、输出目录、<code>name_template</code>、<code>save_frames</code>）。适合开工第一步：确认场景
+名拼写、场景是否注册成功、输出配置是否符合预期。</p>
+<h3 id="ranim-inspect-tree-scene"><a class="header" href="#ranim-inspect-tree-scene"><code>ranim inspect tree [SCENE]</code></a></h3>
+<pre><code class="language-bash">ranim inspect tree hello_ranim --example hello_ranim
+</code></pre>
+<p>构建场景并输出层级动画树。每个节点包含：DFS <code>path</code>、<code>kind</code>
+（eval/sequence/stack/lagged/static）、<code>anim_name</code>、父局部坐标下的 <code>range</code>、
+<code>content_duration_secs</code>、<code>rate_func</code>、<code>enabled</code> 与 <code>children</code>；iterative 节点
+额外包含 <code>sim_step</code>（<code>with_steps(N)</code> 声明的进度步长 <code>1/N</code>，未声明时为默认值）。
+当库里只有一个场景时 <code>[SCENE]</code> 可省略。</p>
+<p>注意 <code>range</code> 是<strong>父局部坐标</strong>，不要直接当成全局时间。</p>
+<h3 id="ranim-inspect-frame-scene---at-sec"><a class="header" href="#ranim-inspect-frame-scene---at-sec"><code>ranim inspect frame &lt;SCENE&gt; --at &lt;sec&gt;</code></a></h3>
+<pre><code class="language-bash">ranim inspect frame hello_ranim --at 1.5 --example hello_ranim --verbose
+</code></pre>
+<p>以 120 Hz 逻辑时钟在 <code>&lt;sec&gt;</code> 采样一帧，输出该帧的物件列表。每个物件包含
+<code>z_order</code>（帧内渲染/遮挡顺序）、<code>id</code> / <code>animation_id</code> / <code>part</code>、<code>kind</code>
+（camera/vitem/mesh）、来源根动画 <code>source</code> 和 <code>data</code> 摘要（VItem 的点数/颜色/
+AABB，Mesh 的点数/三角形数/transform/AABB，Camera 的 pos/facing/up/投影参数）。
+<code>--verbose</code> 追加完整几何数据（VItem points、Mesh 顶点/索引/颜色/法线）。</p>
+<p>用于渲染前定位「某时刻物件不对 / 位置不对 / z-order 不对 / 颜色不对」等问题，
+避免直接上 GPU 盲调。已知局限（如实输出，不要误读）：</p>
+<ul>
+<li><code>source</code> 只能回溯到根动画的 <code>animation_id</code>，不能定位树内叶子节点；</li>
+<li><code>SvgItem</code> / <code>TypstText</code> 等用户层 item 会 extract 成多个 CoreItem（1→N），此时
+<code>part</code> 是 extract 后的序号，不是用户层 item 的序号。</li>
+</ul>
+<h2 id="推荐工作流"><a class="header" href="#推荐工作流">推荐工作流</a></h2>
+<pre><code class="language-text">inspect scenes   确认场景与输出配置
+      │
+inspect tree     确认动画组织、时间范围、rate_func / enabled
+      │
+inspect frame    在关键时刻确认物件、几何、z-order 与颜色（不上 GPU）
+      │
+render           快速冒烟，看整体效果
+      │
+output           最终验证：成片、帧序列与 Capture 截图
+</code></pre>
+<p>原则：能用便宜的 <code>inspect</code> 查清的问题，不要留到昂贵的 GPU 渲染之后才发现。</p>
+<div style="break-before: page; page-break-before: always;"></div>
 <h1 id="核心概念"><a class="header" href="#核心概念">核心概念</a></h1>
 <p>Ranim 将动画定义为可按任意时间采样的值，并通过顺序和并行容器组织场景：</p>
 <pre><code class="language-text">Eval&lt;Output = T&gt;
@@ -479,15 +602,42 @@ cargo run -p ranim-cli --release -- output --example getting_started0
   -&gt; SealedRanimScene
 </code></pre>
 <ul>
-<li><a href="#动画"><code>Eval</code>、<code>Animation</code> 与 <code>Paramed</code></a> 描述叶子动画如何根据局部进度产生状态并附加播放参数。</li>
-<li><a href="#动画序列与并行组合"><code>AnimSequence</code>、<code>AnimStack</code> 与 <code>AnimLagged</code></a> 分别描述顺序状态、并行动画层和 stagger 排布。</li>
+<li><a href="#动画系统"><code>Eval</code>、<code>Animation</code>、容器与运行时</a> 描述叶子动画如何根据局部进度产生状态、附加播放参数，以及顺序 / 并行 / 交错容器如何把场景组织成动画树。</li>
+<li><a href="#coreitem-与-extract"><code>CoreItem</code> 与 <code>Extract</code></a> 描述动画求值结果如何经 <code>Extract</code> 展开为渲染器消费的 core item。</li>
+<li><a href="understand/core/core_items/README.html">Core Items</a> 逐个介绍三种 core item（<code>CameraFrame</code>、<code>VItem</code>、<code>MeshItem</code>）的字段与渲染语义。</li>
 <li><code>RanimScene</code> 的根节点是一个 <code>AnimStack</code>。<code>r.play(animation)</code> 等价于向根 Stack 执行 <code>push</code>，因此多次根级 <code>play</code> 默认从 0 秒并行。</li>
 </ul>
 <p>新模型不维护 Scene 内可变的 <code>TimelineId</code> 或运行时物件表。需要独立生命周期的内容由各自的 <code>AnimSequence</code> 持有，最后通过 Stack 组合。</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="动画"><a class="header" href="#动画">动画</a></h1>
-<h2 id="eval"><a class="header" href="#eval"><code>Eval</code></a></h2>
-<p>Ranim 的叶子动画核心是一个统一的求值协议。动画内容一旦定义就不可变：它是自身归一化进度 <code>alpha ∈ [0, 1]</code> 的纯函数。</p>
+<h1 id="动画系统"><a class="header" href="#动画系统">动画系统</a></h1>
+<p>Ranim 的一个场景就是一棵动画树。谈论这棵树时要区分两个层面：</p>
+<ul>
+<li><strong>定义期（具体类型）</strong>：叶子是任何实现了 <code>Eval</code> 的类型——<code>FadeIn</code>、
+<code>Morph</code>、<code>Pure</code>、<code>Iterative</code> 或自定义 struct，<code>Eval::Output</code> 是该动画产出的
+item 类型 <code>T</code>；容器是 <code>AnimSequence</code> / <code>AnimStack</code> / <code>AnimLagged</code> 三个
+struct；树根是 <code>RanimScene</code> 自带的根 <code>AnimStack</code>。</li>
+<li><strong>运行期（类型擦除）</strong>：每个节点统一 lower 为 struct <code>AnimationCell</code>，叶子
+在 cell 内部是擦除自 <code>Eval&lt;Output = T&gt;</code> 的 trait object（<code>Box&lt;dyn EvalDyn&gt;</code>，
+<code>T</code> 需可提取为场景元素）。擦除只隐藏直接子节点的 Rust 类型，组合层级本身
+保留。</li>
+</ul>
+<p>本章自底向上整理这条链路：</p>
+<pre><code class="language-text">trait Eval&lt;Output = T&gt;                  叶子协议：alpha -&gt; T 的纯函数
+  │ 具体叶子 struct：FadeIn / Morph / Pure / Iterative / 自定义 …
+  │ 自动实现 trait Animation + Placeable（默认 linear、1 秒、enabled）
+  ▼
+struct Paramed&lt;A&gt; / At&lt;A&gt;               with_duration / with_rate_func / with_enabled / at
+  ▼
+struct AnimSequence / AnimStack / AnimLagged   顺序 / 并行 / 交错容器（自身也实现 Animation）
+  │ Animation::build（类型擦除，保留组合层级）
+  ▼
+struct AnimationCell                    运行时节点：Box&lt;dyn EvalDyn&gt; + 时间区间 + rate_func + enabled
+  ▼
+RanimScene 根 AnimStack  →  SceneEvaluator 采样
+</code></pre>
+<h2 id="eval叶子求值协议"><a class="header" href="#eval叶子求值协议"><code>Eval</code>：叶子求值协议</a></h2>
+<p>Ranim 的叶子动画核心是一个统一的求值协议。动画内容一旦定义就不可变：它是自身
+归一化进度 <code>alpha ∈ [0, 1]</code> 的纯函数。</p>
 <pre><code class="language-rust ignore">pub trait Eval {
     type Output;
 
@@ -496,8 +646,10 @@ cargo run -p ranim-cli --release -- output --example getting_started0
 }</code></pre>
 <ul>
 <li>协议只有一个入口：<code>eval_alpha(&amp;self, alpha)</code>；</li>
-<li>它是 <code>&amp;self</code> 上的纯查询：无论调用顺序和次数，同一个 <code>alpha</code> 得到同一个 <code>Output</code>；</li>
-<li>evaluator 看不到秒、场景时钟或 <code>logic_fps</code>。<code>AnimationCell</code> 负责把场景时间映射成进度后才调用它；</li>
+<li>它是 <code>&amp;self</code> 上的纯查询：无论调用顺序和次数，同一个 <code>alpha</code> 得到同一个
+<code>Output</code>；</li>
+<li>evaluator 看不到秒、场景时钟或 <code>logic_fps</code>。<code>AnimationCell</code> 负责把场景时间
+映射成进度后才调用它；</li>
 <li>有状态（迭代）区段在内部记忆化自己的积分快照；纯区段就是闭式。</li>
 </ul>
 <p><code>EvalExt</code> 提供两个 build 期便捷方法：</p>
@@ -505,28 +657,36 @@ cargo run -p ranim-cli --release -- output --example getting_started0
     fn apply_alpha_to(self, item: &amp;mut Self::Output, alpha: f64) -&gt; Self;
     fn apply_to(self, item: &amp;mut Self::Output) -&gt; Self; // alpha = 1.0
 }</code></pre>
-<p>内置动画的工具方法（<code>fade_in()</code> 等）正是靠 <code>apply_to</code> 在创建动画的同时把 item 置为动画末态。</p>
-<h2 id="进度是唯一坐标"><a class="header" href="#进度是唯一坐标">进度是唯一坐标</a></h2>
-<p><code>Time</code> / <code>DeltaTime</code> / <code>GlobalTime</code> 已从协议中删除。<code>ranim::core::time</code> 只剩两个类型别名：</p>
+<p>内置动画的工具方法（<code>fade_in()</code> 等）正是靠 <code>apply_to</code> 在创建动画的同时把 item
+置为动画末态。</p>
+<h3 id="进度是唯一坐标"><a class="header" href="#进度是唯一坐标">进度是唯一坐标</a></h3>
+<p><code>ranim::core::time</code> 只有两个类型别名：</p>
 <pre><code class="language-rust ignore">pub type Alpha = f64;       // 归一化进度
 pub type DeltaAlpha = f64;  // 均匀进度步长</code></pre>
-<p>“内容即序列”：迭代动画的内容是作者声明的进度点序列 <code>x₀…x_N</code>。<code>N</code> 是定义而不是采样精度；<code>rate_func</code>、<code>with_duration</code>、placement 都只是“哪个进度何时可见”的采样重映射。</p>
-<h2 id="通用适配器pure-与-iterative"><a class="header" href="#通用适配器pure-与-iterative">通用适配器：<code>Pure</code> 与 <code>Iterative</code></a></h2>
-<p>两个 author-facing 适配器现在都在 <code>ranim_core::animation</code> 中。</p>
+<p>「内容即序列」：迭代动画的内容是作者声明的进度点序列 <code>x₀…x_N</code>。<code>N</code> 是定义而
+不是采样精度；<code>rate_func</code>、<code>with_duration</code>、placement 都只是「哪个进度何时可
+见」的采样重映射。</p>
+<h2 id="内容的两种来源pure-与-iterative"><a class="header" href="#内容的两种来源pure-与-iterative">内容的两种来源：<code>Pure</code> 与 <code>Iterative</code></a></h2>
+<p>两者都是 <code>Eval</code> 的实现：<code>Pure</code> 适配闭式求值，<code>Iterative</code> 适配逐步积分。它们与
+具名动画（<code>FadeIn</code>、<code>Morph</code> 等直接 <code>impl Eval</code> 的类型）地位相同，只是内容的
+产生方式不同。</p>
 <h3 id="纯闭包pure"><a class="header" href="#纯闭包pure">纯闭包：<code>Pure</code></a></h3>
 <p>闭包是匿名类型，不能按名字实现 <code>Eval</code>，所以用 <code>Pure</code> 包一层：</p>
 <pre><code class="language-rust ignore">use ranim::core::animation::eval::pure::Pure;
 
 let animation = Pure::new(|alpha| Square::new(alpha)).with_duration(2.0);</code></pre>
-<p>具名纯动画（<code>FadeIn</code>、<code>Morph</code>、<code>Create</code> 等）直接实现 <code>Eval</code>，不需要这个 wrapper。</p>
+<p>具名纯动画（<code>FadeIn</code>、<code>Morph</code>、<code>Create</code> 等）直接实现 <code>Eval</code>，不需要这个
+wrapper。</p>
 <h3 id="迭代区段iterativeeval--iterative"><a class="header" href="#迭代区段iterativeeval--iterative">迭代区段：<code>IterativeEval</code> + <code>Iterative</code></a></h3>
+<p>物理模拟、混沌系统等没有闭式的内容，用逐步推进的方式定义：</p>
 <pre><code class="language-rust ignore">pub trait IterativeEval {
     type Output;
 
     /// 推进一个内容步。alpha 是当前进度，delta_alpha = 1/N。
     fn step(&amp;self, output: &amp;mut Self::Output, alpha: f64, delta_alpha: f64);
 }</code></pre>
-<p><code>Iterative::new(initial, evaluator)</code> 持有不可变的定义（初始状态、<code>sim_step</code>、step 逻辑），把积分快照放在内部 <code>RefCell&lt;Snapshot&gt;</code> 中：</p>
+<p><code>Iterative::new(initial, evaluator)</code> 持有不可变的定义（初始状态、<code>sim_step</code>、
+step 逻辑），把积分快照放在内部 <code>RefCell&lt;Snapshot&gt;</code> 中：</p>
 <pre><code class="language-rust ignore">let sim_secs = 4.0;
 
 let animation = Iterative::from_fn(
@@ -541,15 +701,32 @@ let animation = Iterative::from_fn(
 .with_steps(240)
 .with_duration(sim_secs);</code></pre>
 <ul>
-<li>逻辑时长用过程中的局部变量（例如 <code>sim_secs</code>）捕获，并同时传给 <code>with_duration</code>，不要使用全局 <code>const</code>；</li>
-<li>迭代逻辑较复杂时，实现命名 <code>IterativeEval</code> 结构体，把 <code>sim_secs</code> 等参数放在 <code>self</code> 上；</li>
+<li>逻辑时长用过程中的局部变量（例如 <code>sim_secs</code>）捕获，并同时传给
+<code>with_duration</code>，不要使用全局 <code>const</code>；</li>
+<li>迭代逻辑较复杂时，实现命名 <code>IterativeEval</code> 结构体，把 <code>sim_secs</code> 等参数放在
+<code>self</code> 上；</li>
 <li><code>with_steps(N)</code> 声明内容自己的步数，默认 <code>1/120</code>；</li>
-<li><code>eval_alpha(target)</code> 前进时逐 <code>sim_step</code> 积分，回退时从初始状态重置重放，重复查询同一个 <code>alpha</code> 是 O(1)；</li>
+<li><code>eval_alpha(target)</code> 前进时逐 <code>sim_step</code> 积分，回退时从初始状态重置重放，
+重复查询同一个 <code>alpha</code> 是 O(1)；</li>
 <li>可变状态全部住在 <code>Output</code> 里；</li>
-<li>闭包的状态类型位于 <code>Fn</code> 输入位置，无法从闭包类型反推出关联 <code>Output</code>，所以 <code>Iterative::from_fn</code> 通过 <code>IterativeFn&lt;S, F&gt;</code> 显式绑定二者。</li>
+<li>闭包的状态类型位于 <code>Fn</code> 输入位置，无法从闭包类型反推出关联 <code>Output</code>，所以
+<code>Iterative::from_fn</code> 通过 <code>IterativeFn&lt;S, F&gt;</code> 显式绑定二者。</li>
 </ul>
-<h2 id="eval-自动成为叶子动画"><a class="header" href="#eval-自动成为叶子动画"><code>Eval</code> 自动成为叶子动画</a></h2>
-<p>只要 <code>Eval::Output</code> 可以提取为场景元素，该 evaluator 就自动获得默认 linear、1 秒、enabled 的 <code>Animation</code> 实现：</p>
+<p><code>Iterative</code> 实现的 <code>Eval::sim_step()</code> 返回 <code>Some(1/N)</code>，供 <code>ranim inspect tree</code>
+等工具内省；它不影响求值本身。</p>
+<h2 id="从-eval-到可播放的动画"><a class="header" href="#从-eval-到可播放的动画">从 <code>Eval</code> 到可播放的动画</a></h2>
+<p>以一行最常见的代码为例，自顶向下拆开它经过的每一层：</p>
+<pre><code class="language-rust ignore">let animation = square.fade_in().with_duration(1.0);</code></pre>
+<p><strong>第 1 层：<code>fade_in()</code>。</strong> 它来自 <code>ranim-anims</code> 的 <code>FadingAnim</code> trait（对满足
+<code>Opacity + Interpolatable + Clone</code> 的类型自动实现）。它做两件事：构造具名
+evaluator <code>FadeIn&lt;T&gt;</code>，并通过 <code>EvalExt::apply_to</code> 把 <code>square</code> 就地置为动画末
+态——所以动画创建完成时，item 本身已经是「播完」的样子，后续 build 出的新
+状态都从这个末态出发：</p>
+<pre><code class="language-rust ignore">fn fade_in(&amp;mut self) -&gt; FadeIn&lt;Self&gt; {
+    FadeIn::new(self.clone()).apply_to(self)
+}</code></pre>
+<p><strong>第 2 层：<code>FadeIn&lt;T&gt;</code>。</strong> 它就是一个普通的 <code>Eval</code> 实现——持有初末两个状态，
+按 <code>alpha</code> 插值：</p>
 <pre><code class="language-rust ignore">pub struct FadeIn&lt;T: FadingRequirement&gt; {
     src: T,
     dst: T,
@@ -560,11 +737,24 @@ impl&lt;T: FadingRequirement&gt; Eval for FadeIn&lt;T&gt; {
     fn eval_alpha(&amp;self, alpha: f64) -&gt; Self::Output {
         self.src.lerp(&amp;self.dst, alpha)
     }
-}
-
-let animation = square.fade_in().with_duration(1.0);</code></pre>
-<h2 id="内置动画家族"><a class="header" href="#内置动画家族">内置动画家族</a></h2>
-<p><code>ranim-anims</code> 现在只包含具名动画家族，不再承载通用适配器：</p>
+}</code></pre>
+<p><strong>第 3 层：blanket impl。</strong> 任何 <code>Eval</code> 实现，只要 <code>Output</code> 可提取为场景元素
+（<code>AnyExtractCoreItem</code>），就自动实现 <code>Animation</code> 与 <code>Placeable</code>，默认参数为
+linear、时长 1 秒、enabled：</p>
+<pre><code class="language-rust ignore">impl&lt;E&gt; Animation for E
+where
+    E: Eval + 'static,
+    E::Output: AnyExtractCoreItem,
+{
+    fn build(self) -&gt; AnimationCell {
+        // rate_func = linear, time_range = 0.0..1.0, enabled = true
+        ...
+    }
+}</code></pre>
+<p><strong>第 4 层：<code>with_duration(1.0)</code>。</strong> 来自 <code>AnimationExt</code>，把动画包成
+<code>Paramed&lt;A&gt;</code> 携带播放参数（见下节）。</p>
+<p><code>ranim-anims</code> 只包含这类具名动画家族，通用适配器（<code>Pure</code> / <code>Iterative</code>）在
+<code>ranim_core::animation</code> 中：</p>
 <pre><code class="language-text">ranim::anims
 ├── camera     （Orbit、CameraFrameAnim）
 ├── creation   （Create/UnCreate/Write/Unwrite）
@@ -572,53 +762,19 @@ let animation = square.fade_in().with_duration(1.0);</code></pre>
 ├── morph      （Morph）
 └── rotating   （RotatingAnimation）
 </code></pre>
-<pre><code class="language-rust ignore">use ranim::{
-    anims::fading::FadingAnim,
-    prelude::*,
-};</code></pre>
-<h2 id="parameda-与-ata"><a class="header" href="#parameda-与-ata"><code>Paramed&lt;A&gt;</code> 与 <code>At&lt;A&gt;</code></a></h2>
-<p>所有尚未固定父时间坐标的 <code>Placeable</code> 动画通过 <code>AnimationExt</code> 获得统一的播放参数 API：</p>
+<h3 id="parameda-与-ata"><a class="header" href="#parameda-与-ata"><code>Paramed&lt;A&gt;</code> 与 <code>At&lt;A&gt;</code></a></h3>
+<p>所有尚未固定父时间坐标的 <code>Placeable</code> 动画通过 <code>AnimationExt</code> 获得统一的播放
+参数 API：</p>
 <pre><code class="language-rust ignore">animation
     .with_duration(2.0)
     .with_rate_func(smooth)
     .with_enabled(true)</code></pre>
-<p><code>At&lt;A&gt;</code> 表示已经固定在父时间坐标中的 entry，不再实现 <code>Placeable</code>，因此参数必须在 placement 之前设置：</p>
+<p><code>At&lt;A&gt;</code> 表示已经固定在父时间坐标中的 entry，不再实现 <code>Placeable</code>，因此参数
+必须在 placement 之前设置：</p>
 <pre><code class="language-rust ignore">animation.with_duration(2.0).at(3.0); // At&lt;Paramed&lt;A&gt;&gt;</code></pre>
-<h2 id="animationcell"><a class="header" href="#animationcell"><code>AnimationCell</code></a></h2>
-<p>Sequence、Stack 和 Scene 需要保存异构动画，因此每个直接子动画会 lower 成一个 <code>AnimationCell</code>：</p>
-<pre><code class="language-text">AnimationCell
-├─ Box&lt;dyn EvalDyn&gt;
-├─ time range
-├─ rate function
-├─ enabled
-└─ evaluator name
-</code></pre>
-<p><code>AnimationCell::eval_at(sec, out)</code> 是唯一的时间管理入口：cell 先检查 enabled / active，再用自己的 <code>time_range</code> 和 <code>rate_func</code> 把 <code>sec</code> 映射成局部 <code>alpha</code>，最后调用擦除后的 <code>eval_dyn(alpha, out)</code>。</p>
-<p>动态求值会把结果追加到 <code>Vec&lt;DynItem&gt;</code>，但组合树本身不会被展开。类型擦除只隐藏直接子动画的 Rust 类型，不删除组合层级。</p>
-<h2 id="sceneevaluator"><a class="header" href="#sceneevaluator"><code>SceneEvaluator</code></a></h2>
-<p><code>SceneEvaluator::sample_at(render_secs, out)</code> 是唯一的 session 交互：</p>
-<ul>
-<li>对每个顶层 cell 调用 <code>eval_at(render_secs)</code>；</li>
-<li>前进 / 回退 / 原地求值的判断在 <code>Iterative</code> 等 stateful 节点内部完成；</li>
-<li>preview 拖拽和 render 采样共用同一条路径。</li>
-</ul>
-<p><code>logic_fps</code> 参数仅为 API 兼容保留，不再驱动步进；步进尺度由每个迭代区段自己的 <code>sim_step</code> 决定。</p>
-<div style="break-before: page; page-break-before: always;"></div>
-<h1 id="动画序列与并行组合"><a class="header" href="#动画序列与并行组合">动画序列与并行组合</a></h1>
-<p>v0.3 不再使用 <code>TimelineId</code> 管理 Scene 内的可变时间线。动画先在用户代码中组合为完整的 <code>Animation</code>，再通过 <code>RanimScene::play</code> 加入场景。</p>
-<p>当前有两个动态组合容器：</p>
-<ul>
-<li><code>AnimSequence</code>：子动画按 cursor 顺序排列，适合描述一个完整状态序列。</li>
-<li><code>AnimStack</code>：子动画共享同一个局部原点，适合叠加互不干扰的动画层。</li>
-</ul>
-<p><code>RanimScene</code> 自带一个根 <code>AnimStack</code>：</p>
-<pre><code class="language-rust ignore">pub fn play&lt;A: Animation + 'static&gt;(&amp;mut self, animation: A) -&gt; &amp;mut Self {
-    self.root.push(animation);
-    self
-}</code></pre>
-<p>因此，多次根级 <code>play</code> 默认都从 0 秒开始。它们是并行动画，不存在后一次调用覆盖前一次调用的隐含对象语义。</p>
-<h2 id="animsequence"><a class="header" href="#animsequence"><code>AnimSequence</code></a></h2>
-<p><code>AnimSequence::push</code> 先将动画 build 为局部 <code>AnimationCell</code>，再把它移动到当前 cursor，并按 cell duration 推进 cursor：</p>
+<h2 id="顺序容器animsequence"><a class="header" href="#顺序容器animsequence">顺序容器：<code>AnimSequence</code></a></h2>
+<p><code>AnimSequence::push</code> 先将动画 build 为局部 <code>AnimationCell</code>，再把它移动到当前
+cursor，并按 cell duration 推进 cursor：</p>
 <pre><code class="language-rust ignore">let mut intro = AnimSequence::new();
 intro
     .push(square.clone().fade_in())
@@ -626,18 +782,26 @@ intro
     .push(square.fade_out());
 
 r.play(intro);</code></pre>
-<p>Sequence 是动态类型擦除边界，但不会展开传入动画的组合树。每次 <code>push</code> 只将直接子动画转换为一个 <code>AnimationCell</code>；如果子动画是 Stack 或 Sequence，其内部层级会继续保留。</p>
-<p>Sequence 自己通过 cursor 决定子动画的位置，因此 <code>push</code> 只接受尚未显式放置的 <code>Placeable</code>。<code>At&lt;A&gt;</code> 已经固定父时间坐标，不能进入 Sequence。</p>
-<p>Sequence 本身仍实现 <code>Animation</code>，所以可以先独立构造，再整体使用 <code>at</code> 放置或加入另一个组合：</p>
+<p>Sequence 是动态类型擦除边界，但不会展开传入动画的组合树。每次 <code>push</code> 只将
+直接子动画转换为一个 <code>AnimationCell</code>；如果子动画是 Stack 或 Sequence，其内部
+层级会继续保留。</p>
+<p>Sequence 自己通过 cursor 决定子动画的位置，因此 <code>push</code> 只接受尚未显式放置的
+<code>Placeable</code>。<code>At&lt;A&gt;</code> 已经固定父时间坐标，不能进入 Sequence。</p>
+<p>Sequence 本身仍实现 <code>Animation</code>，所以可以先独立构造，再整体使用 <code>at</code> 放置或
+加入另一个组合：</p>
 <pre><code class="language-rust ignore">r.play(intro.at(2.0));</code></pre>
-<h2 id="forward-与-hold"><a class="header" href="#forward-与-hold"><code>forward</code> 与 <code>hold</code></a></h2>
+<h3 id="forward-与-hold"><a class="header" href="#forward-与-hold"><code>forward</code> 与 <code>hold</code></a></h3>
 <p>两者都会推进 Sequence cursor，但输出语义不同：</p>
 <ul>
 <li><code>forward(secs)</code> 只推进 cursor，产生的空白区间没有输出。</li>
-<li><code>hold(secs)</code> 取得 cursor 处的 Sequence 状态，将它保存为持续 <code>secs</code> 的静态运行时节点。</li>
+<li><code>hold(secs)</code> 取得 cursor 处的 Sequence 状态，将它保存为持续 <code>secs</code> 的静态
+运行时节点。</li>
 <li><code>forward_to(target)</code> 和 <code>hold_to(target)</code> 是对应的绝对 cursor 版本。</li>
 </ul>
-<p><code>hold</code> 没有额外的状态协议，它直接采用 Sequence 在 cursor 处的正常求值结果。Sequence 在同一时刻只求值最后一个适用的直接子动画；如果这个子动画是 Stack，则由 Stack 求值其中所有仍然适用的子动画。已经提前结束的 Stack 子动画不会被自动延长。</p>
+<p><code>hold</code> 没有额外的状态协议，它直接采用 Sequence 在 cursor 处的正常求值结果。
+Sequence 在同一时刻只求值最后一个适用的直接子动画；如果这个子动画是 Stack，
+则由 Stack 求值其中所有仍然适用的子动画。已经提前结束的 Stack 子动画不会被
+自动延长。</p>
 <pre><code class="language-text">child A: [0, 1)
 child B: [0, 2)
 cursor:        2
@@ -645,26 +809,30 @@ cursor:        2
 hold at 2 -&gt; 只保持 B 的左侧终态
 </code></pre>
 <p>连续 <code>hold</code> 会分别保存每次调用时的求值结果，形成相邻的静态区间。</p>
-<h2 id="showhide-与最终求值"><a class="header" href="#showhide-与最终求值"><code>show</code>、<code>hide</code> 与最终求值</a></h2>
+<h3 id="showhide-与最终求值"><a class="header" href="#showhide-与最终求值"><code>show</code>、<code>hide</code> 与最终求值</a></h3>
 <p><code>show()</code> 和 <code>hide()</code> 都是普通的零时长动画：</p>
 <ul>
 <li><code>show()</code> 是 enabled 的静态动画，求值时输出对应物件；</li>
 <li><code>hide()</code> 是 disabled 的静态动画，求值时不输出内容。</li>
 </ul>
-<p>它们不需要 <code>hold</code> 特判。因为 Sequence 在边界上选择最后一个适用的直接子动画，末尾的 <code>show()</code> 会成为最终求值结果，末尾的 <code>hide()</code> 则自然得到空结果；<code>hold</code> 只负责把这个结果保存为静态动画。</p>
+<p>它们不需要 <code>hold</code> 特判。因为 Sequence 在边界上选择最后一个适用的直接子动画，
+末尾的 <code>show()</code> 会成为最终求值结果，末尾的 <code>hide()</code> 则自然得到空结果；<code>hold</code>
+只负责把这个结果保存为静态动画。</p>
 <pre><code class="language-rust ignore">let mut content = AnimSequence::new();
 content
     .push(square.show())
     .hold(1.0)
     .push(square.hide())
     .hold(1.0);</code></pre>
-<p>这里 <code>hide</code> 只改变 <code>content</code> 这条 Sequence 的状态。它不会查找或影响根 Stack 中另一个独立动画。</p>
+<p>这里 <code>hide</code> 只改变 <code>content</code> 这条 Sequence 的状态。它不会查找或影响根 Stack
+中另一个独立动画。</p>
 <p>如果两个物件需要独立生命周期，应分别使用两个 Sequence：</p>
 <pre><code class="language-rust ignore">r.play(square_sequence);
 r.play(circle_sequence);</code></pre>
 <p>如果两个物件需要在同一时刻一起求值，应直接 push 一个 <code>stack![...]</code> 组合。</p>
-<h2 id="animstack-与根场景"><a class="header" href="#animstack-与根场景"><code>AnimStack</code> 与根场景</a></h2>
-<p><code>AnimStack::push</code> 不推进其他子动画；Stack duration 是所有子动画 duration 的最大值：</p>
+<h2 id="并行容器animstack-与根场景"><a class="header" href="#并行容器animstack-与根场景">并行容器：<code>AnimStack</code> 与根场景</a></h2>
+<p><code>AnimStack::push</code> 不推进其他子动画；Stack duration 是所有子动画 duration 的
+最大值：</p>
 <pre><code class="language-rust ignore">let animation = stack![
     background.show().with_duration(5.0),
     content.at(1.0),
@@ -672,15 +840,40 @@ r.play(circle_sequence);</code></pre>
 ];
 
 r.play(animation);</code></pre>
-<p>Stack 接受普通 <code>Placeable</code> 动画和已经放置的 <code>At&lt;A&gt;</code>。普通动画从 Stack 局部 0 开始，<code>At&lt;A&gt;</code> 使用自己的显式 offset。参数必须在调用 <code>at</code> 之前设置。</p>
+<p>Stack 接受普通 <code>Placeable</code> 动画和已经放置的 <code>At&lt;A&gt;</code>。普通动画从 Stack 局部 0
+开始，<code>At&lt;A&gt;</code> 使用自己的显式 offset。参数必须在调用 <code>at</code> 之前设置。</p>
+<p><code>RanimScene</code> 自带一个根 <code>AnimStack</code>：</p>
+<pre><code class="language-rust ignore">pub fn play&lt;A: Animation + 'static&gt;(&amp;mut self, animation: A) -&gt; &amp;mut Self {
+    self.root.push(animation);
+    self
+}</code></pre>
+<p>因此，多次根级 <code>play</code> 默认都从 0 秒开始。它们是并行动画，不存在后一次调用
+覆盖前一次调用的隐含对象语义。</p>
 <p>运行时数量不固定时可以直接构造 <code>AnimStack</code>：</p>
 <pre><code class="language-rust ignore">let mut layers = AnimStack::new();
 for animation in animations {
     layers.push(animation);
 }
 r.play(layers);</code></pre>
-<h2 id="animlagged"><a class="header" href="#animlagged"><code>AnimLagged</code></a></h2>
-<p><code>AnimLagged</code> 把一组<strong>未放置</strong>（<code>Placeable</code>）的子动画按 stagger 规则相继排布：第 <code>i</code> 个子动画的起点是 <code>start_{i-1} + lag_ratio · d_{i-1}</code>。<code>lag_ratio</code> 插值在两种容器语义之间：</p>
+<h3 id="场景时长与显式生命周期"><a class="header" href="#场景时长与显式生命周期">场景时长与显式生命周期</a></h3>
+<p>Scene 总时长是根 Stack 中最长子动画的 duration。新模型不会像旧 Timeline 那样
+在 seal 时自动把静态物件和相机延长到 Scene 结束。</p>
+<p>需要全程存在的内容应显式指定生命周期：</p>
+<pre><code class="language-rust ignore">let total_secs = content.cursor_sec();
+
+let mut camera = AnimSequence::new();
+camera
+    .push(CameraFrame::default().show())
+    .hold_to(total_secs);
+
+r.play(camera);
+r.play(content);</code></pre>
+<p>这种写法使空白和保持区间成为动画定义的一部分。后续可以增加默认相机或
+<code>through_scene_end</code> 等辅助 API，但它们不改变 Sequence/Stack 的组合语义。</p>
+<h2 id="交错容器animlagged"><a class="header" href="#交错容器animlagged">交错容器：<code>AnimLagged</code></a></h2>
+<p><code>AnimLagged</code> 把一组<strong>未放置</strong>（<code>Placeable</code>）的子动画按 stagger 规则相继排布：
+第 <code>i</code> 个子动画的起点是 <code>start_{i-1} + lag_ratio · d_{i-1}</code>。<code>lag_ratio</code> 插值
+在两种容器语义之间：</p>
 <ul>
 <li><code>0.0</code> —— 所有子动画同时开始（类似 <code>AnimStack</code>）；</li>
 <li><code>1.0</code> —— 首尾相接（类似 <code>AnimSequence</code>）；</li>
@@ -692,28 +885,23 @@ r.play(layers);</code></pre>
     text.write(),
 ];
 r.play(animation);</code></pre>
-<p>子动画窗口之外的时间默认由<strong>真实的静态动画</strong>填充：每个元素在 build 时被物化为一条 <code>[前填充][动画][后填充]</code> 的 per-item <code>AnimSequence</code> 轨道（前=初态，后=末态，采样自窗口边缘，空的填充会被跳过），因此 preview 时间线看到的就是实际渲染的内容，没有隐藏的求值规则。每端的行为可以用 <code>with_leading</code>/<code>with_trailing</code> 配置（<code>LaggedFill::{Hold, Empty}</code>，默认都是 <code>Hold</code>）；若希望元素在窗口结束后消失，让它的动画以 <code>hide</code> 结尾即可（如 <code>seq![item.fade_in(), item.hide()]</code>）。</p>
-<p>填充在 build 时采样，因此子动画应当是纯（闭式）动画——迭代式子动画的末态填充会得到其初态。</p>
+<p>子动画窗口之外的时间默认由<strong>真实的静态动画</strong>填充：每个元素在 build 时被物化
+为一条 <code>[前填充][动画][后填充]</code> 的 per-item <code>AnimSequence</code> 轨道（前=初态，
+后=末态，采样自窗口边缘，空的填充会被跳过），因此 preview 时间线看到的就是
+实际渲染的内容，没有隐藏的求值规则。每端的行为可以用
+<code>with_leading</code>/<code>with_trailing</code> 配置（<code>LaggedFill::{Hold, Empty}</code>，默认都是
+<code>Hold</code>）；若希望元素在窗口结束后消失，让它的动画以 <code>hide</code> 结尾即可（如
+<code>seq![item.fade_in(), item.hide()]</code>）。</p>
+<p>填充在 build 时采样，因此子动画应当是纯（闭式）动画——迭代式子动画的末态
+填充会得到其初态。</p>
 <p>对一组元素施加同一个动画时，用迭代器收集（core 的 <code>AnimIterExt</code>）：</p>
 <pre><code class="language-rust ignore">let animation = group
     .iter_mut()
     .map(|item| item.fade_in().with_rate_func(smooth))
     .into_lagged(0.2);</code></pre>
-<p>迭代器还可以收集为另外两个容器：<code>into_stack()</code>/<code>into_seq()</code>，或直接 <code>collect::&lt;AnimStack&gt;()</code>/<code>collect::&lt;AnimSequence&gt;()</code>。</p>
-<h2 id="场景时长与显式生命周期"><a class="header" href="#场景时长与显式生命周期">场景时长与显式生命周期</a></h2>
-<p>Scene 总时长是根 Stack 中最长子动画的 duration。新模型不会像旧 Timeline 那样在 seal 时自动把静态物件和相机延长到 Scene 结束。</p>
-<p>需要全程存在的内容应显式指定生命周期：</p>
-<pre><code class="language-rust ignore">let total_secs = content.cursor_sec();
-
-let mut camera = AnimSequence::new();
-camera
-    .push(CameraFrame::default().show())
-    .hold_to(total_secs);
-
-r.play(camera);
-r.play(content);</code></pre>
-<p>这种写法使空白和保持区间成为动画定义的一部分。后续可以增加默认相机或 <code>through_scene_end</code> 等辅助 API，但它们不改变 Sequence/Stack 的组合语义。</p>
-<h2 id="seqstack-与-lagged"><a class="header" href="#seqstack-与-lagged"><code>seq!</code>、<code>stack!</code> 与 <code>lagged!</code></a></h2>
+<p>迭代器还可以收集为另外两个容器：<code>into_stack()</code>/<code>into_seq()</code>，或直接
+<code>collect::&lt;AnimStack&gt;()</code>/<code>collect::&lt;AnimSequence&gt;()</code>。</p>
+<h3 id="seqstack-与-lagged"><a class="header" href="#seqstack-与-lagged"><code>seq!</code>、<code>stack!</code> 与 <code>lagged!</code></a></h3>
 <p>固定写法可以使用宏简化：</p>
 <pre><code class="language-rust ignore">let intro = seq![
     square.clone().fade_in(),
@@ -722,7 +910,419 @@ r.play(content);</code></pre>
 
 let scene = stack![intro, camera];
 r.play(scene);</code></pre>
-<p><code>seq!</code> 返回 <code>AnimSequence</code>，<code>stack!</code> 返回 <code>AnimStack</code>。二者都只是构造辅助，最终 build 为保留子节点层级的运行时动画树。<code>lagged![0.2; a, b, c]</code> 以 0.2 的 stagger ratio 返回 <code>AnimLagged</code>（见上文）。</p>
+<p><code>seq!</code> 返回 <code>AnimSequence</code>，<code>stack!</code> 返回 <code>AnimStack</code>。二者都只是构造辅助，
+最终 build 为保留子节点层级的运行时动画树。<code>lagged![0.2; a, b, c]</code> 以 0.2 的
+stagger ratio 返回 <code>AnimLagged</code>（见上文）。</p>
+<h2 id="运行时animationcell-与-sceneevaluator"><a class="header" href="#运行时animationcell-与-sceneevaluator">运行时：<code>AnimationCell</code> 与 <code>SceneEvaluator</code></a></h2>
+<p>Sequence、Stack 和 Scene 需要保存异构动画，因此每个直接子动画会 lower 成一个
+<code>AnimationCell</code>：</p>
+<pre><code class="language-text">AnimationCell
+├─ Box&lt;dyn EvalDyn&gt;
+├─ time range
+├─ rate function
+├─ enabled
+└─ evaluator name
+</code></pre>
+<p><code>AnimationCell::eval_at(sec, out)</code> 是唯一的时间管理入口：cell 先检查
+enabled / active，再用自己的 <code>time_range</code> 和 <code>rate_func</code> 把 <code>sec</code> 映射成局部
+<code>alpha</code>，最后调用擦除后的 <code>eval_dyn(alpha, out)</code>。</p>
+<p><code>EvalDyn</code> 是 <code>Eval</code> 的擦除对应物：<code>Eval</code> 带有关联类型 <code>Output</code>，不能直接作为
+trait object，因此 crate 为所有满足 <code>Output</code> 可提取为场景元素的 <code>E: Eval</code>
+自动实现了 <code>EvalDyn</code>。容器（Sequence/Stack/Lagged）同样实现它，所以叶子和容器
+都能装进同一个 <code>Box&lt;dyn EvalDyn&gt;</code>——动态求值会把结果追加到 <code>Vec&lt;DynItem&gt;</code>，
+但组合树本身不会被展开。类型擦除只隐藏直接子动画的 Rust 类型，不删除组合
+层级。</p>
+<p><code>SceneEvaluator::sample_at(render_secs, out)</code> 是唯一的 session 交互：</p>
+<ul>
+<li>对每个顶层 cell 调用 <code>eval_at(render_secs)</code>；</li>
+<li>前进 / 回退 / 原地求值的判断在 <code>Iterative</code> 等 stateful 节点内部完成；</li>
+<li>preview 拖拽和 render 采样共用同一条路径。</li>
+</ul>
+<p><code>logic_fps</code> 参数仅为 API 兼容保留，不再驱动步进；步进尺度由每个迭代区段自己
+的 <code>sim_step</code> 决定。</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="coreitem-与-extract"><a class="header" href="#coreitem-与-extract">CoreItem 与 Extract</a></h1>
+<p>场景中所有可见内容最终都归结为少数几种 <strong>core item</strong>。动画系统求值得到的是
+用户层 item（<code>ranim-items</code> 中的 <code>VItem</code>、<code>Surface</code> 等高层类型），而渲染器只
+认识 core item；连接二者的是 <code>Extract</code> trait。</p>
+<h2 id="coreitem"><a class="header" href="#coreitem"><code>CoreItem</code></a></h2>
+<p><code>CoreItem</code> 定义在 <code>ranim-core</code> 的 <code>core_item</code> 模块，是渲染管线的输入枚举：</p>
+<pre><code class="language-rust ignore">pub enum CoreItem {
+    CameraFrame(CameraFrame),
+    VItem(VItem),
+    MeshItem(MeshItem),
+}</code></pre>
+<p>三种 core item 的共同特征：数据为 f32（<code>Vec3</code> / <code>Vec4</code> / <code>Mat4</code>）、位于世界
+空间、不再携带任何动画辅助结构，每种直接对应渲染管线的一条路径。字段级的
+说明见 <a href="understand/core/core_items/README.html">Core Items</a>。</p>
+<h2 id="extract"><a class="header" href="#extract"><code>Extract</code></a></h2>
+<pre><code class="language-rust ignore">pub trait Extract {
+    type Target: Clone;
+
+    /// 把提取结果追加到 buf。
+    fn extract_into(&amp;self, buf: &amp;mut Vec&lt;Self::Target&gt;);
+
+    /// 提取为新分配的 Vec。
+    fn extract(&amp;self) -&gt; Vec&lt;Self::Target&gt;;
+}</code></pre>
+<p>要点：</p>
+<ul>
+<li><strong>提取可以是 1→N</strong>：一个用户层 item 可以 extract 成任意个 core item。
+高层 <code>VItem</code> 恰好产生 1 个 core <code>VItem</code>；<code>Surface</code> 经高层 <code>MeshItem</code> 产生
+1 个 core <code>MeshItem</code>；而 <code>SvgItem</code> / <code>TypstText</code> 这类复合 item 会产生<strong>多个</strong>
+core <code>VItem</code>。</li>
+<li><strong>可组合</strong>：<code>Vec&lt;E&gt;</code>、数组、元组等都有 <code>Extract</code> 实现，逐个把成员的提取
+结果追加进同一个 buffer，因此一帧的输出可以任意拼接。</li>
+</ul>
+<h2 id="从动画求值到-extract"><a class="header" href="#从动画求值到-extract">从动画求值到 extract</a></h2>
+<p>动画叶子的产出先被类型擦除为 <code>DynItem</code>：</p>
+<pre><code class="language-rust ignore">pub trait AnyExtractCoreItem: Any + Extract&lt;Target = CoreItem&gt; + DynClone {}
+pub struct DynItem(pub Box&lt;dyn AnyExtractCoreItem&gt;);</code></pre>
+<p><code>SceneEvaluator::sample_at(render_secs, out)</code> 对根 Stack 的每个顶层 cell 求值，
+再把每个产出 item 逐个 <code>extract()</code> 展开，得到一帧的 core item 列表：</p>
+<pre><code class="language-text">AnimationCell::eval_at(sec)  -&gt;  Vec&lt;DynItem&gt;
+  每个 DynItem.extract()     -&gt;  Vec&lt;CoreItem&gt;      （这里发生 1→N）
+  汇总                       -&gt;  EvaluatedFrame
+                                 = Vec&lt;((animation_id, part), CoreItem)&gt;
+</code></pre>
+<p><code>EvaluatedFrame</code> 中每个 core item 附带的身份是 <code>(animation_id, part)</code>：</p>
+<ul>
+<li><code>animation_id</code>：该 item 来自的根 Stack 顶层动画序号；</li>
+<li><code>part</code>：extract 展开后的序号。由于存在 1→N 映射，<code>part</code> 是 core item 序号，
+<strong>不</strong>等于用户层 item 的序号——这也是 <code>ranim inspect frame</code> 输出中 <code>part</code>
+字段的含义（见 <a href="#ranim-cli">Ranim CLI</a>）。</li>
+</ul>
+<h2 id="谁来消费"><a class="header" href="#谁来消费">谁来消费</a></h2>
+<p>渲染器（<code>ranim-render</code>）按 <code>CoreItem</code> 变体分发到对应的渲染路径：core
+<code>VItem</code> 走矢量渲染（平面投影 + 三角化），core <code>MeshItem</code> 走 3D 网格渲染，
+<code>CameraFrame</code> 提供每帧的视图/投影矩阵。preview 与离线渲染共用同一条
+<code>sample_at</code> → <code>EvaluatedFrame</code> 路径。</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="core-items"><a class="header" href="#core-items">Core Items</a></h1>
+<p>Core item 是渲染器直接消费的三种 primitive，定义在 <code>ranim-core</code> 的
+<code>core_item</code> 模块，即 <a href="#coreitem-与-extract"><code>CoreItem</code></a> 枚举的三个变体。与
+用户层 item（见 Items 大节）相比，它们：</p>
+<ul>
+<li>数据为 f32（<code>Vec3</code> / <code>Vec4</code> / <code>Mat4</code>），位于世界空间，可直接进入渲染管线；</li>
+<li>不携带动画辅助结构（如 <code>PointVec</code> 对齐包装）；</li>
+<li>每种对应一条渲染路径：矢量（平面投影）、3D 网格、相机。</li>
+</ul>
+<p>用户通常不直接构造 core item，而是使用 <code>ranim-items</code> 中的用户层 item，由
+<code>Extract</code> 自动转换。</p>
+<ul>
+<li><a href="#core-cameraframe">CameraFrame</a> — 相机：视图/投影参数与正交-透视混合。</li>
+<li><a href="#core-vitem">VItem</a> — 矢量图元：二次贝塞尔路径 + 描边/填充，按投影
+平面渲染。</li>
+<li><a href="#core-meshitem">MeshItem</a> — 3D 三角网格：顶点、索引、变换与每顶点
+颜色/法线。</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="core-cameraframe"><a class="header" href="#core-cameraframe">Core <code>CameraFrame</code></a></h1>
+<p>相机数据，定义于 <code>ranim_core::core_item::camera_frame</code>。它同时携带正交与透视
+两套投影参数，由 <code>perspective_blend</code> 在二者之间混合。</p>
+<pre><code class="language-rust ignore">pub struct CameraFrame {
+    pub pos: DVec3,              // 位置
+    pub up: DVec3,               // 上方向单位向量
+    pub facing: DVec3,           // 朝向单位向量
+    pub near: f64,               // 近平面（far &gt; near）
+    pub far: f64,                // 远平面
+    pub perspective_blend: f64,  // 正交(0.0) ↔ 透视(1.0) 混合
+    pub frame_height: f64,       // 正交：视野高度
+    pub scale: f64,              // 正交：缩放系数
+    pub fovy: f64,               // 透视：纵向视场角（弧度）
+}</code></pre>
+<p>默认值（<code>CameraFrame::default()</code>）：位于原点、朝 <code>-Z</code>、<code>+Y</code> 为上；
+<code>perspective_blend = 0.0</code>（纯 2D 正交）；<code>frame_height = 8.0</code>；
+<code>near = -1000</code>、<code>far = 1000</code>；<code>fovy = π/2</code>。2D 场景用默认值即可。</p>
+<h2 id="投影"><a class="header" href="#投影">投影</a></h2>
+<pre><code class="language-rust ignore">let view = cam.view_matrix();                       // look_to(pos, facing, up)
+let proj = cam.projection_matrix(aspect_ratio);
+//   = orthographic_mat(aspect).lerp(perspective_mat(aspect), perspective_blend)</code></pre>
+<p>正交矩阵由 <code>frame_height * scale</code> 与宽高比推出；透视矩阵使用 <code>fovy</code>，且
+<code>near</code> 会被钳到至少 <code>0.1</code>。<code>perspective_blend</code> 取中间值时两矩阵逐元素插值，
+可用于「2D 场景平滑进入 3D 透视」的运镜（见
+<code>examples/perspective_blend</code>）。</p>
+<h2 id="3d-定位"><a class="header" href="#3d-定位">3D 定位</a></h2>
+<pre><code class="language-rust ignore">// 球坐标定位（Z-up），看向原点；perspective_blend 自动设为 1.0
+let cam = CameraFrame::from_spherical(phi, theta, distance);
+// phi：与 +Z 的极角（0 = 正上方，π/2 = XY 平面）
+// theta：方位角（0 = +X，π/2 = +Y）
+
+// 或围绕任意目标点：
+cam.set_spherical(phi, theta, distance, target);
+cam.look_at(target); // 只改朝向</code></pre>
+<p>注意 <code>from_spherical</code> / <code>set_spherical</code> 把 <code>up</code> 固定为 <code>+Z</code>。</p>
+<h2 id="其他"><a class="header" href="#其他">其他</a></h2>
+<ul>
+<li><code>set_view_matrix</code> / <code>with_view_matrix</code>：从视图矩阵反解 <code>pos</code> / <code>up</code> /
+<code>facing</code>。</li>
+<li><code>center_canvas_in_frame(center, width, height, up, normal, aspect_ratio)</code>：
+透视模式下调整相机位置，使给定矩形画布恰好充满画面。</li>
+<li><code>CameraFrame</code> 实现了 <code>Interpolatable</code>，可以直接用 <code>morph</code> 做运镜动画。</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="core-vitem"><a class="header" href="#core-vitem">Core <code>VItem</code></a></h1>
+<p>矢量图元的渲染表示，定义于 <code>ranim_core::core_item::vitem</code>。注意点是三维的
+（世界空间），「共面」只是渲染时的假设（见下文「平面投影渲染」）。</p>
+<pre><code class="language-rust ignore">pub struct VItem {
+    /// 投影目标平面的法向；None 时由渲染器从点推导
+    pub normal: Option&lt;Vec3&gt;,
+    /// 世界空间点列；(x, y, z, is_closed)
+    pub points: Vec&lt;Vec4&gt;,
+    pub fill_rgbas: Vec&lt;Rgba&gt;,
+    pub stroke_rgbas: Vec&lt;Rgba&gt;,
+    pub stroke_widths: Vec&lt;Width&gt;,
+}</code></pre>
+<h2 id="点列语义"><a class="header" href="#点列语义">点列语义</a></h2>
+<p><code>points</code> 由用户层 <code>VItem</code> 的 vpoints 展开而来：二次贝塞尔路径的 anchor 与
+handle 交替排列，每个 <code>Vec4</code> 的 <code>w</code> 分量是该点是否闭合路径（closepath）的
+标记。颜色与线宽数组按<strong>路径段</strong>对齐（段数 = 点数 / 2 向上取整），默认描边
+宽度为 <code>DEFAULT_STROKE_WIDTH = 0.02</code>。</p>
+<h2 id="平面投影渲染"><a class="header" href="#平面投影渲染">平面投影渲染</a></h2>
+<p>渲染 core <code>VItem</code> 时，Ranim 假设所有点共面以计算深度，实际渲染的是它在某个
+平面上的<strong>投影</strong>：</p>
+<ul>
+<li>投影平面的初始基为 <code>(X, Y)</code>、法向为 <code>Z</code>，且包含点列的第一个点；</li>
+<li><code>normal</code> 为 <code>Some</code> 时使用指定的投影平面；</li>
+<li><code>normal</code> 为 <code>None</code> 时由 <code>vitem_normal_from_points</code> 在渲染时推导：先对 anchor
+点做 Newell 法（鞋带公式的 3D 形式）求面积法向；面积退化（如单段曲线）时
+扫描全部点寻找非共线三元组；点共线时取一个包含该直线的确定性平面；所有点
+重合时回退到 <code>Z</code> 轴。</li>
+</ul>
+<p>因此正常使用应保证一个 core <code>VItem</code> 的点共面（此时投影即其本身）；故意打破
+共面则得到的是投影效果。</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="core-meshitem"><a class="header" href="#core-meshitem">Core <code>MeshItem</code></a></h1>
+<p>3D 三角网格的渲染表示，定义于 <code>ranim_core::core_item::mesh_item</code>。</p>
+<pre><code class="language-rust ignore">pub struct MeshItem {
+    /// 顶点（局部空间）
+    pub points: Vec&lt;Vec3&gt;,
+    /// 三角形索引
+    pub triangle_indices: Vec&lt;u32&gt;,
+    /// 局部到世界的变换
+    pub transform: Mat4,
+    /// 每顶点颜色
+    pub vertex_colors: Vec&lt;Rgba&gt;,
+    /// 每顶点法线（用于平滑着色）
+    pub vertex_normals: Vec&lt;Vec3&gt;,
+}</code></pre>
+<p>要点：</p>
+<ul>
+<li><code>points</code> 与 <code>triangle_indices</code> 描述局部空间几何，渲染时统一乘
+<code>transform</code>；平移/旋转/缩放任一动画都应优先作用在 <code>transform</code> 上，而不是
+逐顶点改 <code>points</code>。</li>
+<li><code>vertex_normals</code> 全零或为空时，着色器回退到用 <code>dpdx</code>/<code>dpdy</code> 计算的
+<strong>flat shading</strong>；需要平滑着色时由用户层（如 <code>Surface::with_smooth_normals</code>）
+预计算法线。</li>
+<li>几何细节（折叠的边、重合顶点）不会被渲染器清理，索引中的退化三角形由
+调用方避免。</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="items"><a class="header" href="#items">Items</a></h1>
+<p><code>ranim-items</code> 提供<strong>用户层 item</strong>：编写场景时直接构造和做动画的类型。与
+core item（见 Core Items 大节）相比，它们用 f64（<code>DVec3</code> / <code>DMat4</code>）描述、
+携带动画所需的辅助结构（如 <code>PointVec</code> 对齐包装），并实现了一批动画/变换
+trait（<code>Interpolatable</code>、<code>Alignable</code>、<code>FillColor</code>、<code>ShiftTransform</code> 等），可以
+直接配合 <code>morph</code>、<code>fade_in</code> 等动画使用。渲染前由 <code>Extract</code> 转为 core item
+（见 <a href="#coreitem-与-extract">CoreItem 与 Extract</a>）。</p>
+<p>当前分两类：</p>
+<ul>
+<li><a href="items/vitem/README.html">VItem 类</a> — <code>vitem</code> 模块：矢量物件。核心是 <code>VItem</code>，
+外加几何构造器（<code>geometry</code>）、<code>SvgItem</code>、以及 <code>typst</code> feature 提供的文字
+物件。</li>
+<li><a href="items/mesh/README.html">MeshItem 类</a> — <code>mesh</code> 模块：三维网格物件。核心是
+<code>MeshItem</code>，外加参数曲面 <code>Surface</code> 和球体 <code>Sphere</code>。</li>
+</ul>
+<p>另有 <code>debug</code> 模块提供调试辅助（如 <code>VisualizeAabbItem&lt;T&gt;</code>：把任意实现了
+<code>Aabb</code> 的 item 的包围盒可视化为线框矩形）。</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="vitem-类"><a class="header" href="#vitem-类">VItem 类</a></h1>
+<p><code>ranim_items::vitem</code> 模块：矢量物件。这类物件的点本来就是三维点，可以任意
+摆放、旋转在 3D 空间中；只是渲染时假设单个 item 的所有点共面，实际渲染的
+是它在投影平面上的投影（共面时投影即其本身），语义细节见 Core Items 的
+<a href="#core-vitem">VItem</a>。</p>
+<p>成员：</p>
+<ul>
+<li><a href="#vitem">VItem</a> — 核心类型：二次贝塞尔路径 + 描边/填充，所有同类物件
+最终都转化为它。</li>
+<li><a href="#几何构造器">几何构造器</a> — <code>Circle</code>、<code>Square</code>、<code>Arc</code> 等数据 struct，
+可直接 <code>VItem::from(...)</code>。</li>
+<li><a href="#svgitem">SvgItem</a> — 从 SVG 构造。</li>
+<li><a href="#文字物件">文字物件</a> — <code>TextItem</code> / <code>TypstText</code>（<code>typst</code> feature）。</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="vitem"><a class="header" href="#vitem"><code>VItem</code></a></h1>
+<pre><code class="language-rust ignore">pub struct VItem {
+    pub normal: Option&lt;DVec3&gt;,        // 投影平面法向；None 时渲染时推导
+    pub vpoints: VPointVec,           // 点列（二次贝塞尔）
+    pub stroke_widths: PointVec&lt;Width&gt;,
+    pub stroke_rgbas: PointVec&lt;Rgba&gt;,
+    pub fill_rgbas: PointVec&lt;Rgba&gt;,
+}</code></pre>
+<h2 id="vpoints二次贝塞尔路径"><a class="header" href="#vpoints二次贝塞尔路径">vpoints：二次贝塞尔路径</a></h2>
+<p><code>vpoints</code> 是 anchor 与 handle 交替排列的点列：<code>[a₀, h₀, a₁, h₁, a₂, …]</code>，
+每三个连续点 <code>(aᵢ, hᵢ, aᵢ₊₁)</code> 构成一段二次贝塞尔。颜色与线宽数组按<strong>段</strong>
+对齐（长度 = 点数 / 2 向上取整），因此可以给一个 item 的不同段设置不同
+颜色/线宽。</p>
+<pre><code class="language-rust ignore">// 直接用点列构造（默认：白描边 0.02、无填充）
+let vitem = VItem::from_vpoints(vec![
+    dvec3(0.0, 0.0, 0.0),
+    dvec3(1.0, 0.0, 0.0),
+    dvec3(0.5, 1.0, 0.0),
+]);</code></pre>
+<p>常用方法：<code>close()</code>（闭合路径）、<code>shrink()</code>（缩到包围盒中心）、
+<code>get_anchor(idx)</code>（取第 idx 个 anchor）、<code>extend_vpoints(...)</code>（追加，颜色/
+线宽数组自动补齐）、<code>put_start_and_end_on(start, end)</code>（把首尾移到指定位
+置）、<code>with_normal(...)</code> / <code>set_normal(...)</code>（指定投影平面法向）。</p>
+<h2 id="渲染语义平面投影"><a class="header" href="#渲染语义平面投影">渲染语义：平面投影</a></h2>
+<p>渲染时假设 <code>VItem</code> 的所有点共面，实际渲染的是它在投影平面上的投影
+（共面时投影即其本身）。语义细节见 Core Items 的
+<a href="#core-vitem">VItem</a>。</p>
+<p><code>normal</code> 一般保持默认的 <code>None</code> 即可：投影平面在渲染时从<strong>当前点数据</strong>推导，
+动画中间帧的插值点总是推导出与之一致的法向，不会漂移。反之，显式
+<code>set_normal</code> 之后，插值就发生在法向量本身上（<code>Some(a).lerp(Some(b), t)</code>，
+普通线性插值且不重新归一化），不再跟随点数据。因此只在确有需要时才显式
+设置，例如点共线/重合等自动推导存在歧义的退化情形，或故意要让非共面点
+渲染成投影效果。</p>
+<h2 id="动画相关-trait"><a class="header" href="#动画相关-trait">动画相关 trait</a></h2>
+<p><code>VItem</code> 实现了 <code>Interpolatable</code>（逐点/逐颜色插值）与 <code>Alignable</code>（点数不同
+时自动补齐对齐，<code>morph</code> 依赖它），因此可以直接：</p>
+<pre><code class="language-rust ignore">let anim = square.morph(|sq| {
+    sq.set_fill_color(manim::BLUE_C);
+    sq.shift(DVec3::X * 2.0);
+});</code></pre>
+<p>还实现了 <code>FillColor</code> / <code>StrokeColor</code> / <code>StrokeWidth</code> / <code>Opacity</code> /
+<code>Partial</code>（<code>get_partial(range)</code> 截取路径的一段，<code>Create</code>/<code>Write</code> 动画的
+基础）、<code>PointsFunc</code>（<code>apply_points_func</code> 批量变换点）、<code>Aabb</code> 与
+<code>ShiftTransform</code> / <code>RotateTransform</code> / <code>ScaleTransform</code>。</p>
+<p><code>PointVec</code> 是分量数组的动画包装：对齐时按规则补齐长度，插值逐分量进行。</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="几何构造器"><a class="header" href="#几何构造器">几何构造器</a></h1>
+<p><code>vitem::geometry</code> 子模块提供常用平面图形的构造器。它们都是「数据 struct +
+<code>From&lt;...&gt; for VItem</code>」：字段公开可直接改，也实现了常用的定位/变换 trait。</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>类型</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td><code>Circle</code></td><td>圆（半径）</td></tr>
+<tr><td><code>Ellipse</code></td><td>椭圆</td></tr>
+<tr><td><code>Arc</code> / <code>ArcBetweenPoints</code></td><td>圆弧 / 过两点与半径的圆弧</td></tr>
+<tr><td><code>EllipticArc</code></td><td>椭圆弧</td></tr>
+<tr><td><code>Line</code></td><td>线段</td></tr>
+<tr><td><code>Square</code> / <code>Rectangle</code></td><td>正方形 / 矩形（<code>axes</code> 可改朝向）</td></tr>
+<tr><td><code>Polygon</code> / <code>RegularPolygon</code></td><td>任意多边形 / 正多边形</td></tr>
+<tr><td><code>Parallelogram</code></td><td>平行四边形</td></tr>
+</tbody>
+</table>
+</div>
+<pre><code class="language-rust ignore">let vitem = VItem::from(
+    Square::new(2.0).with(|sq| {
+        sq.set_color(manim::RED_C);
+    })
+);</code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="svgitem"><a class="header" href="#svgitem"><code>SvgItem</code></a></h1>
+<p>从 SVG 构造的矢量物件，定义于 <code>ranim_items::vitem::svg</code>。</p>
+<pre><code class="language-rust ignore">pub struct SvgItem(Vec&lt;VItem&gt;);
+
+let svg = SvgItem::new(svg_str); // svg_str: impl AsRef&lt;str&gt;</code></pre>
+<p>内部就是一组 <code>VItem</code>：SVG 的每个路径解析为一个 <code>VItem</code>。因此 extract 时一个
+<code>SvgItem</code> 会展开为<strong>多个</strong> core <code>VItem</code>（1→N），在 <code>ranim inspect frame</code> 的
+输出里体现为同一个 <code>animation_id</code> 下递增的 <code>part</code> 序号。</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="文字物件"><a class="header" href="#文字物件">文字物件</a></h1>
+<p><code>vitem::text</code> 与 <code>vitem::typst</code> 提供文字物件，需要启用 <code>typst</code> feature。</p>
+<h2 id="textitem"><a class="header" href="#textitem"><code>TextItem</code></a></h2>
+<p>简单文字（<code>vitem::text</code>）：</p>
+<pre><code class="language-rust ignore">let text = TextItem::new("Hello Ranim", 1.0); // 文本与 em 字号</code></pre>
+<p>字体通过 <code>TextFont</code> 配置：</p>
+<pre><code class="language-rust ignore">let font = TextFont::new(["Noto Sans CJK SC", "serif"]); // 按序回退的字体族</code></pre>
+<h2 id="typsttext"><a class="header" href="#typsttext"><code>TypstText</code></a></h2>
+<p>Typst 排版（<code>vitem::typst</code>），支持行内/多行代码与数学公式：</p>
+<pre><code class="language-rust ignore">let formula = TypstText::new("$ integral_0^1 x^2 dif x $");
+let code = TypstText::new_inline_code("let x = 1;");
+let block = TypstText::new_multiline_code("fn main() {}", Some("rust"));</code></pre>
+<p>两类文字物件都经 Typst 排版为矢量轮廓，extract 时 1→N 展开为多个 core
+<code>VItem</code>。</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="meshitem-类"><a class="header" href="#meshitem-类">MeshItem 类</a></h1>
+<p><code>ranim_items::mesh</code> 模块：三维网格物件。这一类物件渲染的是真正的 3D 三角
+网格（每顶点颜色/法线，法线全零时 flat shading），语义细节见 Core Items 的
+<a href="#core-meshitem">MeshItem</a>。</p>
+<p>成员：</p>
+<ul>
+<li><a href="#meshitem">MeshItem</a> — 核心类型：顶点 + 索引 + 变换 + 每顶点数据。</li>
+<li><a href="#surface">Surface</a> — 参数曲面：<code>(u, v)</code> 网格采样生成网格。</li>
+<li><a href="#sphere">Sphere</a> — 球体便捷构造。</li>
+</ul>
+<p>选择建议：</p>
+<ul>
+<li>规则几何体（球、参数曲面）：用 <code>Sphere</code> / <code>Surface</code> 构造；</li>
+<li>任意几何（自定义多面体、模型）：直接拼 <code>MeshItem</code> 的顶点与索引；</li>
+<li>平滑曲面记得 <code>with_smooth_normals()</code>；硬边物体保持法线全零走 flat
+shading 即可。</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="meshitem"><a class="header" href="#meshitem"><code>MeshItem</code></a></h1>
+<pre><code class="language-rust ignore">pub struct MeshItem {
+    pub points: PointVec&lt;DVec3&gt;,         // 顶点（局部空间）
+    pub triangle_indices: Vec&lt;u32&gt;,      // 三角形索引
+    pub transform: DMat4,                // 局部到世界
+    pub vertex_colors: PointVec&lt;Rgba&gt;,   // 每顶点颜色
+    pub vertex_normals: PointVec&lt;DVec3&gt;, // 每顶点法线；全零 → flat shading
+}</code></pre>
+<p>与 core <code>MeshItem</code> 一一对应，但使用 f64 类型，且顶点/颜色/法线包在
+<code>PointVec</code> 里以支持对齐与插值，因此可以直接参与 <code>morph</code> 等动画。</p>
+<p>构造与常用操作：</p>
+<pre><code class="language-rust ignore">// 仅顶点（无索引，适合点云）或 顶点+索引
+let mesh = MeshItem::from_vertices(points);
+let mesh = MeshItem::from_indexed_vertices(points, triangle_indices);
+
+let mesh = mesh
+    .with_transform(DMat4::from_translation(...))  // 设置变换
+    .with_color(manim::BLUE_C);                    // 统一每顶点颜色
+mesh.vertex_colors = colors.into();                // 或逐顶点自定义</code></pre>
+<p>实现了 <code>FillColor</code> / <code>Opacity</code> / <code>Aabb</code> 与 <code>ShiftTransform</code> /
+<code>RotateTransform</code> / <code>ScaleTransform</code>——变换都作用在 <code>transform</code> 矩阵上，
+不改顶点数据。层旋转、整体移动这类动画应优先变换 <code>transform</code>（或像
+<code>examples/tetrahedron_spheres</code> 那样自定义 <code>Eval</code> 左乘旋转矩阵），而不是
+逐顶点改 <code>points</code>。</p>
+<p>两个辅助函数：</p>
+<ul>
+<li><code>generate_grid_indices(nu, nv)</code>：生成 <code>nu × nv</code> 行主序网格的三角形索引；</li>
+<li><code>compute_smooth_normals(points, triangle_indices)</code>：按顶角加权的平滑法线
+（退化三角形自动跳过）。</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="surface"><a class="header" href="#surface"><code>Surface</code></a></h1>
+<p>参数曲面：在 <code>(u, v)</code> 网格上采样生成网格数据。</p>
+<pre><code class="language-rust ignore">let surface = Surface::from_uv_func(
+    |u, v| dvec3(u, v, (u * u + v * v).sin()),
+    (0.0, 1.0),   // u 范围
+    (0.0, 1.0),   // v 范围
+    (64, 64),     // 分辨率 (nu, nv)，各自 &gt;= 2
+)
+.with_fill_by_z(&amp;[(manim::BLUE_C, -1.0), (manim::RED_C, 1.0)]) // 按 z 上色
+.with_smooth_normals();  // 预计算平滑法线；不调用则 flat shading</code></pre>
+<ul>
+<li>顶点按行主序存储：<code>points[i * nv + j]</code>；</li>
+<li><code>with_vertex_colors(colors)</code> 直接指定每顶点颜色；</li>
+<li><code>From&lt;Surface&gt; for MeshItem</code> 完成到 <code>MeshItem</code> 的转换；<code>Surface</code> 自身也实现
+了 <code>Extract</code>，可直接作为动画输出类型。</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="sphere"><a class="header" href="#sphere"><code>Sphere</code></a></h1>
+<p>球体便捷构造，定义于 <code>ranim_items::mesh</code>。</p>
+<pre><code class="language-rust ignore">let sphere = Sphere::new(0.6)                    // 半径，默认分辨率 (101, 51)
+    .with_center(dvec3(1.0, 0.0, 0.0))
+    .with_resolution((31, 16))
+    .with_fill_color(manim::YELLOW_C);
+let mesh = MeshItem::from(sphere);               // Sphere → Surface → MeshItem</code></pre>
+<p>球面按 <code>u ∈ [0, 2π]</code>、<code>v ∈ [0, π]</code> 参数化。<code>From&lt;Sphere&gt; for Surface</code> 默认
+flat shading；需要平滑效果时先转 <code>Surface</code> 再 <code>with_smooth_normals()</code>：</p>
+<pre><code class="language-rust ignore">let mesh = MeshItem::from(Surface::from(sphere).with_smooth_normals());</code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="v03"><a class="header" href="#v03">v0.3</a></h1>
 <p>本文是 v0.3 动画系统的设计记录。其中编排系统与渲染侧的 ECS 化沿用了各自 PR 的设计；求值协议一节按当前实现（content-is-sequence 收敛后的版本）编写。</p>

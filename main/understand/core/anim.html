@@ -1,0 +1,571 @@
+<!DOCTYPE HTML>
+<html lang="zh" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>动画系统 - Ranim Book</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="../../favicon-8114d1fc.png">
+        <link rel="stylesheet" href="../../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../version-select-0246a208.css">
+        <link rel="stylesheet" href="../../theme/pagetoc-6390151b.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../searchindex-7d5c6ba9.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc-b25f6c0e.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Ranim Book</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="动画系统"><a class="header" href="#动画系统">动画系统</a></h1>
+<p>Ranim 的一个场景就是一棵动画树。谈论这棵树时要区分两个层面：</p>
+<ul>
+<li><strong>定义期（具体类型）</strong>：叶子是任何实现了 <code>Eval</code> 的类型——<code>FadeIn</code>、
+<code>Morph</code>、<code>Pure</code>、<code>Iterative</code> 或自定义 struct，<code>Eval::Output</code> 是该动画产出的
+item 类型 <code>T</code>；容器是 <code>AnimSequence</code> / <code>AnimStack</code> / <code>AnimLagged</code> 三个
+struct；树根是 <code>RanimScene</code> 自带的根 <code>AnimStack</code>。</li>
+<li><strong>运行期（类型擦除）</strong>：每个节点统一 lower 为 struct <code>AnimationCell</code>，叶子
+在 cell 内部是擦除自 <code>Eval&lt;Output = T&gt;</code> 的 trait object（<code>Box&lt;dyn EvalDyn&gt;</code>，
+<code>T</code> 需可提取为场景元素）。擦除只隐藏直接子节点的 Rust 类型，组合层级本身
+保留。</li>
+</ul>
+<p>本章自底向上整理这条链路：</p>
+<pre><code class="language-text">trait Eval&lt;Output = T&gt;                  叶子协议：alpha -&gt; T 的纯函数
+  │ 具体叶子 struct：FadeIn / Morph / Pure / Iterative / 自定义 …
+  │ 自动实现 trait Animation + Placeable（默认 linear、1 秒、enabled）
+  ▼
+struct Paramed&lt;A&gt; / At&lt;A&gt;               with_duration / with_rate_func / with_enabled / at
+  ▼
+struct AnimSequence / AnimStack / AnimLagged   顺序 / 并行 / 交错容器（自身也实现 Animation）
+  │ Animation::build（类型擦除，保留组合层级）
+  ▼
+struct AnimationCell                    运行时节点：Box&lt;dyn EvalDyn&gt; + 时间区间 + rate_func + enabled
+  ▼
+RanimScene 根 AnimStack  →  SceneEvaluator 采样
+</code></pre>
+<h2 id="eval叶子求值协议"><a class="header" href="#eval叶子求值协议"><code>Eval</code>：叶子求值协议</a></h2>
+<p>Ranim 的叶子动画核心是一个统一的求值协议。动画内容一旦定义就不可变：它是自身
+归一化进度 <code>alpha ∈ [0, 1]</code> 的纯函数。</p>
+<pre><code class="language-rust ignore">pub trait Eval {
+    type Output;
+
+    /// 在归一化进度 alpha 处求值。
+    fn eval_alpha(&amp;self, alpha: f64) -&gt; Self::Output;
+}</code></pre>
+<ul>
+<li>协议只有一个入口：<code>eval_alpha(&amp;self, alpha)</code>；</li>
+<li>它是 <code>&amp;self</code> 上的纯查询：无论调用顺序和次数，同一个 <code>alpha</code> 得到同一个
+<code>Output</code>；</li>
+<li>evaluator 看不到秒、场景时钟或 <code>logic_fps</code>。<code>AnimationCell</code> 负责把场景时间
+映射成进度后才调用它；</li>
+<li>有状态（迭代）区段在内部记忆化自己的积分快照；纯区段就是闭式。</li>
+</ul>
+<p><code>EvalExt</code> 提供两个 build 期便捷方法：</p>
+<pre><code class="language-rust ignore">pub trait EvalExt: Eval + Sized {
+    fn apply_alpha_to(self, item: &amp;mut Self::Output, alpha: f64) -&gt; Self;
+    fn apply_to(self, item: &amp;mut Self::Output) -&gt; Self; // alpha = 1.0
+}</code></pre>
+<p>内置动画的工具方法（<code>fade_in()</code> 等）正是靠 <code>apply_to</code> 在创建动画的同时把 item
+置为动画末态。</p>
+<h3 id="进度是唯一坐标"><a class="header" href="#进度是唯一坐标">进度是唯一坐标</a></h3>
+<p><code>ranim::core::time</code> 只有两个类型别名：</p>
+<pre><code class="language-rust ignore">pub type Alpha = f64;       // 归一化进度
+pub type DeltaAlpha = f64;  // 均匀进度步长</code></pre>
+<p>「内容即序列」：迭代动画的内容是作者声明的进度点序列 <code>x₀…x_N</code>。<code>N</code> 是定义而
+不是采样精度；<code>rate_func</code>、<code>with_duration</code>、placement 都只是「哪个进度何时可
+见」的采样重映射。</p>
+<h2 id="内容的两种来源pure-与-iterative"><a class="header" href="#内容的两种来源pure-与-iterative">内容的两种来源：<code>Pure</code> 与 <code>Iterative</code></a></h2>
+<p>两者都是 <code>Eval</code> 的实现：<code>Pure</code> 适配闭式求值，<code>Iterative</code> 适配逐步积分。它们与
+具名动画（<code>FadeIn</code>、<code>Morph</code> 等直接 <code>impl Eval</code> 的类型）地位相同，只是内容的
+产生方式不同。</p>
+<h3 id="纯闭包pure"><a class="header" href="#纯闭包pure">纯闭包：<code>Pure</code></a></h3>
+<p>闭包是匿名类型，不能按名字实现 <code>Eval</code>，所以用 <code>Pure</code> 包一层：</p>
+<pre><code class="language-rust ignore">use ranim::core::animation::eval::pure::Pure;
+
+let animation = Pure::new(|alpha| Square::new(alpha)).with_duration(2.0);</code></pre>
+<p>具名纯动画（<code>FadeIn</code>、<code>Morph</code>、<code>Create</code> 等）直接实现 <code>Eval</code>，不需要这个
+wrapper。</p>
+<h3 id="迭代区段iterativeeval--iterative"><a class="header" href="#迭代区段iterativeeval--iterative">迭代区段：<code>IterativeEval</code> + <code>Iterative</code></a></h3>
+<p>物理模拟、混沌系统等没有闭式的内容，用逐步推进的方式定义：</p>
+<pre><code class="language-rust ignore">pub trait IterativeEval {
+    type Output;
+
+    /// 推进一个内容步。alpha 是当前进度，delta_alpha = 1/N。
+    fn step(&amp;self, output: &amp;mut Self::Output, alpha: f64, delta_alpha: f64);
+}</code></pre>
+<p><code>Iterative::new(initial, evaluator)</code> 持有不可变的定义（初始状态、<code>sim_step</code>、
+step 逻辑），把积分快照放在内部 <code>RefCell&lt;Snapshot&gt;</code> 中：</p>
+<pre><code class="language-rust ignore">let sim_secs = 4.0;
+
+let animation = Iterative::from_fn(
+    SpringState { x: 1.0, v: 0.0 },
+    move |state: &amp;mut SpringState, _alpha, delta_alpha| {
+        let dt = sim_secs * delta_alpha; // 内容自己的物理秒
+        let acc = -K * state.x - C * state.v;
+        state.v += acc * dt;
+        state.x += state.v * dt;
+    },
+)
+.with_steps(240)
+.with_duration(sim_secs);</code></pre>
+<ul>
+<li>逻辑时长用过程中的局部变量（例如 <code>sim_secs</code>）捕获，并同时传给
+<code>with_duration</code>，不要使用全局 <code>const</code>；</li>
+<li>迭代逻辑较复杂时，实现命名 <code>IterativeEval</code> 结构体，把 <code>sim_secs</code> 等参数放在
+<code>self</code> 上；</li>
+<li><code>with_steps(N)</code> 声明内容自己的步数，默认 <code>1/120</code>；</li>
+<li><code>eval_alpha(target)</code> 前进时逐 <code>sim_step</code> 积分，回退时从初始状态重置重放，
+重复查询同一个 <code>alpha</code> 是 O(1)；</li>
+<li>可变状态全部住在 <code>Output</code> 里；</li>
+<li>闭包的状态类型位于 <code>Fn</code> 输入位置，无法从闭包类型反推出关联 <code>Output</code>，所以
+<code>Iterative::from_fn</code> 通过 <code>IterativeFn&lt;S, F&gt;</code> 显式绑定二者。</li>
+</ul>
+<p><code>Iterative</code> 实现的 <code>Eval::sim_step()</code> 返回 <code>Some(1/N)</code>，供 <code>ranim inspect tree</code>
+等工具内省；它不影响求值本身。</p>
+<h2 id="从-eval-到可播放的动画"><a class="header" href="#从-eval-到可播放的动画">从 <code>Eval</code> 到可播放的动画</a></h2>
+<p>以一行最常见的代码为例，自顶向下拆开它经过的每一层：</p>
+<pre><code class="language-rust ignore">let animation = square.fade_in().with_duration(1.0);</code></pre>
+<p><strong>第 1 层：<code>fade_in()</code>。</strong> 它来自 <code>ranim-anims</code> 的 <code>FadingAnim</code> trait（对满足
+<code>Opacity + Interpolatable + Clone</code> 的类型自动实现）。它做两件事：构造具名
+evaluator <code>FadeIn&lt;T&gt;</code>，并通过 <code>EvalExt::apply_to</code> 把 <code>square</code> 就地置为动画末
+态——所以动画创建完成时，item 本身已经是「播完」的样子，后续 build 出的新
+状态都从这个末态出发：</p>
+<pre><code class="language-rust ignore">fn fade_in(&amp;mut self) -&gt; FadeIn&lt;Self&gt; {
+    FadeIn::new(self.clone()).apply_to(self)
+}</code></pre>
+<p><strong>第 2 层：<code>FadeIn&lt;T&gt;</code>。</strong> 它就是一个普通的 <code>Eval</code> 实现——持有初末两个状态，
+按 <code>alpha</code> 插值：</p>
+<pre><code class="language-rust ignore">pub struct FadeIn&lt;T: FadingRequirement&gt; {
+    src: T,
+    dst: T,
+}
+
+impl&lt;T: FadingRequirement&gt; Eval for FadeIn&lt;T&gt; {
+    type Output = T;
+    fn eval_alpha(&amp;self, alpha: f64) -&gt; Self::Output {
+        self.src.lerp(&amp;self.dst, alpha)
+    }
+}</code></pre>
+<p><strong>第 3 层：blanket impl。</strong> 任何 <code>Eval</code> 实现，只要 <code>Output</code> 可提取为场景元素
+（<code>AnyExtractCoreItem</code>），就自动实现 <code>Animation</code> 与 <code>Placeable</code>，默认参数为
+linear、时长 1 秒、enabled：</p>
+<pre><code class="language-rust ignore">impl&lt;E&gt; Animation for E
+where
+    E: Eval + 'static,
+    E::Output: AnyExtractCoreItem,
+{
+    fn build(self) -&gt; AnimationCell {
+        // rate_func = linear, time_range = 0.0..1.0, enabled = true
+        ...
+    }
+}</code></pre>
+<p><strong>第 4 层：<code>with_duration(1.0)</code>。</strong> 来自 <code>AnimationExt</code>，把动画包成
+<code>Paramed&lt;A&gt;</code> 携带播放参数（见下节）。</p>
+<p><code>ranim-anims</code> 只包含这类具名动画家族，通用适配器（<code>Pure</code> / <code>Iterative</code>）在
+<code>ranim_core::animation</code> 中：</p>
+<pre><code class="language-text">ranim::anims
+├── camera     （Orbit、CameraFrameAnim）
+├── creation   （Create/UnCreate/Write/Unwrite）
+├── fading     （FadeIn/FadeOut）
+├── morph      （Morph）
+└── rotating   （RotatingAnimation）
+</code></pre>
+<h3 id="parameda-与-ata"><a class="header" href="#parameda-与-ata"><code>Paramed&lt;A&gt;</code> 与 <code>At&lt;A&gt;</code></a></h3>
+<p>所有尚未固定父时间坐标的 <code>Placeable</code> 动画通过 <code>AnimationExt</code> 获得统一的播放
+参数 API：</p>
+<pre><code class="language-rust ignore">animation
+    .with_duration(2.0)
+    .with_rate_func(smooth)
+    .with_enabled(true)</code></pre>
+<p><code>At&lt;A&gt;</code> 表示已经固定在父时间坐标中的 entry，不再实现 <code>Placeable</code>，因此参数
+必须在 placement 之前设置：</p>
+<pre><code class="language-rust ignore">animation.with_duration(2.0).at(3.0); // At&lt;Paramed&lt;A&gt;&gt;</code></pre>
+<h2 id="顺序容器animsequence"><a class="header" href="#顺序容器animsequence">顺序容器：<code>AnimSequence</code></a></h2>
+<p><code>AnimSequence::push</code> 先将动画 build 为局部 <code>AnimationCell</code>，再把它移动到当前
+cursor，并按 cell duration 推进 cursor：</p>
+<pre><code class="language-rust ignore">let mut intro = AnimSequence::new();
+intro
+    .push(square.clone().fade_in())
+    .hold(1.0)
+    .push(square.fade_out());
+
+r.play(intro);</code></pre>
+<p>Sequence 是动态类型擦除边界，但不会展开传入动画的组合树。每次 <code>push</code> 只将
+直接子动画转换为一个 <code>AnimationCell</code>；如果子动画是 Stack 或 Sequence，其内部
+层级会继续保留。</p>
+<p>Sequence 自己通过 cursor 决定子动画的位置，因此 <code>push</code> 只接受尚未显式放置的
+<code>Placeable</code>。<code>At&lt;A&gt;</code> 已经固定父时间坐标，不能进入 Sequence。</p>
+<p>Sequence 本身仍实现 <code>Animation</code>，所以可以先独立构造，再整体使用 <code>at</code> 放置或
+加入另一个组合：</p>
+<pre><code class="language-rust ignore">r.play(intro.at(2.0));</code></pre>
+<h3 id="forward-与-hold"><a class="header" href="#forward-与-hold"><code>forward</code> 与 <code>hold</code></a></h3>
+<p>两者都会推进 Sequence cursor，但输出语义不同：</p>
+<ul>
+<li><code>forward(secs)</code> 只推进 cursor，产生的空白区间没有输出。</li>
+<li><code>hold(secs)</code> 取得 cursor 处的 Sequence 状态，将它保存为持续 <code>secs</code> 的静态
+运行时节点。</li>
+<li><code>forward_to(target)</code> 和 <code>hold_to(target)</code> 是对应的绝对 cursor 版本。</li>
+</ul>
+<p><code>hold</code> 没有额外的状态协议，它直接采用 Sequence 在 cursor 处的正常求值结果。
+Sequence 在同一时刻只求值最后一个适用的直接子动画；如果这个子动画是 Stack，
+则由 Stack 求值其中所有仍然适用的子动画。已经提前结束的 Stack 子动画不会被
+自动延长。</p>
+<pre><code class="language-text">child A: [0, 1)
+child B: [0, 2)
+cursor:        2
+
+hold at 2 -&gt; 只保持 B 的左侧终态
+</code></pre>
+<p>连续 <code>hold</code> 会分别保存每次调用时的求值结果，形成相邻的静态区间。</p>
+<h3 id="showhide-与最终求值"><a class="header" href="#showhide-与最终求值"><code>show</code>、<code>hide</code> 与最终求值</a></h3>
+<p><code>show()</code> 和 <code>hide()</code> 都是普通的零时长动画：</p>
+<ul>
+<li><code>show()</code> 是 enabled 的静态动画，求值时输出对应物件；</li>
+<li><code>hide()</code> 是 disabled 的静态动画，求值时不输出内容。</li>
+</ul>
+<p>它们不需要 <code>hold</code> 特判。因为 Sequence 在边界上选择最后一个适用的直接子动画，
+末尾的 <code>show()</code> 会成为最终求值结果，末尾的 <code>hide()</code> 则自然得到空结果；<code>hold</code>
+只负责把这个结果保存为静态动画。</p>
+<pre><code class="language-rust ignore">let mut content = AnimSequence::new();
+content
+    .push(square.show())
+    .hold(1.0)
+    .push(square.hide())
+    .hold(1.0);</code></pre>
+<p>这里 <code>hide</code> 只改变 <code>content</code> 这条 Sequence 的状态。它不会查找或影响根 Stack
+中另一个独立动画。</p>
+<p>如果两个物件需要独立生命周期，应分别使用两个 Sequence：</p>
+<pre><code class="language-rust ignore">r.play(square_sequence);
+r.play(circle_sequence);</code></pre>
+<p>如果两个物件需要在同一时刻一起求值，应直接 push 一个 <code>stack![...]</code> 组合。</p>
+<h2 id="并行容器animstack-与根场景"><a class="header" href="#并行容器animstack-与根场景">并行容器：<code>AnimStack</code> 与根场景</a></h2>
+<p><code>AnimStack::push</code> 不推进其他子动画；Stack duration 是所有子动画 duration 的
+最大值：</p>
+<pre><code class="language-rust ignore">let animation = stack![
+    background.show().with_duration(5.0),
+    content.at(1.0),
+    camera.show().with_duration(5.0),
+];
+
+r.play(animation);</code></pre>
+<p>Stack 接受普通 <code>Placeable</code> 动画和已经放置的 <code>At&lt;A&gt;</code>。普通动画从 Stack 局部 0
+开始，<code>At&lt;A&gt;</code> 使用自己的显式 offset。参数必须在调用 <code>at</code> 之前设置。</p>
+<p><code>RanimScene</code> 自带一个根 <code>AnimStack</code>：</p>
+<pre><code class="language-rust ignore">pub fn play&lt;A: Animation + 'static&gt;(&amp;mut self, animation: A) -&gt; &amp;mut Self {
+    self.root.push(animation);
+    self
+}</code></pre>
+<p>因此，多次根级 <code>play</code> 默认都从 0 秒开始。它们是并行动画，不存在后一次调用
+覆盖前一次调用的隐含对象语义。</p>
+<p>运行时数量不固定时可以直接构造 <code>AnimStack</code>：</p>
+<pre><code class="language-rust ignore">let mut layers = AnimStack::new();
+for animation in animations {
+    layers.push(animation);
+}
+r.play(layers);</code></pre>
+<h3 id="场景时长与显式生命周期"><a class="header" href="#场景时长与显式生命周期">场景时长与显式生命周期</a></h3>
+<p>Scene 总时长是根 Stack 中最长子动画的 duration。新模型不会像旧 Timeline 那样
+在 seal 时自动把静态物件和相机延长到 Scene 结束。</p>
+<p>需要全程存在的内容应显式指定生命周期：</p>
+<pre><code class="language-rust ignore">let total_secs = content.cursor_sec();
+
+let mut camera = AnimSequence::new();
+camera
+    .push(CameraFrame::default().show())
+    .hold_to(total_secs);
+
+r.play(camera);
+r.play(content);</code></pre>
+<p>这种写法使空白和保持区间成为动画定义的一部分。后续可以增加默认相机或
+<code>through_scene_end</code> 等辅助 API，但它们不改变 Sequence/Stack 的组合语义。</p>
+<h2 id="交错容器animlagged"><a class="header" href="#交错容器animlagged">交错容器：<code>AnimLagged</code></a></h2>
+<p><code>AnimLagged</code> 把一组<strong>未放置</strong>（<code>Placeable</code>）的子动画按 stagger 规则相继排布：
+第 <code>i</code> 个子动画的起点是 <code>start_{i-1} + lag_ratio · d_{i-1}</code>。<code>lag_ratio</code> 插值
+在两种容器语义之间：</p>
+<ul>
+<li><code>0.0</code> —— 所有子动画同时开始（类似 <code>AnimStack</code>）；</li>
+<li><code>1.0</code> —— 首尾相接（类似 <code>AnimSequence</code>）；</li>
+<li>中间值 —— 重叠相继。</li>
+</ul>
+<pre><code class="language-rust ignore">let animation = lagged![0.2;
+    square.fade_in(),
+    circle.fade_in(),
+    text.write(),
+];
+r.play(animation);</code></pre>
+<p>子动画窗口之外的时间默认由<strong>真实的静态动画</strong>填充：每个元素在 build 时被物化
+为一条 <code>[前填充][动画][后填充]</code> 的 per-item <code>AnimSequence</code> 轨道（前=初态，
+后=末态，采样自窗口边缘，空的填充会被跳过），因此 preview 时间线看到的就是
+实际渲染的内容，没有隐藏的求值规则。每端的行为可以用
+<code>with_leading</code>/<code>with_trailing</code> 配置（<code>LaggedFill::{Hold, Empty}</code>，默认都是
+<code>Hold</code>）；若希望元素在窗口结束后消失，让它的动画以 <code>hide</code> 结尾即可（如
+<code>seq![item.fade_in(), item.hide()]</code>）。</p>
+<p>填充在 build 时采样，因此子动画应当是纯（闭式）动画——迭代式子动画的末态
+填充会得到其初态。</p>
+<p>对一组元素施加同一个动画时，用迭代器收集（core 的 <code>AnimIterExt</code>）：</p>
+<pre><code class="language-rust ignore">let animation = group
+    .iter_mut()
+    .map(|item| item.fade_in().with_rate_func(smooth))
+    .into_lagged(0.2);</code></pre>
+<p>迭代器还可以收集为另外两个容器：<code>into_stack()</code>/<code>into_seq()</code>，或直接
+<code>collect::&lt;AnimStack&gt;()</code>/<code>collect::&lt;AnimSequence&gt;()</code>。</p>
+<h3 id="seqstack-与-lagged"><a class="header" href="#seqstack-与-lagged"><code>seq!</code>、<code>stack!</code> 与 <code>lagged!</code></a></h3>
+<p>固定写法可以使用宏简化：</p>
+<pre><code class="language-rust ignore">let intro = seq![
+    square.clone().fade_in(),
+    square.fade_out(),
+];
+
+let scene = stack![intro, camera];
+r.play(scene);</code></pre>
+<p><code>seq!</code> 返回 <code>AnimSequence</code>，<code>stack!</code> 返回 <code>AnimStack</code>。二者都只是构造辅助，
+最终 build 为保留子节点层级的运行时动画树。<code>lagged![0.2; a, b, c]</code> 以 0.2 的
+stagger ratio 返回 <code>AnimLagged</code>（见上文）。</p>
+<h2 id="运行时animationcell-与-sceneevaluator"><a class="header" href="#运行时animationcell-与-sceneevaluator">运行时：<code>AnimationCell</code> 与 <code>SceneEvaluator</code></a></h2>
+<p>Sequence、Stack 和 Scene 需要保存异构动画，因此每个直接子动画会 lower 成一个
+<code>AnimationCell</code>：</p>
+<pre><code class="language-text">AnimationCell
+├─ Box&lt;dyn EvalDyn&gt;
+├─ time range
+├─ rate function
+├─ enabled
+└─ evaluator name
+</code></pre>
+<p><code>AnimationCell::eval_at(sec, out)</code> 是唯一的时间管理入口：cell 先检查
+enabled / active，再用自己的 <code>time_range</code> 和 <code>rate_func</code> 把 <code>sec</code> 映射成局部
+<code>alpha</code>，最后调用擦除后的 <code>eval_dyn(alpha, out)</code>。</p>
+<p><code>EvalDyn</code> 是 <code>Eval</code> 的擦除对应物：<code>Eval</code> 带有关联类型 <code>Output</code>，不能直接作为
+trait object，因此 crate 为所有满足 <code>Output</code> 可提取为场景元素的 <code>E: Eval</code>
+自动实现了 <code>EvalDyn</code>。容器（Sequence/Stack/Lagged）同样实现它，所以叶子和容器
+都能装进同一个 <code>Box&lt;dyn EvalDyn&gt;</code>——动态求值会把结果追加到 <code>Vec&lt;DynItem&gt;</code>，
+但组合树本身不会被展开。类型擦除只隐藏直接子动画的 Rust 类型，不删除组合
+层级。</p>
+<p><code>SceneEvaluator::sample_at(render_secs, out)</code> 是唯一的 session 交互：</p>
+<ul>
+<li>对每个顶层 cell 调用 <code>eval_at(render_secs)</code>；</li>
+<li>前进 / 回退 / 原地求值的判断在 <code>Iterative</code> 等 stateful 节点内部完成；</li>
+<li>preview 拖拽和 render 采样共用同一条路径。</li>
+</ul>
+<p><code>logic_fps</code> 参数仅为 API 兼容保留，不再驱动步进；步进尺度由每个迭代区段自己
+的 <code>sim_step</code> 决定。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../understand/core/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../../understand/core/core_item.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../understand/core/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../../understand/core/core_item.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../mark-09e88c2c.min.js"></script>
+        <script src="../../searcher-09f2665d.js"></script>
+
+        <script src="../../clipboard-1626706a.min.js"></script>
+        <script src="../../highlight-abc7f01d.js"></script>
+        <script src="../../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../version-select-fdcb80bd.js"></script>
+        <script src="../../theme/pagetoc-ad23158a.js"></script>
+        <script src="../../mermaid-eefea253.min.js"></script>
+        <script src="../../mermaid-init-025d9952.js"></script>
+
+
+
+    </div>
+    </body>
+</html>
