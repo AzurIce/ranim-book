@@ -1,0 +1,739 @@
+<!DOCTYPE HTML>
+<html lang="zh" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Transformed&lt;T&gt; - Ranim Book</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="../../favicon-8114d1fc.png">
+        <link rel="stylesheet" href="../../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../version-select-0246a208.css">
+        <link rel="stylesheet" href="../../theme/pagetoc-6390151b.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../searchindex-c5516b2f.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc-323e4b2f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Ranim Book</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="transformedt-g变换表示组合与物件语义"><a class="header" href="#transformedt-g变换表示组合与物件语义"><code>Transformed&lt;T, G&gt;</code>：变换表示、组合与物件语义</a></h1>
+<blockquote class="blockquote-tag blockquote-tag-caution">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M4.47.22A.749.749 0 0 1 5 0h6c.199 0 .389.079.53.22l4.25 4.25c.141.14.22.331.22.53v6a.749.749 0 0 1-.22.53l-4.25 4.25A.749.749 0 0 1 11 16H5a.749.749 0 0 1-.53-.22L.22 11.53A.749.749 0 0 1 0 11V5c0-.199.079-.389.22-.53Zm.84 1.28L1.5 5.31v5.38l3.81 3.81h5.38l3.81-3.81V5.31L10.69 1.5ZM8 4a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 8 4Zm0 8a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Caution</p>
+<p>ai 生成，可能叙事逻辑和表述并不是很好，仅供参考。</p>
+</blockquote>
+<p>ranim 把“物件自身的数据”和“附加在物件外的变换”分开表达：</p>
+<pre><code class="language-rust ignore">pub struct Transformed&lt;T, G&gt; {
+    pub inner: T,
+    pub transform: G,
+}</code></pre>
+<p><code>T</code> 是物件，<code>G</code> 是 wrapper <strong>实际存储的变换表示</strong>。字段保持公开，可以在
+自定义 evaluator 中直接读写；常规组合则推荐使用 <code>compose_outer</code> 和
+<code>compose_inner</code>，使乘法顺序一目了然。</p>
+<h2 id="1-变换类型与仿射端点"><a class="header" href="#1-变换类型与仿射端点">1. 变换类型与仿射端点</a></h2>
+<p>ranim 的模型变换层级如下：</p>
+<pre class="mermaid">flowchart LR
+    T["Translation&lt;br/&gt;T(3)"] --&gt; R["Rigid&lt;br/&gt;SE(3)"]
+    R --&gt; S["Similarity&lt;br/&gt;Sim(3)"]
+    S --&gt; A["DAffine3&lt;br/&gt;Aff(3)&lt;br/&gt;模型变换端点"]
+    D["Diag&lt;br/&gt;轴向缩放"] --&gt; A
+    A -.-&gt; P["Projective&lt;br/&gt;仅作为相机投影边界"]
+
+    classDef endpoint fill:#dbeafe,stroke:#2563eb,stroke-width:3px,color:#172554
+    classDef boundary fill:#e5e7eb,stroke:#9ca3af,stroke-width:1.5px,color:#6b7280
+    class A endpoint
+    class P boundary
+    linkStyle 4 stroke:#9ca3af,color:#6b7280
+</pre>
+
+<ul>
+<li><code>Translation</code>：纯平移；</li>
+<li><code>Rigid</code>：旋转和平移；</li>
+<li><code>Similarity</code>：正的均匀缩放、旋转和平移；</li>
+<li><code>Diag</code>：沿坐标轴缩放，它不属于 <code>Similarity</code>；</li>
+<li><code>DAffine3</code>：模型变换的最一般表示，可以表达剪切和一般仿射组合；</li>
+<li>projective 不是模型变换的下一种存储类型，只存在于相机投影边界。</li>
+</ul>
+<p>图中的实线箭头对应无损的 <code>From</code> 嵌入。<code>From</code> 在 Rust 中不传递，因此 ranim
+显式提供已有层级中的全部转换：</p>
+<pre><code class="language-text">Translation -&gt; Rigid / Similarity / DAffine3
+Rigid       -&gt; Similarity / DAffine3
+Similarity  -&gt; DAffine3
+Diag        -&gt; DAffine3
+</code></pre>
+<p>每个表示都实现同一个 <code>TransformGroup</code> 能力，提供单位元和同族组合。组合顺序与
+仿射矩阵一致：</p>
+<div class="typst-display"><svg class="typst-doc" viewbox="0 0 120.47664444444443 21.956" width="120.47664444444443pt" height="21.956pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:h5="http://www.w3.org/1999/xhtml">
+    <g>
+        <g class="typst-group">
+            <g>
+                <g class="typst-text" transform="matrix(1 0 0 -1 5.5 13.728)">
+                    <use xlink:href="#g6B2D12AD87FD16FDD3FAD3D2E5587F3B" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+                    <use xlink:href="#g89AE23CE1BC6992F42ECEB8170E94A0F" x="4.884" y="0" fill="currentColor" fill-rule="nonzero" />
+                    <use xlink:href="#g6C70A4ED7129F9B0C46DEEB59F771D89" x="10.384" y="0" fill="currentColor" fill-rule="nonzero" />
+                    <use xlink:href="#g793E009CF51BF541FBAC15D8A1D99D62" x="19.547" y="0" fill="currentColor" fill-rule="nonzero" />
+                    <use xlink:href="#g89AE23CE1BC6992F42ECEB8170E94A0F" x="25.663" y="0" fill="currentColor" fill-rule="nonzero" />
+                    <use xlink:href="#gB7D3C3AE7F37C51266E7E986A2067DCC" x="31.163" y="0" fill="currentColor" fill-rule="nonzero" />
+                    <use xlink:href="#gF0BC6B77FD1EDC6C29D7B04F86EB7B2F" x="35.497" y="0" fill="currentColor" fill-rule="nonzero" />
+                </g>
+                <g class="typst-text" transform="matrix(1 0 0 -1 45.881 13.728)">
+                    <use xlink:href="#g31E3DEB9A9CB3BD1709CEA345A031064" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+                </g>
+                <g class="typst-text" transform="matrix(1 0 0 -1 50.16 13.728)">
+                    <use xlink:href="#g52352498B3658DE10199AAB852650D7B" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+                </g>
+                <g class="typst-text" transform="matrix(1 0 0 -1 55.407 16.445)">
+                    <use xlink:href="#gA2D9E3015D5077DA7E228E369B86A1B7" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+                </g>
+                <g class="typst-text" transform="matrix(1 0 0 -1 60.4043 13.728)">
+                    <use xlink:href="#g8504FB8A33E6B14C54FB83D916F870DF" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+                </g>
+                <g class="typst-text" transform="matrix(1 0 0 -1 65.29563333333333 13.728)">
+                    <use xlink:href="#g52352498B3658DE10199AAB852650D7B" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+                </g>
+                <g class="typst-text" transform="matrix(1 0 0 -1 70.54263333333333 16.445)">
+                    <use xlink:href="#g24FAC1CC54523921DB2EAC12BFEF768" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+                </g>
+                <g class="typst-text" transform="matrix(1 0 0 -1 75.53993333333332 13.728)">
+                    <use xlink:href="#g811D8EF63CF566CAC21EC8DDEA88109" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+                </g>
+                <g class="typst-text" transform="matrix(1 0 0 -1 82.87448888888888 13.728)">
+                    <use xlink:href="#g2217503B645203F93666585502C5A6BE" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+                </g>
+                <g class="typst-text" transform="matrix(1 0 0 -1 94.48804444444443 13.728)">
+                    <use xlink:href="#g52352498B3658DE10199AAB852650D7B" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+                </g>
+                <g class="typst-text" transform="matrix(1 0 0 -1 99.73504444444443 16.445)">
+                    <use xlink:href="#gA2D9E3015D5077DA7E228E369B86A1B7" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+                </g>
+                <g class="typst-text" transform="matrix(1 0 0 -1 104.73234444444444 13.728)">
+                    <use xlink:href="#g52352498B3658DE10199AAB852650D7B" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+                </g>
+                <g class="typst-text" transform="matrix(1 0 0 -1 109.97934444444444 16.445)">
+                    <use xlink:href="#g24FAC1CC54523921DB2EAC12BFEF768" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+                </g>
+            </g>
+        </g>
+    </g>
+    <defs id="glyph">
+        <symbol id="g6B2D12AD87FD16FDD3FAD3D2E5587F3B" overflow="visible">
+            <path d="M 0 0m 2.761 4.576 c 0.46200013 0 0.8140001 -0.11000013 1.056 -0.3300004 c -0.26399994 -0.032999992 -0.45099998 -0.27499986 -0.45099998 -0.5279999 c 0 -0.36299992 0.17600012 -0.53900003 0.53900003 -0.53900003 c 0.36300015 0 0.5389998 0.18700004 0.5389998 0.5500002 c 0 0.78099966 -0.8469999 1.1989999 -1.6939998 1.1989999 c -0.6819999 0 -1.243 -0.2420001 -1.694 -0.74800014 c -0.45099998 -0.5059998 -0.682 -1.1109998 -0.682 -1.8039999 c 0 -0.6709999 0.231 -1.265 0.682 -1.76 c 0.45099998 -0.495 1.0009999 -0.737 1.6719999 -0.737 c 0.54999995 0 0.9790001 0.154 1.287 0.473 c 0.25300026 0.25300002 0.41800022 0.506 0.50600004 0.77 c 0.032999992 0.09899998 0.04400015 0.16499996 0.04400015 0.20899999 c 0 0.09899998 -0.065999985 0.143 -0.18700027 0.143 c -0.08799982 0 -0.14299965 -0.04400003 -0.17599964 -0.13199997 c -0.23100019 -0.737 -0.68200016 -1.1110001 -1.3750002 -1.1110001 c -0.319 0 -0.62699986 0.143 -0.93499994 0.44 c -0.36299992 0.34099996 -0.5389999 0.913 -0.5389999 1.727 c 0 1.0999999 0.41799998 2.1780002 1.4079999 2.1780002 Z " />
+        </symbol>
+        <symbol id="g89AE23CE1BC6992F42ECEB8170E94A0F" overflow="visible">
+            <path d="M 0 0m 2.739 -0.121 c 0.6819999 0 1.254 0.242 1.727 0.726 c 0.47300005 0.48399997 0.7149997 1.0669999 0.7149997 1.7490001 c 0 0.69299984 -0.23099995 1.2979999 -0.69299984 1.8039999 c -0.4619999 0.50600004 -1.0449998 0.77 -1.7379999 0.77 c -0.6930001 0 -1.265 -0.26399994 -1.738 -0.77 c -0.473 -0.50600004 -0.704 -1.1110001 -0.704 -1.8039999 c 0 -0.68200016 0.23099998 -1.2650001 0.704 -1.7490001 c 0.47300005 -0.48400003 1.0560001 -0.726 1.7270001 -0.726 Z m 0.010999918 0.352 c -0.5280001 0 -0.924 0.231 -1.199 0.704 c -0.176 0.30800003 -0.26400006 0.81399995 -0.26400006 1.507 c 0 0.671 0.08800006 1.155 0.25300002 1.463 c 0.26400006 0.4729998 0.6600001 0.70400023 1.1990001 0.70400023 c 0.51699996 0 0.91299987 -0.23100042 1.188 -0.68200016 c 0.1869998 -0.3080001 0.2750001 -0.803 0.2750001 -1.4850001 c 0 -1.2759999 -0.37400007 -2.211 -1.4520001 -2.211 Z " />
+        </symbol>
+        <symbol id="g6C70A4ED7129F9B0C46DEEB59F771D89" overflow="visible">
+            <path d="M 0 0m 3.465 4.5429997 c 0.50600004 0 0.75900006 -0.38499975 0.75900006 -1.1659997 v -2.5080001 c 0 -0.20900005 -0.032999992 -0.34100002 -0.11000013 -0.38500002 c -0.076999664 -0.044 -0.32999992 -0.066000015 -0.73699975 -0.066000015 v -0.41799998 l 1.2759998 0.033 l 1.2649999 -0.033 v 0.41799998 c -0.4069996 0 -0.6489997 0.022000015 -0.72599983 0.066000015 c -0.07700014 0.044 -0.12099981 0.17599997 -0.12099981 0.38500002 v 1.98 c 0 0.8800001 0.572 1.6939998 1.4189997 1.6939998 c 0.5170002 0 0.77 -0.38499975 0.77 -1.1659997 v -2.5080001 c 0 -0.20900005 -0.043999672 -0.34100002 -0.12099981 -0.38500002 c -0.07700014 -0.044 -0.32999992 -0.066000015 -0.737 -0.066000015 v -0.41799998 l 1.276 0.033 l 1.2649999 -0.033 v 0.41799998 c -0.35200024 0 -0.5830002 0.011000007 -0.69299984 0.04400003 c -0.10999966 0.032999992 -0.15400028 0.110000014 -0.15400028 0.24199998 v 2.057 c 0 0.51699996 -0.02199936 0.8800001 -0.05499935 1.089 c -0.11000061 0.671 -0.6050005 1.0120001 -1.4740005 1.0120001 c -0.69299984 0 -1.21 -0.31900024 -1.5619998 -0.96799994 c -0.15400028 0.6489997 -0.638 0.96799994 -1.463 0.96799994 c -0.6930001 0 -1.221 -0.32999992 -1.5730001 -0.99 v 0.99 l -1.617 -0.12099981 v -0.41800022 c 0.39600003 0 0.638 -0.032999992 0.72599995 -0.09899998 c 0.08800006 -0.065999985 0.12100005 -0.20900011 0.12100005 -0.4619999 v -2.8930001 c 0 -0.20900005 -0.04400003 -0.34100002 -0.12100005 -0.38500002 c -0.0769999 -0.044 -0.31899995 -0.066000015 -0.72599995 -0.066000015 v -0.41799998 l 1.276 0.033 l 1.2649999 -0.033 v 0.41799998 c -0.40699983 0 -0.65999985 0.022000015 -0.737 0.066000015 c -0.0769999 0.044 -0.12099981 0.17599997 -0.12099981 0.38500002 v 1.98 c 0 0.89100003 0.58299994 1.6939998 1.4299998 1.6939998 Z " />
+        </symbol>
+        <symbol id="g793E009CF51BF541FBAC15D8A1D99D62" overflow="visible">
+            <path d="M 0 0m 3.2779999 -0.143 c 0.68200016 0 1.2649999 0.24200001 1.7379999 0.737 c 0.47300005 0.495 0.71500015 1.078 0.71500015 1.771 c 0 0.671 -0.21999979 1.243 -0.64900017 1.727 c -0.45099974 0.5170002 -1.0009999 0.77 -1.6609998 0.77 c -0.5610001 0 -1.0450001 -0.21999979 -1.463 -0.64900017 v 0.64900017 l -1.65 -0.12099981 v -0.41800022 c 0.40699998 0 0.64900005 -0.021999836 0.7260001 -0.07700014 c 0.0769999 -0.05499983 0.12099993 -0.19799995 0.12099993 -0.4289999 v -5.082 c 0 -0.20899999 -0.04400003 -0.34099996 -0.12099993 -0.385 c -0.07700002 -0.04400003 -0.31900007 -0.055000067 -0.7260001 -0.055000067 v -0.42900002 l 1.2540001 0.032999992 l 1.2649999 -0.032999992 v 0.42900002 c -0.40699983 0 -0.638 0.011000037 -0.7149999 0.055000067 c -0.0769999 0.04400003 -0.12100005 0.176 -0.12100005 0.385 v 1.749 c 0.2420001 -0.341 0.71500015 -0.627 1.287 -0.627 Z m 0.065999985 4.642 c 0.4510002 0 0.803 -0.25300026 1.0780001 -0.75900006 c 0.20900011 -0.42900014 0.31900024 -0.8800001 0.31900024 -1.375 c 0 -0.51699996 -0.12100029 -0.99 -0.3630004 -1.419 c -0.28599977 -0.51699996 -0.67099977 -0.77 -1.1439998 -0.77 c -0.4619999 0 -0.82500005 0.22 -1.0999999 0.649 c -0.09899998 0.143 -0.14300013 0.28599995 -0.14300013 0.42899996 v 2.409 c 0.319 0.5610001 0.77 0.8360002 1.3529999 0.8360002 Z " />
+        </symbol>
+        <symbol id="gB7D3C3AE7F37C51266E7E986A2067DCC" overflow="visible">
+            <path d="M 0 0m 3.96 1.43 c 0 0.8360001 -0.572 1.364 -1.7050002 1.584 c -0.51699984 0.09899998 -0.8469999 0.22000003 -1.0229999 0.34100008 c -0.176 0.12100005 -0.264 0.29699993 -0.264 0.50600004 c 0 0.5169997 0.38500005 0.77 1.155 0.77 c 0.74800014 0 1.155 -0.41800022 1.21 -1.2650001 c 0.010999918 -0.08800006 0.065999985 -0.13199997 0.17600012 -0.13199997 c 0.12099981 0 0.18700004 0.09899998 0.18700004 0.29699993 v 1.089 c 0 0.20900011 -0.055000067 0.3080001 -0.1650002 0.3080001 c -0.12099981 0 -0.286 -0.19799995 -0.3959999 -0.28599977 c -0.2750001 0.1869998 -0.61599994 0.28599977 -1.0120001 0.28599977 c -0.97899985 0 -1.7599999 -0.44000006 -1.7599999 -1.375 c 0 -0.37400007 0.15400001 -0.6930001 0.47299996 -0.9460001 c 0.385 -0.31899977 0.748 -0.385 1.441 -0.5059998 c 0.71500015 -0.14300013 1.0780001 -0.46200013 1.0780001 -0.957 c 0 -0.62700003 -0.385 -0.94600004 -1.1660001 -0.94600004 c -0.75899994 0 -1.2429999 0.506 -1.4519999 1.5070001 c -0.032999992 0.143 -0.088 0.21999991 -0.18699998 0.21999991 c -0.12100002 0 -0.187 -0.110000014 -0.187 -0.319 v -1.4189999 c 0 -0.209 0.054999977 -0.308 0.16499999 -0.308 c 0.032999992 0 0.088 0.033 0.176 0.11 c 0.19800001 0.176 0.110000014 0.143 0.30799997 0.341 c 0.319 -0.297 0.71500003 -0.45099998 1.1769999 -0.45099998 c 1.0450001 0 1.7710001 0.539 1.7710001 1.551 Z " />
+        </symbol>
+        <symbol id="gF0BC6B77FD1EDC6C29D7B04F86EB7B2F" overflow="visible">
+            <path d="M 0 0m 4.565 2.761 c 0 1.2650001 -0.737 2.167 -1.9690001 2.167 c -0.65999997 0 -1.2099999 -0.25299978 -1.661 -0.77 c -0.41799998 -0.48399997 -0.627 -1.0669999 -0.627 -1.7379999 c 0 -0.6930001 0.23099998 -1.276 0.6930001 -1.7820001 c 0.4619999 -0.50600004 1.034 -0.759 1.716 -0.759 c 0.62699986 0 1.1110001 0.22 1.441 0.649 c 0.2750001 0.36299998 0.40700006 0.627 0.40700006 0.803 c 0 0.110000014 -0.065999985 0.16500008 -0.18700027 0.16500008 c -0.08799982 0 -0.14299965 -0.055000067 -0.17599964 -0.17600012 c -0.2420001 -0.72599995 -0.71500015 -1.089 -1.4190001 -1.089 c -0.4949999 0 -0.88 0.231 -1.177 0.704 c -0.20899999 0.34100002 -0.30799997 0.858 -0.319 1.562 h 2.97 c 0.2420001 0 0.3080001 0.022000074 0.3080001 0.26399994 Z m -0.9790001 1.0780001 c 0.12100005 -0.36299992 0.17600012 -0.7149999 0.17600012 -1.0339999 h -2.4640002 c 0.032999992 0.72599983 0.22000003 1.221 0.5500001 1.4739997 c 0.27499986 0.22000027 0.51699996 0.3300004 0.7479999 0.3300004 c 0.49500012 0 0.82500005 -0.25300026 0.99 -0.7700002 Z " />
+        </symbol>
+        <symbol id="g31E3DEB9A9CB3BD1709CEA345A031064" overflow="visible">
+            <path d="M 0 0m 3.498 -2.728 c 0.09899998 0 0.15400004 0.05499983 0.15400004 0.15400004 c 0 0.032999992 -0.022000074 0.0769999 -0.055000067 0.12099981 c -0.5719998 0.44000006 -1.0339999 1.1660001 -1.375 2.167 c -0.29699993 0.869 -0.45099986 1.727 -0.45099986 2.5740001 v 0.9239998 c 0 0.8470001 0.15399992 1.7049999 0.45099986 2.574 c 0.34100008 1.0010004 0.8030002 1.7270002 1.375 2.1670003 c 0.032999992 0.032999992 0.055000067 0.076999664 0.055000067 0.12100029 c 0 0.09899998 -0.055000067 0.15399933 -0.15400004 0.15399933 c -0.010999918 0 -0.04399991 -0.01099968 -0.0769999 -0.032999992 c -0.6600001 -0.50599957 -1.21 -1.2539997 -1.661 -2.2549996 c -0.42900002 -0.95700026 -0.64900005 -1.8590002 -0.64900005 -2.7280002 v -0.9239998 c 0 -0.8690001 0.22000003 -1.7710001 0.64900005 -2.7280002 c 0.45099998 -1.0009999 1.0009999 -1.7489998 1.661 -2.2549999 c 0.032999992 -0.022000074 0.065999985 -0.032999992 0.0769999 -0.032999992 Z " />
+        </symbol>
+        <symbol id="g52352498B3658DE10199AAB852650D7B" overflow="visible">
+            <path d="M 0 0m 0.16499999 -1.551 c 0 -0.47299993 0.49499997 -0.7039999 1.485 -0.7039999 c 0.5170001 0 1.001 0.13199997 1.43 0.38499987 c 0.48399997 0.286 0.78100014 0.671 0.90199995 1.144 l 1.1989999 4.829 c 0.022000313 0.10999966 0.032999992 0.17599964 0.032999992 0.20899963 c 0 0.22000027 -0.12099981 0.3300004 -0.35199976 0.3300004 c -0.2420001 0 -0.3959999 -0.13200045 -0.47300005 -0.38500023 c -0.2420001 0.40700006 -0.572 0.605 -0.97899985 0.605 c -0.704 0 -1.3310001 -0.35200024 -1.8700001 -1.056 c -0.495 -0.6600001 -0.74799997 -1.3529999 -0.74799997 -2.0679998 c 0 -0.957 0.56100005 -1.771 1.4849999 -1.771 c 0.42900014 0 0.82500005 0.187 1.188 0.55 l -0.32999992 -1.2980001 c -0.319 -0.75899994 -0.8139999 -1.1439999 -1.507 -1.1439999 c -0.286 0 -0.528 0.021999955 -0.726 0.065999985 c 0.231 0.12099993 0.34100002 0.30799997 0.34100002 0.561 c 0 0.27499998 -0.15400004 0.41799998 -0.45100003 0.41799998 c -0.352 0 -0.627 -0.319 -0.627 -0.671 Z m 3.751 5.863 c 0.22000027 -0.23099995 0.32999992 -0.45099974 0.32999992 -0.67099977 c 0 -0.011000156 -0.01099968 -0.065999985 -0.032999992 -0.14300013 l -0.5169997 -2.079 c -0.06600022 -0.25300002 -0.25300002 -0.517 -0.5500002 -0.75900006 c -0.29699993 -0.24199998 -0.58299994 -0.36299998 -0.83599997 -0.36299998 c -0.43999994 0 -0.65999997 0.319 -0.65999997 0.95699996 c 0 0.605 0.37399995 1.947 0.594 2.343 c 0.34100008 0.6270001 0.7260001 0.9350002 1.177 0.9350002 c 0.19799995 0 0.36299992 -0.07700014 0.4949999 -0.22000027 Z " />
+        </symbol>
+        <symbol id="gA2D9E3015D5077DA7E228E369B86A1B7" overflow="visible">
+            <path d="M 0 0m 0.9163 3.2648 c 0.24639994 0 0.43119997 0.18479991 0.43119997 0.43120003 c 0 0.27719998 -0.14629996 0.42350006 -0.43119997 0.43120003 c 0.16940004 0.36189985 0.5544 0.6545 1.0548999 0.6545 c 0.6775999 0 1.1242001 -0.50820017 1.1242001 -1.1858001 c 0 -0.36960006 -0.13090014 -0.7238002 -0.40040016 -1.0703001 c -0.1308999 -0.17709994 -0.23099995 -0.30029988 -0.30029988 -0.36960006 l -1.8249 -1.8094999 c -0.10010001 -0.092400014 -0.08470002 -0.1155 -0.08470002 -0.3465 h 3.1724 l 0.23869991 1.4476 h -0.32340002 c -0.053900003 -0.4081 -0.11549997 -0.64680004 -0.18479991 -0.7007 c -0.03850007 -0.023100019 -0.27719998 -0.03850001 -0.7314999 -0.03850001 h -1.3090001 c 0.5159 0.45429993 0.9933001 0.86239994 1.4476 1.2243 c 0.34649992 0.2694999 0.59290004 0.50820005 0.7469001 0.71609986 c 0.23099995 0.30030012 0.34649992 0.6160002 0.34649992 0.94710016 c 0 0.47739983 -0.18479991 0.8547001 -0.56209993 1.1318998 c -0.3311 0.25409985 -0.7469001 0.38500023 -1.2397001 0.38500023 c -0.42349994 0 -0.7853999 -0.12319994 -1.1011 -0.3696003 c -0.3311 -0.26949978 -0.50049996 -0.60829973 -0.50049996 -1.0240998 c 0 -0.26180005 0.19250003 -0.45429993 0.4312 -0.45429993 Z " />
+        </symbol>
+        <symbol id="g8504FB8A33E6B14C54FB83D916F870DF" overflow="visible">
+            <path d="M 0 0m 1.529 1.166 c -0.352 0 -0.58300006 -0.264 -0.58300006 -0.616 c 0 -0.33 0.25300002 -0.605 0.58300006 -0.605 c 0.15399992 0 0.2859999 0.044 0.385 0.143 l 0.010999918 -0.088 c 0 -0.693 -0.23099995 -1.287 -0.69299996 -1.76 c -0.07700002 -0.08800006 -0.12100005 -0.15400004 -0.12100005 -0.19799995 c 0 -0.11000013 0.04400003 -0.16499996 0.143 -0.16499996 c 0.0990001 0 0.23100007 0.13199997 0.41799998 0.38499987 c 0.37400007 0.528 0.5610001 1.1110001 0.5610001 1.738 c 0 0.583 -0.19799995 1.166 -0.704 1.166 Z " />
+        </symbol>
+        <symbol id="g24FAC1CC54523921DB2EAC12BFEF768" overflow="visible">
+            <path d="M 0 0m 2.3331 5.1128 c -0.3311 -0.32340002 -0.8239001 -0.48510027 -1.4938002 -0.48510027 v -0.33879995 c 0.4543 0 0.81619996 0.069300175 1.0934 0.20020008 v -3.8346 c 0 -0.10010004 -0.0077000856 -0.16170001 -0.030800104 -0.1925 c -0.03849995 -0.08470002 -0.2694999 -0.13090003 -0.69299996 -0.13090003 h -0.3157 v -0.3311 l 1.3706 0.0308 l 1.3783002 -0.0308 v 0.3311 h -0.31570005 c -0.42350006 0 -0.6545 0.046200007 -0.70070004 0.13090003 c -0.015399933 0.030799985 -0.0230999 0.092399955 -0.0230999 0.1925 v 4.2118998 c 0 0.20790005 -0.030800104 0.24640036 -0.26950002 0.24640036 Z " />
+        </symbol>
+        <symbol id="g811D8EF63CF566CAC21EC8DDEA88109" overflow="visible">
+            <path d="M 0 0m 0.858 -2.695 c 0.66 0.50600004 1.21 1.254 1.661 2.2549999 c 0.4289999 0.957 0.6489999 1.859 0.6489999 2.7280002 v 0.9239998 c 0 0.86899996 -0.22000003 1.7709999 -0.6489999 2.7280002 c -0.45099998 1.0009999 -1.001 1.7490001 -1.661 2.2549996 c -0.032999992 0.022000313 -0.065999985 0.032999992 -0.07699996 0.032999992 c -0.09900004 0 -0.15400004 -0.05499935 -0.15400004 -0.15399933 c 0 -0.044000626 0.022000015 -0.0880003 0.055000007 -0.12100029 c 0.57199997 -0.44000006 1.0339999 -1.1659999 1.375 -2.1670003 c 0.29700017 -0.86899996 0.45099998 -1.7269998 0.45099998 -2.574 v -0.9239998 c 0 -0.8470001 -0.1539998 -1.7050002 -0.45099998 -2.5740001 c -0.34099996 -1.0009999 -0.803 -1.727 -1.375 -2.167 c -0.032999992 -0.04399991 -0.055000007 -0.08799982 -0.055000007 -0.12099981 c 0 -0.099000216 0.055000007 -0.15400004 0.15400004 -0.15400004 c 0.010999978 0 0.04399997 0.010999918 0.07699996 0.032999992 Z " />
+        </symbol>
+        <symbol id="g2217503B645203F93666585502C5A6BE" overflow="visible">
+            <path d="M 0 0m 7.678 4.037 h -6.798 c -0.176 0 -0.264 -0.0880003 -0.264 -0.25300026 c 0 -0.16499996 0.088 -0.25300002 0.264 -0.25300002 h 6.798 c 0.17600012 0 0.26399994 0.08800006 0.26399994 0.25300002 c 0 0.13199997 -0.12099981 0.25300026 -0.26399994 0.25300026 Z m 0 -2.0680003 h -6.798 c -0.176 0 -0.264 -0.08799994 -0.264 -0.25300002 c 0 -0.16499996 0.088 -0.25300002 0.264 -0.25300002 h 6.798 c 0.17600012 0 0.26399994 0.08800006 0.26399994 0.25300002 c 0 0.143 -0.12099981 0.25300002 -0.26399994 0.25300002 Z " />
+        </symbol>
+    </defs>
+</svg>
+</div>
+
+<p>也就是先作用 <span class="typst-inline"><svg class="typst-doc" viewbox="0 0 21.2443 18.512999999999998" width="21.2443pt" height="18.512999999999998pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:h5="http://www.w3.org/1999/xhtml">
+<g>
+<g class="typst-text" transform="matrix(1 0 0 -1 5.5 13.013)">
+<use xlink:href="#g52352498B3658DE10199AAB852650D7B" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+</g>
+<g class="typst-text" transform="matrix(1 0 0 -1 10.747000000000002 15.73)">
+<use xlink:href="#g24FAC1CC54523921DB2EAC12BFEF768" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+</g>
+</g>
+<defs id="glyph">
+<symbol id="g52352498B3658DE10199AAB852650D7B" overflow="visible">
+<path d="M 0 0m 0.16499999 -1.551 c 0 -0.47299993 0.49499997 -0.7039999 1.485 -0.7039999 c 0.5170001 0 1.001 0.13199997 1.43 0.38499987 c 0.48399997 0.286 0.78100014 0.671 0.90199995 1.144 l 1.1989999 4.829 c 0.022000313 0.10999966 0.032999992 0.17599964 0.032999992 0.20899963 c 0 0.22000027 -0.12099981 0.3300004 -0.35199976 0.3300004 c -0.2420001 0 -0.3959999 -0.13200045 -0.47300005 -0.38500023 c -0.2420001 0.40700006 -0.572 0.605 -0.97899985 0.605 c -0.704 0 -1.3310001 -0.35200024 -1.8700001 -1.056 c -0.495 -0.6600001 -0.74799997 -1.3529999 -0.74799997 -2.0679998 c 0 -0.957 0.56100005 -1.771 1.4849999 -1.771 c 0.42900014 0 0.82500005 0.187 1.188 0.55 l -0.32999992 -1.2980001 c -0.319 -0.75899994 -0.8139999 -1.1439999 -1.507 -1.1439999 c -0.286 0 -0.528 0.021999955 -0.726 0.065999985 c 0.231 0.12099993 0.34100002 0.30799997 0.34100002 0.561 c 0 0.27499998 -0.15400004 0.41799998 -0.45100003 0.41799998 c -0.352 0 -0.627 -0.319 -0.627 -0.671 Z m 3.751 5.863 c 0.22000027 -0.23099995 0.32999992 -0.45099974 0.32999992 -0.67099977 c 0 -0.011000156 -0.01099968 -0.065999985 -0.032999992 -0.14300013 l -0.5169997 -2.079 c -0.06600022 -0.25300002 -0.25300002 -0.517 -0.5500002 -0.75900006 c -0.29699993 -0.24199998 -0.58299994 -0.36299998 -0.83599997 -0.36299998 c -0.43999994 0 -0.65999997 0.319 -0.65999997 0.95699996 c 0 0.605 0.37399995 1.947 0.594 2.343 c 0.34100008 0.6270001 0.7260001 0.9350002 1.177 0.9350002 c 0.19799995 0 0.36299992 -0.07700014 0.4949999 -0.22000027 Z " />
+</symbol>
+<symbol id="g24FAC1CC54523921DB2EAC12BFEF768" overflow="visible">
+<path d="M 0 0m 2.3331 5.1128 c -0.3311 -0.32340002 -0.8239001 -0.48510027 -1.4938002 -0.48510027 v -0.33879995 c 0.4543 0 0.81619996 0.069300175 1.0934 0.20020008 v -3.8346 c 0 -0.10010004 -0.0077000856 -0.16170001 -0.030800104 -0.1925 c -0.03849995 -0.08470002 -0.2694999 -0.13090003 -0.69299996 -0.13090003 h -0.3157 v -0.3311 l 1.3706 0.0308 l 1.3783002 -0.0308 v 0.3311 h -0.31570005 c -0.42350006 0 -0.6545 0.046200007 -0.70070004 0.13090003 c -0.015399933 0.030799985 -0.0230999 0.092399955 -0.0230999 0.1925 v 4.2118998 c 0 0.20790005 -0.030800104 0.24640036 -0.26950002 0.24640036 Z " />
+</symbol>
+</defs>
+</svg>
+</span>，再作用 <span class="typst-inline"><svg class="typst-doc" viewbox="0 0 21.2443 18.512999999999998" width="21.2443pt" height="18.512999999999998pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:h5="http://www.w3.org/1999/xhtml">
+<g>
+<g class="typst-text" transform="matrix(1 0 0 -1 5.5 13.013)">
+<use xlink:href="#g52352498B3658DE10199AAB852650D7B" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+</g>
+<g class="typst-text" transform="matrix(1 0 0 -1 10.747000000000002 15.73)">
+<use xlink:href="#gA2D9E3015D5077DA7E228E369B86A1B7" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+</g>
+</g>
+<defs id="glyph">
+<symbol id="g52352498B3658DE10199AAB852650D7B" overflow="visible">
+<path d="M 0 0m 0.16499999 -1.551 c 0 -0.47299993 0.49499997 -0.7039999 1.485 -0.7039999 c 0.5170001 0 1.001 0.13199997 1.43 0.38499987 c 0.48399997 0.286 0.78100014 0.671 0.90199995 1.144 l 1.1989999 4.829 c 0.022000313 0.10999966 0.032999992 0.17599964 0.032999992 0.20899963 c 0 0.22000027 -0.12099981 0.3300004 -0.35199976 0.3300004 c -0.2420001 0 -0.3959999 -0.13200045 -0.47300005 -0.38500023 c -0.2420001 0.40700006 -0.572 0.605 -0.97899985 0.605 c -0.704 0 -1.3310001 -0.35200024 -1.8700001 -1.056 c -0.495 -0.6600001 -0.74799997 -1.3529999 -0.74799997 -2.0679998 c 0 -0.957 0.56100005 -1.771 1.4849999 -1.771 c 0.42900014 0 0.82500005 0.187 1.188 0.55 l -0.32999992 -1.2980001 c -0.319 -0.75899994 -0.8139999 -1.1439999 -1.507 -1.1439999 c -0.286 0 -0.528 0.021999955 -0.726 0.065999985 c 0.231 0.12099993 0.34100002 0.30799997 0.34100002 0.561 c 0 0.27499998 -0.15400004 0.41799998 -0.45100003 0.41799998 c -0.352 0 -0.627 -0.319 -0.627 -0.671 Z m 3.751 5.863 c 0.22000027 -0.23099995 0.32999992 -0.45099974 0.32999992 -0.67099977 c 0 -0.011000156 -0.01099968 -0.065999985 -0.032999992 -0.14300013 l -0.5169997 -2.079 c -0.06600022 -0.25300002 -0.25300002 -0.517 -0.5500002 -0.75900006 c -0.29699993 -0.24199998 -0.58299994 -0.36299998 -0.83599997 -0.36299998 c -0.43999994 0 -0.65999997 0.319 -0.65999997 0.95699996 c 0 0.605 0.37399995 1.947 0.594 2.343 c 0.34100008 0.6270001 0.7260001 0.9350002 1.177 0.9350002 c 0.19799995 0 0.36299992 -0.07700014 0.4949999 -0.22000027 Z " />
+</symbol>
+<symbol id="gA2D9E3015D5077DA7E228E369B86A1B7" overflow="visible">
+<path d="M 0 0m 0.9163 3.2648 c 0.24639994 0 0.43119997 0.18479991 0.43119997 0.43120003 c 0 0.27719998 -0.14629996 0.42350006 -0.43119997 0.43120003 c 0.16940004 0.36189985 0.5544 0.6545 1.0548999 0.6545 c 0.6775999 0 1.1242001 -0.50820017 1.1242001 -1.1858001 c 0 -0.36960006 -0.13090014 -0.7238002 -0.40040016 -1.0703001 c -0.1308999 -0.17709994 -0.23099995 -0.30029988 -0.30029988 -0.36960006 l -1.8249 -1.8094999 c -0.10010001 -0.092400014 -0.08470002 -0.1155 -0.08470002 -0.3465 h 3.1724 l 0.23869991 1.4476 h -0.32340002 c -0.053900003 -0.4081 -0.11549997 -0.64680004 -0.18479991 -0.7007 c -0.03850007 -0.023100019 -0.27719998 -0.03850001 -0.7314999 -0.03850001 h -1.3090001 c 0.5159 0.45429993 0.9933001 0.86239994 1.4476 1.2243 c 0.34649992 0.2694999 0.59290004 0.50820005 0.7469001 0.71609986 c 0.23099995 0.30030012 0.34649992 0.6160002 0.34649992 0.94710016 c 0 0.47739983 -0.18479991 0.8547001 -0.56209993 1.1318998 c -0.3311 0.25409985 -0.7469001 0.38500023 -1.2397001 0.38500023 c -0.42349994 0 -0.7853999 -0.12319994 -1.1011 -0.3696003 c -0.3311 -0.26949978 -0.50049996 -0.60829973 -0.50049996 -1.0240998 c 0 -0.26180005 0.19250003 -0.45429993 0.4312 -0.45429993 Z " />
+</symbol>
+</defs>
+</svg>
+</span>。<code>Similarity</code> 组合时，外层的缩放和旋转也会
+作用于内层平移；它不是把三个字段分别相加。</p>
+<p><code>Diag</code> 仍保留当前数值行为，包括零缩放。这里没有额外引入“严格可逆”的运行时
+检查。</p>
+<h2 id="2-applytransformg物件能直接吸收什么"><a class="header" href="#2-applytransformg物件能直接吸收什么">2. <code>ApplyTransform&lt;G&gt;</code>：物件能直接吸收什么</a></h2>
+<p>基础接口是：</p>
+<pre><code class="language-rust ignore">pub trait ApplyTransform&lt;G&gt; {
+    fn apply(&amp;mut self, transform: G) -&gt; &amp;mut Self;
+}</code></pre>
+<p>物件通过实现范围声明自己的闭包：</p>
+<pre><code class="language-rust ignore">// 点数据可以吸收仿射变换及其子类型
+impl&lt;G: Into&lt;DAffine3&gt;&gt; ApplyTransform&lt;G&gt; for VItem { /* ... */ }
+
+// 圆、球、矩形等参数化形状只吸收相似变换及其子类型
+impl&lt;G: Into&lt;Similarity&gt;&gt; ApplyTransform&lt;G&gt; for Circle { /* ... */ }</code></pre>
+<p>便利操作由这个接口派生：</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>操作</th><th>提交给 <code>ApplyTransform</code> 的类型</th></tr>
+</thead>
+<tbody>
+<tr><td><code>shift(offset)</code></td><td><code>Translation</code></td></tr>
+<tr><td><code>rotate_on_axis(axis, angle)</code></td><td><code>Rigid</code></td></tr>
+<tr><td><code>scale_uniform(s)</code></td><td><code>Similarity</code></td></tr>
+<tr><td><code>scale(DVec3)</code></td><td><code>Diag</code></td></tr>
+</tbody>
+</table>
+</div>
+<p>因此裸 <code>Rectangle</code> 可以平移、旋转和均匀缩放，但不能直接接受一般非均匀
+<code>Diag</code>；后者通常会破坏相邻边正交这一表示不变量。</p>
+<h2 id="3-构造-wrapper参数就是精确的-g"><a class="header" href="#3-构造-wrapper参数就是精确的-g">3. 构造 wrapper：参数就是精确的 <code>G</code></a></h2>
+<p>构造器同时接收物件与变换：</p>
+<pre><code class="language-rust ignore">let item = Transformed::new(mesh, DAffine3::IDENTITY);</code></pre>
+<p>prelude 还导出了 blanket extension trait，可以写成：</p>
+<pre><code class="language-rust ignore">let item = mesh.transformed::&lt;DAffine3&gt;(DAffine3::IDENTITY);</code></pre>
+<p><code>.transformed::&lt;G&gt;(g)</code> 的参数必须恰好是 <code>G</code>；这个入口不会替调用者选择更宽的
+存储类型。通常可以让类型推断直接从参数得到 <code>G</code>：</p>
+<pre><code class="language-rust ignore">let item = mesh.transformed(Translation(offset));
+// 类型是 Transformed&lt;MeshItem, Translation&gt;</code></pre>
+<p>选择较窄的 <code>G</code> 会让可组合的操作在编译期受限；选择 <code>DAffine3</code> 则是现有
+mesh/surface 场景常用的存储上界。</p>
+<h2 id="4-outer-与-inner-组合"><a class="header" href="#4-outer-与-inner-组合">4. outer 与 inner 组合</a></h2>
+<p>设 wrapper 当前存储 <span class="typst-inline"><svg class="typst-doc" viewbox="0 0 19.547 18.512999999999998" width="19.547pt" height="18.512999999999998pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:h5="http://www.w3.org/1999/xhtml">
+<g>
+<g class="typst-text" transform="matrix(1 0 0 -1 5.5 13.013)">
+<use xlink:href="#g2B8CD73B5262EDAB36CE1F2D9B2C56C5" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+</g>
+</g>
+<defs id="glyph">
+<symbol id="g2B8CD73B5262EDAB36CE1F2D9B2C56C5" overflow="visible">
+<path d="M 0 0m 2.189 7.216 c 0 -0.11000013 0.12100005 -0.16499996 0.352 -0.16499996 c 0.44000006 0 0.6600001 -0.04400015 0.6600001 -0.14300013 c 0 -0.032999992 -0.022000074 -0.11000013 -0.055000067 -0.25300026 l -1.43 -5.753 c -0.065999985 -0.24200004 -0.176 -0.385 -0.32999992 -0.44 c -0.07700002 -0.022000015 -0.2750001 -0.033000022 -0.61600006 -0.033000022 c -0.24199998 0 -0.352 -0.021999985 -0.352 -0.253 c 0 -0.121 0.066000015 -0.176 0.20899999 -0.176 l 1.43 0.033 l 1.628 -0.033 c 0.17600012 0 0.26399994 0.088 0.26399994 0.253 c 0 0.187 -0.12099981 0.176 -0.40699983 0.176 c -0.48399997 0 -0.75900006 0.022000015 -0.82500005 0.07699999 c -0.032999992 0.011000037 -0.04399991 0.055000007 -0.04399991 0.110000014 l 0.704 2.915 h 1.023 c 0.50600004 0 0.8579998 -0.021999836 0.8579998 -0.43999982 c 0 -0.14300013 -0.021999836 -0.319 -0.07700014 -0.5280001 c -0.01099968 -0.032999992 -0.021999836 -0.0769999 -0.032999992 -0.12100005 c 0 -0.12099981 0.055000305 -0.17599988 0.17600012 -0.17599988 c 0.055000305 0.010999918 0.13199997 0.08800006 0.20900011 0.25300002 l 0.59399986 2.3649998 c 0.022000313 0.0880003 0.032999992 0.15400028 0.032999992 0.18700027 c -0.032999992 0.09899998 -0.09899998 0.1539998 -0.17599964 0.1539998 c -0.0880003 0 -0.15400028 -0.08799982 -0.19800043 -0.25299978 c -0.10999966 -0.41800022 -0.26399994 -0.68200016 -0.43999958 -0.8140001 c -0.17600012 -0.13199997 -0.4840002 -0.19799995 -0.92400026 -0.19799995 h -0.93499994 l 0.68200016 2.7059999 c 0.08799982 0.37400007 0.08799982 0.38500023 0.5499997 0.38500023 h 1.4300003 c 1.0669999 0 1.5509996 -0.16499996 1.5509996 -1.144 c 0 -0.22000027 -0.01099968 -0.41800022 -0.032999992 -0.5830002 c -0.01099968 -0.12099981 -0.021999836 -0.1869998 -0.021999836 -0.19799995 c 0 -0.12099981 0.05499983 -0.17600012 0.16499996 -0.17600012 c 0.11000013 0 0.17600012 0.09899998 0.19800043 0.3080001 l 0.21999931 1.881 c 0.032999992 0.3080001 -0.043999672 0.34100008 -0.3409996 0.34100008 h -5.3240004 c -0.25300002 0 -0.37400007 -0.011000156 -0.37400007 -0.26399994 Z " />
+</symbol>
+</defs>
+</svg>
+</span>，新变换为 <span class="typst-inline"><svg class="typst-doc" viewbox="0 0 20.998999999999995 18.512999999999998" width="20.998999999999995pt" height="18.512999999999998pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:h5="http://www.w3.org/1999/xhtml">
+<g>
+<g class="typst-text" transform="matrix(1 0 0 -1 5.5 13.013)">
+<use xlink:href="#gF5570E9ABF8C19961588CD61D8B75448" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+</g>
+</g>
+<defs id="glyph">
+<symbol id="gF5570E9ABF8C19961588CD61D8B75448" overflow="visible">
+<path d="M 0 0m 9.691 7.348 c 0 0.11000013 -0.065999985 0.16499996 -0.19799995 0.16499996 l -1.3970003 -0.032999992 l -1.3969998 0.032999992 c -0.17600012 0 -0.25299978 -0.09899998 -0.25299978 -0.26399994 c 0 -0.07700014 0.032999992 -0.13199997 0.08799982 -0.14300013 c 0.11000013 -0.011000156 0.19799995 -0.021999836 0.25300026 -0.021999836 c 0.3409996 -0.011000156 0.5279999 -0.032999992 0.5829997 -0.04400015 c 0.055000305 -0.011000156 0.0880003 -0.04400015 0.0880003 -0.09899998 c -0.011000156 -0.032999992 -0.022000313 -0.09899998 -0.04400015 -0.19799995 l -0.64900017 -2.618 h -3.234 l 0.63800025 2.4969997 c 0.05499983 0.23100042 0.1539998 0.37400007 0.29699993 0.42900038 c 0.076999664 0.021999836 0.26399994 0.032999992 0.572 0.032999992 c 0.29699993 0 0.41799974 0 0.41799974 0.26399994 c 0 0.11000013 -0.065999985 0.16499996 -0.19799995 0.16499996 l -1.3969998 -0.032999992 l -1.408 0.032999992 c -0.17600012 0 -0.25300002 -0.09899998 -0.25300002 -0.26399994 c 0 -0.07700014 0.032999992 -0.13199997 0.09899998 -0.14300013 c 0.109999895 -0.011000156 0.19799995 -0.021999836 0.25300002 -0.021999836 c 0.34099984 -0.011000156 0.53900003 -0.032999992 0.59399986 -0.04400015 c 0.055000067 -0.011000156 0.07700014 -0.04400015 0.07700014 -0.09899998 c 0 -0.021999836 -0.011000156 -0.08799982 -0.04400015 -0.19799995 l -1.4629999 -5.841 c -0.054999948 -0.24200004 -0.16499996 -0.385 -0.32999992 -0.44 c -0.07700002 -0.022000015 -0.2750001 -0.033000022 -0.61600006 -0.033000022 c -0.24199998 0 -0.341 -0.021999985 -0.341 -0.264 c 0 -0.10999999 0.066000015 -0.16499999 0.19799998 -0.16499999 l 1.386 0.033 l 0.6930001 -0.011 c 0.12099981 0 0.58299994 -0.022 0.704 -0.022 c 0.17599988 0 0.26399994 0.088 0.26399994 0.264 c 0 0.110000014 -0.12100005 0.16499999 -0.352 0.16499999 c -0.44000006 0 -0.6600001 0.044 -0.6600001 0.14300004 c 0 0 0.011000156 0.032999992 0.032999992 0.176 l 0.737 2.948 h 3.2229998 l -0.737 -2.948 c -0.032999992 -0.16500002 -0.16499996 -0.27500004 -0.38499975 -0.30800003 c -0.05499983 -0.011000007 -0.2420001 -0.011000007 -0.5609999 -0.011000007 c -0.20900011 0 -0.3080001 -0.088 -0.3080001 -0.264 c 0 -0.10999999 0.065999985 -0.16499999 0.19799995 -0.16499999 l 1.3860002 0.033 l 0.69299984 -0.011 c 0.12099981 0 0.572 -0.022 0.71500015 -0.022 c 0.17599964 0 0.26399994 0.088 0.26399994 0.264 c 0 0.110000014 -0.12100029 0.16499999 -0.35200024 0.16499999 c -0.45099974 0 -0.671 0.044 -0.671 0.14300004 c 0 0 0.011000156 0.032999992 0.032999992 0.176 l 1.4740005 5.8739996 c 0.05499935 0.23100042 0.15399933 0.37400007 0.29699993 0.42900038 c 0.065999985 0.021999836 0.2529993 0.032999992 0.57199955 0.032999992 c 0.28600025 0 0.41800022 0 0.41800022 0.26399994 Z " />
+</symbol>
+</defs>
+</svg>
+</span>。两种组合只有乘法方向不同：</p>
+<div class="typst-display"><svg class="typst-doc" viewbox="0 0 77.36911111111111 23.139599999999998" width="77.36911111111111pt" height="23.139599999999998pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:h5="http://www.w3.org/1999/xhtml">
+    <g>
+        <g class="typst-group">
+            <g>
+                <g class="typst-text" transform="matrix(1 0 0 -1 5.5 13.013)">
+                    <use xlink:href="#g2B8CD73B5262EDAB36CE1F2D9B2C56C5" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+                </g>
+                <g class="typst-text" transform="matrix(1 0 0 -1 11.363000000000001 15.73)">
+                    <use xlink:href="#gB2BA298F097A47F29A3E6C741122D409" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+                </g>
+                <g class="typst-text" transform="matrix(1 0 0 -1 14.358300000000002 15.73)">
+                    <use xlink:href="#gA9F4D9CC206D57A2FF4DD5435CC9E962" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+                    <use xlink:href="#g18970D45F8024D5A5F9676E9EDAC245" x="3.85" y="0" fill="currentColor" fill-rule="nonzero" />
+                    <use xlink:href="#g55B00CD0FC8F839462BA572462AB11F8" x="8.1312" y="0" fill="currentColor" fill-rule="nonzero" />
+                    <use xlink:href="#g491680CC92CDEEB3F74EA70F3864E62D" x="11.1265" y="0" fill="currentColor" fill-rule="nonzero" />
+                    <use xlink:href="#gE308AA6B7C22A26DCA48274146A4394E" x="14.5453" y="0" fill="currentColor" fill-rule="nonzero" />
+                </g>
+                <g class="typst-text" transform="matrix(1 0 0 -1 31.922 15.73)">
+                    <use xlink:href="#gAE05674BCB516E274BBC792D4DB12922" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+                </g>
+                <g class="typst-text" transform="matrix(1 0 0 -1 34.917300000000004 13.5047)">
+                    <use xlink:href="#gE7EEED6E6466EF7BBEFCB6A879F54223" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+                </g>
+                <g class="typst-text" transform="matrix(1 0 0 -1 41.70955555555555 13.013)">
+                    <use xlink:href="#g2217503B645203F93666585502C5A6BE" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+                </g>
+                <g class="typst-text" transform="matrix(1 0 0 -1 53.32311111111111 13.013)">
+                    <use xlink:href="#gF5570E9ABF8C19961588CD61D8B75448" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+                </g>
+                <g class="typst-text" transform="matrix(1 0 0 -1 63.32211111111111 13.013)">
+                    <use xlink:href="#g2B8CD73B5262EDAB36CE1F2D9B2C56C5" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+                </g>
+            </g>
+        </g>
+    </g>
+    <defs id="glyph">
+        <symbol id="g2B8CD73B5262EDAB36CE1F2D9B2C56C5" overflow="visible">
+            <path d="M 0 0m 2.189 7.216 c 0 -0.11000013 0.12100005 -0.16499996 0.352 -0.16499996 c 0.44000006 0 0.6600001 -0.04400015 0.6600001 -0.14300013 c 0 -0.032999992 -0.022000074 -0.11000013 -0.055000067 -0.25300026 l -1.43 -5.753 c -0.065999985 -0.24200004 -0.176 -0.385 -0.32999992 -0.44 c -0.07700002 -0.022000015 -0.2750001 -0.033000022 -0.61600006 -0.033000022 c -0.24199998 0 -0.352 -0.021999985 -0.352 -0.253 c 0 -0.121 0.066000015 -0.176 0.20899999 -0.176 l 1.43 0.033 l 1.628 -0.033 c 0.17600012 0 0.26399994 0.088 0.26399994 0.253 c 0 0.187 -0.12099981 0.176 -0.40699983 0.176 c -0.48399997 0 -0.75900006 0.022000015 -0.82500005 0.07699999 c -0.032999992 0.011000037 -0.04399991 0.055000007 -0.04399991 0.110000014 l 0.704 2.915 h 1.023 c 0.50600004 0 0.8579998 -0.021999836 0.8579998 -0.43999982 c 0 -0.14300013 -0.021999836 -0.319 -0.07700014 -0.5280001 c -0.01099968 -0.032999992 -0.021999836 -0.0769999 -0.032999992 -0.12100005 c 0 -0.12099981 0.055000305 -0.17599988 0.17600012 -0.17599988 c 0.055000305 0.010999918 0.13199997 0.08800006 0.20900011 0.25300002 l 0.59399986 2.3649998 c 0.022000313 0.0880003 0.032999992 0.15400028 0.032999992 0.18700027 c -0.032999992 0.09899998 -0.09899998 0.1539998 -0.17599964 0.1539998 c -0.0880003 0 -0.15400028 -0.08799982 -0.19800043 -0.25299978 c -0.10999966 -0.41800022 -0.26399994 -0.68200016 -0.43999958 -0.8140001 c -0.17600012 -0.13199997 -0.4840002 -0.19799995 -0.92400026 -0.19799995 h -0.93499994 l 0.68200016 2.7059999 c 0.08799982 0.37400007 0.08799982 0.38500023 0.5499997 0.38500023 h 1.4300003 c 1.0669999 0 1.5509996 -0.16499996 1.5509996 -1.144 c 0 -0.22000027 -0.01099968 -0.41800022 -0.032999992 -0.5830002 c -0.01099968 -0.12099981 -0.021999836 -0.1869998 -0.021999836 -0.19799995 c 0 -0.12099981 0.05499983 -0.17600012 0.16499996 -0.17600012 c 0.11000013 0 0.17600012 0.09899998 0.19800043 0.3080001 l 0.21999931 1.881 c 0.032999992 0.3080001 -0.043999672 0.34100008 -0.3409996 0.34100008 h -5.3240004 c -0.25300002 0 -0.37400007 -0.011000156 -0.37400007 -0.26399994 Z " />
+        </symbol>
+        <symbol id="gB2BA298F097A47F29A3E6C741122D409" overflow="visible">
+            <path d="M 0 0m 2.4486 -1.9096 c 0.06929994 0 0.10780001 0.03850007 0.10780001 0.10780001 c 0 0.023100019 -0.015400171 0.053900003 -0.03850007 0.08469999 c -0.40039992 0.3080001 -0.72379994 0.8162 -0.9625 1.5169001 c -0.20790005 0.6083 -0.31570005 1.2089 -0.31570005 1.8017999 v 0.64680004 c 0 0.59290004 0.10780001 1.1935 0.31570005 1.8018 c 0.23870003 0.7006998 0.56210005 1.2089 0.9625 1.5169001 c 0.0230999 0.0230999 0.03850007 0.053899765 0.03850007 0.08470011 c 0 0.0692997 -0.03850007 0.10780001 -0.10780001 0.10780001 c -0.0076999664 0 -0.030800104 -0.0076999664 -0.053900003 -0.023100376 c -0.462 -0.3541999 -0.847 -0.8778 -1.1627 -1.5784998 c -0.3003 -0.66989994 -0.4543 -1.3013 -0.4543 -1.9096 v -0.64680004 c 0 -0.6082999 0.15399998 -1.2397 0.4543 -1.9095999 c 0.31570005 -0.70070004 0.70070004 -1.2243 1.1627 -1.5785 c 0.0230999 -0.015399933 0.046200037 -0.023100019 0.053900003 -0.023100019 Z " />
+        </symbol>
+        <symbol id="gA9F4D9CC206D57A2FF4DD5435CC9E962" overflow="visible">
+            <path d="M 0 0m 1.9173 -0.0847 c 0.47740006 0 0.8778 0.1694 1.2089 0.5082 c 0.3311 0.3388 0.50049996 0.7469 0.50049996 1.2242999 c 0 0.48510003 -0.16170001 0.9086001 -0.48510003 1.2628 c -0.32340002 0.35420012 -0.7314999 0.53900003 -1.2166 0.53900003 c -0.4850999 0 -0.88549995 -0.18479991 -1.2166 -0.53900003 c -0.33110002 -0.3541999 -0.4928 -0.77769995 -0.4928 -1.2628 c 0 -0.47739995 0.1617 -0.88549995 0.4928 -1.2242999 c 0.3311 -0.3388 0.7392 -0.5082 1.2089 -0.5082 Z m 0.0076999664 0.2464 c -0.36959994 0 -0.6467999 0.1617 -0.8392999 0.4928 c -0.12320006 0.21560001 -0.18480003 0.5698 -0.18480003 1.0548999 c 0 0.4697001 0.06159997 0.80850005 0.17709994 1.0241001 c 0.18480003 0.3311 0.462 0.4928 0.83930004 0.4928 c 0.3619001 0 0.6391001 -0.16170001 0.83159995 -0.47740006 c 0.13090014 -0.21560001 0.19250011 -0.56209993 0.19250011 -1.0395 c 0 -0.8931999 -0.26180005 -1.5476999 -1.0164001 -1.5476999 Z " />
+        </symbol>
+        <symbol id="g18970D45F8024D5A5F9676E9EDAC245" overflow="visible">
+            <path d="M 0 0m 2.0559 0.13859999 c -0.53130007 0 -0.6314001 0.22330001 -0.6314001 0.7238 v 2.541 l -1.1781 -0.08469987 v -0.29260015 c 0.3003 0 0.4774 -0.030799866 0.5236 -0.08469987 c 0.046200037 -0.053900003 0.069299996 -0.24640012 0.069299996 -0.5852001 v -1.1319 c 0 -0.3003 0.023100019 -0.5313 0.07700002 -0.7084 c 0.11550003 -0.4004 0.539 -0.6006 1.1011 -0.6006 c 0.41579986 0 0.7314999 0.1925 0.9470999 0.5852 v -0.5852 l 1.1550002 0.0847 v 0.2926 c -0.27720022 0 -0.43890023 0.0153999925 -0.5005002 0.0616 c -0.06159997 0.046199977 -0.092400074 0.15399998 -0.092400074 0.3311 v 2.7181 l -1.1703999 -0.08469987 v -0.29260015 c 0.26950002 0 0.43120003 -0.0230999 0.4928 -0.06929994 c 0.06159997 -0.046200037 0.092400074 -0.14630008 0.092400074 -0.32340002 v -1.3475 c 0 -0.6083 -0.32340002 -1.1473 -0.88549995 -1.1473 Z " />
+        </symbol>
+        <symbol id="g55B00CD0FC8F839462BA572462AB11F8" overflow="visible">
+            <path d="M 0 0m 2.5564 0.9702 v 0.46199995 h -0.24640012 v -0.44659996 c 0 -0.385 -0.13859987 -0.8162 -0.47739995 -0.8162 c -0.31570005 0 -0.46969998 0.2618 -0.46969998 0.78540003 v 2.0867 h 1.0702999 v 0.29259992 h -1.0702999 v 1.4013999 h -0.2464 c -0.0077000856 -0.25409985 -0.030799985 -0.47739983 -0.08469999 -0.6775999 c -0.13090003 -0.50819993 -0.43120003 -0.77 -0.8855 -0.7930999 v -0.22329998 h 0.63909996 v -2.0713 c 0 -0.4543 0.13860005 -0.7469 0.40810007 -0.8932 c 0.20789993 -0.1078 0.40039992 -0.16170001 0.5928999 -0.16170001 c 0.50820005 0 0.7700001 0.5082 0.7700001 1.0549 Z " />
+        </symbol>
+        <symbol id="g491680CC92CDEEB3F74EA70F3864E62D" overflow="visible">
+            <path d="M 0 0m 3.1955 1.9327 c 0 0.88549984 -0.5158999 1.5169 -1.3783 1.5169 c -0.4619999 0 -0.84699994 -0.17709994 -1.1626999 -0.53900003 c -0.2926 -0.33879995 -0.4389 -0.74689984 -0.4389 -1.2166 c 0 -0.48510003 0.1617 -0.89320004 0.48509997 -1.2474 c 0.32339996 -0.3542 0.7238 -0.5313 1.2012 -0.5313 c 0.4389001 0 0.77770007 0.154 1.0087 0.4543 c 0.19250011 0.25410002 0.28489995 0.4389 0.28489995 0.5621 c 0 0.07700002 -0.0461998 0.11549997 -0.1308999 0.11549997 c -0.06159997 0 -0.10010004 -0.03849995 -0.12319994 -0.12319994 c -0.16939998 -0.50820005 -0.50049996 -0.7623 -0.9933001 -0.7623 c -0.34650004 0 -0.61599994 0.1617 -0.8239 0.4928 c -0.14630002 0.23869997 -0.21560001 0.6006 -0.22329998 1.0934 h 2.079 c 0.16940022 0 0.21560001 0.015399933 0.21560001 0.18480003 Z m -0.6852999 0.7545999 c 0.08469987 -0.25410008 0.12319994 -0.50049996 0.12319994 -0.72379994 h -1.7248 c 0.023100019 0.50819993 0.15400004 0.85469985 0.385 1.0318 c 0.1925 0.15400004 0.36189997 0.23099995 0.5236 0.23099995 c 0.34650016 0 0.5775001 -0.17709994 0.6930001 -0.53900003 Z " />
+        </symbol>
+        <symbol id="gE308AA6B7C22A26DCA48274146A4394E" overflow="visible">
+            <path d="M 0 0m 2.8028 2.9106 c 0 0.30030012 -0.28489995 0.4928 -0.5852001 0.4928 c -0.39269984 0 -0.69299984 -0.23099995 -0.8931999 -0.70070004 v 0.70070004 l -1.1087999 -0.08469987 v -0.29260015 c 0.26950002 0 0.43119997 -0.0230999 0.4928 -0.06929994 c 0.06159997 -0.046200037 0.092399955 -0.14630008 0.092399955 -0.32340002 v -2.0251 c 0 -0.14629996 -0.023099959 -0.23869997 -0.07699996 -0.26949996 c -0.053900003 -0.030800015 -0.22329998 -0.046200007 -0.5082 -0.046200007 v -0.2926 l 0.88549995 0.0231 c 0.32340002 0.0077 0.6545 0 0.9856 -0.0231 v 0.2926 h -0.18480003 c -0.25409997 0 -0.41579998 0.023099989 -0.46969998 0.0616 c -0.053900003 0.03849998 -0.0769999 0.1309 -0.0769999 0.26950002 v 1.1626999 c 0 0.3311001 0.06159997 0.6314 0.17709994 0.8855001 c 0.15400004 0.3311 0.37730002 0.50049996 0.6775999 0.50819993 c -0.0769999 -0.0769999 -0.11549997 -0.16939998 -0.11549997 -0.27719998 c 0 -0.23869991 0.11549997 -0.3541999 0.35420012 -0.3541999 c 0.20790005 0 0.3541999 0.16170001 0.3541999 0.36189985 Z " />
+        </symbol>
+        <symbol id="gAE05674BCB516E274BBC792D4DB12922" overflow="visible">
+            <path d="M 0 0m 0.6006 -1.8865 c 0.462 0.3542 0.847 0.8778 1.1626999 1.5785 c 0.30030012 0.6699 0.45429993 1.3013 0.45429993 1.9095999 v 0.64680004 c 0 0.6083 -0.1539998 1.2397001 -0.45429993 1.9096 c -0.31569993 0.7006998 -0.7006999 1.2242999 -1.1626999 1.5784998 c -0.023100019 0.01540041 -0.046200037 0.023100376 -0.053900003 0.023100376 c -0.069299996 0 -0.10780001 -0.03850031 -0.10780001 -0.10780001 c 0 -0.030800343 0.0153999925 -0.06160021 0.03850001 -0.08470011 c 0.40039998 -0.3080001 0.7238 -0.81620026 0.96250004 -1.5169001 c 0.20789993 -0.6083 0.31569993 -1.2089 0.31569993 -1.8018 v -0.64680004 c 0 -0.5928999 -0.10780001 -1.1934999 -0.31569993 -1.8017999 c -0.23870003 -0.70070004 -0.56210005 -1.2089 -0.96250004 -1.5169001 c -0.023100019 -0.030799985 -0.03850001 -0.06159997 -0.03850001 -0.08469999 c 0 -0.06929994 0.03850001 -0.10780001 0.10780001 -0.10780001 c 0.0076999664 0 0.030799985 0.0077000856 0.053900003 0.023100019 Z " />
+        </symbol>
+        <symbol id="gE7EEED6E6466EF7BBEFCB6A879F54223" overflow="visible">
+            <path d="M 0 0m 1.8755 3.487 c -0.1595 0 -0.26950002 -0.07150006 -0.32999992 -0.20900011 l -1.1055 -2.761 h 0.29149997 l 1.4520001 2.409 c 0.038499832 0.06600022 0.05499983 0.13200021 0.05499983 0.19250011 c 0 0.19799995 -0.16499996 0.3685 -0.36299992 0.3685 Z " />
+        </symbol>
+        <symbol id="g2217503B645203F93666585502C5A6BE" overflow="visible">
+            <path d="M 0 0m 7.678 4.037 h -6.798 c -0.176 0 -0.264 -0.0880003 -0.264 -0.25300026 c 0 -0.16499996 0.088 -0.25300002 0.264 -0.25300002 h 6.798 c 0.17600012 0 0.26399994 0.08800006 0.26399994 0.25300002 c 0 0.13199997 -0.12099981 0.25300026 -0.26399994 0.25300026 Z m 0 -2.0680003 h -6.798 c -0.176 0 -0.264 -0.08799994 -0.264 -0.25300002 c 0 -0.16499996 0.088 -0.25300002 0.264 -0.25300002 h 6.798 c 0.17600012 0 0.26399994 0.08800006 0.26399994 0.25300002 c 0 0.143 -0.12099981 0.25300002 -0.26399994 0.25300002 Z " />
+        </symbol>
+        <symbol id="gF5570E9ABF8C19961588CD61D8B75448" overflow="visible">
+            <path d="M 0 0m 9.691 7.348 c 0 0.11000013 -0.065999985 0.16499996 -0.19799995 0.16499996 l -1.3970003 -0.032999992 l -1.3969998 0.032999992 c -0.17600012 0 -0.25299978 -0.09899998 -0.25299978 -0.26399994 c 0 -0.07700014 0.032999992 -0.13199997 0.08799982 -0.14300013 c 0.11000013 -0.011000156 0.19799995 -0.021999836 0.25300026 -0.021999836 c 0.3409996 -0.011000156 0.5279999 -0.032999992 0.5829997 -0.04400015 c 0.055000305 -0.011000156 0.0880003 -0.04400015 0.0880003 -0.09899998 c -0.011000156 -0.032999992 -0.022000313 -0.09899998 -0.04400015 -0.19799995 l -0.64900017 -2.618 h -3.234 l 0.63800025 2.4969997 c 0.05499983 0.23100042 0.1539998 0.37400007 0.29699993 0.42900038 c 0.076999664 0.021999836 0.26399994 0.032999992 0.572 0.032999992 c 0.29699993 0 0.41799974 0 0.41799974 0.26399994 c 0 0.11000013 -0.065999985 0.16499996 -0.19799995 0.16499996 l -1.3969998 -0.032999992 l -1.408 0.032999992 c -0.17600012 0 -0.25300002 -0.09899998 -0.25300002 -0.26399994 c 0 -0.07700014 0.032999992 -0.13199997 0.09899998 -0.14300013 c 0.109999895 -0.011000156 0.19799995 -0.021999836 0.25300002 -0.021999836 c 0.34099984 -0.011000156 0.53900003 -0.032999992 0.59399986 -0.04400015 c 0.055000067 -0.011000156 0.07700014 -0.04400015 0.07700014 -0.09899998 c 0 -0.021999836 -0.011000156 -0.08799982 -0.04400015 -0.19799995 l -1.4629999 -5.841 c -0.054999948 -0.24200004 -0.16499996 -0.385 -0.32999992 -0.44 c -0.07700002 -0.022000015 -0.2750001 -0.033000022 -0.61600006 -0.033000022 c -0.24199998 0 -0.341 -0.021999985 -0.341 -0.264 c 0 -0.10999999 0.066000015 -0.16499999 0.19799998 -0.16499999 l 1.386 0.033 l 0.6930001 -0.011 c 0.12099981 0 0.58299994 -0.022 0.704 -0.022 c 0.17599988 0 0.26399994 0.088 0.26399994 0.264 c 0 0.110000014 -0.12100005 0.16499999 -0.352 0.16499999 c -0.44000006 0 -0.6600001 0.044 -0.6600001 0.14300004 c 0 0 0.011000156 0.032999992 0.032999992 0.176 l 0.737 2.948 h 3.2229998 l -0.737 -2.948 c -0.032999992 -0.16500002 -0.16499996 -0.27500004 -0.38499975 -0.30800003 c -0.05499983 -0.011000007 -0.2420001 -0.011000007 -0.5609999 -0.011000007 c -0.20900011 0 -0.3080001 -0.088 -0.3080001 -0.264 c 0 -0.10999999 0.065999985 -0.16499999 0.19799995 -0.16499999 l 1.3860002 0.033 l 0.69299984 -0.011 c 0.12099981 0 0.572 -0.022 0.71500015 -0.022 c 0.17599964 0 0.26399994 0.088 0.26399994 0.264 c 0 0.110000014 -0.12100029 0.16499999 -0.35200024 0.16499999 c -0.45099974 0 -0.671 0.044 -0.671 0.14300004 c 0 0 0.011000156 0.032999992 0.032999992 0.176 l 1.4740005 5.8739996 c 0.05499935 0.23100042 0.15399933 0.37400007 0.29699993 0.42900038 c 0.065999985 0.021999836 0.2529993 0.032999992 0.57199955 0.032999992 c 0.28600025 0 0.41800022 0 0.41800022 0.26399994 Z " />
+        </symbol>
+    </defs>
+</svg>
+</div>
+
+<div class="typst-display"><svg class="typst-doc" viewbox="0 0 76.9456111111111 23.139599999999998" width="76.9456111111111pt" height="23.139599999999998pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:h5="http://www.w3.org/1999/xhtml">
+    <g>
+        <g class="typst-group">
+            <g>
+                <g class="typst-text" transform="matrix(1 0 0 -1 5.5 13.013)">
+                    <use xlink:href="#g2B8CD73B5262EDAB36CE1F2D9B2C56C5" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+                </g>
+                <g class="typst-text" transform="matrix(1 0 0 -1 11.363000000000001 15.73)">
+                    <use xlink:href="#gB2BA298F097A47F29A3E6C741122D409" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+                </g>
+                <g class="typst-text" transform="matrix(1 0 0 -1 14.358300000000002 15.73)">
+                    <use xlink:href="#gF589C0CAC55DA0DAC378B0798668DB08" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+                    <use xlink:href="#g3A2EC1C8BFD9444F66A593FB6A6BC091" x="2.1406" y="0" fill="currentColor" fill-rule="nonzero" />
+                    <use xlink:href="#g3A2EC1C8BFD9444F66A593FB6A6BC091" x="6.4218" y="0" fill="currentColor" fill-rule="nonzero" />
+                    <use xlink:href="#g491680CC92CDEEB3F74EA70F3864E62D" x="10.703" y="0" fill="currentColor" fill-rule="nonzero" />
+                    <use xlink:href="#gE308AA6B7C22A26DCA48274146A4394E" x="14.121799999999999" y="0" fill="currentColor" fill-rule="nonzero" />
+                </g>
+                <g class="typst-text" transform="matrix(1 0 0 -1 31.4985 15.73)">
+                    <use xlink:href="#gAE05674BCB516E274BBC792D4DB12922" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+                </g>
+                <g class="typst-text" transform="matrix(1 0 0 -1 34.4938 13.5047)">
+                    <use xlink:href="#gE7EEED6E6466EF7BBEFCB6A879F54223" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+                </g>
+                <g class="typst-text" transform="matrix(1 0 0 -1 41.28605555555555 13.013)">
+                    <use xlink:href="#g2217503B645203F93666585502C5A6BE" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+                </g>
+                <g class="typst-text" transform="matrix(1 0 0 -1 52.899611111111106 13.013)">
+                    <use xlink:href="#g2B8CD73B5262EDAB36CE1F2D9B2C56C5" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+                </g>
+                <g class="typst-text" transform="matrix(1 0 0 -1 61.44661111111111 13.013)">
+                    <use xlink:href="#gF5570E9ABF8C19961588CD61D8B75448" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+                </g>
+            </g>
+        </g>
+    </g>
+    <defs id="glyph">
+        <symbol id="g2B8CD73B5262EDAB36CE1F2D9B2C56C5" overflow="visible">
+            <path d="M 0 0m 2.189 7.216 c 0 -0.11000013 0.12100005 -0.16499996 0.352 -0.16499996 c 0.44000006 0 0.6600001 -0.04400015 0.6600001 -0.14300013 c 0 -0.032999992 -0.022000074 -0.11000013 -0.055000067 -0.25300026 l -1.43 -5.753 c -0.065999985 -0.24200004 -0.176 -0.385 -0.32999992 -0.44 c -0.07700002 -0.022000015 -0.2750001 -0.033000022 -0.61600006 -0.033000022 c -0.24199998 0 -0.352 -0.021999985 -0.352 -0.253 c 0 -0.121 0.066000015 -0.176 0.20899999 -0.176 l 1.43 0.033 l 1.628 -0.033 c 0.17600012 0 0.26399994 0.088 0.26399994 0.253 c 0 0.187 -0.12099981 0.176 -0.40699983 0.176 c -0.48399997 0 -0.75900006 0.022000015 -0.82500005 0.07699999 c -0.032999992 0.011000037 -0.04399991 0.055000007 -0.04399991 0.110000014 l 0.704 2.915 h 1.023 c 0.50600004 0 0.8579998 -0.021999836 0.8579998 -0.43999982 c 0 -0.14300013 -0.021999836 -0.319 -0.07700014 -0.5280001 c -0.01099968 -0.032999992 -0.021999836 -0.0769999 -0.032999992 -0.12100005 c 0 -0.12099981 0.055000305 -0.17599988 0.17600012 -0.17599988 c 0.055000305 0.010999918 0.13199997 0.08800006 0.20900011 0.25300002 l 0.59399986 2.3649998 c 0.022000313 0.0880003 0.032999992 0.15400028 0.032999992 0.18700027 c -0.032999992 0.09899998 -0.09899998 0.1539998 -0.17599964 0.1539998 c -0.0880003 0 -0.15400028 -0.08799982 -0.19800043 -0.25299978 c -0.10999966 -0.41800022 -0.26399994 -0.68200016 -0.43999958 -0.8140001 c -0.17600012 -0.13199997 -0.4840002 -0.19799995 -0.92400026 -0.19799995 h -0.93499994 l 0.68200016 2.7059999 c 0.08799982 0.37400007 0.08799982 0.38500023 0.5499997 0.38500023 h 1.4300003 c 1.0669999 0 1.5509996 -0.16499996 1.5509996 -1.144 c 0 -0.22000027 -0.01099968 -0.41800022 -0.032999992 -0.5830002 c -0.01099968 -0.12099981 -0.021999836 -0.1869998 -0.021999836 -0.19799995 c 0 -0.12099981 0.05499983 -0.17600012 0.16499996 -0.17600012 c 0.11000013 0 0.17600012 0.09899998 0.19800043 0.3080001 l 0.21999931 1.881 c 0.032999992 0.3080001 -0.043999672 0.34100008 -0.3409996 0.34100008 h -5.3240004 c -0.25300002 0 -0.37400007 -0.011000156 -0.37400007 -0.26399994 Z " />
+        </symbol>
+        <symbol id="gB2BA298F097A47F29A3E6C741122D409" overflow="visible">
+            <path d="M 0 0m 2.4486 -1.9096 c 0.06929994 0 0.10780001 0.03850007 0.10780001 0.10780001 c 0 0.023100019 -0.015400171 0.053900003 -0.03850007 0.08469999 c -0.40039992 0.3080001 -0.72379994 0.8162 -0.9625 1.5169001 c -0.20790005 0.6083 -0.31570005 1.2089 -0.31570005 1.8017999 v 0.64680004 c 0 0.59290004 0.10780001 1.1935 0.31570005 1.8018 c 0.23870003 0.7006998 0.56210005 1.2089 0.9625 1.5169001 c 0.0230999 0.0230999 0.03850007 0.053899765 0.03850007 0.08470011 c 0 0.0692997 -0.03850007 0.10780001 -0.10780001 0.10780001 c -0.0076999664 0 -0.030800104 -0.0076999664 -0.053900003 -0.023100376 c -0.462 -0.3541999 -0.847 -0.8778 -1.1627 -1.5784998 c -0.3003 -0.66989994 -0.4543 -1.3013 -0.4543 -1.9096 v -0.64680004 c 0 -0.6082999 0.15399998 -1.2397 0.4543 -1.9095999 c 0.31570005 -0.70070004 0.70070004 -1.2243 1.1627 -1.5785 c 0.0230999 -0.015399933 0.046200037 -0.023100019 0.053900003 -0.023100019 Z " />
+        </symbol>
+        <symbol id="gF589C0CAC55DA0DAC378B0798668DB08" overflow="visible">
+            <path d="M 0 0m 1.4938 4.6277 c 0 0.23099995 -0.1925 0.43120003 -0.42350006 0.43120003 c -0.231 0 -0.43119997 -0.20020008 -0.43119997 -0.43120003 c 0 -0.23099995 0.1925 -0.4389 0.4235 -0.4389 c 0.23870003 0 0.43120003 0.20020008 0.43120003 0.4389 Z m -0.39270008 -4.6046 l 0.80079997 -0.0231 v 0.3003 c -0.25409997 0 -0.4080999 0.0153999925 -0.45429993 0.046200007 c -0.046200037 0.030799985 -0.06159997 0.1155 -0.06159997 0.2541 v 2.8259 l -1.1011 -0.092400074 v -0.29259992 c 0.25409997 0 0.41579998 -0.023100138 0.46969998 -0.06160021 c 0.053900003 -0.038499832 0.07700002 -0.14629984 0.07700002 -0.32339978 v -2.0482001 c 0 -0.14629996 -0.023100019 -0.23869997 -0.07700002 -0.26949996 c -0.053900003 -0.030800015 -0.22329998 -0.03850001 -0.50049996 -0.03850001 v -0.3003 Z " />
+        </symbol>
+        <symbol id="g3A2EC1C8BFD9444F66A593FB6A6BC091" overflow="visible">
+            <path d="M 0 0m 2.4178 3.1801 c 0.34649992 0 0.5236001 -0.26950002 0.5236001 -0.8162 v -1.7556 c 0 -0.14629996 -0.023100138 -0.23869997 -0.07700014 -0.26949996 c -0.053900003 -0.030800015 -0.22329998 -0.046200007 -0.50819993 -0.046200007 v -0.2926 l 0.88549995 0.0231 l 0.8778002 -0.0231 v 0.2926 c -0.24640012 0 -0.40810013 0.0076999962 -0.48510027 0.030799985 c -0.0769999 0.023100019 -0.10780001 0.07699999 -0.10780001 0.1694 v 1.4399 c 0 0.36189997 -0.0076999664 0.61600006 -0.030799866 0.7622999 c -0.07700014 0.4697001 -0.42350006 0.7084 -1.0318 0.7084 c -0.48510003 0 -0.847 -0.23099995 -1.0857 -0.69299984 v 0.69299984 l -1.1319 -0.08469987 v -0.29260015 c 0.27719998 0 0.44660002 -0.0230999 0.5082 -0.06929994 c 0.06160003 -0.046200037 0.08469999 -0.14630008 0.08469999 -0.32340002 v -2.0251 c 0 -0.14629996 -0.030799985 -0.23869997 -0.08469999 -0.26949996 c -0.053900003 -0.030800015 -0.22329998 -0.046200007 -0.5082 -0.046200007 v -0.2926 l 0.88549995 0.0231 l 0.8778001 -0.0231 v 0.2926 c -0.28490007 0 -0.44660008 0.0153999925 -0.5005001 0.046200007 c -0.053900003 0.030799985 -0.08469999 0.1232 -0.08469999 0.26949996 v 1.386 c 0 0.6237 0.39269996 1.1858 0.99329996 1.1858 Z " />
+        </symbol>
+        <symbol id="g491680CC92CDEEB3F74EA70F3864E62D" overflow="visible">
+            <path d="M 0 0m 3.1955 1.9327 c 0 0.88549984 -0.5158999 1.5169 -1.3783 1.5169 c -0.4619999 0 -0.84699994 -0.17709994 -1.1626999 -0.53900003 c -0.2926 -0.33879995 -0.4389 -0.74689984 -0.4389 -1.2166 c 0 -0.48510003 0.1617 -0.89320004 0.48509997 -1.2474 c 0.32339996 -0.3542 0.7238 -0.5313 1.2012 -0.5313 c 0.4389001 0 0.77770007 0.154 1.0087 0.4543 c 0.19250011 0.25410002 0.28489995 0.4389 0.28489995 0.5621 c 0 0.07700002 -0.0461998 0.11549997 -0.1308999 0.11549997 c -0.06159997 0 -0.10010004 -0.03849995 -0.12319994 -0.12319994 c -0.16939998 -0.50820005 -0.50049996 -0.7623 -0.9933001 -0.7623 c -0.34650004 0 -0.61599994 0.1617 -0.8239 0.4928 c -0.14630002 0.23869997 -0.21560001 0.6006 -0.22329998 1.0934 h 2.079 c 0.16940022 0 0.21560001 0.015399933 0.21560001 0.18480003 Z m -0.6852999 0.7545999 c 0.08469987 -0.25410008 0.12319994 -0.50049996 0.12319994 -0.72379994 h -1.7248 c 0.023100019 0.50819993 0.15400004 0.85469985 0.385 1.0318 c 0.1925 0.15400004 0.36189997 0.23099995 0.5236 0.23099995 c 0.34650016 0 0.5775001 -0.17709994 0.6930001 -0.53900003 Z " />
+        </symbol>
+        <symbol id="gE308AA6B7C22A26DCA48274146A4394E" overflow="visible">
+            <path d="M 0 0m 2.8028 2.9106 c 0 0.30030012 -0.28489995 0.4928 -0.5852001 0.4928 c -0.39269984 0 -0.69299984 -0.23099995 -0.8931999 -0.70070004 v 0.70070004 l -1.1087999 -0.08469987 v -0.29260015 c 0.26950002 0 0.43119997 -0.0230999 0.4928 -0.06929994 c 0.06159997 -0.046200037 0.092399955 -0.14630008 0.092399955 -0.32340002 v -2.0251 c 0 -0.14629996 -0.023099959 -0.23869997 -0.07699996 -0.26949996 c -0.053900003 -0.030800015 -0.22329998 -0.046200007 -0.5082 -0.046200007 v -0.2926 l 0.88549995 0.0231 c 0.32340002 0.0077 0.6545 0 0.9856 -0.0231 v 0.2926 h -0.18480003 c -0.25409997 0 -0.41579998 0.023099989 -0.46969998 0.0616 c -0.053900003 0.03849998 -0.0769999 0.1309 -0.0769999 0.26950002 v 1.1626999 c 0 0.3311001 0.06159997 0.6314 0.17709994 0.8855001 c 0.15400004 0.3311 0.37730002 0.50049996 0.6775999 0.50819993 c -0.0769999 -0.0769999 -0.11549997 -0.16939998 -0.11549997 -0.27719998 c 0 -0.23869991 0.11549997 -0.3541999 0.35420012 -0.3541999 c 0.20790005 0 0.3541999 0.16170001 0.3541999 0.36189985 Z " />
+        </symbol>
+        <symbol id="gAE05674BCB516E274BBC792D4DB12922" overflow="visible">
+            <path d="M 0 0m 0.6006 -1.8865 c 0.462 0.3542 0.847 0.8778 1.1626999 1.5785 c 0.30030012 0.6699 0.45429993 1.3013 0.45429993 1.9095999 v 0.64680004 c 0 0.6083 -0.1539998 1.2397001 -0.45429993 1.9096 c -0.31569993 0.7006998 -0.7006999 1.2242999 -1.1626999 1.5784998 c -0.023100019 0.01540041 -0.046200037 0.023100376 -0.053900003 0.023100376 c -0.069299996 0 -0.10780001 -0.03850031 -0.10780001 -0.10780001 c 0 -0.030800343 0.0153999925 -0.06160021 0.03850001 -0.08470011 c 0.40039998 -0.3080001 0.7238 -0.81620026 0.96250004 -1.5169001 c 0.20789993 -0.6083 0.31569993 -1.2089 0.31569993 -1.8018 v -0.64680004 c 0 -0.5928999 -0.10780001 -1.1934999 -0.31569993 -1.8017999 c -0.23870003 -0.70070004 -0.56210005 -1.2089 -0.96250004 -1.5169001 c -0.023100019 -0.030799985 -0.03850001 -0.06159997 -0.03850001 -0.08469999 c 0 -0.06929994 0.03850001 -0.10780001 0.10780001 -0.10780001 c 0.0076999664 0 0.030799985 0.0077000856 0.053900003 0.023100019 Z " />
+        </symbol>
+        <symbol id="gE7EEED6E6466EF7BBEFCB6A879F54223" overflow="visible">
+            <path d="M 0 0m 1.8755 3.487 c -0.1595 0 -0.26950002 -0.07150006 -0.32999992 -0.20900011 l -1.1055 -2.761 h 0.29149997 l 1.4520001 2.409 c 0.038499832 0.06600022 0.05499983 0.13200021 0.05499983 0.19250011 c 0 0.19799995 -0.16499996 0.3685 -0.36299992 0.3685 Z " />
+        </symbol>
+        <symbol id="g2217503B645203F93666585502C5A6BE" overflow="visible">
+            <path d="M 0 0m 7.678 4.037 h -6.798 c -0.176 0 -0.264 -0.0880003 -0.264 -0.25300026 c 0 -0.16499996 0.088 -0.25300002 0.264 -0.25300002 h 6.798 c 0.17600012 0 0.26399994 0.08800006 0.26399994 0.25300002 c 0 0.13199997 -0.12099981 0.25300026 -0.26399994 0.25300026 Z m 0 -2.0680003 h -6.798 c -0.176 0 -0.264 -0.08799994 -0.264 -0.25300002 c 0 -0.16499996 0.088 -0.25300002 0.264 -0.25300002 h 6.798 c 0.17600012 0 0.26399994 0.08800006 0.26399994 0.25300002 c 0 0.143 -0.12099981 0.25300002 -0.26399994 0.25300002 Z " />
+        </symbol>
+        <symbol id="gF5570E9ABF8C19961588CD61D8B75448" overflow="visible">
+            <path d="M 0 0m 9.691 7.348 c 0 0.11000013 -0.065999985 0.16499996 -0.19799995 0.16499996 l -1.3970003 -0.032999992 l -1.3969998 0.032999992 c -0.17600012 0 -0.25299978 -0.09899998 -0.25299978 -0.26399994 c 0 -0.07700014 0.032999992 -0.13199997 0.08799982 -0.14300013 c 0.11000013 -0.011000156 0.19799995 -0.021999836 0.25300026 -0.021999836 c 0.3409996 -0.011000156 0.5279999 -0.032999992 0.5829997 -0.04400015 c 0.055000305 -0.011000156 0.0880003 -0.04400015 0.0880003 -0.09899998 c -0.011000156 -0.032999992 -0.022000313 -0.09899998 -0.04400015 -0.19799995 l -0.64900017 -2.618 h -3.234 l 0.63800025 2.4969997 c 0.05499983 0.23100042 0.1539998 0.37400007 0.29699993 0.42900038 c 0.076999664 0.021999836 0.26399994 0.032999992 0.572 0.032999992 c 0.29699993 0 0.41799974 0 0.41799974 0.26399994 c 0 0.11000013 -0.065999985 0.16499996 -0.19799995 0.16499996 l -1.3969998 -0.032999992 l -1.408 0.032999992 c -0.17600012 0 -0.25300002 -0.09899998 -0.25300002 -0.26399994 c 0 -0.07700014 0.032999992 -0.13199997 0.09899998 -0.14300013 c 0.109999895 -0.011000156 0.19799995 -0.021999836 0.25300002 -0.021999836 c 0.34099984 -0.011000156 0.53900003 -0.032999992 0.59399986 -0.04400015 c 0.055000067 -0.011000156 0.07700014 -0.04400015 0.07700014 -0.09899998 c 0 -0.021999836 -0.011000156 -0.08799982 -0.04400015 -0.19799995 l -1.4629999 -5.841 c -0.054999948 -0.24200004 -0.16499996 -0.385 -0.32999992 -0.44 c -0.07700002 -0.022000015 -0.2750001 -0.033000022 -0.61600006 -0.033000022 c -0.24199998 0 -0.341 -0.021999985 -0.341 -0.264 c 0 -0.10999999 0.066000015 -0.16499999 0.19799998 -0.16499999 l 1.386 0.033 l 0.6930001 -0.011 c 0.12099981 0 0.58299994 -0.022 0.704 -0.022 c 0.17599988 0 0.26399994 0.088 0.26399994 0.264 c 0 0.110000014 -0.12100005 0.16499999 -0.352 0.16499999 c -0.44000006 0 -0.6600001 0.044 -0.6600001 0.14300004 c 0 0 0.011000156 0.032999992 0.032999992 0.176 l 0.737 2.948 h 3.2229998 l -0.737 -2.948 c -0.032999992 -0.16500002 -0.16499996 -0.27500004 -0.38499975 -0.30800003 c -0.05499983 -0.011000007 -0.2420001 -0.011000007 -0.5609999 -0.011000007 c -0.20900011 0 -0.3080001 -0.088 -0.3080001 -0.264 c 0 -0.10999999 0.065999985 -0.16499999 0.19799995 -0.16499999 l 1.3860002 0.033 l 0.69299984 -0.011 c 0.12099981 0 0.572 -0.022 0.71500015 -0.022 c 0.17599964 0 0.26399994 0.088 0.26399994 0.264 c 0 0.110000014 -0.12100029 0.16499999 -0.35200024 0.16499999 c -0.45099974 0 -0.671 0.044 -0.671 0.14300004 c 0 0 0.011000156 0.032999992 0.032999992 0.176 l 1.4740005 5.8739996 c 0.05499935 0.23100042 0.15399933 0.37400007 0.29699993 0.42900038 c 0.065999985 0.021999836 0.2529993 0.032999992 0.57199955 0.032999992 c 0.28600025 0 0.41800022 0 0.41800022 0.26399994 Z " />
+        </symbol>
+    </defs>
+</svg>
+</div>
+
+<p>对应 API：</p>
+<pre><code class="language-rust ignore">item.compose_outer(h); // transform = h * transform
+item.compose_inner(h); // transform = transform * h</code></pre>
+<p><code>ApplyTransform&lt;H&gt; for Transformed&lt;T, G&gt;</code> 使用 <strong>outer composition</strong>，所以
+<code>shift</code>、<code>rotate</code>、<code>scale_uniform</code> 和 <code>scale</code> 在可用时也都走左乘：</p>
+<pre><code class="language-rust ignore">item.apply(h); // 等价于 item.compose_outer(h)</code></pre>
+<p><code>compose_outer</code> 与 <code>compose_inner</code> 都要求 <code>G: From&lt;H&gt;</code>，先把 <code>H</code> 嵌入现有的
+<code>G</code>，再在 <code>G</code> 内完成同族组合。它们不会创建新的 wrapper 类型。</p>
+<h3 id="41-不自动-widening也不计算-join"><a class="header" href="#41-不自动-widening也不计算-join">4.1 不自动 widening，也不计算 join</a></h3>
+<p>下面的 wrapper 保持 <code>Similarity</code> 存储：</p>
+<pre><code class="language-rust ignore">let mut item = sphere.transformed(Similarity::IDENTITY);
+item.shift(offset);        // Translation -&gt; Similarity
+item.scale_uniform(2.0);   // 仍是 Transformed&lt;Sphere, Similarity&gt;</code></pre>
+<p>但一般 <code>Diag</code> 不能嵌入 <code>Similarity</code>，因此 <code>item.scale(non_uniform)</code> 不会偷偷把
+类型改成 <code>Transformed&lt;_, DAffine3&gt;</code>，而是在编译期不可用。需要更一般的组合时，
+显式 widening：</p>
+<pre><code class="language-rust ignore">let narrow = mesh.transformed(Translation(offset));
+let mut affine: Transformed&lt;_, DAffine3&gt; = narrow.into();
+affine.scale(DVec3::new(2.0, 1.0, 1.0));</code></pre>
+<p>这种显式 <code>Into</code> 让 API 的返回类型稳定，也避免为任意两种变换表示自动推导
+“最小共同上界”所带来的 coherence 问题。</p>
+<h3 id="42-嵌套-wrapper"><a class="header" href="#42-嵌套-wrapper">4.2 嵌套 wrapper</a></h3>
+<p>嵌套依然从内向外展平：</p>
+<pre><code class="language-text">Transformed {
+    transform: outer,
+    inner: Transformed {
+        transform: inner,
+        inner: x,
+    },
+}
+
+最终组合 = outer * inner
+</code></pre>
+<h2 id="5-bake-是编译期能力"><a class="header" href="#5-bake-是编译期能力">5. bake 是编译期能力</a></h2>
+<p><code>bake</code> 的签名直接使用 wrapper 的 <code>G</code>：</p>
+<pre><code class="language-rust ignore">pub fn bake(self) -&gt; T
+where
+    T: ApplyTransform&lt;G&gt;;</code></pre>
+<p>所以它是否存在完全由类型系统决定：</p>
+<pre><code class="language-rust ignore">let rectangle = rectangle
+    .transformed(Similarity::from_scale(2.0))
+    .bake(); // Rectangle: ApplyTransform&lt;Similarity&gt;
+
+let affine = rectangle.transformed(DAffine3::from_scale(...));
+// affine.bake(); // 编译失败：Rectangle 不吸收 DAffine3</code></pre>
+<p>wrapper 不再提供 <code>try_bake</code>。如果调用者确实需要把动态得到的 <code>DAffine3</code> 向下
+检查为 <code>Similarity</code>，应先显式执行 <code>Similarity::try_from(affine)</code>，然后构造
+<code>Transformed&lt;T, Similarity&gt;</code>；成功后 <code>bake</code> 仍然是静态能力。</p>
+<p>这与几何闭包相符：</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>物件表示</th><th>可直接吸收的上界</th></tr>
+</thead>
+<tbody>
+<tr><td>点、点集、<code>VItem</code>、一般 mesh 点数据</td><td><code>DAffine3</code></td></tr>
+<tr><td><code>Parallelogram</code></td><td><code>DAffine3</code></td></tr>
+<tr><td><code>Circle</code> / <code>Sphere</code></td><td><code>Similarity</code></td></tr>
+<tr><td><code>Rectangle</code> / <code>Square</code></td><td><code>Similarity</code></td></tr>
+</tbody>
+</table>
+</div>
+<p>一般仿射变换会把圆变成椭圆、把矩形变成平行四边形，因此不能无损地 bake 回
+原来的参数化类型。</p>
+<h2 id="6-extractaabb-与几何边界"><a class="header" href="#6-extractaabb-与几何边界">6. extract、Aabb 与几何边界</a></h2>
+<p><code>Transformed&lt;T, G&gt;</code> 不要求 <code>T: ApplyTransform&lt;G&gt;</code> 就能 extract。只要 <code>G</code> 能
+转换为 <code>DAffine3</code>，wrapper 会在几何边界进行一次转换：</p>
+<pre><code class="language-text">G --Into&lt;DAffine3&gt;--&gt; CoreItem / Aabb geometry
+</code></pre>
+<ul>
+<li><code>VItem</code>：仿射变换烘焙到点，法线使用逆转置；</li>
+<li>core <code>MeshItem</code>：仿射矩阵左乘已有渲染矩阵，顶点保持不变；</li>
+<li><code>Aabb</code>：变换内部包围盒的八个角点，再重新取界。</li>
+</ul>
+<p>这使高层物件可以保留语义表示，同时渲染结果仍能包含更一般的仿射效果。
+<code>DAffine3</code> 是这里的端点；不会继续转换到 projective 模型矩阵。</p>
+<h2 id="7-插值"><a class="header" href="#7-插值">7. 插值</a></h2>
+<p>只有两个 wrapper 的 <code>T</code> 与 <code>G</code> 都相同时才能直接插值：</p>
+<pre><code class="language-rust ignore">Self {
+    inner: self.inner.lerp(&amp;target.inner, t),
+    transform: self.transform.lerp(&amp;target.transform, t),
+}</code></pre>
+<p><code>inner</code> 与 <code>transform</code> 独立插值，不会先展平为点数据。若两端 wrapper 使用不同
+存储类型，应先由调用者把它们显式 widening 到同一个 <code>G</code>。</p>
+<h2 id="8-rectanglescale_axes-与-wrapper-组合"><a class="header" href="#8-rectanglescale_axes-与-wrapper-组合">8. <code>Rectangle::scale_axes</code> 与 wrapper 组合</a></h2>
+<p><code>Rectangle::scale_axes(DVec2)</code> 是<strong>形状参数编辑</strong>：它只修改 <code>size</code>，尺寸沿
+矩形已经存储的两条正交 shape axes 解释。矩形即使先旋转过，调用
+<code>scale_axes</code> 后仍保留这组旋转后的正交轴表示。</p>
+<p>它不同于 wrapper 组合：</p>
+<pre><code class="language-rust ignore">rectangle.scale_axes(dvec2(2.0, 0.5));
+// 修改 Rectangle 的维度参数
+
+wrapped.compose_inner(Diag(dvec3(2.0, 0.5, 1.0)));
+// inner 不变，右乘 wrapper.transform
+
+wrapped.compose_outer(Diag(dvec3(2.0, 0.5, 1.0)));
+// inner 不变，左乘 wrapper.transform</code></pre>
+<p>不要把 <code>scale_axes</code> 理解为矩阵乘法的别名：前者维护 <code>Rectangle</code> 的正交参数化
+表示，后两者维护 wrapper 的组合顺序。</p>
+<h2 id="9-几何视角"><a class="header" href="#9-几何视角">9. 几何视角</a></h2>
+<p>Klein 的 Erlangen 纲领把一种几何理解为“研究某个变换群下的不变量”。在
+ranim 中：</p>
+<ul>
+<li><code>G</code> 描述允许组合的变换；</li>
+<li><code>ApplyTransform&lt;G&gt;</code> 描述物件表示对这个群是否闭包；</li>
+<li><code>Transformed&lt;T, G&gt;</code> 把外部组合与 <code>T</code> 的参数化语义分离；</li>
+<li><code>bake</code> 在编译期重新要求闭包；</li>
+<li><code>extract</code> 在仿射几何端点生成最终视觉数据。</li>
+</ul>
+<p>这个分层让变换的数学顺序、Rust 类型与物件几何语义保持一致。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../understand/core/core_item.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../../understand/core/core_items/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../understand/core/core_item.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../../understand/core/core_items/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../mark-09e88c2c.min.js"></script>
+        <script src="../../searcher-09f2665d.js"></script>
+
+        <script src="../../clipboard-1626706a.min.js"></script>
+        <script src="../../highlight-abc7f01d.js"></script>
+        <script src="../../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../version-select-fdcb80bd.js"></script>
+        <script src="../../theme/pagetoc-ad23158a.js"></script>
+        <script src="../../mermaid-eefea253.min.js"></script>
+        <script src="../../mermaid-init-025d9952.js"></script>
+
+
+
+    </div>
+    </body>
+</html>
