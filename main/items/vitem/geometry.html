@@ -37,7 +37,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-c5516b2f.js";
+            window.path_to_searchindex_js = "../../searchindex-01c27aeb.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-323e4b2f.js"></script>
@@ -194,12 +194,25 @@
 <tr><td><code>Arc</code> / <code>ArcBetweenPoints</code></td><td>圆弧 / 过两点与半径的圆弧</td></tr>
 <tr><td><code>EllipticArc</code></td><td>椭圆弧</td></tr>
 <tr><td><code>Line</code></td><td>线段</td></tr>
-<tr><td><code>Square</code> / <code>Rectangle</code></td><td>正方形 / 矩形（<code>axes</code> 可改朝向）</td></tr>
+<tr><td><code>Square</code> / <code>Rectangle</code></td><td>正方形 / 矩形（canonical local 尺寸）</td></tr>
 <tr><td><code>Polygon</code> / <code>RegularPolygon</code></td><td>任意多边形 / 正多边形</td></tr>
 <tr><td><code>Parallelogram</code></td><td>平行四边形</td></tr>
 </tbody>
 </table>
 </div>
+<p>这些构造器的 canonical local primitive 都有明确的局部坐标约定：通常以原点为
+中心，<code>Rectangle</code> 的尺寸沿其 intrinsic/canonical X/Y axes 解释，<code>ArcBetweenPoints</code>
+则保留由输入点决定的 local center。构造器不会因为输入数据“看起来偏了”就自动
+中心化；一般 local data（例如 <code>VItem</code> 点集或 <code>Surface</code> 顶点）也同样保持调用者
+提供的坐标。</p>
+<p>需要把物件放到场景中的位置时，优先把 placement 放在
+<code>Transformed&lt;_, G&gt;</code> 的外层；anchor 若有 forwarding，会先在 inner/local item
+上计算，再应用外部变换。<code>Origin</code> 表示 primitive 的 local origin，<code>Focus</code>
+仍只表示椭圆自身的焦点语义，不会被 wrapper 重新解释。<code>AabbPoint</code> 的通用
+实现按目标的 AABB 工作，不能假定它会按任意 anchor 的 local 语义穿过 wrapper；
+需要明确的 local anchor 时，应先对 <code>inner</code> 定位再手动应用 <code>transform</code>。</p>
+<p><code>Rectangle::scale_axes</code> 是 intrinsic shape-data 编辑：它改变尺寸参数，而不是
+给 wrapper 做矩阵组合，也不会改变“外部 placement”的职责。</p>
 <pre><code class="language-rust ignore">let vitem = VItem::from(
     Square::new(2.0).with(|sq| {
         sq.set_color(manim::RED_C);

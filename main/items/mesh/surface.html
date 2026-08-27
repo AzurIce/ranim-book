@@ -37,7 +37,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-c5516b2f.js";
+            window.path_to_searchindex_js = "../../searchindex-01c27aeb.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-323e4b2f.js"></script>
@@ -190,12 +190,18 @@
 )
 .with_fill_by_z(&amp;[(manim::BLUE_C, -1.0), (manim::RED_C, 1.0)]) // 按 z 上色
 .with_smooth_normals();  // 预计算平滑法线；不调用则 flat shading</code></pre>
+<p>顶点是调用者提供的一般 local data，不会被自动中心化或平移；顶点按行主序存储：
+<code>points[i * nv + j]</code>。需要把曲面放到场景中时，用外层
+<code>Transformed&lt;Surface, G&gt;</code> 保存 placement，而不是修改采样坐标。</p>
 <ul>
-<li>顶点按行主序存储：<code>points[i * nv + j]</code>；</li>
 <li><code>with_vertex_colors(colors)</code> 直接指定每顶点颜色；</li>
 <li><code>From&lt;Surface&gt; for MeshItem</code> 完成到 <code>MeshItem</code> 的转换；<code>Surface</code> 自身也实现
 了 <code>Extract</code>，可直接作为动画输出类型。</li>
 </ul>
+<p>从 <code>Sphere</code> 转成 <code>Surface</code> 时，球面的 canonical local 原点已经由 Sphere 的
+采样函数确定；<code>Surface</code> 不会再次执行 center，因此不会发生重复 center。若
+需要把参数曲面变成可直接吸收某种变换的物件，可以在明确边界处调用 <code>bake</code>；
+否则保留 wrapper，将 placement 留在外层。</p>
 
                     </main>
 

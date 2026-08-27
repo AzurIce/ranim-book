@@ -37,7 +37,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-c5516b2f.js";
+            window.path_to_searchindex_js = "../../searchindex-01c27aeb.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-323e4b2f.js"></script>
@@ -184,7 +184,8 @@
 <p><code>vitem::text</code> 与 <code>vitem::typst</code> 提供文字物件，需要启用 <code>typst</code> feature。</p>
 <h2 id="textitem"><a class="header" href="#textitem"><code>TextItem</code></a></h2>
 <p>简单文字（<code>vitem::text</code>）：</p>
-<pre><code class="language-rust ignore">let text = TextItem::new("Hello Ranim", 1.0); // 文本与 em 字号</code></pre>
+<pre><code class="language-rust ignore">let text = TextItem::new("Hello Ranim", 1.0); // canonical local 文本与 em 字号
+let placed = text.transformed(Translation(dvec3(1.0, 2.0, 0.0)));</code></pre>
 <p>字体通过 <code>TextFont</code> 配置：</p>
 <pre><code class="language-rust ignore">let font = TextFont::new(["Noto Sans CJK SC", "serif"]); // 按序回退的字体族</code></pre>
 <h2 id="typsttext"><a class="header" href="#typsttext"><code>TypstText</code></a></h2>

@@ -38,7 +38,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-c5516b2f.js";
+            window.path_to_searchindex_js = "searchindex-01c27aeb.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-323e4b2f.js"></script>
@@ -1205,8 +1205,8 @@ Diag        -&gt; DAffine3
 <pre><code class="language-rust ignore">// 点数据可以吸收仿射变换及其子类型
 impl&lt;G: Into&lt;DAffine3&gt;&gt; ApplyTransform&lt;G&gt; for VItem { /* ... */ }
 
-// 圆、球、矩形等参数化形状只吸收相似变换及其子类型
-impl&lt;G: Into&lt;Similarity&gt;&gt; ApplyTransform&lt;G&gt; for Circle { /* ... */ }</code></pre>
+// 点集/网格数据可以吸收仿射变换
+// canonical Circle、Ellipse、Rectangle、Square、Sphere 不直接吸收 placement</code></pre>
 <p>便利操作由这个接口派生：</p>
 <div class="table-wrapper">
 <table>
@@ -1221,8 +1221,10 @@ impl&lt;G: Into&lt;Similarity&gt;&gt; ApplyTransform&lt;G&gt; for Circle { /* ..
 </tbody>
 </table>
 </div>
-<p>因此裸 <code>Rectangle</code> 可以平移、旋转和均匀缩放，但不能直接接受一般非均匀
-<code>Diag</code>；后者通常会破坏相邻边正交这一表示不变量。</p>
+<p>canonical <code>Rectangle</code>、<code>Circle</code>、<code>Sphere</code> 等不直接实现 <code>ApplyTransform</code>；它们的
+平移、旋转和缩放都应通过 <code>Transformed&lt;T, G&gt;</code> 表达。<code>Rectangle::scale_axes</code> 是单独的
+内在尺寸编辑。点集型 <code>VItem</code>、<code>Polygon</code>、<code>Line</code>、<code>MeshItem</code> 和 <code>Surface</code> 才直接
+吸收一般仿射 <code>DAffine3</code>。</p>
 <h2 id="3-构造-wrapper参数就是精确的-g"><a class="header" href="#3-构造-wrapper参数就是精确的-g">3. 构造 wrapper：参数就是精确的 <code>G</code></a></h2>
 <p>构造器同时接收物件与变换：</p>
 <pre><code class="language-rust ignore">let item = Transformed::new(mesh, DAffine3::IDENTITY);</code></pre>
@@ -1442,12 +1444,12 @@ affine.scale(DVec3::new(2.0, 1.0, 1.0));</code></pre>
 where
     T: ApplyTransform&lt;G&gt;;</code></pre>
 <p>所以它是否存在完全由类型系统决定：</p>
-<pre><code class="language-rust ignore">let rectangle = rectangle
-    .transformed(Similarity::from_scale(2.0))
-    .bake(); // Rectangle: ApplyTransform&lt;Similarity&gt;
+<pre><code class="language-rust ignore">let polygon = Polygon::new(points)
+    .transformed(DAffine3::from_scale(...))
+    .bake(); // Polygon: ApplyTransform&lt;DAffine3&gt;
 
-let affine = rectangle.transformed(DAffine3::from_scale(...));
-// affine.bake(); // 编译失败：Rectangle 不吸收 DAffine3</code></pre>
+let circle = Circle::new(1.0).transformed(Similarity::IDENTITY);
+// circle.bake(); // 编译失败：Circle 不吸收 placement；保留 wrapper</code></pre>
 <p>wrapper 不再提供 <code>try_bake</code>。如果调用者确实需要把动态得到的 <code>DAffine3</code> 向下
 检查为 <code>Similarity</code>，应先显式执行 <code>Similarity::try_from(affine)</code>，然后构造
 <code>Transformed&lt;T, Similarity&gt;</code>；成功后 <code>bake</code> 仍然是静态能力。</p>
@@ -1460,14 +1462,21 @@ let affine = rectangle.transformed(DAffine3::from_scale(...));
 <tbody>
 <tr><td>点、点集、<code>VItem</code>、一般 mesh 点数据</td><td><code>DAffine3</code></td></tr>
 <tr><td><code>Parallelogram</code></td><td><code>DAffine3</code></td></tr>
-<tr><td><code>Circle</code> / <code>Sphere</code></td><td><code>Similarity</code></td></tr>
-<tr><td><code>Rectangle</code> / <code>Square</code></td><td><code>Similarity</code></td></tr>
+<tr><td><code>Polygon</code> / <code>Line</code> / <code>VItem</code> / <code>MeshItem</code> / <code>Surface</code></td><td><code>DAffine3</code></td></tr>
+<tr><td><code>Parallelogram</code> / <code>ArcBetweenPoints</code></td><td><code>DAffine3</code> / <code>Similarity</code>（按实现）</td></tr>
+<tr><td>canonical <code>Circle</code> / <code>Ellipse</code> / <code>EllipticArc</code> / <code>Sphere</code> / <code>Rectangle</code> / <code>Square</code></td><td>不直接 bake placement</td></tr>
 </tbody>
 </table>
 </div>
 <p>一般仿射变换会把圆变成椭圆、把矩形变成平行四边形，因此不能无损地 bake 回
 原来的参数化类型。</p>
-<h2 id="6-extractaabb-与几何边界"><a class="header" href="#6-extractaabb-与几何边界">6. extract、Aabb 与几何边界</a></h2>
+<h2 id="6-anchorextractaabb-与几何边界"><a class="header" href="#6-anchorextractaabb-与几何边界">6. anchor、extract、Aabb 与几何边界</a></h2>
+<p>anchor 的语义首先属于 <code>inner</code> 的 local space：<code>Locate</code> 实现先在内部物件上
+定位，再把所得点通过 <code>G -&gt; DAffine3</code> 变换到 wrapper 的外部空间。当前 wrapper
+提供这种 forwarding 的是 core 的 <code>Centroid</code>，以及 geometry primitive 的
+<code>Origin</code> / <code>Focus</code>；不存在一个无冲突的任意 anchor blanket impl（<code>DVec3</code> 已经
+对所有 target 实现 <code>Locate</code>）。因此，未列出的 anchor 仍只对它直接支持的
+<code>inner</code> 类型生效，不能假定任意 <code>Locate&lt;A&gt;</code> 都会自动穿过 wrapper。</p>
 <p><code>Transformed&lt;T, G&gt;</code> 不要求 <code>T: ApplyTransform&lt;G&gt;</code> 就能 extract。只要 <code>G</code> 能
 转换为 <code>DAffine3</code>，wrapper 会在几何边界进行一次转换：</p>
 <pre><code class="language-text">G --Into&lt;DAffine3&gt;--&gt; CoreItem / Aabb geometry
@@ -1479,6 +1488,19 @@ let affine = rectangle.transformed(DAffine3::from_scale(...));
 </ul>
 <p>这使高层物件可以保留语义表示，同时渲染结果仍能包含更一般的仿射效果。
 <code>DAffine3</code> 是这里的端点；不会继续转换到 projective 模型矩阵。</p>
+<h3 id="61-local-primitive一般-local-data-与-placement"><a class="header" href="#61-local-primitive一般-local-data-与-placement">6.1 local primitive、一般 local data 与 placement</a></h3>
+<p>canonical local primitive（例如以原点为中心的 <code>Circle</code>、<code>Rectangle</code>、<code>Sphere</code>）
+把形状参数和 local 坐标约定写在自身类型中。一般 local data（<code>VItem</code> 点集、
+<code>Surface</code> 顶点等）则只是调用者提供的坐标；两者都<strong>不会自动中心化</strong>。需要把
+物件放到场景中时，使用 <code>Transformed</code> 的外部 <code>transform</code>，不要把外部 placement
+误当成 primitive 的 intrinsic 参数。</p>
+<p><code>Rectangle::scale_axes</code> 例外也不是 placement：它是 intrinsic shape-data
+操作，沿 Rectangle 已有的 canonical/intrinsic axes 修改尺寸。wrapper 的
+<code>compose_outer</code> / <code>compose_inner</code> 才是外部变换组合。</p>
+<p><code>Sphere -&gt; Surface</code> 只负责把 Sphere 的 canonical local 参数采样成顶点，
+<code>Surface</code> 不会再次 center；这样可避免重复 center。<code>bake</code> 是明确的边界操作：
+只有当 <code>T: ApplyTransform&lt;G&gt;</code> 时才把外部变换吸收到 <code>inner</code>，否则继续保留
+wrapper，并在 extract 时于几何边界转换为 <code>DAffine3</code>。</p>
 <h2 id="7-插值"><a class="header" href="#7-插值">7. 插值</a></h2>
 <p>只有两个 wrapper 的 <code>T</code> 与 <code>G</code> 都相同时才能直接插值：</p>
 <pre><code class="language-rust ignore">Self {
@@ -1759,12 +1781,25 @@ let vitem = VItem::from_vpoints(vec![
 <tr><td><code>Arc</code> / <code>ArcBetweenPoints</code></td><td>圆弧 / 过两点与半径的圆弧</td></tr>
 <tr><td><code>EllipticArc</code></td><td>椭圆弧</td></tr>
 <tr><td><code>Line</code></td><td>线段</td></tr>
-<tr><td><code>Square</code> / <code>Rectangle</code></td><td>正方形 / 矩形（<code>axes</code> 可改朝向）</td></tr>
+<tr><td><code>Square</code> / <code>Rectangle</code></td><td>正方形 / 矩形（canonical local 尺寸）</td></tr>
 <tr><td><code>Polygon</code> / <code>RegularPolygon</code></td><td>任意多边形 / 正多边形</td></tr>
 <tr><td><code>Parallelogram</code></td><td>平行四边形</td></tr>
 </tbody>
 </table>
 </div>
+<p>这些构造器的 canonical local primitive 都有明确的局部坐标约定：通常以原点为
+中心，<code>Rectangle</code> 的尺寸沿其 intrinsic/canonical X/Y axes 解释，<code>ArcBetweenPoints</code>
+则保留由输入点决定的 local center。构造器不会因为输入数据“看起来偏了”就自动
+中心化；一般 local data（例如 <code>VItem</code> 点集或 <code>Surface</code> 顶点）也同样保持调用者
+提供的坐标。</p>
+<p>需要把物件放到场景中的位置时，优先把 placement 放在
+<code>Transformed&lt;_, G&gt;</code> 的外层；anchor 若有 forwarding，会先在 inner/local item
+上计算，再应用外部变换。<code>Origin</code> 表示 primitive 的 local origin，<code>Focus</code>
+仍只表示椭圆自身的焦点语义，不会被 wrapper 重新解释。<code>AabbPoint</code> 的通用
+实现按目标的 AABB 工作，不能假定它会按任意 anchor 的 local 语义穿过 wrapper；
+需要明确的 local anchor 时，应先对 <code>inner</code> 定位再手动应用 <code>transform</code>。</p>
+<p><code>Rectangle::scale_axes</code> 是 intrinsic shape-data 编辑：它改变尺寸参数，而不是
+给 wrapper 做矩阵组合，也不会改变“外部 placement”的职责。</p>
 <pre><code class="language-rust ignore">let vitem = VItem::from(
     Square::new(2.0).with(|sq| {
         sq.set_color(manim::RED_C);
@@ -1792,7 +1827,8 @@ let svg = SvgItem::new(svg_str); // svg_str: impl AsRef&lt;str&gt;</code></pre>
 <p><code>vitem::text</code> 与 <code>vitem::typst</code> 提供文字物件，需要启用 <code>typst</code> feature。</p>
 <h2 id="textitem"><a class="header" href="#textitem"><code>TextItem</code></a></h2>
 <p>简单文字（<code>vitem::text</code>）：</p>
-<pre><code class="language-rust ignore">let text = TextItem::new("Hello Ranim", 1.0); // 文本与 em 字号</code></pre>
+<pre><code class="language-rust ignore">let text = TextItem::new("Hello Ranim", 1.0); // canonical local 文本与 em 字号
+let placed = text.transformed(Translation(dvec3(1.0, 2.0, 0.0)));</code></pre>
 <p>字体通过 <code>TextFont</code> 配置：</p>
 <pre><code class="language-rust ignore">let font = TextFont::new(["Noto Sans CJK SC", "serif"]); // 按序回退的字体族</code></pre>
 <h2 id="typsttext"><a class="header" href="#typsttext"><code>TypstText</code></a></h2>
@@ -1884,12 +1920,18 @@ CoreItem：<code>MeshItem</code> 左乘其渲染用 <code>transform</code> 矩�
 )
 .with_fill_by_z(&amp;[(manim::BLUE_C, -1.0), (manim::RED_C, 1.0)]) // 按 z 上色
 .with_smooth_normals();  // 预计算平滑法线；不调用则 flat shading</code></pre>
+<p>顶点是调用者提供的一般 local data，不会被自动中心化或平移；顶点按行主序存储：
+<code>points[i * nv + j]</code>。需要把曲面放到场景中时，用外层
+<code>Transformed&lt;Surface, G&gt;</code> 保存 placement，而不是修改采样坐标。</p>
 <ul>
-<li>顶点按行主序存储：<code>points[i * nv + j]</code>；</li>
 <li><code>with_vertex_colors(colors)</code> 直接指定每顶点颜色；</li>
 <li><code>From&lt;Surface&gt; for MeshItem</code> 完成到 <code>MeshItem</code> 的转换；<code>Surface</code> 自身也实现
 了 <code>Extract</code>，可直接作为动画输出类型。</li>
 </ul>
+<p>从 <code>Sphere</code> 转成 <code>Surface</code> 时，球面的 canonical local 原点已经由 Sphere 的
+采样函数确定；<code>Surface</code> 不会再次执行 center，因此不会发生重复 center。若
+需要把参数曲面变成可直接吸收某种变换的物件，可以在明确边界处调用 <code>bake</code>；
+否则保留 wrapper，将 placement 留在外层。</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="sphere"><a class="header" href="#sphere"><code>Sphere</code></a></h1>
 <blockquote class="blockquote-tag blockquote-tag-caution">
@@ -1898,12 +1940,16 @@ CoreItem：<code>MeshItem</code> 左乘其渲染用 <code>transform</code> 矩�
 </blockquote>
 <p>球体便捷构造，定义于 <code>ranim_items::mesh</code>。</p>
 <pre><code class="language-rust ignore">let sphere = Sphere::new(0.6)                    // 半径，默认分辨率 (101, 51)
-    .with_center(dvec3(1.0, 0.0, 0.0))
     .with_resolution((31, 16))
     .with_fill_color(manim::YELLOW_C);
-let mesh = MeshItem::from(sphere);               // Sphere → Surface → MeshItem</code></pre>
-<p>球面按 <code>u ∈ [0, 2π]</code>、<code>v ∈ [0, π]</code> 参数化。<code>From&lt;Sphere&gt; for Surface</code> 默认
-flat shading；需要平滑效果时先转 <code>Surface</code> 再 <code>with_smooth_normals()</code>：</p>
+let mesh = MeshItem::from(sphere);               // Sphere → Surface → MeshItem
+let placed = mesh.transformed(DAffine3::from_translation(dvec3(1.0, 0.0, 0.0)));</code></pre>
+<p><code>Sphere</code> 是 canonical local primitive：球心固定在 local 原点，半径定义
+其 local 尺寸。需要场景 placement 时，应像上面的示例一样使用外层
+<code>Transformed</code>，而不是给 <code>Sphere</code> 增加中心字段。球面按 <code>u ∈ [0, 2π]</code>、
+<code>v ∈ [0, π]</code> 参数化。
+<code>From&lt;Sphere&gt; for Surface</code> 默认 flat shading；需要平滑效果时先转 <code>Surface</code>
+再 <code>with_smooth_normals()</code>：</p>
 <pre><code class="language-rust ignore">let mesh = MeshItem::from(Surface::from(sphere).with_smooth_normals());</code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="v03"><a class="header" href="#v03">v0.3</a></h1>

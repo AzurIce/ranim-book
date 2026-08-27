@@ -37,7 +37,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-c5516b2f.js";
+            window.path_to_searchindex_js = "../../searchindex-01c27aeb.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-323e4b2f.js"></script>
@@ -183,12 +183,16 @@
 </blockquote>
 <p>球体便捷构造，定义于 <code>ranim_items::mesh</code>。</p>
 <pre><code class="language-rust ignore">let sphere = Sphere::new(0.6)                    // 半径，默认分辨率 (101, 51)
-    .with_center(dvec3(1.0, 0.0, 0.0))
     .with_resolution((31, 16))
     .with_fill_color(manim::YELLOW_C);
-let mesh = MeshItem::from(sphere);               // Sphere → Surface → MeshItem</code></pre>
-<p>球面按 <code>u ∈ [0, 2π]</code>、<code>v ∈ [0, π]</code> 参数化。<code>From&lt;Sphere&gt; for Surface</code> 默认
-flat shading；需要平滑效果时先转 <code>Surface</code> 再 <code>with_smooth_normals()</code>：</p>
+let mesh = MeshItem::from(sphere);               // Sphere → Surface → MeshItem
+let placed = mesh.transformed(DAffine3::from_translation(dvec3(1.0, 0.0, 0.0)));</code></pre>
+<p><code>Sphere</code> 是 canonical local primitive：球心固定在 local 原点，半径定义
+其 local 尺寸。需要场景 placement 时，应像上面的示例一样使用外层
+<code>Transformed</code>，而不是给 <code>Sphere</code> 增加中心字段。球面按 <code>u ∈ [0, 2π]</code>、
+<code>v ∈ [0, π]</code> 参数化。
+<code>From&lt;Sphere&gt; for Surface</code> 默认 flat shading；需要平滑效果时先转 <code>Surface</code>
+再 <code>with_smooth_normals()</code>：</p>
 <pre><code class="language-rust ignore">let mesh = MeshItem::from(Surface::from(sphere).with_smooth_normals());</code></pre>
 
                     </main>

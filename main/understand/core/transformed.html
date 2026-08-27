@@ -37,7 +37,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-c5516b2f.js";
+            window.path_to_searchindex_js = "../../searchindex-01c27aeb.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-323e4b2f.js"></script>
@@ -367,8 +367,8 @@ Diag        -&gt; DAffine3
 <pre><code class="language-rust ignore">// 点数据可以吸收仿射变换及其子类型
 impl&lt;G: Into&lt;DAffine3&gt;&gt; ApplyTransform&lt;G&gt; for VItem { /* ... */ }
 
-// 圆、球、矩形等参数化形状只吸收相似变换及其子类型
-impl&lt;G: Into&lt;Similarity&gt;&gt; ApplyTransform&lt;G&gt; for Circle { /* ... */ }</code></pre>
+// 点集/网格数据可以吸收仿射变换
+// canonical Circle、Ellipse、Rectangle、Square、Sphere 不直接吸收 placement</code></pre>
 <p>便利操作由这个接口派生：</p>
 <div class="table-wrapper">
 <table>
@@ -383,8 +383,10 @@ impl&lt;G: Into&lt;Similarity&gt;&gt; ApplyTransform&lt;G&gt; for Circle { /* ..
 </tbody>
 </table>
 </div>
-<p>因此裸 <code>Rectangle</code> 可以平移、旋转和均匀缩放，但不能直接接受一般非均匀
-<code>Diag</code>；后者通常会破坏相邻边正交这一表示不变量。</p>
+<p>canonical <code>Rectangle</code>、<code>Circle</code>、<code>Sphere</code> 等不直接实现 <code>ApplyTransform</code>；它们的
+平移、旋转和缩放都应通过 <code>Transformed&lt;T, G&gt;</code> 表达。<code>Rectangle::scale_axes</code> 是单独的
+内在尺寸编辑。点集型 <code>VItem</code>、<code>Polygon</code>、<code>Line</code>、<code>MeshItem</code> 和 <code>Surface</code> 才直接
+吸收一般仿射 <code>DAffine3</code>。</p>
 <h2 id="3-构造-wrapper参数就是精确的-g"><a class="header" href="#3-构造-wrapper参数就是精确的-g">3. 构造 wrapper：参数就是精确的 <code>G</code></a></h2>
 <p>构造器同时接收物件与变换：</p>
 <pre><code class="language-rust ignore">let item = Transformed::new(mesh, DAffine3::IDENTITY);</code></pre>
@@ -604,12 +606,12 @@ affine.scale(DVec3::new(2.0, 1.0, 1.0));</code></pre>
 where
     T: ApplyTransform&lt;G&gt;;</code></pre>
 <p>所以它是否存在完全由类型系统决定：</p>
-<pre><code class="language-rust ignore">let rectangle = rectangle
-    .transformed(Similarity::from_scale(2.0))
-    .bake(); // Rectangle: ApplyTransform&lt;Similarity&gt;
+<pre><code class="language-rust ignore">let polygon = Polygon::new(points)
+    .transformed(DAffine3::from_scale(...))
+    .bake(); // Polygon: ApplyTransform&lt;DAffine3&gt;
 
-let affine = rectangle.transformed(DAffine3::from_scale(...));
-// affine.bake(); // 编译失败：Rectangle 不吸收 DAffine3</code></pre>
+let circle = Circle::new(1.0).transformed(Similarity::IDENTITY);
+// circle.bake(); // 编译失败：Circle 不吸收 placement；保留 wrapper</code></pre>
 <p>wrapper 不再提供 <code>try_bake</code>。如果调用者确实需要把动态得到的 <code>DAffine3</code> 向下
 检查为 <code>Similarity</code>，应先显式执行 <code>Similarity::try_from(affine)</code>，然后构造
 <code>Transformed&lt;T, Similarity&gt;</code>；成功后 <code>bake</code> 仍然是静态能力。</p>
@@ -622,14 +624,21 @@ let affine = rectangle.transformed(DAffine3::from_scale(...));
 <tbody>
 <tr><td>点、点集、<code>VItem</code>、一般 mesh 点数据</td><td><code>DAffine3</code></td></tr>
 <tr><td><code>Parallelogram</code></td><td><code>DAffine3</code></td></tr>
-<tr><td><code>Circle</code> / <code>Sphere</code></td><td><code>Similarity</code></td></tr>
-<tr><td><code>Rectangle</code> / <code>Square</code></td><td><code>Similarity</code></td></tr>
+<tr><td><code>Polygon</code> / <code>Line</code> / <code>VItem</code> / <code>MeshItem</code> / <code>Surface</code></td><td><code>DAffine3</code></td></tr>
+<tr><td><code>Parallelogram</code> / <code>ArcBetweenPoints</code></td><td><code>DAffine3</code> / <code>Similarity</code>（按实现）</td></tr>
+<tr><td>canonical <code>Circle</code> / <code>Ellipse</code> / <code>EllipticArc</code> / <code>Sphere</code> / <code>Rectangle</code> / <code>Square</code></td><td>不直接 bake placement</td></tr>
 </tbody>
 </table>
 </div>
 <p>一般仿射变换会把圆变成椭圆、把矩形变成平行四边形，因此不能无损地 bake 回
 原来的参数化类型。</p>
-<h2 id="6-extractaabb-与几何边界"><a class="header" href="#6-extractaabb-与几何边界">6. extract、Aabb 与几何边界</a></h2>
+<h2 id="6-anchorextractaabb-与几何边界"><a class="header" href="#6-anchorextractaabb-与几何边界">6. anchor、extract、Aabb 与几何边界</a></h2>
+<p>anchor 的语义首先属于 <code>inner</code> 的 local space：<code>Locate</code> 实现先在内部物件上
+定位，再把所得点通过 <code>G -&gt; DAffine3</code> 变换到 wrapper 的外部空间。当前 wrapper
+提供这种 forwarding 的是 core 的 <code>Centroid</code>，以及 geometry primitive 的
+<code>Origin</code> / <code>Focus</code>；不存在一个无冲突的任意 anchor blanket impl（<code>DVec3</code> 已经
+对所有 target 实现 <code>Locate</code>）。因此，未列出的 anchor 仍只对它直接支持的
+<code>inner</code> 类型生效，不能假定任意 <code>Locate&lt;A&gt;</code> 都会自动穿过 wrapper。</p>
 <p><code>Transformed&lt;T, G&gt;</code> 不要求 <code>T: ApplyTransform&lt;G&gt;</code> 就能 extract。只要 <code>G</code> 能
 转换为 <code>DAffine3</code>，wrapper 会在几何边界进行一次转换：</p>
 <pre><code class="language-text">G --Into&lt;DAffine3&gt;--&gt; CoreItem / Aabb geometry
@@ -641,6 +650,19 @@ let affine = rectangle.transformed(DAffine3::from_scale(...));
 </ul>
 <p>这使高层物件可以保留语义表示，同时渲染结果仍能包含更一般的仿射效果。
 <code>DAffine3</code> 是这里的端点；不会继续转换到 projective 模型矩阵。</p>
+<h3 id="61-local-primitive一般-local-data-与-placement"><a class="header" href="#61-local-primitive一般-local-data-与-placement">6.1 local primitive、一般 local data 与 placement</a></h3>
+<p>canonical local primitive（例如以原点为中心的 <code>Circle</code>、<code>Rectangle</code>、<code>Sphere</code>）
+把形状参数和 local 坐标约定写在自身类型中。一般 local data（<code>VItem</code> 点集、
+<code>Surface</code> 顶点等）则只是调用者提供的坐标；两者都<strong>不会自动中心化</strong>。需要把
+物件放到场景中时，使用 <code>Transformed</code> 的外部 <code>transform</code>，不要把外部 placement
+误当成 primitive 的 intrinsic 参数。</p>
+<p><code>Rectangle::scale_axes</code> 例外也不是 placement：它是 intrinsic shape-data
+操作，沿 Rectangle 已有的 canonical/intrinsic axes 修改尺寸。wrapper 的
+<code>compose_outer</code> / <code>compose_inner</code> 才是外部变换组合。</p>
+<p><code>Sphere -&gt; Surface</code> 只负责把 Sphere 的 canonical local 参数采样成顶点，
+<code>Surface</code> 不会再次 center；这样可避免重复 center。<code>bake</code> 是明确的边界操作：
+只有当 <code>T: ApplyTransform&lt;G&gt;</code> 时才把外部变换吸收到 <code>inner</code>，否则继续保留
+wrapper，并在 extract 时于几何边界转换为 <code>DAffine3</code>。</p>
 <h2 id="7-插值"><a class="header" href="#7-插值">7. 插值</a></h2>
 <p>只有两个 wrapper 的 <code>T</code> 与 <code>G</code> 都相同时才能直接插值：</p>
 <pre><code class="language-rust ignore">Self {
