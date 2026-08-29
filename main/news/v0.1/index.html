@@ -1,0 +1,461 @@
+<!DOCTYPE HTML>
+<html lang="zh" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>v0.1 - Ranim Book</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="../../favicon-8114d1fc.png">
+        <link rel="stylesheet" href="../../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../version-select-0246a208.css">
+        <link rel="stylesheet" href="../../theme/pagetoc-6390151b.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../searchindex-b943694a.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc-bed341cd.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Ranim Book</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="v01"><a class="header" href="#v01">v0.1</a></h1>
+<blockquote>
+<p><strong>Status: Backfilled（补写）</strong> — 覆盖 <a href="https://github.com/AzurIce/ranim/pull/3">#3</a>–<a href="https://github.com/AzurIce/ranim/pull/96">#96</a>；按 v0.1.5（2025-10-18）发布时点快照描述。
+起源期 PR（<a href="https://github.com/AzurIce/ranim/pull/3">#3</a>–<a href="https://github.com/AzurIce/ranim/pull/28">#28</a>，2024-11 → 2025-03）先于首个 tag <code>v0.1.0-alpha.1</code> 落地；<code>alpha.8</code>/<code>alpha.10</code>/<code>alpha.15</code>/<code>alpha.16</code> 从未发布，<code>v0.1.1</code>–<code>v0.1.3</code> 只含未经 PR 的直接修复。</p>
+</blockquote>
+<p>v0.1 的故事，是 ranim <strong>找到自己的渲染范式</strong>的故事：以 compute shader 描边起家（<a href="https://github.com/AzurIce/ranim/pull/3">#3</a>），短暂借道 Vello（<a href="https://github.com/AzurIce/ranim/pull/15">#15</a>/<a href="https://github.com/AzurIce/ranim/pull/18">#18</a>），最终落到 wgpu 单管线 SDF（<a href="https://github.com/AzurIce/ranim/pull/22">#22</a>，受 <a href="https://github.com/jkjkil4/JAnim">JAnim</a> 启发）——这条 SDF 路线一直延续至今。支撑它的骨架也在这个版本线里成形：Extract → Prepare → Render 三阶段（<a href="https://github.com/AzurIce/ranim/pull/5">#5</a>）、Timeline 编码（<a href="https://github.com/AzurIce/ranim/pull/28">#28</a>）、Preview App（<a href="https://github.com/AzurIce/ranim/pull/53">#53</a>）、dylib 热重载的 CLI（<a href="https://github.com/AzurIce/ranim/pull/77">#77</a>），以及 v0.1.5 收官时的 crate 拆分与流水线化渲染（<a href="https://github.com/AzurIce/ranim/pull/94">#94</a>/<a href="https://github.com/AzurIce/ranim/pull/96">#96</a>）。</p>
+<h2 id="新增"><a class="header" href="#新增">新增</a></h2>
+<ul>
+<li><strong>SDF 渲染管线</strong>：单一 <code>vitem.wgsl</code> 片元着色器渲染全部 VItem——精确点到二次贝塞尔距离（解三次方程）+ 绕行判定 + 反走样；这是今天 vitem 渲染的直系祖先</li>
+<li><strong>三阶段渲染架构</strong>：Extract（CPU）→ Prepare（CPU→GPU）→ Render，物件所有权移交 <code>Scene</code> 换取 <code>Id</code></li>
+<li><strong>Preview App</strong>：winit + egui-wgpu 窗口内预览，时间轴 scrub；后成为 wasm 网页预览与热重载的底座</li>
+<li><strong>ranim-cli</strong>：<code>linkme</code> distributed slice + <code>libloading</code> 的 dylib 热重载，<code>ranim preview</code> / <code>ranim render</code>，<code>#[scene]</code>/<code>#[output]</code> 宏</li>
+<li><strong>CameraFrame 即物件</strong>：相机成为普通可动画 item，<code>perspective_blend</code> 正交↔透视连续混合，<code>frame_height = 8.0</code> 分辨率无关坐标</li>
+<li><strong>Item 体系</strong>：<code>Extract::Target</code>、<code>VisualItem</code>、组合物件（元组 Renderable）、几何构造器（arrow/arc/circle/polygon/line/svg/typst）、<code>TypstText</code>（按字符 diff 对齐）</li>
+<li><strong>crate 拆分</strong>：ranim-core / ranim-items / ranim-anims / ranim-render / ranim-app / ranim-cli / ranim-macros，façade 再导出</li>
+<li>serde feature（<code>derive_more</code> 去样板）、wasm 构建进 CI、zola 站点（后被 mdbook 取代）</li>
+</ul>
+<h2 id="演进中的关键更名"><a class="header" href="#演进中的关键更名">演进中的关键更名</a></h2>
+<p>v0.1 是 API 高速重构期，列几条主干系谱，便于读旧代码：</p>
+<ul>
+<li><code>Mobject</code> → <code>Rabject</code>（<a href="https://github.com/AzurIce/ranim/pull/3">#3</a>）→ <code>TimelineId</code>（<a href="https://github.com/AzurIce/ranim/pull/64">#64</a>）</li>
+<li><code>RanimTimeline</code>/<code>RabjectTimeline</code> → <code>RanimScene</code>/<code>ItemTimeline</code>（<a href="https://github.com/AzurIce/ranim/pull/64">#64</a>）</li>
+<li><code>Blueprint</code> 系统：<a href="https://github.com/AzurIce/ranim/pull/57">#57</a> 引入 → <a href="https://github.com/AzurIce/ranim/pull/64">#64</a> 移除（“items 只保留自描述数据”）</li>
+<li>场景定义：trait（<code>SceneConstructor</code>/<code>SceneMeta</code>/<code>Scene</code>）→ <code>fn(&amp;mut RanimScene)</code> + <code>#[scene]</code> 宏（<a href="https://github.com/AzurIce/ranim/pull/77">#77</a>）</li>
+<li>坐标系：像素相关 → <code>frame_height = 8.0</code> 恒定（<a href="https://github.com/AzurIce/ranim/pull/44">#44</a>）</li>
+<li>包路径：单体 <code>ranim::</code> → <code>ranim::{core, items, anims, render}</code>（<a href="https://github.com/AzurIce/ranim/pull/94">#94</a>）</li>
+</ul>
+<h2 id="起源compute-shader-时代"><a class="header" href="#起源compute-shader-时代">起源：compute shader 时代</a></h2>
+<p>相关 PR：<a href="https://github.com/AzurIce/ranim/pull/3">#3</a>（stroke compute）、<a href="https://github.com/AzurIce/ranim/pull/5">#5</a>（三阶段架构）、<a href="https://github.com/AzurIce/ranim/pull/9">#9</a>/<a href="https://github.com/AzurIce/ranim/pull/10">#10</a>（curve fill）、<a href="https://github.com/AzurIce/ranim/pull/12">#12</a>（fading）</p>
+<ul>
+<li><strong><a href="https://github.com/AzurIce/ranim/pull/3">#3</a>（首个 PR）</strong>：VMobject 描边从 CPU 搬进 compute shader——每个二次贝塞尔段一个 workgroup，16 采样求点与切线，沿法向挤出描边轮廓顶点，转角连接由 <code>joint_angles</code> storage buffer 解决；渲染 pass 直接读 compute 写出的顶点数组（无 vertex buffer）。同 PR 里 <code>Mobject</code> 更名 <code>Rabject</code>；</li>
+<li><strong><a href="https://github.com/AzurIce/ranim/pull/5">#5</a></strong>：奠定至今的三阶段架构——物件无层级，插入 <code>Scene</code> 即移交所有权换取 <code>RabjectId</code>，按 <code>Extract → Prepare → Render</code> 渲染；<code>Animation</code> 包着消费进度 <code>alpha</code> 的 <code>AnimationFunc</code>（与消费 <code>dt</code> 的 <code>Updater</code> 相对）——“动画是 alpha 的函数“从这里开始；</li>
+<li><strong><a href="https://github.com/AzurIce/ranim/pull/9">#9</a>/<a href="https://github.com/AzurIce/ranim/pull/10">#10</a></strong>：真正的曲线填充——填充三角形带参考三角形 <code>uv_coord</code> 与 <code>fill_all</code> 旗标，片元里求值二次曲线只保留曲线内部；<code>WgpuContext</code>/<code>WgpuBuffer</code> 由此诞生；</li>
+<li><strong><a href="https://github.com/AzurIce/ranim/pull/12">#12</a></strong>：淡入淡出的语义确立为<strong>整个物件</strong>在零透明快照与当前状态之间插值，而非缩放透明度——<code>Opacity</code> trait 只负责各类型自己的透明度写入。</li>
+</ul>
+<h2 id="渲染范式三连跳"><a class="header" href="#渲染范式三连跳">渲染范式三连跳</a></h2>
+<p>相关 PR：<a href="https://github.com/AzurIce/ranim/pull/15">#15</a>（Vello + Wgpu）、<a href="https://github.com/AzurIce/ranim/pull/18">#18</a>（Vello for 2d）、<a href="https://github.com/AzurIce/ranim/pull/22">#22</a>（SDF）</p>
+<pre class="mermaid">flowchart LR
+    subgraph E1["时代一 · #3–#12"]
+        A1["VMobject 描边&lt;br/&gt;compute 挤出 + joint_angles"] --&gt; R1["wgpu"]
+    end
+    subgraph E2["时代二 · #15 / #18"]
+        W["wgpu 手写 2D&lt;br/&gt;（#18 删除）"] --&gt; C["Canvas 纹理"]
+        V["vello 2D&lt;br/&gt;透明纹理叠加"] --&gt; C
+        C --&gt; R2["合成进 3D 场景"]
+    end
+    subgraph E3["时代三 · #22 至今"]
+        S["全部 VItem"] --&gt; P["单一 vitem.wgsl&lt;br/&gt;SDF：点到二次贝塞尔距离"]
+        P --&gt; R3["wgpu"]
+    end
+    E1 -- "#15 引入 vello" --&gt; E2
+    E2 -- "#22 弃用 vello" --&gt; E3
+</pre>
+
+<ul>
+<li><strong><a href="https://github.com/AzurIce/ranim/pull/15">#15</a></strong>：世界变成 3D，2D 内容住进 <code>Canvas</code>（“basically a 2d scene”）。手写 wgpu 2D 与 Vello 并存：vello 渲到透明纹理再叠加混合——“所有 vello 渲染的东西都叠在别人上面”；<code>Entity</code> trait 取代过于僵硬的 <code>Rabject</code> 管线;</li>
+<li><strong><a href="https://github.com/AzurIce/ranim/pull/18">#18</a></strong>：删掉全部手写 wgpu 2D 路径（<code>rabject2d/vpath/*</code> 与三个 vpath shader，-2647 行），2D 完全交给 vello，3D 留在 wgpu;</li>
+<li><strong><a href="https://github.com/AzurIce/ranim/pull/22">#22</a></strong>：范式定音——完全弃用 vello（diff -7967 行），所有 VItem 经<strong>单一 SDF 片元管线</strong>渲染：storage buffer 存点（xy 坐标 + <code>is_closed</code>）、填/描色与描边宽度，<code>distance_bezier</code> 解三次方程求精确最近点，<code>SubpathAttr</code> 做绕行/内部判定，<code>ANTI_ALIAS_WIDTH = 0.015</code> 反走样。今天的 <code>vitem.wgsl</code> 仍是这条路线。</li>
+</ul>
+<h2 id="动画相机与坐标系"><a class="header" href="#动画相机与坐标系">动画、相机与坐标系</a></h2>
+<p>相关 PR：<a href="https://github.com/AzurIce/ranim/pull/25">#25</a>、<a href="https://github.com/AzurIce/ranim/pull/28">#28</a>、<a href="https://github.com/AzurIce/ranim/pull/44">#44</a></p>
+<ul>
+<li><strong><a href="https://github.com/AzurIce/ranim/pull/25">#25</a></strong>：动画二分为 <code>Dynamic</code>（每帧 <code>prepare_alpha</code> 重备实例）与 <code>Static</code>（一次性准备，如 creation/freeze）；clip box 从 CPU 边界框搬进 compute shader 用 <code>atomicMin</code>/<code>atomicMax</code> 维护——这个思路后来在 v0.2 的 GPU-driven 合批（<a href="https://github.com/AzurIce/ranim/pull/138">#138</a>/<a href="https://github.com/AzurIce/ranim/pull/142">#142</a>）里长成主角；</li>
+<li><strong><a href="https://github.com/AzurIce/ranim/pull/28">#28</a></strong>：timeline 与 eval 泛化到任意类型（<code>TimelineTrait</code>/<code>Evaluator</code>/<code>ChainedAnimation</code>），<code>CameraFrame</code> 成为普通可动画 item（相机动画自此可能），“stacked” 动画（同一 item 的多条 timeline 经 <code>sync()</code> 同步），宏拆入 <code>packages/ranim-macros</code>；</li>
+<li><strong><a href="https://github.com/AzurIce/ranim/pull/44">#44</a></strong>：<code>CameraFrame { pos, up, facing, scale, fovy, near, far, perspective_blend }</code> 完全可插值——<code>perspective_blend</code> 在正交与透视投影矩阵间按 <span class="typst-inline"><svg class="typst-doc" viewbox="0 0 147.5841888888889 18.512999999999998" width="147.5841888888889pt" height="18.512999999999998pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:h5="http://www.w3.org/1999/xhtml">
+<g>
+<g class="typst-group">
+<g>
+<g class="typst-text" transform="matrix(1 0 0 -1 5.5 13.013)">
+<use xlink:href="#g50AF66B86878B574712285C7837E2778" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+</g>
+<g class="typst-text" transform="matrix(1 0 0 -1 14.102 13.013)">
+<use xlink:href="#gA1C87FA1D2386CBEAC0744A252872519" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+</g>
+<g class="typst-text" transform="matrix(1 0 0 -1 18.380999999999997 13.013)">
+<use xlink:href="#gF9EA8FFB938634D3022CE58615F100BB" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+</g>
+<g class="typst-text" transform="matrix(1 0 0 -1 23.253999999999998 13.013)">
+<use xlink:href="#g69A3BF0F911F49288FA51DFEBABC75D8" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+</g>
+<g class="typst-text" transform="matrix(1 0 0 -1 30.588555555555555 13.013)">
+<use xlink:href="#gCA3345DAE87BC6903ECB8F0E3ACC0694" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+</g>
+<g class="typst-text" transform="matrix(1 0 0 -1 42.20211111111111 13.013)">
+<use xlink:href="#gA1C87FA1D2386CBEAC0744A252872519" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+</g>
+<g class="typst-text" transform="matrix(1 0 0 -1 46.48111111111111 13.013)">
+<use xlink:href="#g8D5C969EF593A9096C3E4D41A1562827" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+</g>
+<g class="typst-text" transform="matrix(1 0 0 -1 54.425555555555555 13.013)">
+<use xlink:href="#gBC91D989B4043993A41BEA576B856622" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+</g>
+<g class="typst-text" transform="matrix(1 0 0 -1 65.428 13.013)">
+<use xlink:href="#gF9EA8FFB938634D3022CE58615F100BB" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+</g>
+<g class="typst-text" transform="matrix(1 0 0 -1 70.30099999999999 13.013)">
+<use xlink:href="#g69A3BF0F911F49288FA51DFEBABC75D8" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+</g>
+<g class="typst-text" transform="matrix(1 0 0 -1 74.58 13.013)">
+<use xlink:href="#g50AF66B86878B574712285C7837E2778" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+</g>
+<g class="typst-text" transform="matrix(1 0 0 -1 80.54199999999999 15.73)">
+<use xlink:href="#g5EED49E808A91078F02B6A0F82223408" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+<use xlink:href="#gCB6DFAA7F7F5152EA4B65C0E5DAA64E0" x="3.85" y="0" fill="currentColor" fill-rule="nonzero" />
+<use xlink:href="#g16EE66E5D2C2F8FB2495CC6E7A648ED7" x="6.868399999999999" y="0" fill="currentColor" fill-rule="nonzero" />
+<use xlink:href="#gDFF830DDF14887852E328C3478F4E4F7" x="9.8637" y="0" fill="currentColor" fill-rule="nonzero" />
+<use xlink:href="#g5EED49E808A91078F02B6A0F82223408" x="14.1449" y="0" fill="currentColor" fill-rule="nonzero" />
+</g>
+<g class="typst-text" transform="matrix(1 0 0 -1 101.59734444444443 13.013)">
+<use xlink:href="#g6D9DDEB42FEF940CE0C43F970FA45422" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+</g>
+<g class="typst-text" transform="matrix(1 0 0 -1 112.5997888888889 13.013)">
+<use xlink:href="#gF9EA8FFB938634D3022CE58615F100BB" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+</g>
+<g class="typst-text" transform="matrix(1 0 0 -1 117.47278888888889 13.013)">
+<use xlink:href="#g50AF66B86878B574712285C7837E2778" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+</g>
+<g class="typst-text" transform="matrix(1 0 0 -1 123.4347888888889 15.73)">
+<use xlink:href="#gB01220DFA82CF4A6309A1A47291D7727" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+<use xlink:href="#g62D4645F8709E56953C2DF52396D452D" x="4.2812" y="0" fill="currentColor" fill-rule="nonzero" />
+<use xlink:href="#gCB6DFAA7F7F5152EA4B65C0E5DAA64E0" x="7.699999999999999" y="0" fill="currentColor" fill-rule="nonzero" />
+<use xlink:href="#g7BF5916AE69C66DC3B071B922C42F62E" x="10.718399999999999" y="0" fill="currentColor" fill-rule="nonzero" />
+<use xlink:href="#gB01220DFA82CF4A6309A1A47291D7727" x="13.752199999999998" y="0" fill="currentColor" fill-rule="nonzero" />
+</g>
+</g>
+</g>
+</g>
+<defs id="glyph">
+<symbol id="g50AF66B86878B574712285C7837E2778" overflow="visible">
+<path d="M 0 0m 6.105 7.513 h -3.52 c -0.25300002 0 -0.37400007 -0.011000156 -0.37400007 -0.25300026 c 0 -0.12099981 0.12100005 -0.17599964 0.36299992 -0.17599964 c 0.22000003 0 0.6600001 0.032999992 0.6600001 -0.14300013 c 0 -0.021999836 -0.010999918 -0.08799982 -0.04399991 -0.19799995 l -1.452 -5.841 c -0.066000104 -0.24200004 -0.176 -0.385 -0.33000004 -0.44 c -0.07700002 -0.022000015 -0.27499998 -0.033000022 -0.616 -0.033000022 c -0.24199998 0 -0.352 -0.021999985 -0.352 -0.253 c 0 -0.121 0.065999985 -0.176 0.20899999 -0.176 l 1.375 0.033 l 0.704 -0.011 c 0.12100005 0 0.5610001 -0.022 0.704 -0.022 c 0.17600012 0 0.26400018 0.088 0.26400018 0.264 c 0 0.110000014 -0.12100005 0.16499999 -0.35200024 0.16499999 c -0.43999982 0 -0.65999985 0.044 -0.65999985 0.14300004 c 0 0 0.010999918 0.032999992 0.032999992 0.176 l 0.6600001 2.684 h 1.8149998 c 0.71500015 0 1.3969998 0.22000003 2.0349998 0.6489999 c 0.71500015 0.47300005 1.0669999 1.0560002 1.0669999 1.7490001 c 0 1.0890002 -1.0339999 1.6830001 -2.1889997 1.6830001 Z m -0.34100008 -0.4289999 c 0.95700026 0 1.4299998 -0.32999992 1.4299998 -0.99000025 c 0 -0.6159997 -0.3079996 -1.441 -0.62699986 -1.7269998 c -0.41799974 -0.37400007 -0.96799994 -0.5610001 -1.6500001 -0.5610001 h -1.4739997 l 0.7260001 2.904 c 0.08799982 0.37400007 0.08799982 0.37400007 0.5499997 0.37400007 Z " />
+</symbol>
+<symbol id="gA1C87FA1D2386CBEAC0744A252872519" overflow="visible">
+<path d="M 0 0m 3.498 -2.728 c 0.09899998 0 0.15400004 0.05499983 0.15400004 0.15400004 c 0 0.032999992 -0.022000074 0.0769999 -0.055000067 0.12099981 c -0.5719998 0.44000006 -1.0339999 1.1660001 -1.375 2.167 c -0.29699993 0.869 -0.45099986 1.727 -0.45099986 2.5740001 v 0.9239998 c 0 0.8470001 0.15399992 1.7049999 0.45099986 2.574 c 0.34100008 1.0010004 0.8030002 1.7270002 1.375 2.1670003 c 0.032999992 0.032999992 0.055000067 0.076999664 0.055000067 0.12100029 c 0 0.09899998 -0.055000067 0.15399933 -0.15400004 0.15399933 c -0.010999918 0 -0.04399991 -0.01099968 -0.0769999 -0.032999992 c -0.6600001 -0.50599957 -1.21 -1.2539997 -1.661 -2.2549996 c -0.42900002 -0.95700026 -0.64900005 -1.8590002 -0.64900005 -2.7280002 v -0.9239998 c 0 -0.8690001 0.22000003 -1.7710001 0.64900005 -2.7280002 c 0.45099998 -1.0009999 1.0009999 -1.7489998 1.661 -2.2549999 c 0.032999992 -0.022000074 0.065999985 -0.032999992 0.0769999 -0.032999992 Z " />
+</symbol>
+<symbol id="gF9EA8FFB938634D3022CE58615F100BB" overflow="visible">
+<path d="M 0 0m 3.091 4.895 c -0.39600015 0 -0.79200006 -0.1869998 -1.177 -0.5609999 l 0.75900006 3.1349998 c -0.022000074 0.09899998 -0.055000067 0.16499996 -0.18700004 0.16499996 c -0.36300015 0 -1.1660001 -0.09899998 -1.309 -0.10999966 c -0.16500008 -0.022000313 -0.25300002 -0.09899998 -0.25300002 -0.26400042 c 0 -0.10999966 0.09899998 -0.16499996 0.30799997 -0.16499996 c 0.20899999 0 0.495 0.011000156 0.495 -0.14299965 c 0 -0.04400015 -0.055000067 -0.26400042 -0.15400004 -0.671 l -0.87999994 -3.542 c -0.12099999 -0.46200013 -0.176 -0.8360001 -0.176 -1.1110001 c 0 -0.94600004 0.506 -1.7490001 1.408 -1.7490001 c 0.7149999 0 1.342 0.363 1.892 1.1 c 0.4949999 0.68200004 0.74800014 1.397 0.74800014 2.1339998 c 0 0.95700026 -0.5609999 1.7820001 -1.474 1.7820001 Z m -0.022000074 -0.32999992 c 0.4289999 0 0.638 -0.32999992 0.638 -0.9790001 c 0 -0.29699993 -0.065999985 -0.6930001 -0.19799995 -1.188 c -0.2420001 -0.93500006 -0.5610001 -1.573 -0.9460001 -1.914 c -0.22000003 -0.187 -0.4289999 -0.275 -0.638 -0.275 c -0.45099998 0 -0.671 0.352 -0.671 1.056 c 0 0.24199998 0.055000067 0.605 0.16500008 1.0890001 l 0.24199998 0.9899998 c 0.032999992 0.1650002 0.08799994 0.286 0.15399992 0.37400007 c 0.42900002 0.5609999 0.847 0.8470001 1.2540001 0.8470001 Z " />
+</symbol>
+<symbol id="g69A3BF0F911F49288FA51DFEBABC75D8" overflow="visible">
+<path d="M 0 0m 0.858 -2.695 c 0.66 0.50600004 1.21 1.254 1.661 2.2549999 c 0.4289999 0.957 0.6489999 1.859 0.6489999 2.7280002 v 0.9239998 c 0 0.86899996 -0.22000003 1.7709999 -0.6489999 2.7280002 c -0.45099998 1.0009999 -1.001 1.7490001 -1.661 2.2549996 c -0.032999992 0.022000313 -0.065999985 0.032999992 -0.07699996 0.032999992 c -0.09900004 0 -0.15400004 -0.05499935 -0.15400004 -0.15399933 c 0 -0.044000626 0.022000015 -0.0880003 0.055000007 -0.12100029 c 0.57199997 -0.44000006 1.0339999 -1.1659999 1.375 -2.1670003 c 0.29700017 -0.86899996 0.45099998 -1.7269998 0.45099998 -2.574 v -0.9239998 c 0 -0.8470001 -0.1539998 -1.7050002 -0.45099998 -2.5740001 c -0.34099996 -1.0009999 -0.803 -1.727 -1.375 -2.167 c -0.032999992 -0.04399991 -0.055000007 -0.08799982 -0.055000007 -0.12099981 c 0 -0.099000216 0.055000007 -0.15400004 0.15400004 -0.15400004 c 0.010999978 0 0.04399997 0.010999918 0.07699996 0.032999992 Z " />
+</symbol>
+<symbol id="gCA3345DAE87BC6903ECB8F0E3ACC0694" overflow="visible">
+<path d="M 0 0m 7.678 4.037 h -6.798 c -0.176 0 -0.264 -0.0880003 -0.264 -0.25300026 c 0 -0.16499996 0.088 -0.25300002 0.264 -0.25300002 h 6.798 c 0.17600012 0 0.26399994 0.08800006 0.26399994 0.25300002 c 0 0.13199997 -0.12099981 0.25300026 -0.26399994 0.25300026 Z m 0 -2.0680003 h -6.798 c -0.176 0 -0.264 -0.08799994 -0.264 -0.25300002 c 0 -0.16499996 0.088 -0.25300002 0.264 -0.25300002 h 6.798 c 0.17600012 0 0.26399994 0.08800006 0.26399994 0.25300002 c 0 0.143 -0.12099981 0.25300002 -0.26399994 0.25300002 Z " />
+</symbol>
+<symbol id="g8D5C969EF593A9096C3E4D41A1562827" overflow="visible">
+<path d="M 0 0m 2.9589999 7.3259997 c -0.45099998 -0.4619999 -1.1109998 -0.69299984 -1.9799999 -0.69299984 v -0.4289999 c 0.572 0 1.045 0.08799982 1.4080001 0.26399994 v -5.566 c 0 -0.19800001 -0.04400015 -0.32999998 -0.14300013 -0.385 c -0.09899998 -0.055000007 -0.37399995 -0.08800003 -0.814 -0.08800003 h -0.385 v -0.429 c 0.27499998 0.022 0.8690001 0.033 1.782 0.033 c 0.9130001 0 1.5070002 -0.011 1.7820003 -0.033 v 0.429 h -0.38500023 c -0.45099998 0 -0.7260001 0.033000022 -0.8139999 0.08800003 c -0.08800006 0.055000007 -0.14300013 0.18699998 -0.14300013 0.385 v 6.094 c 0 0.26399994 -0.022000074 0.32999992 -0.3080001 0.32999992 Z " />
+</symbol>
+<symbol id="gBC91D989B4043993A41BEA576B856622" overflow="visible">
+<path d="M 0 0m 7.678 2.97 h -6.798 c -0.176 0 -0.264 -0.07700014 -0.264 -0.22000003 c 0 -0.14300013 0.088 -0.22000003 0.264 -0.22000003 h 6.798 c 0.17600012 0 0.26399994 0.0769999 0.26399994 0.22000003 c 0 0.13199997 -0.13199997 0.22000003 -0.26399994 0.22000003 Z " />
+</symbol>
+<symbol id="g5EED49E808A91078F02B6A0F82223408" overflow="visible">
+<path d="M 0 0m 1.9173 -0.0847 c 0.47740006 0 0.8778 0.1694 1.2089 0.5082 c 0.3311 0.3388 0.50049996 0.7469 0.50049996 1.2242999 c 0 0.48510003 -0.16170001 0.9086001 -0.48510003 1.2628 c -0.32340002 0.35420012 -0.7314999 0.53900003 -1.2166 0.53900003 c -0.4850999 0 -0.88549995 -0.18479991 -1.2166 -0.53900003 c -0.33110002 -0.3541999 -0.4928 -0.77769995 -0.4928 -1.2628 c 0 -0.47739995 0.1617 -0.88549995 0.4928 -1.2242999 c 0.3311 -0.3388 0.7392 -0.5082 1.2089 -0.5082 Z m 0.0076999664 0.2464 c -0.36959994 0 -0.6467999 0.1617 -0.8392999 0.4928 c -0.12320006 0.21560001 -0.18480003 0.5698 -0.18480003 1.0548999 c 0 0.4697001 0.06159997 0.80850005 0.17709994 1.0241001 c 0.18480003 0.3311 0.462 0.4928 0.83930004 0.4928 c 0.3619001 0 0.6391001 -0.16170001 0.83159995 -0.47740006 c 0.13090014 -0.21560001 0.19250011 -0.56209993 0.19250011 -1.0395 c 0 -0.8931999 -0.26180005 -1.5476999 -1.0164001 -1.5476999 Z " />
+</symbol>
+<symbol id="gCB6DFAA7F7F5152EA4B65C0E5DAA64E0" overflow="visible">
+<path d="M 0 0m 2.8028 2.9106 c 0 0.30030012 -0.28489995 0.4928 -0.5852001 0.4928 c -0.39269984 0 -0.69299984 -0.23099995 -0.8931999 -0.70070004 v 0.70070004 l -1.1087999 -0.08469987 v -0.29260015 c 0.26950002 0 0.43119997 -0.0230999 0.4928 -0.06929994 c 0.06159997 -0.046200037 0.092399955 -0.14630008 0.092399955 -0.32340002 v -2.0251 c 0 -0.14629996 -0.023099959 -0.23869997 -0.07699996 -0.26949996 c -0.053900003 -0.030800015 -0.22329998 -0.046200007 -0.5082 -0.046200007 v -0.2926 l 0.88549995 0.0231 c 0.32340002 0.0077 0.6545 0 0.9856 -0.0231 v 0.2926 h -0.18480003 c -0.25409997 0 -0.41579998 0.023099989 -0.46969998 0.0616 c -0.053900003 0.03849998 -0.0769999 0.1309 -0.0769999 0.26950002 v 1.1626999 c 0 0.3311001 0.06159997 0.6314 0.17709994 0.8855001 c 0.15400004 0.3311 0.37730002 0.50049996 0.6775999 0.50819993 c -0.0769999 -0.0769999 -0.11549997 -0.16939998 -0.11549997 -0.27719998 c 0 -0.23869991 0.11549997 -0.3541999 0.35420012 -0.3541999 c 0.20790005 0 0.3541999 0.16170001 0.3541999 0.36189985 Z " />
+</symbol>
+<symbol id="g16EE66E5D2C2F8FB2495CC6E7A648ED7" overflow="visible">
+<path d="M 0 0m 2.5564 0.9702 v 0.46199995 h -0.24640012 v -0.44659996 c 0 -0.385 -0.13859987 -0.8162 -0.47739995 -0.8162 c -0.31570005 0 -0.46969998 0.2618 -0.46969998 0.78540003 v 2.0867 h 1.0702999 v 0.29259992 h -1.0702999 v 1.4013999 h -0.2464 c -0.0077000856 -0.25409985 -0.030799985 -0.47739983 -0.08469999 -0.6775999 c -0.13090003 -0.50819993 -0.43120003 -0.77 -0.8855 -0.7930999 v -0.22329998 h 0.63909996 v -2.0713 c 0 -0.4543 0.13860005 -0.7469 0.40810007 -0.8932 c 0.20789993 -0.1078 0.40039992 -0.16170001 0.5928999 -0.16170001 c 0.50820005 0 0.7700001 0.5082 0.7700001 1.0549 Z " />
+</symbol>
+<symbol id="gDFF830DDF14887852E328C3478F4E4F7" overflow="visible">
+<path d="M 0 0m 2.4178 3.1955 c 0.34649992 0 0.5236001 -0.26950002 0.5236001 -0.8162 v -1.7709999 c 0 -0.14629996 -0.023100138 -0.23869997 -0.07700014 -0.26949996 c -0.053900003 -0.030800015 -0.22329998 -0.03850001 -0.50819993 -0.03850001 v -0.3003 l 0.88549995 0.0231 l 0.8778002 -0.0231 v 0.3003 c -0.24640012 0 -0.40810013 0.0076999962 -0.48510027 0.030799985 c -0.0769999 0.023100019 -0.10780001 0.07700002 -0.10780001 0.16170001 v 1.4553 c 0 0.36959994 -0.0076999664 0.6237 -0.030799866 0.7700001 c -0.07700014 0.46969986 -0.42350006 0.7084 -1.0318 0.7084 c -0.46969998 0 -0.8239 -0.21560001 -1.0626 -0.64680004 v 2.5641 l -1.155 -0.08470011 v -0.29260015 c 0.27719998 0 0.44660002 -0.0230999 0.5082 -0.0692997 c 0.06160003 -0.046200275 0.08469999 -0.15400028 0.08469999 -0.3311 v -3.9578001 c 0 -0.14629996 -0.030799985 -0.23869997 -0.08469999 -0.26949996 c -0.053900003 -0.030800015 -0.22329998 -0.03850001 -0.5082 -0.03850001 v -0.3003 l 0.88549995 0.0231 l 0.8778001 -0.0231 v 0.3003 c -0.28490007 0 -0.44660008 0.0076999962 -0.5005001 0.03850001 c -0.053900003 0.030799985 -0.08469999 0.1232 -0.08469999 0.26949996 v 1.4014001 c 0 0.6236999 0.39269996 1.1857998 0.99329996 1.1857998 Z " />
+</symbol>
+<symbol id="g6D9DDEB42FEF940CE0C43F970FA45422" overflow="visible">
+<path d="M 0 0m 7.678 3.014 h -3.1350002 v 3.1350002 c 0 0.17599964 -0.08799982 0.26399994 -0.26399994 0.26399994 c -0.17599964 0 -0.26399994 -0.0880003 -0.26399994 -0.26399994 v -3.1350002 h -3.1349998 c -0.176 0 -0.264 -0.08800006 -0.264 -0.26399994 c 0 -0.17600012 0.088 -0.26399994 0.264 -0.26399994 h 3.1349998 v -3.135 c 0 -0.176 0.0880003 -0.264 0.26399994 -0.264 c 0.17600012 0 0.26399994 0.088 0.26399994 0.264 v 3.135 h 3.1350002 c 0.17600012 0 0.26399994 0.08799982 0.26399994 0.26399994 c 0 0.14299989 -0.12099981 0.26399994 -0.26399994 0.26399994 Z " />
+</symbol>
+<symbol id="gB01220DFA82CF4A6309A1A47291D7727" overflow="visible">
+<path d="M 0 0m 2.2946 -0.100099996 c 0.47740006 0 0.88549995 0.16939999 1.2166 0.5159 c 0.3311 0.3465 0.5005002 0.75460005 0.5005002 1.2397 c 0 0.4697001 -0.15400028 0.8701 -0.45430017 1.2089 c -0.31570005 0.3619001 -0.70070004 0.53900003 -1.1626999 0.53900003 c -0.39269996 0 -0.7315 -0.15400004 -1.0241001 -0.45429993 v 0.45429993 l -1.155 -0.08469987 v -0.29260015 c 0.2849 0 0.4543 -0.015399933 0.5082 -0.053900003 c 0.053900003 -0.038499832 0.08469999 -0.13859987 0.08469999 -0.30029988 v -3.5574 c 0 -0.14630002 -0.030799985 -0.23869997 -0.08469999 -0.26949996 c -0.053900003 -0.030799985 -0.22329998 -0.03850007 -0.5082 -0.03850007 v -0.3003 l 0.8778 0.023100019 l 0.88549995 -0.023100019 v 0.3003 c -0.28489995 0 -0.44659996 0.0077000856 -0.50049996 0.03850007 c -0.053900003 0.030799985 -0.08469999 0.12319994 -0.08469999 0.26949996 v 1.2243 c 0.16939998 -0.23870002 0.50049996 -0.4389 0.9009 -0.4389 Z m 0.046200037 3.2494001 c 0.31570005 0 0.56209993 -0.17710018 0.75460005 -0.53130007 c 0.14629984 -0.30030012 0.22329998 -0.61599994 0.22329998 -0.9625001 c 0 -0.36189997 -0.08470011 -0.69299996 -0.25410008 -0.99329996 c -0.20020008 -0.36189997 -0.4697001 -0.539 -0.8008001 -0.539 c -0.3233999 0 -0.57749987 0.15399998 -0.76999986 0.4543 c -0.069300056 0.10010004 -0.10010004 0.20020002 -0.10010004 0.3003 v 1.6863 c 0.22329998 0.39269996 0.53900003 0.5852001 0.94710004 0.5852001 Z " />
+</symbol>
+<symbol id="g62D4645F8709E56953C2DF52396D452D" overflow="visible">
+<path d="M 0 0m 3.1955 1.9327 c 0 0.88549984 -0.5158999 1.5169 -1.3783 1.5169 c -0.4619999 0 -0.84699994 -0.17709994 -1.1626999 -0.53900003 c -0.2926 -0.33879995 -0.4389 -0.74689984 -0.4389 -1.2166 c 0 -0.48510003 0.1617 -0.89320004 0.48509997 -1.2474 c 0.32339996 -0.3542 0.7238 -0.5313 1.2012 -0.5313 c 0.4389001 0 0.77770007 0.154 1.0087 0.4543 c 0.19250011 0.25410002 0.28489995 0.4389 0.28489995 0.5621 c 0 0.07700002 -0.0461998 0.11549997 -0.1308999 0.11549997 c -0.06159997 0 -0.10010004 -0.03849995 -0.12319994 -0.12319994 c -0.16939998 -0.50820005 -0.50049996 -0.7623 -0.9933001 -0.7623 c -0.34650004 0 -0.61599994 0.1617 -0.8239 0.4928 c -0.14630002 0.23869997 -0.21560001 0.6006 -0.22329998 1.0934 h 2.079 c 0.16940022 0 0.21560001 0.015399933 0.21560001 0.18480003 Z m -0.6852999 0.7545999 c 0.08469987 -0.25410008 0.12319994 -0.50049996 0.12319994 -0.72379994 h -1.7248 c 0.023100019 0.50819993 0.15400004 0.85469985 0.385 1.0318 c 0.1925 0.15400004 0.36189997 0.23099995 0.5236 0.23099995 c 0.34650016 0 0.5775001 -0.17709994 0.6930001 -0.53900003 Z " />
+</symbol>
+<symbol id="g7BF5916AE69C66DC3B071B922C42F62E" overflow="visible">
+<path d="M 0 0m 2.772 1.001 c 0 0.58519995 -0.40040016 0.9547999 -1.1935 1.1088 c -0.3619001 0.06929994 -0.59290004 0.1539998 -0.71610004 0.23869991 c -0.1232 0.08469987 -0.18479997 0.20790005 -0.18479997 0.3541999 c 0 0.3619001 0.26949996 0.53900003 0.80849993 0.53900003 c 0.5236001 0 0.80850005 -0.29259992 0.8470001 -0.88549995 c 0.0076999664 -0.06159997 0.0461998 -0.092400074 0.12319994 -0.092400074 c 0.08469987 0 0.1308999 0.069300175 0.1308999 0.20790005 v 0.7623 c 0 0.14630008 -0.038499832 0.21560001 -0.11549997 0.21560001 c -0.08469987 0 -0.20020008 -0.13860011 -0.27719998 -0.20020008 c -0.19249988 0.13090014 -0.43120003 0.20020008 -0.7084 0.20020008 c -0.6853 0 -1.232 -0.3080001 -1.232 -0.9625001 c 0 -0.2617998 0.10780001 -0.4850998 0.33110002 -0.66219985 c 0.26949996 -0.2233001 0.5235999 -0.26950002 1.0086999 -0.3542 c 0.50049996 -0.10010004 0.75460005 -0.32340002 0.75460005 -0.66990006 c 0 -0.43889996 -0.26950002 -0.6622 -0.8162 -0.6622 c -0.53129995 0 -0.8701 0.3542 -1.0164 1.0549 c -0.023100019 0.10009992 -0.06160003 0.15399992 -0.13090003 0.15399992 c -0.08469999 0 -0.1309 -0.07700002 -0.1309 -0.22329998 v -0.99329996 c 0 -0.14629999 0.03850001 -0.2156 0.1155 -0.2156 c 0.023099989 0 0.0616 0.023100004 0.1232 0.07700001 c 0.13859999 0.1232 0.07700002 0.100099996 0.21560001 0.2387 c 0.22329998 -0.2079 0.50049996 -0.3157 0.8239 -0.3157 c 0.7314999 0 1.2397001 0.37730002 1.2397001 1.0857 Z " />
+</symbol>
+</defs>
+</svg>
+</span> 连续混合（closes <a href="https://github.com/AzurIce/ranim/pull/43">#43</a>）；坐标改为分辨率无关的恒定 <code>frame_height = 8.0</code>（closes <a href="https://github.com/AzurIce/ranim/pull/37">#37</a>），示例全部重写。</li>
+</ul>
+<h2 id="preview-app"><a class="header" href="#preview-app">Preview App</a></h2>
+<p><a href="https://github.com/AzurIce/ranim/pull/53">#53</a>（closes issue <a href="https://github.com/AzurIce/ranim/pull/52">#52</a>）</p>
+<p>egui 0.31 + winit <code>ApplicationHandler</code> 手写集成（当时还不是 eframe），场景经专用 <code>AppPipeline</code> 渲到 wgpu surface 的视口矩形，egui 时间轴控件（<code>TimelineState</code>）对 sealed timeline 做任意时刻 scrub；GPU profiling（wgpu-profiler/puffin）藏在 <code>profiling</code> feature 后。</p>
+<p><label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="assets/preview-app-prototype.gif" alt="Preview App 原型（#53）：winit 窗口内预览 bubble_sort 示例，底部时间轴拖动 scrub"><span class="img-wrapper"><img src="assets/preview-app-prototype.gif" alt="Preview App 原型（#53）：winit 窗口内预览 bubble_sort 示例，底部时间轴拖动 scrub"></span></label></p>
+<p>这个原型后来长出 wasm 网页版（<a href="https://github.com/AzurIce/ranim/pull/64">#64</a>）与热重载（<a href="https://github.com/AzurIce/ranim/pull/77">#77</a>），并在 v0.2 换用 eframe（<a href="https://github.com/AzurIce/ranim/pull/114">#114</a>）。</p>
+<h2 id="item-体系成型"><a class="header" href="#item-体系成型">Item 体系成型</a></h2>
+<p>相关 PR：<a href="https://github.com/AzurIce/ranim/pull/57">#57</a>、<a href="https://github.com/AzurIce/ranim/pull/60">#60</a>、<a href="https://github.com/AzurIce/ranim/pull/64">#64</a>、<a href="https://github.com/AzurIce/ranim/pull/69">#69</a></p>
+<ul>
+<li><strong><a href="https://github.com/AzurIce/ranim/pull/57">#57</a></strong>：typed timeline handle（<code>TimelineItem&lt;'t, Mark&gt;</code> + marker 类型），<code>insert(item)</code> 返回带类型的句柄；per-item Extract 成形（<code>VItemPrimitiveData</code>）；</li>
+<li><strong><a href="https://github.com/AzurIce/ranim/pull/60">#60</a></strong>：组合物件——为元组/数组实现 <code>Renderable</code>，<code>Arrow { tip, line }</code> 作为整体存进实例池。设计上<strong>明确拒绝父子层级</strong>：“如果 tip 淡出了只剩线，它还是箭头吗？”——拆分交给 <code>decompose</code>；（这一立场直到 v0.3 的场景图 <code>hierarchy::Node</code> 才被系统性重审，见 v0.3 篇。）</li>
+<li><strong><a href="https://github.com/AzurIce/ranim/pull/64">#64</a>（本时代最大 PR，+35k 行）</strong>：item 与时间线大重构——<code>Extract</code> 提取到关联 <code>Target</code>；<code>Renderable</code> 改名 <code>RenderCommand</code>、旧 <code>Primitive</code> 改名 <code>RenderResource</code>、新的 <code>Primitive</code> trait 声明 <code>type RenderInstance</code>；<code>VisualItem</code> 串起 <code>Extract → Renderable → RenderInstance</code> 流水；Blueprint 系统移除。时间线侧 <code>RanimTimeline</code>→<code>RanimScene</code>、<code>RabjectTimeline</code>→<code>ItemTimeline</code>、<code>Rabject</code>→<code>TimelineId</code>。同 PR 关闭 <a href="https://github.com/AzurIce/ranim/pull/67">#67</a>（预览上 wasm）与 <a href="https://github.com/AzurIce/ranim/pull/54">#54</a>：website 改造为 mdbook book + rustdoc + 每个示例内嵌 wasm 预览；</li>
+<li><strong><a href="https://github.com/AzurIce/ranim/pull/69">#69</a></strong>：<code>DynTimeline</code> 类型擦除——一个 item 的 timeline 集合可容纳多种动画类型，<code>map&lt;T, E&gt;</code> 在 item 状态类型变化时转换 timeline（closes <a href="https://github.com/AzurIce/ranim/pull/68">#68</a>）。</li>
+</ul>
+<h2 id="工程化dylib拆分与流水线"><a class="header" href="#工程化dylib拆分与流水线">工程化：dylib、拆分与流水线</a></h2>
+<p>相关 PR：<a href="https://github.com/AzurIce/ranim/pull/73">#73</a>、<a href="https://github.com/AzurIce/ranim/pull/77">#77</a>、<a href="https://github.com/AzurIce/ranim/pull/87">#87</a>、<a href="https://github.com/AzurIce/ranim/pull/94">#94</a>、<a href="https://github.com/AzurIce/ranim/pull/96">#96</a></p>
+<ul>
+<li><strong><a href="https://github.com/AzurIce/ranim/pull/73">#73</a></strong>：wasm 示例进 CI 构建，仓库里提交的 <code>pkg/</code> 产物删除（-24.5k 行）；</li>
+<li><strong><a href="https://github.com/AzurIce/ranim/pull/77">#77</a>（ranim-cli 诞生，v0.1.0）</strong>：<code>#[scene]</code>/<code>#[output]</code> 宏经 <code>linkme</code> distributed slice 收集 <code>&amp;'static Scene</code>，CLI 把用户 crate 构建成 dylib、复制到临时路径后 <code>libloading</code> 加载——<code>ranim preview</code> 监听重建热重载，<code>ranim render</code> 构建并渲染。<code>SceneConstructor</code> 从此就是 <code>fn(&amp;mut RanimScene)</code>；输出路径规范为 <code>&lt;dir&gt;/&lt;场景名&gt;_&lt;宽&gt;x&lt;高&gt;_&lt;fps&gt;.mp4</code>（closes <a href="https://github.com/AzurIce/ranim/pull/76">#76</a>）；</li>
+<li><strong><a href="https://github.com/AzurIce/ranim/pull/87">#87</a></strong>：每个 example 变成独立 cdylib（<code>examples/&lt;name&gt;/lib.rs</code>），一次构建同时服务 render 与 preview，与用户项目的 dylib 故事一致；</li>
+<li><strong><a href="https://github.com/AzurIce/ranim/pull/94">#94</a>（crate 拆分）</strong>：单体 crate 按职责拆为 ranim-core / ranim-items / ranim-anims / ranim-render / ranim-app（+ 既有 ranim-cli/ranim-macros），façade <code>ranim</code> 再导出 <code>core</code>/<code>items</code>/<code>anims</code>/<code>render</code>——用户 dylib 只依赖轻量 crate（为 issue <a href="https://github.com/AzurIce/ranim/pull/84">#84</a> 的编译时间与二进制体积）；</li>
+<li><strong><a href="https://github.com/AzurIce/ranim/pull/96">#96</a>（v0.1.5 收官）</strong>：三件套——<code>CoreItemStore</code> 作为场景求值的交换格式；<code>RenderPool</code>（slotmap + 按 <code>TypeId</code> 回收）复用 GPU 实例；专用渲染 worker 线程（<code>async_channel</code> bounded(1)）让第 N 帧在 GPU 上渲染时主线程求值第 N+1 帧。CPU 求值与 GPU 渲染自此解耦。</li>
+</ul>
+<pre class="mermaid">sequenceDiagram
+    participant M as 主线程（求值）
+    participant W as worker 线程（渲染）
+    Note over M,W: async_channel bounded(1) 同步
+    M-&gt;&gt;W: 提交第 N 帧（CoreItemStore）
+    W-&gt;&gt;W: 复用 RenderPool 实例，渲染第 N 帧
+    M-&gt;&gt;M: 与渲染并行：求值第 N+1 帧
+    W--&gt;&gt;M: 第 N 帧完成
+    M-&gt;&gt;W: 提交第 N+1 帧
+</pre>
+
+<h2 id="其余小特性与修复"><a class="header" href="#其余小特性与修复">其余小特性与修复</a></h2>
+<ul>
+<li><strong><a href="https://github.com/AzurIce/ranim/pull/23">#23</a></strong>：第一个 zola 生成的网站（后由 <a href="https://github.com/AzurIce/ranim/pull/64">#64</a> 的 mdbook + wasm 方案取代）；</li>
+<li><strong><a href="https://github.com/AzurIce/ranim/pull/62">#62</a></strong>：wgpu 24 → 25（合并顺序与 PR 号无关，见文首注）;</li>
+<li><strong><a href="https://github.com/AzurIce/ranim/pull/63">#63</a></strong>：<code>serde</code> feature 与 <code>derive_more</code> 去样板——<strong>首个外部贡献</strong>（MilkBlock）；</li>
+<li><strong><a href="https://github.com/AzurIce/ranim/pull/71">#71</a></strong>：修零长向量叉积归一化的 NaN（closes <a href="https://github.com/AzurIce/ranim/pull/70">#70</a>），测试重写为精确 <code>PI</code> 断言；</li>
+<li><strong><a href="https://github.com/AzurIce/ranim/pull/90">#90</a></strong>：<code>#[scene(clear_color = "#...")]</code> 可配清屏色；</li>
+<li><strong><a href="https://github.com/AzurIce/ranim/pull/91">#91</a></strong>：修 <code>Alignable</code> 对 <code>VPointComponentVec</code>/<code>VItem</code>/<code>Group&lt;T&gt;</code> 的对齐（双侧补齐到最大长度，<code>resize_preserving_order</code>）；</li>
+<li><strong><a href="https://github.com/AzurIce/ranim/pull/93">#93</a></strong>：<code>TypstText</code> item——Typst 源码经 <code>typst_svg</code> 转字形轮廓，<code>Alignable</code> 按<strong>字符级 diff</strong> 实现，文本变换动画按匹配/插入/删除的字符 morph。</li>
+</ul>
+<p>v0.1.1–v0.1.3（2025-08-10 → 2025-08-20）是未经 PR 的小修复版本；v0.1.4 带 <a href="https://github.com/AzurIce/ranim/pull/90">#90</a>/<a href="https://github.com/AzurIce/ranim/pull/91">#91</a>；v0.1.5（2025-10-18）以 <a href="https://github.com/AzurIce/ranim/pull/93">#93</a>/<a href="https://github.com/AzurIce/ranim/pull/94">#94</a>/<a href="https://github.com/AzurIce/ranim/pull/96">#96</a> 收官——单 crate 时代就此结束，接力棒交给 v0.2。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../items/mesh/sphere.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../../news/v0.2/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../items/mesh/sphere.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../../news/v0.2/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../mark-09e88c2c.min.js"></script>
+        <script src="../../searcher-09f2665d.js"></script>
+
+        <script src="../../clipboard-1626706a.min.js"></script>
+        <script src="../../highlight-abc7f01d.js"></script>
+        <script src="../../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../version-select-fdcb80bd.js"></script>
+        <script src="../../theme/pagetoc-ad23158a.js"></script>
+        <script src="../../mermaid-eefea253.min.js"></script>
+        <script src="../../mermaid-init-025d9952.js"></script>
+
+
+
+    </div>
+    </body>
+</html>

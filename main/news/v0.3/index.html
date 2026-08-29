@@ -1,0 +1,909 @@
+<!DOCTYPE HTML>
+<html lang="zh" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>v0.3 - Ranim Book</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="../../favicon-8114d1fc.png">
+        <link rel="stylesheet" href="../../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../version-select-0246a208.css">
+        <link rel="stylesheet" href="../../theme/pagetoc-6390151b.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../searchindex-b943694a.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc-bed341cd.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Ranim Book</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="v03"><a class="header" href="#v03">v0.3</a></h1>
+<blockquote>
+<p><strong>Status: Draft</strong> — 随 main 更新，v0.3 发布时冻结。
+已覆盖 <a href="https://github.com/AzurIce/ranim/pull/166">#166</a>–<a href="https://github.com/AzurIce/ranim/pull/202">#202</a> 中的全部特性与架构类 PR；基建/修复类（<a href="https://github.com/AzurIce/ranim/pull/178">#178</a>、<a href="https://github.com/AzurIce/ranim/pull/179">#179</a>、<a href="https://github.com/AzurIce/ranim/pull/188">#188</a>、<a href="https://github.com/AzurIce/ranim/pull/191">#191</a>、<a href="https://github.com/AzurIce/ranim/pull/199">#199</a>、<a href="https://github.com/AzurIce/ranim/pull/203">#203</a>）不入篇（见<a href="../AGENTS.html">目录约定</a>）。</p>
+</blockquote>
+<p>本篇是 v0.3 的 News 纪事（体裁类似 Bevy News，写作约定见
+<a href="../AGENTS.html">本目录 AGENTS.md</a>）。其中编排系统与渲染侧的 ECS 化沿用了
+各自 PR 的设计；求值协议一节按当前实现（content-is-sequence 收敛后的
+版本）编写。</p>
+<h2 id="新增"><a class="header" href="#新增">新增</a></h2>
+<ul>
+<li>可组合动画编排系统（见 “Composable Animation Arrangement” 一节）
+<ul>
+<li><code>AnimSequence</code>/<code>AnimStack</code> 容器与 <code>seq!</code>/<code>stack!</code> 宏，<code>hold</code>/<code>forward</code>/<code>extend</code> 等编排 API</li>
+<li><code>AnimLagged</code> 容器（stagger 排布 + 窗口外静态填充）与 <code>lagged!</code> 宏、迭代器容器收集（<code>collect::&lt;AnimStack&gt;()</code>/<code>collect::&lt;AnimSequence&gt;()</code>、<code>into_stack</code>/<code>into_seq</code>/<code>into_lagged</code>）</li>
+<li>播放参数 <code>Paramed&lt;A&gt;</code>（<code>with_duration</code>/<code>with_rate_func</code>/<code>with_enabled</code>）与放置 <code>At&lt;A&gt;</code></li>
+</ul>
+</li>
+<li>求值协议与适配器（见“求值与迭代式动画区段“一节）
+<ul>
+<li>单一 <code>Eval</code> 协议：<code>eval_alpha(&amp;self, alpha)</code> 是叶子动画唯一的求值入口</li>
+<li>进度是唯一坐标：<code>Time</code>/<code>DeltaTime</code> 结构已删除，<code>ranim_core::time</code> 只保留 <code>Alpha</code>/<code>DeltaAlpha</code> 两个类型别名</li>
+<li>纯/迭代特化位于 <em>ranim-core</em>：<code>Pure</code> 包装闭式闭包，<code>Iterative</code> 包装 <code>IterativeEval</code> step 逻辑；闭包经 <code>Pure::new(|alpha| ...)</code> / <code>Iterative::from_fn(state, step_fn)</code> 成为动画</li>
+<li><code>SceneEvaluator::sample_at</code> 是唯一 session 交互，seek/重放由 stateful 节点内部完成</li>
+</ul>
+</li>
+<li>类型化变换系统（见“类型化变换系统“一节）
+<ul>
+<li><code>Transformed&lt;T, G&gt;</code> 包装器、<code>ApplyTransform&lt;G&gt;</code> primitive trait 与类型化变换群（<code>Translation</code>/<code>Rigid</code>/<code>Similarity</code>/<code>Diag</code>/<code>DAffine3</code>），语义闭包约束的 <code>bake()</code></li>
+<li>规范局部原语：语义形状移除定位字段，placement 只存在于 <code>Transformed</code>（“canonical local primitives” 教义）</li>
+<li>核心 <code>VItem</code> 携带局部到世界 <code>transform: Mat4</code>，渲染侧 per-item transform storage buffer，插值契约（wrapper lerp 动位姿、morph 是显式 bake）</li>
+<li>场景图层级 <code>hierarchy::Node</code> 与 glTF/GLB 导入（见“场景图层级与 glTF 导入“一节）</li>
+</ul>
+</li>
+<li>VItem 法向投影：<code>Basis2d</code> 移除，<code>normal: Option</code> + shader 内现场生成正交基（见“VItem 法向投影“一节）</li>
+<li>元组 <code>Extract</code>：1..=15 元直接实现，无需 <code>Group</code> 包装，ranim-core 保持 stable 兼容</li>
+<li>CLI：<code>ranim output</code> / <code>ranim render &lt;scene&gt;</code> 拆分；<code>inspect scenes/tree/frame</code> 无 GPU 检查子命令；<code>examples/agents/</code> agent one-shot 例子档案（见“CLI“一节）</li>
+<li>渲染与输出：渲染 worker API（<code>RenderWorker</code>/<code>RenderThreadHandle</code>/<code>RanimRenderApp</code>）公开；<code>Output::name_template</code> 输出名模板；examples 打包为单一 <code>ranim-examples</code> wasm 包并经 <code>#[wasm_demo_doc]</code> 恢复 rustdoc 实时预览；coplanar z-fighting 按 scene-order 深度偏置解决</li>
+</ul>
+<h2 id="breaking-changes"><a class="header" href="#breaking-changes">BREAKING CHANGES</a></h2>
+<ul>
+<li>动画组织系统
+<ul>
+<li>弃用 <code>Timeline</code>（迁移到 <code>AnimSequence</code>/<code>AnimStack</code>）</li>
+<li><code>AnimationCell&lt;T&gt;</code> 的泛型参数移除、不再直接构建（<code>Eval</code> 类型可直接作为动画使用）；原先 <code>AnimationCell&lt;T&gt;</code> 的 <code>AnimationInfo</code> 参数改为 <code>Paramed&lt;A&gt;</code> 和 <code>At&lt;A&gt;</code></li>
+<li><em>ranim-anims</em> 中全部内置动画创建工具方法现在默认用 <code>linear</code> 速率函数和 <code>1.0</code> 持续秒数</li>
+</ul>
+</li>
+<li>求值与内置动画 API
+<ul>
+<li><code>Eval&lt;T&gt;</code> 泛型参数改为关联类型，方法集收敛为单一 <code>eval_alpha(&amp;self, alpha)</code>（见“求值与迭代式动画区段“一节）；<code>sample</code>/<code>reset</code>/<code>step</code> 与 <code>PureEval</code> 已删除</li>
+<li><code>Time</code>/<code>DeltaTime</code> 结构已删除；<code>Eval::eval_alpha</code> 收 <code>f64</code>，<code>IterativeEval::step</code> 收 <code>alpha</code>/<code>delta_alpha</code></li>
+<li>内置动画工具方法直接返回具名动画类型（如 <code>fade_in()</code> 返回 <code>FadeIn&lt;T&gt;</code>），这些类型直接实现 <code>Eval</code></li>
+<li><code>Pure</code> 与 <code>Iterative</code> 从 <em>ranim-anims</em> 移入 <em>ranim-core</em> 的 <code>animation::eval::{pure, iterative}</code></li>
+<li><code>CameraFrame::orbit</code> 移到 <em>ranim-anims</em> 的 <code>CameraFrameAnim</code></li>
+<li>删除 <em>ranim-anims</em> 的 <code>Lagged</code> 求值器与 <code>lagged</code> 模块（<code>LaggedAnim</code> 糖），stagger 排布改用 <code>AnimLagged</code> 容器</li>
+</ul>
+</li>
+<li>变换与物件模型（见“类型化变换系统“一节）
+<ul>
+<li><code>MeshItem</code>/<code>Surface</code> 移除内嵌 transform 字段与 <code>with_transform</code>，外挂变换改用 <code>.transformed(...)</code></li>
+<li><code>Square</code>/<code>Rectangle</code>/<code>Circle</code>/<code>Sphere</code>/<code>Arc</code>/<code>Ellipse</code>/<code>EllipticArc</code>/<code>TextItem</code> 等语义形状移除 <code>center</code>/<code>axes</code>/<code>p0</code>/<code>origin</code> 等定位字段：构造后用 <code>.transformed(Translation(...))</code> 放置；裸值不再实现 <code>ApplyTransform</code>，<code>shift</code>/<code>rotate_*</code>/非均匀 <code>scale</code> 需先包裹（或转为 <code>Polygon</code>/<code>VItem</code> 等点集类型）</li>
+<li>核心 <code>VItem</code> 的 <code>points</code>/<code>normal</code> 变为局部空间值，定位存放在新增的 <code>transform: Mat4</code>；消费提取点数据的代码需先应用 transform</li>
+<li><code>ranim_items::mesh::MeshItem</code> 用户层类型由 f32（<code>Vec3</code>/<code>Mat4</code>）改为 f64（<code>DVec3</code>/<code>DMat4</code>）</li>
+</ul>
+</li>
+<li>渲染与 CLI
+<ul>
+<li><code>VItemsBuffer::update</code>/<code>MeshItemsBuffer::update</code> 的迭代项改为 <code>(scene_order, item)</code> 对</li>
+<li><code>ranim render</code> 语义变化：批量渲染所有 <code>#[output]</code> 改用 <code>ranim output</code>；<code>ranim render &lt;scene&gt;</code> 只做单场景临时渲染，忽略 <code>#[output]</code> 与 Capture mark</li>
+<li><code>ranim_items::vitem::Basis2d</code> 移除，<code>VItem.basis</code> 改为 <code>normal: Option&lt;DVec3&gt;</code>（构造迁移：<code>with_basis(Basis2d::XY)</code> → <code>with_normal(...)</code> 或留空自动计算）</li>
+<li><code>SvgItem</code> 内部改为放置树（<code>Transformed&lt;Node&lt;VItem&gt;, DAffine3&gt;</code>）：<code>tree()</code>/<code>tree_mut()</code>/<code>into_tree()</code> 返回放置而非裸节点（用 <code>.inner</code> 取 frame）；glTF 支持为 opt-in 的 <code>gltf</code> feature</li>
+</ul>
+</li>
+</ul>
+<h2 id="composable-animation-arrangement"><a class="header" href="#composable-animation-arrangement">Composable Animation Arrangement</a></h2>
+<p>https://github.com/AzurIce/ranim/pull/170</p>
+<h3 id="animsequence-和-animstack"><a class="header" href="#animsequence-和-animstack"><code>AnimSequence</code> 和 <code>AnimStack</code></a></h3>
+<p>Ranim 动画编排的本质是构造动画数据表示并放入集合，在之前的设计中整个 <code>RanimScene</code> 通过内部的 <code>Vec&lt;Timeline&gt;</code> 来维护动画。</p>
+<p><code>Timeline</code> 的本质是 <code>Vec&lt;Box&lt;dyn CoreItemAnimation&gt;&gt;</code> 动画序列容器，其中的每个元素都是前后相继的动画表示，同一时间一个 <code>Timeline</code> 只有一个动画激活，于是以前在动画组合代数上非常局限：</p>
+<ul>
+<li>串行的动画必须通过 <code>Timeline</code> 的 API 手动推进/同步时间到对应位置</li>
+<li>并行的动画必须通过创建新的 <code>Timeline</code> 来实现</li>
+<li>整个场景的 <code>Vec&lt;Timeline&gt;</code> 本质是一次性并行组合多个串行编排的性质</li>
+</ul>
+<p>在 Ranim v0.3 中，原本的 <code>Timeline</code> 被弃用，新增了两个可组合的基本动画容器 <code>AnimSequence</code> 和 <code>AnimStack</code>。</p>
+<p>比如对于如下的动画：</p>
+<ul>
+<li>正方形：0.0s ~ 1.0s 淡入 | 1.0s ~ 2.0s 变成圆形 | 2.0s ~ 3.0s 淡出</li>
+<li>文字：0.5s ~ 1.5s 写入 | 1.5s ~ 2.5s 擦除</li>
+</ul>
+<p>在以前的 Timeline API 下要这样编写：</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let r_vitem = r.insert_with(|t| {
+    t.play(item.fade_in())
+        .play(item.morph_to(VItem::from(Circle::default())))
+        .play(item.fade_out())
+});
+let r_text = r.insert_with(|t| {
+    t.forward(0.5)
+        .play(text.write())
+        .play(text.unwrite())
+});
+<span class="boring">}</span></code></pre>
+<p>而使用 <code>AnimSequence</code> 和 <code>AnimStack</code> 可以这样：</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let anim = stack![
+    seq![
+        item.fade_in(),
+        item.morph_to(VItem::from(Circle::default())),
+        item.fade_out(),
+    ],
+    seq![
+        text.write(),
+        text.unwrite()
+    ].at(0.5)
+];
+r.play(anim);
+<span class="boring">}</span></code></pre>
+<p>其中的 <code>seq!</code> 和 <code>stack!</code>（类似 <code>vec!</code>），会构造 <code>AnimSequence</code> 和 <code>AnimStack</code> 并将动画插入其中（类似 <code>Vec</code>）。</p>
+<p>如果要把这段动画播放两遍，原来的 Timeline API 会非常繁琐，或许需要将相关时间线操作封装为闭包，而对于新的可组合 API 很简单：</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>r.play(seq![anim.clone(), anim]);
+<span class="boring">}</span></code></pre>
+<p>更能够表现新系统的可组合与复用能力的例子见 <code>composable_choreaography</code> example。</p>
+<h3 id="animationcelleval-与-animation-trait"><a class="header" href="#animationcelleval-与-animation-trait"><code>AnimationCell</code>、<code>Eval</code> 与 <code>Animation</code> Trait</a></h3>
+<p><code>Eval&lt;T&gt;</code> 的泛型参数被移除并改成了关联类型（一个求值器类型的求值结果类型是唯一的）。</p>
+<p>以前 <code>AnimationCell&lt;T&gt;</code> 被当作动画的组织单元，所有动画必须被表示为 <code>AnimationCell&lt;T&gt;</code> 才能够被插入时间线。现在这个行为被抽象为了一个 <code>Animation</code> Trait：</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// A statically typed animation definition that can be lowered into a runtime animation.
+pub trait Animation: Sized {
+    /// Lower this definition into its local runtime representation.
+    fn build(self) -&gt; AnimationCell;
+}
+<span class="boring">}</span></code></pre>
+<p>同时泛型参数被从 <code>AnimationCell</code> 移除，其内部变成类型擦除的 <code>Box&lt;dyn EvalDyn&gt;</code>。</p>
+<p>所有的 <code>E: Eval where E::Output: AnyExtractCoreItem</code> 都自动实现了 <code>Animation</code>，于是所有的动画创建都不必返回 <code>AnimationCell</code>，可以直接返回自己就可以使用。</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// previous
+impl&lt;T: FadingRequirement + Sized + 'static&gt; FadingAnim for T {
+    fn fade_in(&amp;mut self) -&gt; AnimationCell&lt;Self&gt; {
+        FadeIn::new(self.clone())
+            .into_animation_cell()
+            .with_rate_func(smooth)
+            .apply_to(self)
+    }
+    fn fade_out(&amp;mut self) -&gt; AnimationCell&lt;Self&gt; {
+        FadeOut::new(self.clone())
+            .into_animation_cell()
+            .with_rate_func(smooth)
+            .apply_to(self)
+    }
+}
+<span class="boring">}</span></code></pre>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl&lt;T: FadingRequirement + Sized + 'static&gt; FadingAnim for T {
+    fn fade_in(&amp;mut self) -&gt; FadeIn&lt;Self&gt; {
+        FadeIn::new(self.clone()).apply_to(self)
+    }
+    fn fade_out(&amp;mut self) -&gt; FadeOut&lt;Self&gt; {
+        FadeOut::new(self.clone()).apply_to(self)
+    }
+}
+<span class="boring">}</span></code></pre>
+<p><code>Animation</code> Trait 也是可组合动画的核心，<code>AnimSequence</code>、<code>AnimStack</code>、<code>Paramed&lt;A&gt;</code> 和 <code>At&lt;A&gt;</code> 也实现了该 Trait，可以当作一个动画使用。</p>
+<h3 id="animlagged-与迭代器收集"><a class="header" href="#animlagged-与迭代器收集"><code>AnimLagged</code> 与迭代器收集</a></h3>
+<p>stagger 排布由 <code>AnimLagged</code> 容器表达：</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let animation = lagged![0.2; a.fade_in(), b.fade_in(), c.write()];
+<span class="boring">}</span></code></pre>
+<ul>
+<li>子动画要求 <code>Placeable</code>（和 <code>AnimSequence</code> 一样），放置由容器计算：<code>start_i = start_{i-1} + lag_ratio · d_{i-1}</code>。<code>lag_ratio</code> 因此是 <code>AnimStack</code>（0.0，同时）与 <code>AnimSequence</code>（1.0，相继）之间的插值；</li>
+<li>窗口外时间由 <code>with_leading</code>/<code>with_trailing</code> 配置（<code>LaggedFill::{Hold, Empty}</code>，默认都 <code>Hold</code>）：每个元素在 build 时被物化为一条 <code>[前填充][动画][后填充]</code> 的 per-item <code>AnimSequence</code> 轨道（前=初态、后=末态，采样自窗口边缘；空填充跳过；零时长子项跳过前填充）——preview 时间线所见即所得，没有隐藏的钳制规则。想让元素窗口后消失，让它的动画以 <code>hide</code> 结尾（<code>seq![item.fade_in(), item.hide()]</code>）；</li>
+<li>由于填充在 build 时采样，子动画应当是纯（闭式）动画；</li>
+<li>子动画是完整的 <code>Animation</code>：可以自带 <code>with_rate_func</code>/<code>with_duration</code> 等播放参数，容器在各自 cell 上施加速率；</li>
+<li>配套迭代器 API：<code>collect::&lt;AnimStack&gt;()</code>/<code>collect::&lt;AnimSequence&gt;()</code>（<code>FromIterator</code>）与 <code>AnimIterExt::{into_stack, into_seq, into_lagged}</code>。</li>
+</ul>
+<p>窗口与填充语义一张图看懂——示意 <code>lagged![0.2; a, b, c]</code>、各动画 1 秒、默认 <code>Hold</code> 填充（时间轴单位 0.2 秒）：</p>
+<pre class="mermaid">gantt
+    dateFormat X
+    axisFormat %s
+    title lagged 容器窗口示意（lag_ratio 0.2）
+    section a
+    动画 :a1, 0, 5
+    后填充（末态 Hold） :a2, 5, 7
+    section b
+    前填充（初态 Hold） :b0, 0, 1
+    动画 :b1, 1, 6
+    后填充（末态 Hold） :b2, 6, 7
+    section c
+    前填充（初态 Hold） :c0, 0, 2
+    动画 :c1, 2, 7
+</pre>
+
+<h3 id="paramedaata"><a class="header" href="#paramedaata"><code>Paramed&lt;A&gt;</code>、<code>At&lt;A&gt;</code></a></h3>
+<p>动画本身在时间轴上“长什么样子”并不依赖于其起始时间，只有在要 <strong>放置</strong> 在某种时间坐标上的时候起始时间才存在作用。对于 <code>AnimSequence</code> 和 <code>AnimStack</code> 来说，前者反而要求动画没有被指定起始时间，因为动画要被相继紧接着放置进序列中。</p>
+<p>原先统一在 <code>AnimationInfo</code> 内的动画参数现在拆分到了 <code>Paramed&lt;A&gt;</code> 和 <code>At&lt;A&gt;</code> 两个泛型结构体内：</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// An animation definition with overridden playback parameters.
+pub struct Paramed&lt;A&gt; {
+    inner: A,
+    param: AnimationParam,
+}
+
+/// An animation fixed at an offset in its parent's time coordinates.
+///
+/// This is a terminal placement entry: it implements [`Animation`] but not
+/// [`Placeable`], so playback parameters must be configured before calling
+/// [`Placeable::at`].
+pub struct At&lt;A&gt; {
+    inner: A,
+    offset_sec: f64,
+}
+<span class="boring">}</span></code></pre>
+<p>使用 <code>.with_duration</code>、<code>with_rate_func</code>、<code>with_enabled</code> 会自动修改或包裹 <code>Paramed&lt;A&gt;</code>，使用 <code>.at</code> 会自动包裹 <code>At&lt;A&gt;</code>。</p>
+<h2 id="preview-app-时间轴控件重构"><a class="header" href="#preview-app-时间轴控件重构">Preview App 时间轴控件重构</a></h2>
+<p>在新的动画组织系统下，Preview App 的时间轴控件也对应做了大幅重构：</p>
+<p><label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="./composable_choreography.png" alt="composable_choreography.png"><span class="img-wrapper"><img src="./composable_choreography.png" alt="composable_choreography.png"></span></label></p>
+<h2 id="ecs-schedule-取代-rendergraph"><a class="header" href="#ecs-schedule-取代-rendergraph">ECS Schedule 取代 RenderGraph</a></h2>
+<p>https://github.com/AzurIce/ranim/pull/175</p>
+<p>渲染侧的 ECS 化：渲染原语进入内部 <code>RenderWorld</code>，渲染准备与 GPU pass 由 schedule 组织；用户级 item、动画求值仍停留在 World 之外。</p>
+<h3 id="之前coreitemstore-兼任传输与查询"><a class="header" href="#之前coreitemstore-兼任传输与查询">之前：<code>CoreItemStore</code> 兼任传输与查询</a></h3>
+<p>旧实现里，求值结果由 <code>CoreItemStore</code> 承载：</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// A store of [`CoreItem`]s.
+#[derive(Default, Clone)]
+pub struct CoreItemStore {
+    /// Id of [`CameraFrame`]s
+    pub camera_frame_ids: Vec&lt;(usize, usize)&gt;,
+    /// [`CameraFrame`]s
+    pub camera_frames: Vec&lt;CameraFrame&gt;,
+
+    /// Id of [`VItem`]s
+    pub vitem_ids: Vec&lt;(usize, usize)&gt;,
+    /// [`VItem`]s
+    pub vitems: Vec&lt;VItem&gt;,
+
+    /// Id of [`MeshItem`]s
+    pub mesh_item_ids: Vec&lt;(usize, usize)&gt;,
+    /// [`MeshItem`]s
+    pub mesh_items: Vec&lt;MeshItem&gt;,
+}
+<span class="boring">}</span></code></pre>
+<p>它既用于承载并传输求值结果，又用于渲染管线查询访问——两种职责混在一起。</p>
+<h3 id="现在renderframe-传输--renderworld-查询"><a class="header" href="#现在renderframe-传输--renderworld-查询">现在：<code>RenderFrame</code> 传输 + <code>RenderWorld</code> 查询</a></h3>
+<p>拆分为了 <code>RenderFrame</code>（帧级传输缓冲）和 <code>Renderer</code> 内部的 ECS World：</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// A reusable, frame-local transport buffer between evaluation and rendering.
+#[derive(Default)]
+pub struct RenderFrame {
+    items: Vec&lt;(CoreItemId, CoreItem)&gt;,
+}
+<span class="boring">}</span></code></pre>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct Renderer {
+    width: u32,
+    height: u32,
+    world: World,
+}
+<span class="boring">}</span></code></pre>
+<p>前者只用于传输（求值线程 → 渲染线程），后者用于承载运行时的查询、变更检测与 schedule。</p>
+<h3 id="reconcile按身份增量更新实体"><a class="header" href="#reconcile按身份增量更新实体">Reconcile：按身份增量更新实体</a></h3>
+<p>每帧从 <code>RenderFrame</code> 更新 <code>World</code>，再运行渲染 Schedule：</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// Reconcile and render one evaluated frame.
+pub fn render_frame(
+    &amp;mut self,
+    render_textures: &amp;mut RenderTextures,
+    clear_color: wgpu::Color,
+    frame: &amp;RenderFrame,
+) {
+    reconcile(&amp;mut self.world, frame);
+    self.world
+        .insert_resource(FrameTarget::new(render_textures, clear_color));
+    self.world.run_schedule(RenderPrepare);
+    self.world.run_schedule(RenderGraph);
+}
+<span class="boring">}</span></code></pre>
+<p>reconcile 以 <code>CoreItemIdentity(animation_id, part)</code> 为跨帧 key，从 <code>RenderFrame</code> 更新渲染 <code>World</code>：</p>
+<ul>
+<li>每个实体携带 <code>CoreItemIdentity</code> 与 <code>SceneOrder</code>；值相同则不写组件（保留 <code>Changed&lt;T&gt;</code>），值变化才替换，本帧消失的 key 对应实体被移除；</li>
+<li><strong>身份与顺序是两件事</strong>：<code>CoreItemIdentity</code> 回答“是否是上一帧的同一项“，<code>SceneOrder</code> 回答“本帧按什么顺序消费“——ECS query 顺序不构成绘制顺序，prepare 阶段显式按 <code>SceneOrder</code> 排序分桶；</li>
+</ul>
+<h3 id="schedule-组织渲染阶段"><a class="header" href="#schedule-组织渲染阶段">Schedule 组织渲染阶段</a></h3>
+<pre><code class="language-text">RenderPrepare:  Collect → PrepareResources → Upload → PrepareBindGroups
+RenderGraph:    Begin → Render → Submit → Finish
+  └─ ViewRender: Clear → Compute → Depth → Color → OITResolve
+</code></pre>
+<ul>
+<li><code>RenderPrepare</code> 把组件展开为 GPU 输入（storage/index/uniform 数据、上传、绑定组）；</li>
+<li><code>RenderGraph</code> 驱动整个画面生命周期：<code>Begin</code> 创建 frame encoder，<code>Render</code> 运行逐 view 子 schedule，<code>Submit</code> 提交 command buffer，<code>Finish</code> 结束 profiling frame；</li>
+<li>单相机也走完整的 <code>ViewRender</code> 子 schedule（clear、VItem compute、depth、color、OIT resolve），避免单 view 成为以后多 view 的特殊路径；</li>
+<li>自制的 <code>Graph&lt;NodeKey, Box&lt;dyn RenderNode&gt;&gt;</code> 节点图被移除——节点 trait、拓扑容器和查询都在重复 ECS schedule 已提供的能力。</li>
+</ul>
+<h2 id="求值与迭代式动画区段"><a class="header" href="#求值与迭代式动画区段">求值与迭代式动画区段</a></h2>
+<p>相关 PR：<a href="https://github.com/AzurIce/ranim/pull/177">#177</a>（有状态区段引入）、<a href="https://github.com/AzurIce/ranim/pull/183">#183</a>（统一协议与容器重组）、<a href="https://github.com/AzurIce/ranim/pull/186">#186</a>（纯 eval_alpha 收敛）。本节按当前 content-is-sequence 收敛后的实现编写。</p>
+<p>v0.2 的动画区段都是<strong>函数式</strong>的：从归一化进度闭式采样。这类区段无法表达<strong>有状态的迭代式动画</strong>（粒子、弹簧、物理模拟、三体），因为求值器无法保留跨帧状态、也无法按 <code>dt</code> 推进。v0.3 用一套通用求值协议统一两类区段，并最终把协议收敛为对进度的纯查询。</p>
+<h3 id="单一-eval-协议"><a class="header" href="#单一-eval-协议">单一 <code>Eval</code> 协议</a></h3>
+<p>纯（闭式）与迭代（有状态）区段底层是同一个协议。动画内容一旦定义就不可变，evaluator 只回答一个问题：在自身归一化进度 <code>alpha ∈ [0, 1]</code> 处的输出是什么。</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub trait Eval {
+    type Output;
+
+    /// 在归一化进度 alpha 处求值。
+    fn eval_alpha(&amp;self, alpha: f64) -&gt; Self::Output;
+}
+<span class="boring">}</span></code></pre>
+<ul>
+<li><code>eval_alpha</code> 是 <code>&amp;self</code> 上的纯查询：同一个 <code>alpha</code> 永远得到同一个 <code>Output</code>，与调用顺序和次数无关；</li>
+<li>evaluator 看不到秒、场景时钟或 <code>logic_fps</code>；<code>AnimationCell</code> 负责把场景时间映射成 <code>alpha</code> 后再调用它；</li>
+<li>有状态区段在内部记忆化自己的积分快照；纯区段就是闭式函数。</li>
+</ul>
+<p><code>EvalExt::apply_to</code> / <code>apply_alpha_to</code> 是 build 期便捷方法：它们通过 <code>eval_alpha</code> 把 item 写成指定进度（默认末态）并返回动画本身。内置动画的工具方法（<code>fade_in()</code> 等）正是靠 <code>apply_to</code> 在创建动画的同时把 item 置为末态。</p>
+<h3 id="纯闭包pure"><a class="header" href="#纯闭包pure">纯闭包：<code>Pure</code></a></h3>
+<p>闭包是匿名类型，不能按名字实现 <code>Eval</code>，所以用 <code>ranim_core::animation::eval::pure::Pure</code> 包一层：</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct Pure&lt;F&gt;(pub F);
+
+impl&lt;T, F&gt; Eval for Pure&lt;F&gt;
+where
+    F: Fn(f64) -&gt; T,
+{
+    type Output = T;
+
+    fn eval_alpha(&amp;self, alpha: f64) -&gt; T {
+        (self.0)(alpha)
+    }
+}
+<span class="boring">}</span></code></pre>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let animation = Pure::new(|alpha| Square::new(alpha)).with_duration(2.0);
+<span class="boring">}</span></code></pre>
+<p>具名纯动画（<code>FadeIn</code>、<code>Morph</code>、<code>Create</code> 等）直接实现 <code>Eval</code>，不需要这个 wrapper。</p>
+<h3 id="迭代区段iterativeeval--iterative"><a class="header" href="#迭代区段iterativeeval--iterative">迭代区段：<code>IterativeEval</code> + <code>Iterative</code></a></h3>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub trait IterativeEval {
+    type Output;
+
+    /// 推进一个内容步。alpha 是当前进度，delta_alpha = 1/N。
+    fn step(&amp;self, output: &amp;mut Self::Output, alpha: f64, delta_alpha: f64);
+}
+<span class="boring">}</span></code></pre>
+<p><code>Iterative::new(initial, evaluator)</code> 持有不可变的定义（初始状态、<code>sim_step</code>、step 逻辑），把积分快照放在内部 <code>RefCell&lt;Snapshot&gt;</code> 中。<code>with_steps(N)</code> 声明内容自己的步数（默认 <code>1/120</code>）；<code>eval_alpha(target)</code> 前进时逐 <code>sim_step</code> 积分，回退时从初始状态重置重放，重复查询同一个 <code>alpha</code> 是 O(1)。</p>
+<p>迭代逻辑本身简单时，直接用 <code>Iterative::from_fn</code> 写闭包即可；逻辑时长使用<strong>过程中的局部变量</strong>捕获，并传给 <code>with_duration</code>，不要使用全局 <code>const</code>：</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let sim_secs = 4.0;
+
+let animation = Iterative::from_fn(
+    SpringState { x: 1.0, v: 0.0 },
+    move |state, _alpha, delta_alpha| {
+        let dt = sim_secs * delta_alpha; // 内容自己的物理秒
+        let acc = -K * state.x - C * state.v;
+        state.v += acc * dt;
+        state.x += state.v * dt;
+    },
+)
+.with_steps(240)
+.with_duration(sim_secs);
+<span class="boring">}</span></code></pre>
+<ul>
+<li>闭包的状态类型位于 <code>Fn</code> 输入位置，stable Rust 无法从闭包类型反推出关联 <code>Output</code>，所以 <code>Iterative::from_fn</code> 通过 <code>IterativeFn&lt;S, F&gt;</code> 显式绑定二者；</li>
+<li>迭代逻辑较复杂、需要多个字段或复用方法时，实现命名 <code>IterativeEval</code> 结构体，并把 <code>sim_secs</code> 等参数放在 <code>self</code> 上；</li>
+<li>可变状态全部住在 <code>Output</code> 里，适配器持有初始状态值，恢复是结构性的；</li>
+<li>状态与渲染内容不同时，为状态类型实现 <code>Extract</code>（每帧投影一次），如 <code>nbody</code> 的 bodies+trails → <code>VItem</code>。</li>
+</ul>
+<h3 id="进度是唯一坐标"><a class="header" href="#进度是唯一坐标">进度是唯一坐标</a></h3>
+<p><code>Time</code> / <code>DeltaTime</code> / <code>GlobalTime</code> 已从协议中删除。<code>ranim_core::time</code> 只保留两个类型别名：</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub type Alpha = f64;       // 归一化进度
+pub type DeltaAlpha = f64;  // 均匀进度步长
+<span class="boring">}</span></code></pre>
+<ul>
+<li><strong>动画逻辑只见进度、不见时间配置</strong>：起点、时长、rate 都属于 <code>AnimationCell</code>，由它把场景时间映射成 <code>alpha</code>；</li>
+<li>“内容即序列”：迭代动画的内容是作者声明的进度点序列 <code>x₀…x_N</code>，<code>N</code> 是定义而不是采样精度；</li>
+<li><code>with_duration</code> / <code>with_rate_func</code> / placement 是纯播放重映射（哪个进度何时可见），不改变内容本身；</li>
+<li>需要真实时间的现象（如 cloth 中球的运动）使用内容自己的逻辑时长换算：<code>sec = sim_secs * alpha</code>，而不是读全局时钟。</li>
+</ul>
+<h3 id="sceneevaluator单入口会话驱动"><a class="header" href="#sceneevaluator单入口会话驱动"><code>SceneEvaluator</code>：单入口会话驱动</a></h3>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub type EvaluatedFrame = Vec&lt;((usize, usize), CoreItem)&gt;;
+
+impl SceneEvaluator {
+    /// 对当前 render 时刻采样，输出 (animation_id, item) 流。
+    pub fn sample_at(&amp;mut self, render_secs: f64, out: &amp;mut EvaluatedFrame);
+}
+<span class="boring">}</span></code></pre>
+<ul>
+<li><code>sample_at</code> 是唯一的 session 交互：渲染、preview 拖拽共用这条路径；</li>
+<li>前进 / 回退 / 原地求值由 <code>Iterative</code> 等 stateful 节点内部完成，session 不再维护逻辑网格；</li>
+<li><code>logic_fps</code> 参数仅为 API 兼容保留，不再驱动步进；步进尺度由每个迭代区段自己的 <code>sim_step</code> 决定。</li>
+</ul>
+<h3 id="模块布局"><a class="header" href="#模块布局">模块布局</a></h3>
+<pre><code class="language-text">ranim_core::animation
+├── eval
+│   ├── pure       （Pure）
+│   └── iterative  （IterativeEval / Iterative / IterativeFn）
+├── sequence       （AnimSequence）
+├── stack          （AnimStack）
+└── lagged         （AnimLagged）
+
+ranim::anims
+├── camera         （Orbit、CameraFrameAnim）
+├── creation       （Create/UnCreate/Write/Unwrite）
+├── fading         （FadeIn/FadeOut）
+├── morph          （Morph）
+└── rotating       （RotatingAnimation）
+</code></pre>
+<h3 id="示例"><a class="header" href="#示例">示例</a></h3>
+<ul>
+<li><code>iterative_spring</code>：阻尼弹簧，简单闭包步进，<code>sim_secs</code> 为过程局部变量；</li>
+<li><code>nbody</code>：N 体引力模拟（velocity Verlet、混沌弹射终场、无边界），同样是局部 <code>sim_secs</code> + 闭包；</li>
+<li><code>cloth_wrap</code>：零重力布料（弹簧力 + 自碰撞 + 球-布碰撞，MeshItem 曲面渲染；球的 kinematic 状态由 <code>sim_secs * alpha</code> 驱动，<code>Extract</code> 投影）。</li>
+</ul>
+<h2 id="vitem-法向投影带宽优先于-alu"><a class="header" href="#vitem-法向投影带宽优先于-alu">VItem 法向投影：带宽优先于 ALU</a></h2>
+<p>https://github.com/AzurIce/ranim/pull/166</p>
+<p><code>Basis2d</code> 投影抽象被移除，VItem 的投影平面改由单个法向量表达：</p>
+<ul>
+<li><em>ranim-items</em> 的 <code>VItem</code> 字段 <code>basis: Basis2d</code> 改为 <code>normal: Option&lt;DVec3&gt;</code>（核心 <code>VItem</code> 同样持有 <code>normal: Option&lt;Vec3&gt;</code>）。不显式设置时由前三点自动计算（<code>vitem_normal_from_points</code>，共线时回退 <code>Z</code> 轴），<code>RotateTransform</code> 随点数据一同旋转法向；</li>
+<li>渲染侧 per-instance 的 <code>PlaneData</code> 从 3 个 vec4（origin + basis_u + basis_v）缩减为 2 个（normal + origin），u/v 基由 shader 内的 <code>basis_from_normal()</code> 现场生成：任选一根与法向足够不平行的轴，两次叉乘得到确定性正交基，compute 与 vertex 阶段复用同一 WGSL 函数保证 bit-exact。</li>
+</ul>
+<p>设计原则是<strong>带宽贵于 ALU</strong>：每 item 的 per-instance 数据少 16 字节（-33%），代价只是几次 cross/normalize——vertex 阶段每 item 仅 4 个顶点，compute 阶段完全并行且本就 ALU-bound。确需固定投影面的场景仍可显式 <code>with_normal</code> 覆盖。</p>
+<blockquote>
+<p>注：本节落地时 points 尚为世界坐标；“类型化变换系统“一节中 <a href="https://github.com/AzurIce/ranim/pull/198">#198</a> 进一步把提取语义调整为局部坐标 + <code>transform</code> 矩阵。</p>
+</blockquote>
+<h2 id="元组-extract"><a class="header" href="#元组-extract">元组 <code>Extract</code></a></h2>
+<p>https://github.com/AzurIce/ranim/pull/185</p>
+<p><code>Extract</code> 直接为 1..=15 元元组实现，异构物件组可以整体提取：</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let items = (circle, line).extract(); // Vec&lt;CoreItem&gt;
+<span class="boring">}</span></code></pre>
+<ul>
+<li>容器 blanket impl 改由 sealed marker trait（<code>IntoExtractIter</code>）约束：所有 impl 都在 crate 内可见，coherence 可以证明元组不满足它，因此元组的直接 impl 不再与 blanket 冲突（E0119）——不需要 <code>Group&lt;T: Tuple&gt;</code> newtype，也移除了 <code>#![feature(tuple_trait)]</code>，<em>ranim-core</em> 保持 stable 兼容；</li>
+<li>blanket 覆盖的容器集合与原先一致（<code>Vec</code>、<code>[E; N]</code>、<code>&amp;[E]</code>、<code>VecDeque</code>、<code>LinkedList</code>、<code>HashSet</code>、<code>BTreeSet</code>、<code>BinaryHeap</code>、<code>Option</code>），下游自定义集合仍可手工实现 <code>Extract</code>；</li>
+<li>各元数经 <code>variadics_please::all_tuples!</code> 生成，与既有 <code>Interpolatable</code> 元组 impl 同一套模式，无 <code>group!</code> 宏。</li>
+</ul>
+<h2 id="渲染与输出体系"><a class="header" href="#渲染与输出体系">渲染与输出体系</a></h2>
+<p>相关 PR：<a href="https://github.com/AzurIce/ranim/pull/181">#181</a>（worker API）、<a href="https://github.com/AzurIce/ranim/pull/182">#182</a>（输出名模板）、<a href="https://github.com/AzurIce/ranim/pull/187">#187</a>（wasm bundle）、<a href="https://github.com/AzurIce/ranim/pull/201">#201</a>（深度偏置）</p>
+<h3 id="渲染-worker-api-公开"><a class="header" href="#渲染-worker-api-公开">渲染 worker API 公开</a></h3>
+<p><code>RenderWorker</code>、<code>RenderThreadHandle</code> 与 <code>RanimRenderApp</code> 及其核心方法公开，用户可以绕过高层 <code>render_scene*</code> 帮助函数自建渲染管线：<code>RenderWorker::{new, yeet, render_store, capture_frame, ...}</code>、<code>RenderThreadHandle::{sync_and_submit, get_store, retrive}</code>、<code>RanimRenderApp::{render_scene_with_progress, render_capture_marks}</code>。</p>
+<h3 id="输出名模板"><a class="header" href="#输出名模板">输出名模板</a></h3>
+<p><code>Output</code>/<code>StaticOutput</code> 新增 <code>name_template</code>，支持 <code>{name}</code>/<code>{width}</code>/<code>{height}</code>/<code>{fps}</code> 占位符，默认 <code>{name}_{width}x{height}_{fps}</code>，扩展名按输出格式自动追加；<code>#[output(...)]</code> 宏接受 <code>name_template = "..."</code> 属性（类似 Premiere/达芬奇的导出名模板）。</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[scene]
+#[output(name_template = "{name}_{width}x{height}_{fps}")]
+fn my_scene(r: &amp;mut RanimScene) { /* ... */ }
+<span class="boring">}</span></code></pre>
+<h3 id="ranim-examples-wasm-bundle-与-rustdoc-实时预览"><a class="header" href="#ranim-examples-wasm-bundle-与-rustdoc-实时预览"><code>ranim-examples</code> wasm bundle 与 rustdoc 实时预览</a></h3>
+<p>全部 examples 经 <code>#[path]</code> 引用原始源码（根目录 <code>ranim render --example</code> 等用法不受影响），编译进单一 <code>ranim_examples.wasm</code>——此前每个 example 独立链接完整 preview 引擎并各自跑 wasm-bindgen/wasm-opt。场景可标注 <code>#[wasm_demo_doc]</code>：<code>#[scene]</code> 宏据此在生成的公开函数文档上注入画布元素与 module script，页面加载后 <code>find_scene("&lt;注册名&gt;")</code> 取出场景交给 <code>preview_scene</code>，在 rustdoc 页里直接跑起与 <code>ranim preview</code> 相同的应用（注入的是场景注册名而非函数名，<code>#[scene(name = "hanoi")]</code> 场景仍能正确解析）。</p>
+<h3 id="coplanar-z-fighting-按-scene-order-深度偏置"><a class="header" href="#coplanar-z-fighting-按-scene-order-深度偏置">coplanar z-fighting 按 scene-order 深度偏置</a></h3>
+<p>共面曲面的遮挡结果改由场景插入顺序决定，而非光栅化舍入：<code>VItemsBuffer::update</code>/<code>MeshItemsBuffer::update</code> 的迭代项改为 <code>(scene_order, item)</code> 对，渲染器按全局 scene order 施加每序深度偏置；新增 <code>z_fighting</code> example 展示按插入顺序的稳定遮挡。</p>
+<h2 id="cliinspectoutputrender-拆分与-agent-工作流"><a class="header" href="#cliinspectoutputrender-拆分与-agent-工作流">CLI：inspect、output/render 拆分与 agent 工作流</a></h2>
+<p>相关 PR：<a href="https://github.com/AzurIce/ranim/pull/190">#190</a>、<a href="https://github.com/AzurIce/ranim/pull/192">#192</a></p>
+<h3 id="出发点让-agent-自主完成写场景--自查--出片"><a class="header" href="#出发点让-agent-自主完成写场景--自查--出片">出发点：让 agent 自主完成“写场景 → 自查 → 出片“</a></h3>
+<p>v0.3 后期 ranim 的一个明确用户是 <strong>coding agent</strong>：它没有稳定的桌面环境，用不了交互式预览，却要独立走完“写场景代码 → 验证结构与时序 → 渲染出图 → 视觉检查 → 修改“的完整闭环。CLI 的演进由这个初衷牵引，落在两条设计原则上。</p>
+<p><strong>验证分层，贵的留到最后。</strong> 新增的 <code>inspect</code> 三个子命令全部纯 CPU、不创建 GPU context、支持 <code>--format json</code>（顶层带 <code>schema_version</code>，供脚本解析）：</p>
+<ul>
+<li><code>inspect scenes</code>：不调用场景构造函数，只列出 dylib 里注册的场景与 <code>#[output]</code> 摘要——开工第一步确认场景注册成功、输出配置无误；</li>
+<li><code>inspect tree</code>：构建场景并输出层级动画树，每个节点含 <code>kind</code>（eval/sequence/stack/lagged/static）、<code>anim_name</code>、父局部坐标下的 <code>range</code>、<code>content_duration_secs</code>、<code>rate_func</code>、<code>enabled</code>，迭代节点额外报告自己的 <code>sim_step</code>——时序与组织是否正确，无需渲染即可确认；</li>
+<li><code>inspect frame &lt;scene&gt; --at &lt;sec&gt;</code>：以 120 Hz 逻辑时钟采样一帧，报告每个 CoreItem 的 <code>z_order</code>、id/kind、来源与几何摘要（AABB、点数、颜色；<code>--verbose</code> 给完整几何）——“某时刻物件不对/位置不对/z-order 不对“不再需要上 GPU 盲调。</li>
+</ul>
+<p><strong>快速冒烟与正式交付分离。</strong> 原 <code>ranim render</code> 一分为二：<code>ranim output [scenes...]</code> 批量渲染每个声明的 <code>#[output]</code>、处理 <code>TimeMark::Capture</code> 截图，是交付前的最终验证；<code>ranim render &lt;scene&gt;</code> 用固定默认设置（1080p60 mp4）把单个场景快速渲一次，忽略 <code>#[output]</code> 与 Capture——迭代中只想看效果时用。内部由 <code>RenderJob</code> 抽象统一两条路径。</p>
+<p>配合既有的 <code>preview</code>（watch + 热重载）与 dylib 加载方式，这条工作流可以完全无头完成：</p>
+<pre><code class="language-text">inspect scenes → inspect tree → inspect frame → render（冒烟出图）→ 视觉检查 → 修改 → output（交付）
+</code></pre>
+<p>原则与 cli 章的表述一致：能用便宜的 <code>inspect</code> 查清的问题，不要留到昂贵的 GPU 渲染之后才发现。</p>
+<h3 id="examplesagentsone-shot-例子的可追溯档案"><a class="header" href="#examplesagentsone-shot-例子的可追溯档案"><code>examples/agents/</code>：one-shot 例子的可追溯档案</a></h3>
+<p><a href="https://github.com/AzurIce/ranim/pull/192">#192</a> 同步建立了 agent 编写 example 的目录约定：每个例子是<strong>一次 one-shot 任务交付</strong>——一个原始 prompt 对应一次交付，交付前的 <code>inspect</code> 自查、渲染查看与修改都属于同一轮任务；目录里归档效果图、原始 prompt、设计思路与 ranim-cli 迭代过程，作为可追溯性记录。首批三个例子均由 agent（Kimi K3）独立完成并渲染验收：</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Example</th><th>内容</th></tr>
+</thead>
+<tbody>
+<tr><td><code>double_pendulum</code></td><td>三个初始角仅差 0.001 rad 的双摆从重叠到彻底分离，演示混沌的初值敏感性（RK4 + <code>Iterative</code> 推进物理）</td></tr>
+<tr><td><code>rubiks_cube</code></td><td>三阶魔方“12 步打乱 → 逆序求解“全过程，3D 魔方与平面展开图同步更新</td></tr>
+<tr><td><code>convolution_kernels</code></td><td>12x12 网格上演示 Identity/Box Blur/Sharpen/Edge Detect 四种 3x3 卷积核的滑动窗口过程</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="其他"><a class="header" href="#其他">其他</a></h3>
+<ul>
+<li>用户层 <code>MeshItem</code> 统一为 f64（<code>DVec3</code>/<code>DMat4</code>），与 <code>Surface</code>/<code>VItem</code> 一致；渲染侧核心表示仍为 f32，<code>From</code> 转换自动完成。</li>
+</ul>
+<h2 id="类型化变换系统"><a class="header" href="#类型化变换系统">类型化变换系统</a></h2>
+<p>相关 PR：<a href="https://github.com/AzurIce/ranim/pull/196">#196</a>（包装器与变换群）、<a href="https://github.com/AzurIce/ranim/pull/197">#197</a>（规范局部原语）、<a href="https://github.com/AzurIce/ranim/pull/198">#198</a>（贯穿核心与渲染）、<a href="https://github.com/AzurIce/ranim/pull/200">#200</a>（Partial/Empty 转发）</p>
+<h3 id="动机从散落的变换行为到统一模型"><a class="header" href="#动机从散落的变换行为到统一模型">动机：从散落的变换行为到统一模型</a></h3>
+<p>此前变换行为散落在各具体类型上：<code>MeshItem</code>/<code>Surface</code> 各自内嵌 <code>DMat4</code> transform，VItem 靠直接改点数据，<code>shift</code>/<code>rotate</code>/<code>scale</code> 分散在各自独立的 trait 里；“改语义参数“与“改渲染几何“在类型层面没有区分——同一个用户操作，在这个物件上是改矩阵、在那个物件上是改几何。v0.3 用一套模型统一：物件要么通过 <code>ApplyTransform&lt;G&gt;</code> <strong>吸收</strong>变换（当且仅当其表示对该变换族封闭），要么把变换<strong>外挂</strong>在新包装器 <code>Transformed&lt;T, G&gt;</code> 里。</p>
+<h3 id="transformedt-g-与类型化变换群"><a class="header" href="#transformedt-g-与类型化变换群"><code>Transformed&lt;T, G&gt;</code> 与类型化变换群</a></h3>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct Transformed&lt;T, G&gt; {
+    pub inner: T,
+    pub transform: G,
+}
+
+pub trait TransformGroup: Sized {
+    fn identity() -&gt; Self;
+    fn compose(&amp;self, inner: &amp;Self) -&gt; Self; // outer * inner（列向量约定）
+}
+
+pub trait ApplyTransform&lt;G&gt; {
+    fn apply(&amp;mut self, transform: G) -&gt; &amp;mut Self;
+}
+<span class="boring">}</span></code></pre>
+<ul>
+<li>变换群类型：<code>Translation</code>、<code>Rigid</code>、<code>Similarity</code>、<code>Diag</code>，到一般仿射边界 <code>DAffine3</code>；同族内组合，<strong>跨族不隐式加宽</strong>——需要更一般的表示时显式升级（<code>Translation</code> → <code>Rigid</code> → <code>Similarity</code> → <code>DAffine3</code>，<code>Diag</code> → <code>DAffine3</code>），让加宽点在源码里可见（阶梯图解见<a href="../../../understand/core/transformed.html">理解 Ranim · Transformed</a>，此处不赘）；</li>
+<li>外内组合显式命名：<code>.transformed(inner).compose_outer(outer)</code> 与 <code>.transformed(outer).compose_inner(inner)</code> 都得到 <code>outer * inner</code>；wrapper 自己的 <code>ApplyTransform</code> 实现做外乘，嵌套 wrapper 从内向外扁平化；</li>
+<li>便捷操作连接到 primitive action：<code>shift</code> 要求 <code>ApplyTransform&lt;Translation&gt;</code>、<code>rotate_on_axis</code> 要求 <code>Rigid</code>、非均匀 <code>scale</code> 要求 <code>Diag</code>、等比缩放要求 <code>Similarity</code>、AABB 系操作走既有 <code>ScaleTransform</code>/<code>Aabb</code>——每个物件只暴露保持其表示的操作；</li>
+<li>模型变换止步于仿射：一般 projective <code>Mat4</code> 带非仿射齐次行、需要透视除法，属于相机投影而非模型变换；</li>
+<li><code>Transformed::map_inner</code>/<code>map_transform</code> 支持重映射被包裹物与显式升级/受检降级变换存储（<a href="https://github.com/AzurIce/ranim/pull/197">#197</a>）。</li>
+</ul>
+<h3 id="语义闭包与-bake"><a class="header" href="#语义闭包与-bake">语义闭包与 bake</a></h3>
+<p><code>bake()</code> 只在 <code>T: ApplyTransform&lt;G&gt;</code> 精确成立时可用——语义边界由类型表达：</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>包装器</th><th>bake</th><th>理由</th></tr>
+</thead>
+<tbody>
+<tr><td><code>Transformed&lt;Circle, Similarity&gt;</code></td><td>✓</td><td>圆在 similarity 下仍是圆</td></tr>
+<tr><td><code>Transformed&lt;Circle, DAffine3&gt;</code></td><td>✗</td><td>一般仿射会把圆变成椭圆</td></tr>
+<tr><td><code>Transformed&lt;VItem, DAffine3&gt;</code></td><td>✓</td><td>点集数据吸收任意仿射</td></tr>
+</tbody>
+</table>
+</div>
+<p>语义形状（圆/球/矩形/方块）只在 similarity 下实现吸收，点数据/VItem/一般网格数据吸收到 affine。想要“只是看起来变“的结果，留在 <code>Transformed&lt;T, DAffine3&gt;</code> 里，而不是错误地烘进语义类型。<code>Rectangle::scale_axes</code>（<a href="https://github.com/AzurIce/ranim/pull/196">#196</a> 由 <code>scale_local</code> 更名）是对固有尺寸的编辑，与外部变换组合是两件事。</p>
+<h3 id="规范局部原语placement-lives-in-transformed-only"><a class="header" href="#规范局部原语placement-lives-in-transformed-only">规范局部原语：placement lives in <code>Transformed</code> only</a></h3>
+<p><a href="https://github.com/AzurIce/ranim/pull/197">#197</a> 把语义形状收敛为<strong>以原点为中心的规范局部原语</strong>：<code>Square</code>/<code>Rectangle</code> 移除 <code>center</code>/<code>axes</code>/<code>p0</code>，<code>Sphere</code> 移除 <code>center</code>，<code>Arc</code>/<code>Circle</code>/<code>Ellipse</code>/<code>EllipticArc</code> 移除定位轴，<code>TextItem</code> 以内在 <code>em_size</code> 取代 <code>origin</code>/<code>basis</code>——净删约 1000 行 per-type 锚点/缩放管线。定位不再存在于物件上：</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// 以前：Circle::new(2.0).with_center(pos)
+let circle = Circle::new(2.0).transformed(Translation(pos));
+<span class="boring">}</span></code></pre>
+<p>裸的规范形状不再实现 <code>ApplyTransform</code>（<code>shift</code>/<code>rotate_*</code>/非均匀 <code>scale</code> 不可用）：要么先包裹（<code>.transformed(DAffine3::IDENTITY)</code> 恢复完整 fluent 面），要么转成点集类型（<code>Polygon</code>/<code>VItem</code>，它们仍直接吸收仿射）。锚点（core 的 <code>Centroid</code>，几何原语的 <code>Origin</code>/<code>Focus</code>）在 inner 局部空间定位后再经外层变换；example 用法收窄到实际运动群（<code>Translation</code> 轨道、<code>Rigid</code> 的魔方转动与四面体旋转经群操作组合而非手写齐次矩阵积）。</p>
+<h3 id="变换贯穿核心与渲染管线"><a class="header" href="#变换贯穿核心与渲染管线">变换贯穿核心与渲染管线</a></h3>
+<p>核心 <code>VItem</code> 新增局部到世界 <code>transform: Mat4</code>，<code>CoreItem::apply_transform</code> 对它做矩阵组合而非重写点数据——提取一个 <code>Transformed</code> 只写一个矩阵。渲染侧 per-item transform 进只读 storage buffer，vitem vertex stage 在从平面基重建 3D 位置后应用 <code>transforms[instance]</code>。由此确立<strong>插值契约</strong>：wrapper 的 lerp 只动位姿、inner 几何恒定；经典 morph 是显式的 bake 进裸 <code>VItem</code>/<code>MeshItem</code>。提取出的核心 <code>VItem::points</code> 与可选 <code>normal</code> 由此变为局部空间值——消费方需先应用 transform（<code>ranim-cli inspect</code> 已按此报告世界空间）。</p>
+<pre class="mermaid">flowchart LR
+    U["用户空间&lt;br/&gt;Transformed&amp;lt;T, G&amp;gt;&lt;br/&gt;位姿在 wrapper，inner 恒定"] --&gt;|"extract：组合为一个矩阵"| K["core VItem&lt;br/&gt;points/normal 局部坐标&lt;br/&gt;+ transform: Mat4"]
+    K --&gt;|"update：只读 storage buffer"| G["渲染侧&lt;br/&gt;per-item transforms"]
+    G --&gt; V["vertex stage：&lt;br/&gt;平面基重建后按实例应用 transform"]
+</pre>
+
+<h3 id="法向量的仿射变换"><a class="header" href="#法向量的仿射变换">法向量的仿射变换</a></h3>
+<p>对线性部分为 <span class="typst-inline"><svg class="typst-doc" viewbox="0 0 19.25 18.512999999999998" width="19.25pt" height="18.512999999999998pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:h5="http://www.w3.org/1999/xhtml">
+<g>
+<g class="typst-text" transform="matrix(1 0 0 -1 5.5 13.013)">
+<use xlink:href="#g21000E0F5F3062B114E6BBA3BB167B58" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+</g>
+</g>
+<defs id="glyph">
+<symbol id="g21000E0F5F3062B114E6BBA3BB167B58" overflow="visible">
+<path d="M 0 0m 1.507 0.033 c 0.19800007 0 0.8800001 -0.033 1.089 -0.033 c 0.16499996 0 0.2420001 0.088 0.2420001 0.253 c 0 0.09900001 -0.065999985 0.16499999 -0.20900011 0.176 c -0.319 0.011000007 -0.47300005 0.12100002 -0.47300005 0.33 c 0 0.09899998 0.09899998 0.31899995 0.3080001 0.649 c 0.29699993 0.495 0.50600004 0.85800004 0.6489999 1.0999999 h 2.6729999 c 0 -0.0769999 0.011000156 -0.23099995 0.04400015 -0.4729998 c 0.07700014 -0.8030001 0.12099981 -1.243 0.12099981 -1.2980001 c 0 -0.20899999 -0.24199963 -0.308 -0.737 -0.308 c -0.20899963 0 -0.3079996 -0.088 -0.3079996 -0.264 c 0 -0.10999999 0.065999985 -0.16499999 0.19799995 -0.16499999 c 0.26399994 0 1.0999999 0.033 1.3639998 0.033 c 0.21999979 0 1.0009999 -0.033 1.2210002 -0.033 c 0.16499996 0 0.24199963 0.088 0.24199963 0.264 c 0 0.110000014 -0.09899998 0.16499999 -0.29699993 0.16499999 c -0.3080001 0 -0.4949999 0.022000015 -0.5499997 0.055000007 c -0.055000305 0.033000022 -0.09899998 0.132 -0.11000013 0.29700002 l -0.65999985 6.798 c -0.032999992 0.20900011 -0.022000313 0.29699993 -0.25300026 0.29699993 c -0.13199997 0 -0.2420001 -0.065999985 -0.31899977 -0.20900011 l -3.7840002 -6.347 c -0.32999992 -0.54999995 -0.77 -0.84699994 -1.309 -0.8909999 c -0.176 -0.011000007 -0.264 -0.09900001 -0.264 -0.264 c 0 -0.10999999 0.066000015 -0.16499999 0.18700004 -0.16499999 c 0.176 0 0.75899994 0.033 0.93499994 0.033 Z m 3.9050002 6.314 l 0.32999992 -3.41 h -2.365 Z " />
+</symbol>
+</defs>
+</svg>
+</span> 的仿射变换，显式法向按 <span class="typst-inline"><svg class="typst-doc" viewbox="0 0 66.26021111111112 18.512999999999998" width="66.26021111111112pt" height="18.512999999999998pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:h5="http://www.w3.org/1999/xhtml">
+<g>
+<g class="typst-group">
+<g>
+<g class="typst-text" transform="matrix(1 0 0 -1 5.5 13.013)">
+<use xlink:href="#gEC56A90489ADF3DAB181E418B9A64EEC" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+</g>
+<g class="typst-text" transform="matrix(1 0 0 -1 13.343 9.02)">
+<use xlink:href="#gD7FF30231477D489AD4578C1D8C2DE9F" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+</g>
+<g class="typst-text" transform="matrix(1 0 0 -1 20.148455555555557 13.013)">
+<use xlink:href="#gCA3345DAE87BC6903ECB8F0E3ACC0694" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+</g>
+<g class="typst-text" transform="matrix(1 0 0 -1 31.76201111111111 13.013)">
+<use xlink:href="#g21000E0F5F3062B114E6BBA3BB167B58" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+</g>
+<g class="typst-text" transform="matrix(1 0 0 -1 40.012011111111114 9.02)">
+<use xlink:href="#gEF8C92ED3E86DCBB770744AD6F9A3163" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+</g>
+<g class="typst-text" transform="matrix(1 0 0 -1 46.00261111111111 9.02)">
+<use xlink:href="#g9C3DABE6BDDD1617D8CF7ABFF5513EDD" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+</g>
+<g class="typst-text" transform="matrix(1 0 0 -1 52.917211111111115 13.013)">
+<use xlink:href="#gEC56A90489ADF3DAB181E418B9A64EEC" x="0" y="0" fill="currentColor" fill-rule="nonzero" />
+</g>
+</g>
+</g>
+</g>
+<defs id="glyph">
+<symbol id="gEC56A90489ADF3DAB181E418B9A64EEC" overflow="visible">
+<path d="M 0 0m 7.469 1.628 c 0 0.15399992 -0.16499996 0.15399992 -0.26399994 0.15399992 c -0.13199997 0 -0.20900011 0 -0.25299978 -0.143 c -0.3630004 -1.221 -0.95700026 -1.331 -1.1330004 -1.331 c -0.076999664 0 -0.1869998 0 -0.1869998 0.23099998 c 0 0.25300002 0.11000013 0.52800006 0.21999979 0.80300003 c 0.17600012 0.45099998 0.68200016 1.7379999 0.68200016 2.354 c 0 1.0120001 -0.8470001 1.276 -1.6389999 1.276 c -0.23099995 0 -1.0339999 0 -1.815 -0.83599997 c -0.15400004 0.5499997 -0.7589998 0.83599997 -1.3529999 0.83599997 c -0.40700006 0 -0.71500003 -0.23099995 -0.957 -0.62700033 c -0.27499998 -0.43999982 -0.41799998 -1.0339999 -0.41799998 -1.0889997 c 0 -0.15400004 0.16500002 -0.15400004 0.264 -0.15400004 c 0.12099999 0 0.16500002 0 0.21999997 0.055000067 c 0.022000015 0.021999836 0.022000015 0.04399991 0.08800006 0.319 c 0.22000003 0.85800004 0.462 1.1000001 0.7479999 1.1000001 c 0.16500008 0 0.25300002 -0.11000013 0.25300002 -0.40700006 c 0 -0.18700027 -0.04399991 -0.36300015 -0.15399992 -0.8030002 c -0.20899999 -0.8469999 -0.41799998 -1.694 -0.638 -2.53 c -0.032999992 -0.15399998 -0.08800006 -0.36299998 -0.08800006 -0.43999997 c 0 -0.231 0.176 -0.484 0.5170001 -0.484 c 0.572 0 0.704 0.506 0.7809999 0.836 l 0.3080001 1.232 c 0.04399991 0.14299989 0.319 1.276 0.34100008 1.309 c 0.010999918 0.065999985 0.31899977 0.5609999 0.6819999 0.8579998 c 0.30799985 0.2420001 0.67099977 0.42900038 1.1330001 0.42900038 c 0.28599977 0 0.5499997 -0.11000013 0.5499997 -0.64900017 c 0 -0.6270001 -0.48399973 -1.914 -0.69299984 -2.4640002 c -0.12100029 -0.29699993 -0.15400028 -0.37399995 -0.15400028 -0.56099993 c 0 -0.638 0.638 -0.99 1.243 -0.99 c 1.1660004 0 1.7160001 1.496 1.7160001 1.7160001 Z " />
+</symbol>
+<symbol id="gD7FF30231477D489AD4578C1D8C2DE9F" overflow="visible">
+<path d="M 0 0m 2.1868 4.2273 c -0.1925 0 -0.32340002 -0.07700014 -0.39269996 -0.23870015 l -1.2936001 -3.2494001 h 0.34649998 l 1.7094 2.8259 c 0.038499832 0.06929994 0.06159997 0.14630008 0.06159997 0.23099995 c 0 0.23100019 -0.20020008 0.43120027 -0.43120003 0.43120027 Z " />
+</symbol>
+<symbol id="gCA3345DAE87BC6903ECB8F0E3ACC0694" overflow="visible">
+<path d="M 0 0m 7.678 4.037 h -6.798 c -0.176 0 -0.264 -0.0880003 -0.264 -0.25300026 c 0 -0.16499996 0.088 -0.25300002 0.264 -0.25300002 h 6.798 c 0.17600012 0 0.26399994 0.08800006 0.26399994 0.25300002 c 0 0.13199997 -0.12099981 0.25300026 -0.26399994 0.25300026 Z m 0 -2.0680003 h -6.798 c -0.176 0 -0.264 -0.08799994 -0.264 -0.25300002 c 0 -0.16499996 0.088 -0.25300002 0.264 -0.25300002 h 6.798 c 0.17600012 0 0.26399994 0.08800006 0.26399994 0.25300002 c 0 0.143 -0.12099981 0.25300002 -0.26399994 0.25300002 Z " />
+</symbol>
+<symbol id="g21000E0F5F3062B114E6BBA3BB167B58" overflow="visible">
+<path d="M 0 0m 1.507 0.033 c 0.19800007 0 0.8800001 -0.033 1.089 -0.033 c 0.16499996 0 0.2420001 0.088 0.2420001 0.253 c 0 0.09900001 -0.065999985 0.16499999 -0.20900011 0.176 c -0.319 0.011000007 -0.47300005 0.12100002 -0.47300005 0.33 c 0 0.09899998 0.09899998 0.31899995 0.3080001 0.649 c 0.29699993 0.495 0.50600004 0.85800004 0.6489999 1.0999999 h 2.6729999 c 0 -0.0769999 0.011000156 -0.23099995 0.04400015 -0.4729998 c 0.07700014 -0.8030001 0.12099981 -1.243 0.12099981 -1.2980001 c 0 -0.20899999 -0.24199963 -0.308 -0.737 -0.308 c -0.20899963 0 -0.3079996 -0.088 -0.3079996 -0.264 c 0 -0.10999999 0.065999985 -0.16499999 0.19799995 -0.16499999 c 0.26399994 0 1.0999999 0.033 1.3639998 0.033 c 0.21999979 0 1.0009999 -0.033 1.2210002 -0.033 c 0.16499996 0 0.24199963 0.088 0.24199963 0.264 c 0 0.110000014 -0.09899998 0.16499999 -0.29699993 0.16499999 c -0.3080001 0 -0.4949999 0.022000015 -0.5499997 0.055000007 c -0.055000305 0.033000022 -0.09899998 0.132 -0.11000013 0.29700002 l -0.65999985 6.798 c -0.032999992 0.20900011 -0.022000313 0.29699993 -0.25300026 0.29699993 c -0.13199997 0 -0.2420001 -0.065999985 -0.31899977 -0.20900011 l -3.7840002 -6.347 c -0.32999992 -0.54999995 -0.77 -0.84699994 -1.309 -0.8909999 c -0.176 -0.011000007 -0.264 -0.09900001 -0.264 -0.264 c 0 -0.10999999 0.066000015 -0.16499999 0.18700004 -0.16499999 c 0.176 0 0.75899994 0.033 0.93499994 0.033 Z m 3.9050002 6.314 l 0.32999992 -3.41 h -2.365 Z " />
+</symbol>
+<symbol id="gEF8C92ED3E86DCBB770744AD6F9A3163" overflow="visible">
+<path d="M 0 0m 5.3592 2.1021 h -4.7278 c -0.15399998 0 -0.20019999 -0.0769999 -0.20019999 -0.17709994 c 0 -0.10009992 0.046200007 -0.17709994 0.20019999 -0.17709994 h 4.7278 c 0.1539998 0 0.20020008 0.07700002 0.20020008 0.17709994 c 0 0.092400074 -0.046200275 0.17709994 -0.20020008 0.17709994 Z " />
+</symbol>
+<symbol id="g9C3DABE6BDDD1617D8CF7ABFF5513EDD" overflow="visible">
+<path d="M 0 0m 3.0261 4.8279 l -1.0317999 -4.158 c -0.030799985 -0.11550003 -0.06159997 -0.1848 -0.08469999 -0.21560001 c -0.069300056 -0.08469999 -0.3311 -0.1232 -0.77770007 -0.1232 c -0.25409997 0 -0.37729996 0.015400022 -0.37729996 -0.1925 c 0 -0.09239999 0.053900003 -0.13859999 0.16170001 -0.13859999 c 0.41580003 0 0.87780005 0.0385 1.309 0.0308 l 0.6852999 -0.0077 c 0.20020008 0 0.50049996 -0.0077 0.64680004 -0.0231 c 0.1308999 0 0.20020008 0.069299996 0.20020008 0.20019999 c 0 0.069299996 -0.03850007 0.1155 -0.12320018 0.1309 h -0.21560001 c -0.3772998 0 -0.6006 0.015400022 -0.6545 0.053900003 c -0.0230999 0.0153999925 -0.030799866 0.03850001 -0.030799866 0.07700002 c 0 0.03850001 0.0076999664 0.092399955 0.0230999 0.16939998 l 1.0087001 3.9962997 c 0.053900003 0.17710018 0.038499832 0.22329998 0.20790005 0.23869991 c 0.0230999 0.0077004433 0.16939998 0.0077004433 0.4542997 0.0077004433 c 0.4389 0 0.7238002 -0.023100376 0.8470001 -0.06160021 c 0.24639988 -0.08470011 0.33879995 -0.20020008 0.33879995 -0.57749987 c 0 -0.20790005 -0.0230999 -0.43890023 -0.0692997 -0.6930001 c 0 -0.10010004 0.053899765 -0.14630008 0.16169977 -0.14630008 c 0.038499832 0 0.07700014 0.0076999664 0.10010004 0.030800104 c 0.038499832 0.0769999 0.06160021 0.13859987 0.069300175 0.18479991 l 0.20790005 1.4552999 c 0 0.092400074 -0.08470011 0.13860035 -0.2618003 0.13860035 h -4.6815996 c -0.21560001 0 -0.23100007 -0.01540041 -0.28490007 -0.17710018 l -0.48509997 -1.3475001 c -0.0076999962 -0.038499832 -0.03850001 -0.12319994 -0.03850001 -0.14629984 c 0 -0.092400074 0.053900003 -0.13860011 0.16170001 -0.13860011 c 0.07700002 0 0.13859999 0.06929994 0.18480003 0.20020008 c 0.2618 0.71609974 0.4311999 1.1704001 1.2242999 1.2627997 c 0.08470011 0.0076999664 0.28490007 0.01540041 0.6006001 0.01540041 h 0.32340002 c 0.13859987 0 0.20019984 0.015399933 0.20019984 -0.046200275 Z " />
+</symbol>
+</defs>
+</svg>
+</span>（逆转置）变换而非按点/向量变换，mesh shader 相应使用 cofactor 形式——非均匀缩放与剪切下法向仍垂直于表面。</p>
+<p>配套的小步：<a href="https://github.com/AzurIce/ranim/pull/200">#200</a> 为 wrapper 补齐 <code>Partial</code>/<code>Empty</code> 转发（此前已转发 <code>Interpolatable</code>/<code>Opacity</code> 与填/描色），被包裹的物件由此可直接 <code>create()</code>/<code>write()</code>——<code>get_partial</code> 取 inner 的部分切片并原样保留克隆的位姿，<code>empty()</code> 组合 <code>T::empty()</code> 与 <code>G::identity()</code>。</p>
+<h2 id="场景图层级与-gltf-导入"><a class="header" href="#场景图层级与-gltf-导入">场景图层级与 glTF 导入</a></h2>
+<p>https://github.com/AzurIce/ranim/pull/202</p>
+<p>“placement lives in <code>Transformed</code> only” 的教义推广到树上：</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct Node&lt;I, G = DAffine3&gt; {
+    pub id: Option&lt;String&gt;,
+    pub item: Option&lt;I&gt;,
+    pub children: Vec&lt;Transformed&lt;Node&lt;I, G&gt;, G&gt;&gt;,
+}
+<span class="boring">}</span></code></pre>
+<pre class="mermaid">flowchart TB
+    R["Node：根 frame（id）"] --&gt;|pose| C1["Node：&amp;lt;g&amp;gt; frame"]
+    R --&gt;|pose| L1["Node：path 叶子"]
+    C1 --&gt;|pose| L2["path 叶子（id: stripes）"]
+    C1 --&gt;|pose| L3["path 叶子"]
+</pre>
+
+<p>位姿住在边上——图中每条 <code>pose</code> 边都是一个 <code>Transformed</code> 包裹：</p>
+<ul>
+<li>
+<p><code>Node</code> 是纯结构（id + 可选 payload + 子节点），每个子节点的位姿住在边上的 <code>Transformed</code> 里；全部递归代数——extract、lerp、align、partial/empty、AABB、centroid、样式转发、按 id 寻址（<code>by_id</code>/<code>by_ids</code>/<code>by_id_path</code>）——由 <code>Transformed</code> 自身的实现组合而来，<code>Node</code> 不再依赖 <code>TransformGroup</code>；</p>
+</li>
+<li>
+<p>对齐遵循统一规则：<strong>缺席侧用对侧的透明克隆填充</strong>（payload 缺席、空/非空子列表同理），跨结构 lerp 平滑淡入淡出；<code>leaf()</code>/<code>group()</code>/<code>branch()</code> 构造器保持调用点简短，裸节点与包裹节点可在同一 <code>vec![...]</code> 里混排（裸节点按 identity 位姿放置）；</p>
+</li>
+<li>
+<p><code>SvgItem</code> 重建在该树上：<code>&lt;g&gt;</code> 映射为纯 frame、<code>&lt;path&gt;</code> 为 payload 叶子，元素 id 全程可寻址——<code>svg.by_id("stripes")?.set_fill_color(BLACK)</code>；<code>SvgItem::new</code> 把居中 + Y 翻转<strong>组合</strong>到根放置上（而非替换根变换），viewBox 缩放得以保留；提取按深度优先保持 painter’s-algorithm 顺序，<code>From&lt;SvgItem&gt; for Vec&lt;VItem&gt;</code> 保留旧的 bake 工作流（<code>TextItem</code> 依赖于此）；</p>
+</li>
+<li>
+<p>glTF/GLB 导入（新 <code>gltf</code> feature，opt-in）：<code>node_tree_from_path</code>/<code>node_tree_from_gltf</code> 返回 <code>GltfTree</code>（节点树 + 文档索引→路径映射），名字（<code>by_id</code>）与文档索引（<code>node</code>，动画 channel 与 <code>skin.joints</code> 的寻址方式）双寻址；glTF 强制的 Y-up 自动转为 ranim 的 Z-up（翻转组合进场景根放置）；单 primitive mesh 直接作 payload，多 primitive 拆为兄弟叶子。首版不含 materials/skins/morph targets/动画/<code>data:</code> buffer；</p>
+</li>
+<li>
+<p>性能：posing 从微秒级控制点重写变为纳秒级矩阵组合——posing 移出每帧 profile；extract 因遍历放置与组合矩阵带小常数，整体帧成本反而更低；渲染与原实现持平（GPU 应用 per-item 矩阵顶替了原先的预烘焙）。Ghostscript Tiger（138 paths）上的对照：</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>操作（整树）</th><th>旧（baked）</th><th>新（树上）</th></tr>
+</thead>
+<tbody>
+<tr><td>pose：rotate</td><td>4.57 µs</td><td>18.9 ns（~250×）</td></tr>
+<tr><td>pose：shift</td><td>4.52 µs</td><td>9.5 ns（~500×）</td></tr>
+<tr><td>extract</td><td>54.5 µs</td><td>59.5 µs（+~9%）</td></tr>
+</tbody>
+</table>
+</div>
+</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../news/v0.2/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../news/v0.2/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../mark-09e88c2c.min.js"></script>
+        <script src="../../searcher-09f2665d.js"></script>
+
+        <script src="../../clipboard-1626706a.min.js"></script>
+        <script src="../../highlight-abc7f01d.js"></script>
+        <script src="../../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../version-select-fdcb80bd.js"></script>
+        <script src="../../theme/pagetoc-ad23158a.js"></script>
+        <script src="../../mermaid-eefea253.min.js"></script>
+        <script src="../../mermaid-init-025d9952.js"></script>
+
+
+
+    </div>
+    </body>
+</html>
