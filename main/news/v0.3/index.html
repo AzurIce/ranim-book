@@ -37,7 +37,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-11ddeaed.js";
+            window.path_to_searchindex_js = "../../searchindex-87fd3d9b.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-bed341cd.js"></script>
@@ -187,6 +187,14 @@
 版本）编写。</p>
 <h2 id="新增"><a class="header" href="#新增">新增</a></h2>
 <ul>
+<li>音频平面
+<ul>
+<li><code>AudioClip</code>/<code>AudioTrack</code>/<code>Sound</code>：音频作为叶子与视觉动画并列编排，支持 gain、fade、trim（<code>with_play_secs</code> 接受源轴 range）；线性变速与视觉动画统一走 cell 层的 <code>with_duration</code>/<code>with_rate_func</code>（磁带式变速，音高随窗口缩放）</li>
+<li><code>AudioClip::from_file</code>/<code>from_bytes</code>（随 <code>audio-decode</code> feature）纯 Rust 解码（symphonia，WAV/MP3/FLAC/AAC/Ogg Vorbis）并经 rubato FFT 重采样归一到 48 kHz 立体声，不再依赖 ffmpeg 二进制</li>
+<li><code>RanimScene::seal</code> 时一次性 bake 成 master stereo/48 kHz buffer；线性路径预混，非线性路径走 residual forest</li>
+<li>preview 原生播放（随 <code>preview</code> feature）与 render 端 ffmpeg muxing（MP4/MOV AAC，WebM libopus，GIF 丢弃）</li>
+</ul>
+</li>
 <li>可组合动画编排系统（见 “Composable Animation Arrangement” 一节）
 <ul>
 <li><code>AnimSequence</code>/<code>AnimStack</code> 容器与 <code>seq!</code>/<code>stack!</code> 宏，<code>hold</code>/<code>forward</code>/<code>extend</code> 等编排 API</li>
@@ -220,7 +228,9 @@
 <li>动画组织系统
 <ul>
 <li>弃用 <code>Timeline</code>（迁移到 <code>AnimSequence</code>/<code>AnimStack</code>）</li>
-<li><code>AnimationCell&lt;T&gt;</code> 的泛型参数移除、不再直接构建（<code>Eval</code> 类型可直接作为动画使用）；原先 <code>AnimationCell&lt;T&gt;</code> 的 <code>AnimationInfo</code> 参数改为 <code>Paramed&lt;A&gt;</code> 和 <code>At&lt;A&gt;</code></li>
+<li>运行时节点统一为 <code>AnimNode { timing shell, NodeContent }</code>；<code>AnimationCell&lt;T&gt;</code> 不再存在，播放参数改为 <code>Paramed&lt;A&gt;</code> / <code>At&lt;A&gt;</code>，放置状态由 <code>Unplaced</code> 表达</li>
+<li>作者协议改名与分层：<code>Animation</code> → <code>IntoAnimNode</code>（<code>build()</code> → <code>into_anim_node()</code>），<code>Placeable</code> → <code>Unplaced</code>，<code>AnimationExt</code> → <code>PlaybackExt</code></li>
+<li>模块路径分层：<code>animation::node</code>（运行时核心）、<code>animation::eval</code>（叶子协议与适配器）、<code>animation::build</code>（lowering / playback）、<code>animation::compose</code>（sequence/stack/lagged）、<code>animation::sound</code>（音频叶子）</li>
 <li><em>ranim-anims</em> 中全部内置动画创建工具方法现在默认用 <code>linear</code> 速率函数和 <code>1.0</code> 持续秒数</li>
 </ul>
 </li>
@@ -304,37 +314,26 @@ r.play(anim);
 </span>r.play(seq![anim.clone(), anim]);
 <span class="boring">}</span></code></pre>
 <p>更能够表现新系统的可组合与复用能力的例子见 <code>composable_choreaography</code> example。</p>
-<h3 id="animationcelleval-与-animation-trait"><a class="header" href="#animationcelleval-与-animation-trait"><code>AnimationCell</code>、<code>Eval</code> 与 <code>Animation</code> Trait</a></h3>
+<h3 id="animnodeeval-与-intoanimnode"><a class="header" href="#animnodeeval-与-intoanimnode"><code>AnimNode</code>、<code>Eval</code> 与 <code>IntoAnimNode</code></a></h3>
 <p><code>Eval&lt;T&gt;</code> 的泛型参数被移除并改成了关联类型（一个求值器类型的求值结果类型是唯一的）。</p>
-<p>以前 <code>AnimationCell&lt;T&gt;</code> 被当作动画的组织单元，所有动画必须被表示为 <code>AnimationCell&lt;T&gt;</code> 才能够被插入时间线。现在这个行为被抽象为了一个 <code>Animation</code> Trait：</p>
+<p>所有作者定义最终都 lower 成运行时节点 <code>AnimNode</code>。<code>AnimNode</code> 的内容是封闭的 <code>NodeContent</code>，只包含运行时真正需要解释的形态：</p>
+<pre><code class="language-text">NodeContent
+├─ Sequence(Vec&lt;AnimNode&gt;)
+├─ Stack(Vec&lt;AnimNode&gt;)
+├─ Leaf(Box&lt;dyn EvalDyn&gt;)
+├─ Static(Vec&lt;DynItem&gt;)
+└─ Audio(Box&lt;AudioTrack&gt;)
+</code></pre>
+<p>叶子通过 <code>Eval</code> 保持开放，lowering 协议则是 <code>IntoAnimNode</code>：</p>
 <pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>/// A statically typed animation definition that can be lowered into a runtime animation.
-pub trait Animation: Sized {
+</span>/// A definition that can be lowered into the runtime animation tree.
+pub trait IntoAnimNode: Sized {
     /// Lower this definition into its local runtime representation.
-    fn build(self) -&gt; AnimationCell;
+    fn into_anim_node(self) -&gt; AnimNode;
 }
 <span class="boring">}</span></code></pre>
-<p>同时泛型参数被从 <code>AnimationCell</code> 移除，其内部变成类型擦除的 <code>Box&lt;dyn EvalDyn&gt;</code>。</p>
-<p>所有的 <code>E: Eval where E::Output: AnyExtractCoreItem</code> 都自动实现了 <code>Animation</code>，于是所有的动画创建都不必返回 <code>AnimationCell</code>，可以直接返回自己就可以使用。</p>
-<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>// previous
-impl&lt;T: FadingRequirement + Sized + 'static&gt; FadingAnim for T {
-    fn fade_in(&amp;mut self) -&gt; AnimationCell&lt;Self&gt; {
-        FadeIn::new(self.clone())
-            .into_animation_cell()
-            .with_rate_func(smooth)
-            .apply_to(self)
-    }
-    fn fade_out(&amp;mut self) -&gt; AnimationCell&lt;Self&gt; {
-        FadeOut::new(self.clone())
-            .into_animation_cell()
-            .with_rate_func(smooth)
-            .apply_to(self)
-    }
-}
-<span class="boring">}</span></code></pre>
+<p>所有的 <code>E: Eval where E::Output: AnyExtractCoreItem</code> 都自动实现 <code>IntoAnimNode</code>，因此动画创建直接返回自身即可使用，不需要手写 lowering：</p>
 <pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>impl&lt;T: FadingRequirement + Sized + 'static&gt; FadingAnim for T {
@@ -346,7 +345,7 @@ impl&lt;T: FadingRequirement + Sized + 'static&gt; FadingAnim for T {
     }
 }
 <span class="boring">}</span></code></pre>
-<p><code>Animation</code> Trait 也是可组合动画的核心，<code>AnimSequence</code>、<code>AnimStack</code>、<code>Paramed&lt;A&gt;</code> 和 <code>At&lt;A&gt;</code> 也实现了该 Trait，可以当作一个动画使用。</p>
+<p><code>IntoAnimNode</code> 是可组合动画的统一入口。<code>AnimSequence</code>、<code>AnimStack</code>、<code>AnimLagged</code>、<code>Paramed&lt;A&gt;</code> 和 <code>At&lt;A&gt;</code> 都实现它，因此既可以独立构造，也可以被 Scene 或其它容器接纳。</p>
 <h3 id="animlagged-与迭代器收集"><a class="header" href="#animlagged-与迭代器收集"><code>AnimLagged</code> 与迭代器收集</a></h3>
 <p>stagger 排布由 <code>AnimLagged</code> 容器表达：</p>
 <pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -354,10 +353,10 @@ impl&lt;T: FadingRequirement + Sized + 'static&gt; FadingAnim for T {
 </span>let animation = lagged![0.2; a.fade_in(), b.fade_in(), c.write()];
 <span class="boring">}</span></code></pre>
 <ul>
-<li>子动画要求 <code>Placeable</code>（和 <code>AnimSequence</code> 一样），放置由容器计算：<code>start_i = start_{i-1} + lag_ratio · d_{i-1}</code>。<code>lag_ratio</code> 因此是 <code>AnimStack</code>（0.0，同时）与 <code>AnimSequence</code>（1.0，相继）之间的插值；</li>
+<li>子动画要求 <code>Unplaced</code>（和 <code>AnimSequence</code> 一样），放置由容器计算：<code>start_i = start_{i-1} + lag_ratio · d_{i-1}</code>。<code>lag_ratio</code> 因此是 <code>AnimStack</code>（0.0，同时）与 <code>AnimSequence</code>（1.0，相继）之间的插值；</li>
 <li>窗口外时间由 <code>with_leading</code>/<code>with_trailing</code> 配置（<code>LaggedFill::{Hold, Empty}</code>，默认都 <code>Hold</code>）：每个元素在 build 时被物化为一条 <code>[前填充][动画][后填充]</code> 的 per-item <code>AnimSequence</code> 轨道（前=初态、后=末态，采样自窗口边缘；空填充跳过；零时长子项跳过前填充）——preview 时间线所见即所得，没有隐藏的钳制规则。想让元素窗口后消失，让它的动画以 <code>hide</code> 结尾（<code>seq![item.fade_in(), item.hide()]</code>）；</li>
 <li>由于填充在 build 时采样，子动画应当是纯（闭式）动画；</li>
-<li>子动画是完整的 <code>Animation</code>：可以自带 <code>with_rate_func</code>/<code>with_duration</code> 等播放参数，容器在各自 cell 上施加速率；</li>
+<li>子动画是完整的 <code>IntoAnimNode</code>：可以自带 <code>with_rate_func</code>/<code>with_duration</code> 等播放参数，容器在各自 node 上施加速率；</li>
 <li>配套迭代器 API：<code>collect::&lt;AnimStack&gt;()</code>/<code>collect::&lt;AnimSequence&gt;()</code>（<code>FromIterator</code>）与 <code>AnimIterExt::{into_stack, into_seq, into_lagged}</code>。</li>
 </ul>
 <p>窗口与填充语义一张图看懂——示意 <code>lagged![0.2; a, b, c]</code>、各动画 1 秒、默认 <code>Hold</code> 填充（时间轴单位 0.2 秒）：</p>
@@ -390,9 +389,9 @@ pub struct Paramed&lt;A&gt; {
 
 /// An animation fixed at an offset in its parent's time coordinates.
 ///
-/// This is a terminal placement entry: it implements [`Animation`] but not
-/// [`Placeable`], so playback parameters must be configured before calling
-/// [`Placeable::at`].
+/// This is a terminal placement entry: it implements [`IntoAnimNode`] but not
+/// [`Unplaced`], so playback parameters must be configured before calling
+/// [`Unplaced::at`].
 pub struct At&lt;A&gt; {
     inner: A,
     offset_sec: f64,
@@ -498,7 +497,7 @@ RenderGraph:    Begin → Render → Submit → Finish
 <span class="boring">}</span></code></pre>
 <ul>
 <li><code>eval_alpha</code> 是 <code>&amp;self</code> 上的纯查询：同一个 <code>alpha</code> 永远得到同一个 <code>Output</code>，与调用顺序和次数无关；</li>
-<li>evaluator 看不到秒、场景时钟或 <code>logic_fps</code>；<code>AnimationCell</code> 负责把场景时间映射成 <code>alpha</code> 后再调用它；</li>
+<li>evaluator 看不到秒、场景时钟或 <code>logic_fps</code>；<code>AnimNode</code> 负责把场景时间映射成 <code>alpha</code> 后再调用它；</li>
 <li>有状态区段在内部记忆化自己的积分快照；纯区段就是闭式函数。</li>
 </ul>
 <p><code>EvalExt::apply_to</code> / <code>apply_alpha_to</code> 是 build 期便捷方法：它们通过 <code>eval_alpha</code> 把 item 写成指定进度（默认末态）并返回动画本身。内置动画的工具方法（<code>fade_in()</code> 等）正是靠 <code>apply_to</code> 在创建动画的同时把 item 置为末态。</p>
@@ -566,7 +565,7 @@ let animation = Iterative::from_fn(
 pub type DeltaAlpha = f64;  // 均匀进度步长
 <span class="boring">}</span></code></pre>
 <ul>
-<li><strong>动画逻辑只见进度、不见时间配置</strong>：起点、时长、rate 都属于 <code>AnimationCell</code>，由它把场景时间映射成 <code>alpha</code>；</li>
+<li><strong>动画逻辑只见进度、不见时间配置</strong>：起点、时长、rate 都属于 <code>AnimNode</code>，由它把场景时间映射成 <code>alpha</code>；</li>
 <li>“内容即序列”：迭代动画的内容是作者声明的进度点序列 <code>x₀…x_N</code>，<code>N</code> 是定义而不是采样精度；</li>
 <li><code>with_duration</code> / <code>with_rate_func</code> / placement 是纯播放重映射（哪个进度何时可见），不改变内容本身；</li>
 <li>需要真实时间的现象（如 cloth 中球的运动）使用内容自己的逻辑时长换算：<code>sec = sim_secs * alpha</code>，而不是读全局时钟。</li>

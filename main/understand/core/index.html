@@ -37,7 +37,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-11ddeaed.js";
+            window.path_to_searchindex_js = "../../searchindex-87fd3d9b.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-bed341cd.js"></script>
@@ -181,16 +181,18 @@
 <p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M4.47.22A.749.749 0 0 1 5 0h6c.199 0 .389.079.53.22l4.25 4.25c.141.14.22.331.22.53v6a.749.749 0 0 1-.22.53l-4.25 4.25A.749.749 0 0 1 11 16H5a.749.749 0 0 1-.53-.22L.22 11.53A.749.749 0 0 1 0 11V5c0-.199.079-.389.22-.53Zm.84 1.28L1.5 5.31v5.38l3.81 3.81h5.38l3.81-3.81V5.31L10.69 1.5ZM8 4a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 8 4Zm0 8a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Caution</p>
 <p>ai 生成，可能叙事逻辑和表述并不是很好，仅供参考。</p>
 </blockquote>
-<p>Ranim 将动画定义为可按任意时间采样的值，并通过顺序和并行容器组织场景：</p>
-<pre><code class="language-text">Eval&lt;Output = T&gt;
-  -&gt; default Animation
-  -&gt; Paramed&lt;A&gt;
+<p>Ranim 将动画定义为可按任意时间采样的值，并通过 closed core + open leaves 的方式组织场景：</p>
+<pre><code class="language-text">Eval&lt;Output = T&gt;                        visual leaf content
+  -&gt; IntoAnimNode                       default lowering (linear / 1s / enabled)
+  -&gt; Paramed&lt;A&gt; / At&lt;A&gt;                 playback params / placement
   -&gt; AnimSequence / AnimStack / AnimLagged
-  -&gt; AnimationCell
-  -&gt; SealedRanimScene
+  -&gt; AnimNode { timing shell, NodeContent }
+  -&gt; SealedRanimScene -&gt; SceneEvaluator
 </code></pre>
 <ul>
-<li><a href="./anim.html"><code>Eval</code>、<code>Animation</code>、容器与运行时</a> 描述叶子动画如何根据局部进度产生状态、附加播放参数，以及顺序 / 并行 / 交错容器如何把场景组织成动画树。</li>
+<li>定义期（open）：叶子实现 <code>Eval</code>；容器/Sugar 位于 <code>animation::compose</code>，通过 <code>IntoAnimNode</code> lower 到运行时。</li>
+<li>运行期（closed）：所有定义都 lower 成 <code>AnimNode</code>，其 <code>NodeContent</code> 是封闭的核心语言（<code>Sequence</code>、<code>Stack</code>、<code>Leaf</code>、<code>Static</code>、<code>Audio</code>）。视觉求值、音频烘焙、preview introspection 都是这棵树上的 interpreter。</li>
+<li><a href="./anim.html"><code>Eval</code>、<code>IntoAnimNode</code>、容器与运行时</a> 描述叶子动画如何根据局部进度产生状态、附加播放参数，以及顺序 / 并行 / 交错容器如何把场景组织成动画树。</li>
 <li><a href="./core_item.html"><code>CoreItem</code> 与 <code>Extract</code></a> 描述动画求值结果如何经 <code>Extract</code> 展开为渲染器消费的 core item。</li>
 <li><a href="./core_items/README.html">Core Items</a> 逐个介绍三种 core item（<code>CameraFrame</code>、<code>VItem</code>、<code>MeshItem</code>）的字段与渲染语义。</li>
 <li><code>RanimScene</code> 的根节点是一个 <code>AnimStack</code>。<code>r.play(animation)</code> 等价于向根 Stack 执行 <code>push</code>，因此多次根级 <code>play</code> 默认从 0 秒并行。</li>

@@ -37,7 +37,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-11ddeaed.js";
+            window.path_to_searchindex_js = "../../searchindex-87fd3d9b.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-bed341cd.js"></script>
@@ -219,7 +219,7 @@ core <code>VItem</code>。</li>
 pub struct DynItem(pub Box&lt;dyn AnyExtractCoreItem&gt;);</code></pre>
 <p><code>SceneEvaluator::sample_at(render_secs, out)</code> 对根 Stack 的每个顶层 cell 求值，
 再把每个产出 item 逐个 <code>extract()</code> 展开，得到一帧的 core item 列表：</p>
-<pre><code class="language-text">AnimationCell::eval_at(sec)  -&gt;  Vec&lt;DynItem&gt;
+<pre><code class="language-text">AnimNode::eval_at(sec)  -&gt;  Vec&lt;DynItem&gt;
   每个 DynItem.extract()     -&gt;  Vec&lt;CoreItem&gt;      （这里发生 1→N）
   汇总                       -&gt;  EvaluatedFrame
                                  = Vec&lt;((animation_id, part), CoreItem)&gt;

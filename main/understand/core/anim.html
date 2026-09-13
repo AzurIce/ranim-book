@@ -37,7 +37,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-11ddeaed.js";
+            window.path_to_searchindex_js = "../../searchindex-87fd3d9b.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-bed341cd.js"></script>
@@ -181,28 +181,34 @@
 <p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M4.47.22A.749.749 0 0 1 5 0h6c.199 0 .389.079.53.22l4.25 4.25c.141.14.22.331.22.53v6a.749.749 0 0 1-.22.53l-4.25 4.25A.749.749 0 0 1 11 16H5a.749.749 0 0 1-.53-.22L.22 11.53A.749.749 0 0 1 0 11V5c0-.199.079-.389.22-.53Zm.84 1.28L1.5 5.31v5.38l3.81 3.81h5.38l3.81-3.81V5.31L10.69 1.5ZM8 4a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 8 4Zm0 8a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Caution</p>
 <p>ai 生成，可能叙事逻辑和表述并不是很好，仅供参考。</p>
 </blockquote>
-<p>Ranim 的一个场景就是一棵动画树。谈论这棵树时要区分两个层面：</p>
+<p>Ranim 的一个场景就是一棵动画树。这棵树分成「定义期」和「运行期」两个层面：</p>
 <ul>
-<li><strong>定义期（具体类型）</strong>：叶子是任何实现了 <code>Eval</code> 的类型——<code>FadeIn</code>、
-<code>Morph</code>、<code>Pure</code>、<code>Iterative</code> 或自定义 struct，<code>Eval::Output</code> 是该动画产出的
-item 类型 <code>T</code>；容器是 <code>AnimSequence</code> / <code>AnimStack</code> / <code>AnimLagged</code> 三个
-struct；树根是 <code>RanimScene</code> 自带的根 <code>AnimStack</code>。</li>
-<li><strong>运行期（类型擦除）</strong>：每个节点统一 lower 为 struct <code>AnimationCell</code>，叶子
-在 cell 内部是擦除自 <code>Eval&lt;Output = T&gt;</code> 的 trait object（<code>Box&lt;dyn EvalDyn&gt;</code>，
-<code>T</code> 需可提取为场景元素）。擦除只隐藏直接子节点的 Rust 类型，组合层级本身
-保留。</li>
+<li><strong>定义期（开放）</strong>：叶子是任何实现了 <code>Eval</code> 的类型——<code>FadeIn</code>、<code>Morph</code>、
+<code>Pure</code>、<code>Iterative</code> 或自定义 struct，<code>Eval::Output</code> 是该动画产出的 item
+类型 <code>T</code>。容器和作者侧组合子位于 <code>animation::compose</code>：<code>AnimSequence</code> /
+<code>AnimStack</code> / <code>AnimLagged</code>。</li>
+<li><strong>运行期（封闭核心）</strong>：所有定义都会通过 <code>IntoAnimNode</code> lower 成一个
+<code>AnimNode</code>。<code>AnimNode</code> 的内容是封闭的 <code>NodeContent</code>：
+<code>Sequence</code> / <code>Stack</code> / <code>Leaf</code> / <code>Static</code> / <code>Audio</code>。视觉求值、seal 时音频
+烘焙、preview introspection 都是这棵运行时树上的 interpreter。</li>
 </ul>
 <p>本章自底向上整理这条链路：</p>
 <pre><code class="language-text">trait Eval&lt;Output = T&gt;                  叶子协议：alpha -&gt; T 的纯函数
   │ 具体叶子 struct：FadeIn / Morph / Pure / Iterative / 自定义 …
-  │ 自动实现 trait Animation + Placeable（默认 linear、1 秒、enabled）
+  │ blanket IntoAnimNode（默认 linear、1 秒、enabled）
   ▼
-struct Paramed&lt;A&gt; / At&lt;A&gt;               with_duration / with_rate_func / with_enabled / at
+struct Paramed&lt;A&gt; / At&lt;A&gt;               PlaybackExt / Unplaced::at
   ▼
-struct AnimSequence / AnimStack / AnimLagged   顺序 / 并行 / 交错容器（自身也实现 Animation）
-  │ Animation::build（类型擦除，保留组合层级）
+struct AnimSequence / AnimStack / AnimLagged    顺序 / 并行 / 交错容器
+  │ IntoAnimNode::into_anim_node
   ▼
-struct AnimationCell                    运行时节点：Box&lt;dyn EvalDyn&gt; + 时间区间 + rate_func + enabled
+struct AnimNode { timing shell, NodeContent }
+  NodeContent:
+    Sequence(Vec&lt;AnimNode&gt;)
+    Stack(Vec&lt;AnimNode&gt;)
+    Leaf(Box&lt;dyn EvalDyn&gt;)
+    Static(Vec&lt;DynItem&gt;)
+    Audio(Box&lt;AudioTrack&gt;)
   ▼
 RanimScene 根 AnimStack  →  SceneEvaluator 采样
 </code></pre>
@@ -219,10 +225,15 @@ RanimScene 根 AnimStack  →  SceneEvaluator 采样
 <li>协议只有一个入口：<code>eval_alpha(&amp;self, alpha)</code>；</li>
 <li>它是 <code>&amp;self</code> 上的纯查询：无论调用顺序和次数，同一个 <code>alpha</code> 得到同一个
 <code>Output</code>；</li>
-<li>evaluator 看不到秒、场景时钟或 <code>logic_fps</code>。<code>AnimationCell</code> 负责把场景时间
+<li>evaluator 看不到秒、场景时钟或 <code>logic_fps</code>。<code>AnimNode</code> 负责把场景时间
 映射成进度后才调用它；</li>
 <li>有状态（迭代）区段在内部记忆化自己的积分快照；纯区段就是闭式。</li>
 </ul>
+<p>运行期的 <code>NodeContent::Leaf</code> 持有 <code>Box&lt;dyn EvalDyn&gt;</code>，它是 <code>Eval</code> 的擦除
+对应物：<code>Eval</code> 带有关联类型 <code>Output</code>，不能直接作为 trait object，因此
+<code>animation::eval</code> 为所有满足 <code>Output: AnyExtractCoreItem</code> 的 <code>E: Eval</code>
+自动实现了 <code>EvalDyn</code>。只有用户叶子会进入 <code>Leaf</code>；内置容器是 core 自己的
+variant。</p>
 <p><code>EvalExt</code> 提供两个 build 期便捷方法：</p>
 <pre><code class="language-rust ignore">pub trait EvalExt: Eval + Sized {
     fn apply_alpha_to(self, item: &amp;mut Self::Output, alpha: f64) -&gt; Self;
@@ -310,22 +321,26 @@ impl&lt;T: FadingRequirement&gt; Eval for FadeIn&lt;T&gt; {
     }
 }</code></pre>
 <p><strong>第 3 层：blanket impl。</strong> 任何 <code>Eval</code> 实现，只要 <code>Output</code> 可提取为场景元素
-（<code>AnyExtractCoreItem</code>），就自动实现 <code>Animation</code> 与 <code>Placeable</code>，默认参数为
-linear、时长 1 秒、enabled：</p>
-<pre><code class="language-rust ignore">impl&lt;E&gt; Animation for E
+（<code>AnyExtractCoreItem</code>），就自动实现 <code>IntoAnimNode</code>，默认参数为 linear、时长
+1 秒、enabled：</p>
+<pre><code class="language-rust ignore">impl&lt;E&gt; IntoAnimNode for E
 where
     E: Eval + 'static,
     E::Output: AnyExtractCoreItem,
 {
-    fn build(self) -&gt; AnimationCell {
-        // rate_func = linear, time_range = 0.0..1.0, enabled = true
-        ...
+    fn into_anim_node(self) -&gt; AnimNode {
+        AnimNode {
+            content: NodeContent::Leaf(Box::new(self)),
+            internal_time_secs: 1.0,
+            // rate_func = none（linear）, time_range = 0.0..1.0, enabled = true
+            ...
+        }
     }
 }</code></pre>
-<p><strong>第 4 层：<code>with_duration(1.0)</code>。</strong> 来自 <code>AnimationExt</code>，把动画包成
+<p><strong>第 4 层：<code>with_duration(1.0)</code>。</strong> 来自 <code>PlaybackExt</code>，把动画包成
 <code>Paramed&lt;A&gt;</code> 携带播放参数（见下节）。</p>
-<p><code>ranim-anims</code> 只包含这类具名动画家族，通用适配器（<code>Pure</code> / <code>Iterative</code>）在
-<code>ranim_core::animation</code> 中：</p>
+<p><code>ranim-anims</code> 只包含这类具名叶子动画家族，通用适配器（<code>Pure</code> / <code>Iterative</code>
+/ <code>Static</code>）与 lowering 协议在 <code>ranim_core::animation</code> 中：</p>
 <pre><code class="language-text">ranim::anims
 ├── camera     （Orbit、CameraFrameAnim）
 ├── creation   （Create/UnCreate/Write/Unwrite）
@@ -333,19 +348,22 @@ where
 ├── morph      （Morph）
 └── rotating   （RotatingAnimation）
 </code></pre>
-<h3 id="parameda-与-ata"><a class="header" href="#parameda-与-ata"><code>Paramed&lt;A&gt;</code> 与 <code>At&lt;A&gt;</code></a></h3>
-<p>所有尚未固定父时间坐标的 <code>Placeable</code> 动画通过 <code>AnimationExt</code> 获得统一的播放
+<h3 id="unplacedplaybackextparamed-与-at"><a class="header" href="#unplacedplaybackextparamed-与-at"><code>Unplaced</code>、<code>PlaybackExt</code>、<code>Paramed</code> 与 <code>At</code></a></h3>
+<p>所有尚未固定父时间坐标的 <code>Unplaced</code> 动画通过 <code>PlaybackExt</code> 获得统一的播放
 参数 API：</p>
 <pre><code class="language-rust ignore">animation
     .with_duration(2.0)
     .with_rate_func(smooth)
     .with_enabled(true)</code></pre>
-<p><code>At&lt;A&gt;</code> 表示已经固定在父时间坐标中的 entry，不再实现 <code>Placeable</code>，因此参数
+<p><code>At&lt;A&gt;</code> 表示已经固定在父时间坐标中的 entry，不再实现 <code>Unplaced</code>，因此参数
 必须在 placement 之前设置：</p>
 <pre><code class="language-rust ignore">animation.with_duration(2.0).at(3.0); // At&lt;Paramed&lt;A&gt;&gt;</code></pre>
-<h2 id="顺序容器animsequence"><a class="header" href="#顺序容器animsequence">顺序容器：<code>AnimSequence</code></a></h2>
-<p><code>AnimSequence::push</code> 先将动画 build 为局部 <code>AnimationCell</code>，再把它移动到当前
-cursor，并按 cell duration 推进 cursor：</p>
+<p>这些方法定义在 <code>animation::build</code>，返回的 <code>Paramed&lt;A&gt;</code> / <code>At&lt;A&gt;</code> 也都是
+<code>IntoAnimNode</code>，所以可以继续被容器或 Scene 接纳。</p>
+<h2 id="animationcompose顺序并行交错"><a class="header" href="#animationcompose顺序并行交错"><code>animation::compose</code>：顺序、并行、交错</a></h2>
+<h3 id="顺序容器animsequence"><a class="header" href="#顺序容器animsequence">顺序容器：<code>AnimSequence</code></a></h3>
+<p><code>AnimSequence::push</code> 先将动画 lower 为局部 <code>AnimNode</code>，再把它移动到当前
+cursor，并按 node duration 推进 cursor：</p>
 <pre><code class="language-rust ignore">let mut intro = AnimSequence::new();
 intro
     .push(square.clone().fade_in())
@@ -354,19 +372,20 @@ intro
 
 r.play(intro);</code></pre>
 <p>Sequence 是动态类型擦除边界，但不会展开传入动画的组合树。每次 <code>push</code> 只将
-直接子动画转换为一个 <code>AnimationCell</code>；如果子动画是 Stack 或 Sequence，其内部
-层级会继续保留。</p>
+直接子动画转换为一个 <code>AnimNode</code>；如果子动画是 Stack 或 Sequence，其内部层级
+会继续保留。<code>AnimSequence::into_anim_node</code> 最终产生
+<code>NodeContent::Sequence(Vec&lt;AnimNode&gt;)</code>。</p>
 <p>Sequence 自己通过 cursor 决定子动画的位置，因此 <code>push</code> 只接受尚未显式放置的
-<code>Placeable</code>。<code>At&lt;A&gt;</code> 已经固定父时间坐标，不能进入 Sequence。</p>
-<p>Sequence 本身仍实现 <code>Animation</code>，所以可以先独立构造，再整体使用 <code>at</code> 放置或
-加入另一个组合：</p>
+<code>Unplaced</code>。<code>At&lt;A&gt;</code> 已经固定父时间坐标，不能进入 Sequence。</p>
+<p>Sequence 本身仍实现 <code>IntoAnimNode</code> 与 <code>Unplaced</code>，所以可以先独立构造，再整体
+使用 <code>at</code> 放置或加入另一个组合：</p>
 <pre><code class="language-rust ignore">r.play(intro.at(2.0));</code></pre>
-<h3 id="forward-与-hold"><a class="header" href="#forward-与-hold"><code>forward</code> 与 <code>hold</code></a></h3>
+<h4 id="forward-与-hold"><a class="header" href="#forward-与-hold"><code>forward</code> 与 <code>hold</code></a></h4>
 <p>两者都会推进 Sequence cursor，但输出语义不同：</p>
 <ul>
 <li><code>forward(secs)</code> 只推进 cursor，产生的空白区间没有输出。</li>
 <li><code>hold(secs)</code> 取得 cursor 处的 Sequence 状态，将它保存为持续 <code>secs</code> 的静态
-运行时节点。</li>
+运行时节点（<code>NodeContent::Static</code>）。</li>
 <li><code>forward_to(target)</code> 和 <code>hold_to(target)</code> 是对应的绝对 cursor 版本。</li>
 </ul>
 <p><code>hold</code> 没有额外的状态协议，它直接采用 Sequence 在 cursor 处的正常求值结果。
@@ -380,7 +399,7 @@ cursor:        2
 hold at 2 -&gt; 只保持 B 的左侧终态
 </code></pre>
 <p>连续 <code>hold</code> 会分别保存每次调用时的求值结果，形成相邻的静态区间。</p>
-<h3 id="showhide-与最终求值"><a class="header" href="#showhide-与最终求值"><code>show</code>、<code>hide</code> 与最终求值</a></h3>
+<h4 id="showhide-与最终求值"><a class="header" href="#showhide-与最终求值"><code>show</code>、<code>hide</code> 与最终求值</a></h4>
 <p><code>show()</code> 和 <code>hide()</code> 都是普通的零时长动画：</p>
 <ul>
 <li><code>show()</code> 是 enabled 的静态动画，求值时输出对应物件；</li>
@@ -401,7 +420,7 @@ content
 <pre><code class="language-rust ignore">r.play(square_sequence);
 r.play(circle_sequence);</code></pre>
 <p>如果两个物件需要在同一时刻一起求值，应直接 push 一个 <code>stack![...]</code> 组合。</p>
-<h2 id="并行容器animstack-与根场景"><a class="header" href="#并行容器animstack-与根场景">并行容器：<code>AnimStack</code> 与根场景</a></h2>
+<h3 id="并行容器animstack-与根场景"><a class="header" href="#并行容器animstack-与根场景">并行容器：<code>AnimStack</code> 与根场景</a></h3>
 <p><code>AnimStack::push</code> 不推进其他子动画；Stack duration 是所有子动画 duration 的
 最大值：</p>
 <pre><code class="language-rust ignore">let animation = stack![
@@ -411,10 +430,10 @@ r.play(circle_sequence);</code></pre>
 ];
 
 r.play(animation);</code></pre>
-<p>Stack 接受普通 <code>Placeable</code> 动画和已经放置的 <code>At&lt;A&gt;</code>。普通动画从 Stack 局部 0
+<p>Stack 接受普通 <code>Unplaced</code> 动画和已经放置的 <code>At&lt;A&gt;</code>。普通动画从 Stack 局部 0
 开始，<code>At&lt;A&gt;</code> 使用自己的显式 offset。参数必须在调用 <code>at</code> 之前设置。</p>
 <p><code>RanimScene</code> 自带一个根 <code>AnimStack</code>：</p>
-<pre><code class="language-rust ignore">pub fn play&lt;A: Animation + 'static&gt;(&amp;mut self, animation: A) -&gt; &amp;mut Self {
+<pre><code class="language-rust ignore">pub fn play&lt;A: IntoAnimNode + 'static&gt;(&amp;mut self, animation: A) -&gt; &amp;mut Self {
     self.root.push(animation);
     self
 }</code></pre>
@@ -426,7 +445,7 @@ for animation in animations {
     layers.push(animation);
 }
 r.play(layers);</code></pre>
-<h3 id="场景时长与显式生命周期"><a class="header" href="#场景时长与显式生命周期">场景时长与显式生命周期</a></h3>
+<h4 id="场景时长与显式生命周期"><a class="header" href="#场景时长与显式生命周期">场景时长与显式生命周期</a></h4>
 <p>Scene 总时长是根 Stack 中最长子动画的 duration。新模型不会像旧 Timeline 那样
 在 seal 时自动把静态物件和相机延长到 Scene 结束。</p>
 <p>需要全程存在的内容应显式指定生命周期：</p>
@@ -439,10 +458,9 @@ camera
 
 r.play(camera);
 r.play(content);</code></pre>
-<p>这种写法使空白和保持区间成为动画定义的一部分。后续可以增加默认相机或
-<code>through_scene_end</code> 等辅助 API，但它们不改变 Sequence/Stack 的组合语义。</p>
-<h2 id="交错容器animlagged"><a class="header" href="#交错容器animlagged">交错容器：<code>AnimLagged</code></a></h2>
-<p><code>AnimLagged</code> 把一组<strong>未放置</strong>（<code>Placeable</code>）的子动画按 stagger 规则相继排布：
+<p>这种写法使空白和保持区间成为动画定义的一部分。</p>
+<h3 id="交错容器animlagged"><a class="header" href="#交错容器animlagged">交错容器：<code>AnimLagged</code></a></h3>
+<p><code>AnimLagged</code> 把一组<strong>未放置</strong>（<code>Unplaced</code>）的子动画按 stagger 规则相继排布：
 第 <code>i</code> 个子动画的起点是 <code>start_{i-1} + lag_ratio · d_{i-1}</code>。<code>lag_ratio</code> 插值
 在两种容器语义之间：</p>
 <ul>
@@ -482,35 +500,71 @@ r.play(animation);</code></pre>
 let scene = stack![intro, camera];
 r.play(scene);</code></pre>
 <p><code>seq!</code> 返回 <code>AnimSequence</code>，<code>stack!</code> 返回 <code>AnimStack</code>。二者都只是构造辅助，
-最终 build 为保留子节点层级的运行时动画树。<code>lagged![0.2; a, b, c]</code> 以 0.2 的
+最终 lower 为保留子节点层级的运行时动画树。<code>lagged![0.2; a, b, c]</code> 以 0.2 的
 stagger ratio 返回 <code>AnimLagged</code>（见上文）。</p>
-<h2 id="运行时animationcell-与-sceneevaluator"><a class="header" href="#运行时animationcell-与-sceneevaluator">运行时：<code>AnimationCell</code> 与 <code>SceneEvaluator</code></a></h2>
+<h2 id="运行期animnodenodecontent-与-sceneevaluator"><a class="header" href="#运行期animnodenodecontent-与-sceneevaluator">运行期：<code>AnimNode</code>、<code>NodeContent</code> 与 <code>SceneEvaluator</code></a></h2>
 <p>Sequence、Stack 和 Scene 需要保存异构动画，因此每个直接子动画会 lower 成一个
-<code>AnimationCell</code>：</p>
-<pre><code class="language-text">AnimationCell
-├─ Box&lt;dyn EvalDyn&gt;
-├─ time range
-├─ rate function
-├─ enabled
-└─ evaluator name
+<code>AnimNode</code>：</p>
+<pre><code class="language-text">AnimNode
+├─ content: NodeContent
+├─ time_range: Range&lt;f64&gt;         在父坐标中的窗口
+├─ internal_time_secs: f64        content 轴长度
+├─ rate_func: Option&lt;fn(f64) -&gt; f64&gt;
+├─ enabled: bool
+└─ anim_name: &amp;'static str
 </code></pre>
-<p><code>AnimationCell::eval_at(sec, out)</code> 是唯一的时间管理入口：cell 先检查
+<p><code>NodeContent</code> 是封闭的运行时语言：</p>
+<pre><code class="language-text">NodeContent
+├─ Sequence(Vec&lt;AnimNode&gt;)   最后一个命中的子节点求值
+├─ Stack(Vec&lt;AnimNode&gt;)      所有命中的子节点叠加求值
+├─ Leaf(Box&lt;dyn EvalDyn&gt;)    用户 Eval 叶子的类型擦除
+├─ Static(Vec&lt;DynItem&gt;)      已经采样好的输出批次
+└─ Audio(Box&lt;AudioTrack&gt;)    seal 时烘焙的音频叶子
+</code></pre>
+<p><code>AnimNode::eval_at(sec, out)</code> 是唯一的时间管理入口：node 先检查
 enabled / active，再用自己的 <code>time_range</code> 和 <code>rate_func</code> 把 <code>sec</code> 映射成局部
-<code>alpha</code>，最后调用擦除后的 <code>eval_dyn(alpha, out)</code>。</p>
-<p><code>EvalDyn</code> 是 <code>Eval</code> 的擦除对应物：<code>Eval</code> 带有关联类型 <code>Output</code>，不能直接作为
-trait object，因此 crate 为所有满足 <code>Output</code> 可提取为场景元素的 <code>E: Eval</code>
-自动实现了 <code>EvalDyn</code>。容器（Sequence/Stack/Lagged）同样实现它，所以叶子和容器
-都能装进同一个 <code>Box&lt;dyn EvalDyn&gt;</code>——动态求值会把结果追加到 <code>Vec&lt;DynItem&gt;</code>，
-但组合树本身不会被展开。类型擦除只隐藏直接子动画的 Rust 类型，不删除组合
-层级。</p>
+<code>alpha</code>，最后交给 <code>NodeContent</code>：</p>
+<ul>
+<li><code>Sequence</code> 选择最后一个包含 content 时间的子节点；</li>
+<li><code>Stack</code> 求值所有包含 content 时间的子节点；</li>
+<li><code>Leaf</code> 调用擦除后的 <code>EvalDyn::eval_into(alpha, out)</code>；</li>
+<li><code>Static</code> 克隆保存的输出；</li>
+<li><code>Audio</code> 不参与逐帧视觉求值，由 seal 时的音频 interpreter 处理。</li>
+</ul>
+<p>这里的关键是：运行时核心是封闭的，因此不同 consumer 可以各自遍历同一棵树，
+互不污染：</p>
+<ul>
+<li><code>eval_at</code>：逐帧视觉求值；</li>
+<li><code>bake_audio</code>：seal 时对音频叶子做一次性混音；</li>
+<li><code>has_audio</code>：判断树里是否存在音频叶子；</li>
+<li><code>animation_info</code>：为 preview 生成层级 introspection 树。</li>
+</ul>
+<p>叶子仍然通过 <code>Eval</code> 保持开放；如果一个组合子能用核心构造子和窗口 placement
+表达，就在 build 时 desugar，而不是增加新的 runtime variant。<code>AnimLagged</code>
+就是这种 sugar：它最终 lower 成 <code>Stack</code> + <code>Sequence</code>。</p>
 <p><code>SceneEvaluator::sample_at(render_secs, out)</code> 是唯一的 session 交互：</p>
 <ul>
-<li>对每个顶层 cell 调用 <code>eval_at(render_secs)</code>；</li>
+<li>对每个顶层 <code>AnimNode</code> 调用 <code>eval_at(render_secs)</code>；</li>
 <li>前进 / 回退 / 原地求值的判断在 <code>Iterative</code> 等 stateful 节点内部完成；</li>
 <li>preview 拖拽和 render 采样共用同一条路径。</li>
 </ul>
 <p><code>logic_fps</code> 参数仅为 API 兼容保留，不再驱动步进；步进尺度由每个迭代区段自己
 的 <code>sim_step</code> 决定。</p>
+<h2 id="音频叶子"><a class="header" href="#音频叶子">音频叶子</a></h2>
+<p><code>Sound</code> 是音频平面的叶子 atom，使用方式与视觉动画一致（<code>from_file</code> 需要
+<code>audio-decode</code> feature）：</p>
+<pre><code class="language-rust ignore">let mut scene = RanimScene::new();
+scene.play(seq![
+    square.fade_in(),
+    Sound::new(AudioClip::from_file("narration.wav")?)
+        .with_fade_in(0.25),
+    square.write(),
+]);</code></pre>
+<p><code>Sound::into_anim_node</code> 产生 <code>NodeContent::Audio(Box&lt;AudioTrack&gt;)</code>。它同样参与
+<code>seq!</code> / <code>stack!</code> / <code>lagged!</code>、<code>.at()</code>、<code>.with_duration()</code>、
+<code>.with_rate_func()</code> 和 <code>.with_enabled()</code>。音频不进入逐帧视觉管线，而是在
+<code>RanimScene::seal</code> 时通过 <code>bake_audio</code> 一次性混音；见 <code>ranim-core</code> 的音频模块
+文档。</p>
 
                     </main>
 
