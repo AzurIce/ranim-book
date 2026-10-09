@@ -37,7 +37,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-87fd3d9b.js";
+            window.path_to_searchindex_js = "../../searchindex-ad101039.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-bed341cd.js"></script>
@@ -189,7 +189,7 @@
 <code>AnimStack</code> / <code>AnimLagged</code>。</li>
 <li><strong>运行期（封闭核心）</strong>：所有定义都会通过 <code>IntoAnimNode</code> lower 成一个
 <code>AnimNode</code>。<code>AnimNode</code> 的内容是封闭的 <code>NodeContent</code>：
-<code>Sequence</code> / <code>Stack</code> / <code>Leaf</code> / <code>Static</code> / <code>Audio</code>。视觉求值、seal 时音频
+<code>Children</code> 或 <code>Leaf</code>（动画 / 音频）。视觉求值、seal 时音频
 烘焙、preview introspection 都是这棵运行时树上的 interpreter。</li>
 </ul>
 <p>本章自底向上整理这条链路：</p>
@@ -204,11 +204,10 @@ struct AnimSequence / AnimStack / AnimLagged    顺序 / 并行 / 交错容器
   ▼
 struct AnimNode { timing shell, NodeContent }
   NodeContent:
-    Sequence(Vec&lt;AnimNode&gt;)
-    Stack(Vec&lt;AnimNode&gt;)
-    Leaf(Box&lt;dyn EvalDyn&gt;)
-    Static(Vec&lt;DynItem&gt;)
-    Audio(Box&lt;AudioTrack&gt;)
+    Children(Vec&lt;AnimNode&gt;)
+    Leaf(LeafContent)
+      Anim(Box&lt;dyn EvalDyn&gt;)
+      Audio(Box&lt;AudioTrack&gt;)
   ▼
 RanimScene 根 AnimStack  →  SceneEvaluator 采样
 </code></pre>
@@ -229,7 +228,7 @@ RanimScene 根 AnimStack  →  SceneEvaluator 采样
 映射成进度后才调用它；</li>
 <li>有状态（迭代）区段在内部记忆化自己的积分快照；纯区段就是闭式。</li>
 </ul>
-<p>运行期的 <code>NodeContent::Leaf</code> 持有 <code>Box&lt;dyn EvalDyn&gt;</code>，它是 <code>Eval</code> 的擦除
+<p>运行期的 <code>LeafContent::Anim</code> 持有 <code>Box&lt;dyn EvalDyn&gt;</code>，它是 <code>Eval</code> 的擦除
 对应物：<code>Eval</code> 带有关联类型 <code>Output</code>，不能直接作为 trait object，因此
 <code>animation::eval</code> 为所有满足 <code>Output: AnyExtractCoreItem</code> 的 <code>E: Eval</code>
 自动实现了 <code>EvalDyn</code>。只有用户叶子会进入 <code>Leaf</code>；内置容器是 core 自己的
@@ -330,7 +329,7 @@ where
 {
     fn into_anim_node(self) -&gt; AnimNode {
         AnimNode {
-            content: NodeContent::Leaf(Box::new(self)),
+            content: NodeContent::Leaf(LeafContent::Anim(Box::new(self))),
             internal_time_secs: 1.0,
             // rate_func = none（linear）, time_range = 0.0..1.0, enabled = true
             ...
@@ -374,7 +373,7 @@ r.play(intro);</code></pre>
 <p>Sequence 是动态类型擦除边界，但不会展开传入动画的组合树。每次 <code>push</code> 只将
 直接子动画转换为一个 <code>AnimNode</code>；如果子动画是 Stack 或 Sequence，其内部层级
 会继续保留。<code>AnimSequence::into_anim_node</code> 最终产生
-<code>NodeContent::Sequence(Vec&lt;AnimNode&gt;)</code>。</p>
+<code>NodeContent::Children(Vec&lt;AnimNode&gt;)</code>。</p>
 <p>Sequence 自己通过 cursor 决定子动画的位置，因此 <code>push</code> 只接受尚未显式放置的
 <code>Unplaced</code>。<code>At&lt;A&gt;</code> 已经固定父时间坐标，不能进入 Sequence。</p>
 <p>Sequence 本身仍实现 <code>IntoAnimNode</code> 与 <code>Unplaced</code>，所以可以先独立构造，再整体
@@ -384,8 +383,8 @@ r.play(intro);</code></pre>
 <p>两者都会推进 Sequence cursor，但输出语义不同：</p>
 <ul>
 <li><code>forward(secs)</code> 只推进 cursor，产生的空白区间没有输出。</li>
-<li><code>hold(secs)</code> 取得 cursor 处的 Sequence 状态，将它保存为持续 <code>secs</code> 的静态
-运行时节点（<code>NodeContent::Static</code>）。</li>
+<li><code>hold(secs)</code> 取得 cursor 处的 Sequence 状态，将它保存为持续 <code>secs</code> 的
+普通静态动画叶子（<code>Static&lt;Vec&lt;DynItem&gt;&gt;</code>）。</li>
 <li><code>forward_to(target)</code> 和 <code>hold_to(target)</code> 是对应的绝对 cursor 版本。</li>
 </ul>
 <p><code>hold</code> 没有额外的状态协议，它直接采用 Sequence 在 cursor 处的正常求值结果。
@@ -511,26 +510,30 @@ stagger ratio 返回 <code>AnimLagged</code>（见上文）。</p>
 ├─ internal_time_secs: f64        content 轴长度
 ├─ rate_func: Option&lt;fn(f64) -&gt; f64&gt;
 ├─ enabled: bool
+├─ end_inclusive: bool           是否允许包含父容器末尾的右端点
 └─ anim_name: &amp;'static str
 </code></pre>
 <p><code>NodeContent</code> 是封闭的运行时语言：</p>
 <pre><code class="language-text">NodeContent
-├─ Sequence(Vec&lt;AnimNode&gt;)   最后一个命中的子节点求值
-├─ Stack(Vec&lt;AnimNode&gt;)      所有命中的子节点叠加求值
-├─ Leaf(Box&lt;dyn EvalDyn&gt;)    用户 Eval 叶子的类型擦除
-├─ Static(Vec&lt;DynItem&gt;)      已经采样好的输出批次
-└─ Audio(Box&lt;AudioTrack&gt;)    seal 时烘焙的音频叶子
+├─ Children(Vec&lt;AnimNode&gt;)   所有命中的子节点按插入顺序叠加求值
+└─ Leaf(LeafContent)
+   ├─ Anim(Box&lt;dyn EvalDyn&gt;) 用户 Eval 叶子的类型擦除
+   └─ Audio(Box&lt;AudioTrack&gt;) seal 时烘焙的音频叶子
 </code></pre>
 <p><code>AnimNode::eval_at(sec, out)</code> 是唯一的时间管理入口：node 先检查
 enabled / active，再用自己的 <code>time_range</code> 和 <code>rate_func</code> 把 <code>sec</code> 映射成局部
 <code>alpha</code>，最后交给 <code>NodeContent</code>：</p>
 <ul>
-<li><code>Sequence</code> 选择最后一个包含 content 时间的子节点；</li>
-<li><code>Stack</code> 求值所有包含 content 时间的子节点；</li>
-<li><code>Leaf</code> 调用擦除后的 <code>EvalDyn::eval_into(alpha, out)</code>；</li>
-<li><code>Static</code> 克隆保存的输出；</li>
-<li><code>Audio</code> 不参与逐帧视觉求值，由 seal 时的音频 interpreter 处理。</li>
+<li><code>Children</code> 求值所有包含 content 时间的子节点；</li>
+<li>动画叶子调用擦除后的 <code>EvalDyn::eval_into(alpha, out)</code>；</li>
+<li>音频叶子由 seal 时的音频 interpreter 处理。</li>
 </ul>
+<p>子片段使用左闭右开区间，父容器末尾允许包含子片段的右端点。
+Sequence 在 <code>into_anim_node</code> 时移除被覆盖的零时长片段，并关闭被末尾
+<code>show()</code> / <code>hide()</code> 覆盖的前一片段的右端点。这个标记是固定的区间元数据，
+求值时无需维护可变的显示状态。普通 stack 的重叠片段仍然全部求值。
+<code>hold</code> 和 lagged 的边缘填充使用 <code>Static&lt;Vec&lt;DynItem&gt;&gt;</code> 动画叶子；输出批次
+会直接展开，连续 hold 不会产生嵌套批次。</p>
 <p>这里的关键是：运行时核心是封闭的，因此不同 consumer 可以各自遍历同一棵树，
 互不污染：</p>
 <ul>
@@ -541,7 +544,7 @@ enabled / active，再用自己的 <code>time_range</code> 和 <code>rate_func</
 </ul>
 <p>叶子仍然通过 <code>Eval</code> 保持开放；如果一个组合子能用核心构造子和窗口 placement
 表达，就在 build 时 desugar，而不是增加新的 runtime variant。<code>AnimLagged</code>
-就是这种 sugar：它最终 lower 成 <code>Stack</code> + <code>Sequence</code>。</p>
+就是这种 sugar：它最终 lower 成嵌套的 <code>Children</code>。</p>
 <p><code>SceneEvaluator::sample_at(render_secs, out)</code> 是唯一的 session 交互：</p>
 <ul>
 <li>对每个顶层 <code>AnimNode</code> 调用 <code>eval_at(render_secs)</code>；</li>
@@ -560,7 +563,7 @@ scene.play(seq![
         .with_fade_in(0.25),
     square.write(),
 ]);</code></pre>
-<p><code>Sound::into_anim_node</code> 产生 <code>NodeContent::Audio(Box&lt;AudioTrack&gt;)</code>。它同样参与
+<p><code>Sound::into_anim_node</code> 产生 <code>NodeContent::Leaf(LeafContent::Audio(Box&lt;AudioTrack&gt;))</code>。它同样参与
 <code>seq!</code> / <code>stack!</code> / <code>lagged!</code>、<code>.at()</code>、<code>.with_duration()</code>、
 <code>.with_rate_func()</code> 和 <code>.with_enabled()</code>。音频不进入逐帧视觉管线，而是在
 <code>RanimScene::seal</code> 时通过 <code>bake_audio</code> 一次性混音；见 <code>ranim-core</code> 的音频模块

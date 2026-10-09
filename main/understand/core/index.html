@@ -37,7 +37,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-87fd3d9b.js";
+            window.path_to_searchindex_js = "../../searchindex-ad101039.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-bed341cd.js"></script>
@@ -191,7 +191,7 @@
 </code></pre>
 <ul>
 <li>定义期（open）：叶子实现 <code>Eval</code>；容器/Sugar 位于 <code>animation::compose</code>，通过 <code>IntoAnimNode</code> lower 到运行时。</li>
-<li>运行期（closed）：所有定义都 lower 成 <code>AnimNode</code>，其 <code>NodeContent</code> 是封闭的核心语言（<code>Sequence</code>、<code>Stack</code>、<code>Leaf</code>、<code>Static</code>、<code>Audio</code>）。视觉求值、音频烘焙、preview introspection 都是这棵树上的 interpreter。</li>
+<li>运行期（closed）：所有定义都 lower 成 <code>AnimNode</code>，其 <code>NodeContent</code> 是封闭的核心语言（<code>Children</code> 或 <code>Leaf</code>，叶子载荷为动画或音频）。视觉求值、音频烘焙、preview introspection 都是这棵树上的 interpreter。</li>
 <li><a href="./anim.html"><code>Eval</code>、<code>IntoAnimNode</code>、容器与运行时</a> 描述叶子动画如何根据局部进度产生状态、附加播放参数，以及顺序 / 并行 / 交错容器如何把场景组织成动画树。</li>
 <li><a href="./core_item.html"><code>CoreItem</code> 与 <code>Extract</code></a> 描述动画求值结果如何经 <code>Extract</code> 展开为渲染器消费的 core item。</li>
 <li><a href="./core_items/README.html">Core Items</a> 逐个介绍三种 core item（<code>CameraFrame</code>、<code>VItem</code>、<code>MeshItem</code>）的字段与渲染语义。</li>
