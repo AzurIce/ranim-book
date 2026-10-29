@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>RenderVItem · Ranim Book</title>
+  <link rel="home" href="../../../">
+  <script>
+    document.documentElement.classList.add('js');
+    try {
+      const root = document.documentElement;
+      const theme = localStorage.getItem('notist-theme');
+      root.dataset.theme = theme === 'light' || theme === 'dark' ? theme : 'auto';
+      const home = document.querySelector('link[rel="home"]').href;
+      const width = Number(localStorage.getItem(`notist-book-width:${home}`));
+      if (Number.isFinite(width) && width > 0) root.style.setProperty('--navigation-user-width', `${width}px`);
+    } catch (_) {}
+  </script>
+  <link rel="stylesheet" href="../../../_notist/theme/book.css"><link rel="stylesheet" href="../../../_notist/theme/status.css"><link rel="stylesheet" href="../../../_notist/theme/highlight.css"><link rel="stylesheet" href="../../../version-select.css">
+  <script src="../../../_notist/theme/book.js" defer></script><script src="../../../version-select.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#page-content">Skip to content</a>
+  <div id="reading-progress" class="reading-progress" aria-hidden="true"><span></span></div>
+  <header class="book-header">
+    <div class="header-inner">
+      <a class="book-brand" href="../../../">Ranim Book</a>
+      <button id="nav-toggle" class="text-button" type="button" aria-label="Open contents" aria-controls="book-nav" aria-expanded="false">Contents</button>
+      <button id="theme-toggle" class="text-button" type="button" aria-label="Toggle color theme" title="Toggle color theme"><span class="theme-label">Theme</span></button>
+    </div>
+  </header>
+  <div id="nav-backdrop" class="nav-backdrop" hidden aria-hidden="true"></div>
+  <div class="book-layout">
+    <nav id="book-nav" class="book-navigation" aria-label="Contents">
+      <div class="rail-heading"><p class="rail-label">Contents</p><button id="nav-close" class="text-button" type="button" aria-label="Close contents">Close</button></div>
+      <ul class="navigation-tree"><li class="nav-item">
+  <a href="../../../"><span class="nav-title">首页</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../getting_started/"><span class="nav-title">Getting Started</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../project-entry/"><span class="nav-title">项目入口：场景库与跨平台宿主</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../packages/"><span class="nav-title">Ranim Packages</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../cli/"><span class="nav-title">命令行入口</span></a>
+</li>
+
+<li class="nav-part"><span role="heading" aria-level="2">理解 Ranim</span></li>
+
+<li class="nav-item">
+  <div class="nav-label"><a href="../../core/"><span class="nav-title">核心概念</span></a>
+</div>
+  <details class="nav-branch" open>
+    <summary class="nav-disclosure" aria-label="Toggle 核心概念"></summary>
+    <ul class="nav-children"><li class="nav-item">
+  <a href="../../core/anim/"><span class="nav-title">动画系统</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../core/extract/"><span class="nav-title">完整求值帧与渲染提取</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../core/transformed/"><span class="nav-title">Transformed&lt;T&gt;</span></a>
+</li>
+
+</ul>
+  </details>
+</li>
+
+<li class="nav-item">
+  <div class="nav-label"><a href="../"><span class="nav-title">渲染表示与物件插件</span></a>
+</div>
+  <details class="nav-branch" open>
+    <summary class="nav-disclosure" aria-label="Toggle 渲染表示与物件插件"></summary>
+    <ul class="nav-children"><li class="nav-item">
+  <a href="./" aria-current="page"><span class="nav-title">RenderVItem</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../mesh_item/"><span class="nav-title">RenderMeshItem</span></a>
+</li>
+
+</ul>
+  </details>
+</li>
+
+<li class="nav-part"><span role="heading" aria-level="2">Items</span></li>
+
+<li class="nav-item">
+  <div class="nav-label"><a href="../../../items/"><span class="nav-title">Items</span></a>
+</div>
+  <details class="nav-branch" open>
+    <summary class="nav-disclosure" aria-label="Toggle Items"></summary>
+    <ul class="nav-children"><li class="nav-item">
+  <a href="../../../items/camera/"><span class="nav-title">CameraFrame</span></a>
+</li>
+
+<li class="nav-item">
+  <div class="nav-label"><a href="../../../items/vitem/"><span class="nav-title">VItem 类</span></a>
+</div>
+  <details class="nav-branch" open>
+    <summary class="nav-disclosure" aria-label="Toggle VItem 类"></summary>
+    <ul class="nav-children"><li class="nav-item">
+  <a href="../../../items/vitem/vitem/"><span class="nav-title">VItem</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../items/vitem/geometry/"><span class="nav-title">几何构造器</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../items/vitem/svg/"><span class="nav-title">SvgItem</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../items/vitem/text/"><span class="nav-title">文字物件</span></a>
+</li>
+
+</ul>
+  </details>
+</li>
+
+<li class="nav-item">
+  <div class="nav-label"><a href="../../../items/mesh/"><span class="nav-title">MeshItem 类</span></a>
+</div>
+  <details class="nav-branch" open>
+    <summary class="nav-disclosure" aria-label="Toggle MeshItem 类"></summary>
+    <ul class="nav-children"><li class="nav-item">
+  <a href="../../../items/mesh/mesh_item/"><span class="nav-title">MeshItem</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../items/mesh/surface/"><span class="nav-title">Surface</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../items/mesh/sphere/"><span class="nav-title">Sphere</span></a>
+</li>
+
+</ul>
+  </details>
+</li>
+
+</ul>
+  </details>
+</li>
+
+
+<li class="nav-separator" role="presentation"><hr></li>
+
+<li class="nav-part"><span role="heading" aria-level="2">News</span></li>
+
+<li class="nav-item">
+  <a href="../../../news/v0.1/"><span class="nav-title">v0.1</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../news/v0.2/"><span class="nav-title">v0.2</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../news/v0.3/"><span class="nav-title">v0.3</span></a>
+</li>
+
+</ul>
+    </nav>
+    <script>// Runs directly after the complete navigation, before deferred reader enhancements.
+(() => {
+  const navigation = document.querySelector('#book-nav');
+  if (!navigation) return;
+  const home = document.querySelector('link[rel="home"]')?.href || document.querySelector('.book-brand')?.href;
+  const key = `notist-book-scroll:${home}`;
+  let saved = null;
+  let pending = null;
+  try { saved = JSON.parse(sessionStorage.getItem(key)); } catch (_) {}
+  const visible = () => navigation.getClientRects().length > 0;
+  const offset = link => link.getBoundingClientRect().top - navigation.getBoundingClientRect().top;
+  const save = (link = pending) => {
+    if (!visible()) return;
+    saved = { top: navigation.scrollTop };
+    if (link) saved.anchor = { url: link.href, offset: offset(link) };
+    try { sessionStorage.setItem(key, JSON.stringify(saved)); } catch (_) {}
+  };
+  const restore = () => {
+    if (!visible()) return;
+    if (Number.isFinite(saved?.top) && saved.top >= 0) navigation.scrollTop = saved.top;
+    const anchor = saved?.anchor;
+    const link = anchor && Number.isFinite(anchor.offset)
+      ? [...navigation.querySelectorAll('a[href]')].find(link => link.href === anchor.url) : null;
+    if (link) navigation.scrollTop += offset(link) - anchor.offset;
+    const current = navigation.querySelector('[aria-current="page"]');
+    if (!current) return;
+    const bounds = current.getBoundingClientRect();
+    const rail = navigation.getBoundingClientRect();
+    const start = rail.top + (navigation.querySelector('.rail-heading')?.getBoundingClientRect().height || 0);
+    if (bounds.bottom > rail.bottom) navigation.scrollTop += bounds.bottom - rail.bottom + 24;
+    else if (bounds.top < start) navigation.scrollTop += bounds.top - start - 24;
+  };
+  navigation.addEventListener('scroll', () => save(), { passive: true });
+  // Capture before the mobile reader closes the drawer. A pending link anchor must
+  // survive pagehide and any scroll event caused by restoring its position.
+  navigation.addEventListener('click', event => {
+    const link = event.target.closest('a[href]');
+    if (link && !event.defaultPrevented && event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && !link.hasAttribute('download') && (!link.target || link.target === '_self')) {
+      const target = new URL(link.href);
+      if (target.origin === location.origin && target.pathname !== location.pathname) pending = link;
+    }
+    save(pending);
+  }, true);
+  window.addEventListener('pagehide', () => save(pending));
+  // Hidden mobile drawers restore immediately when made visible, before painting.
+  new MutationObserver(restore).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+  new ResizeObserver(restore).observe(navigation);
+  restore();
+})();
+</script>
+    <div id="nav-resize" class="navigation-resize" role="separator" tabindex="0" aria-label="Resize contents" aria-orientation="vertical" aria-controls="book-nav" title="Drag or use arrow keys to resize contents; double-click or press Home to reset"></div>
+    <main id="page-content" tabindex="-1">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="../">渲染表示与物件插件</a></li><li><span aria-current="page">RenderVItem</span></li></ol></nav>
+      <details class="mobile-outline">
+        <summary>On this page <span class="outline-state" aria-hidden="true"><span class="outline-show">Show</span><span class="outline-hide">Hide</span></span></summary>
+        <ol class="outline-list"><li data-level="1"><a data-outline-link href="#rendervitem">RenderVItem</a></li><li data-level="2"><a data-outline-link href="#%E7%82%B9%E5%88%97%E8%AF%AD%E4%B9%89">点列语义</a></li><li data-level="2"><a data-outline-link href="#%E5%B9%B3%E9%9D%A2%E6%8A%95%E5%BD%B1%E6%B8%B2%E6%9F%93">平面投影渲染</a></li></ol>
+      </details>
+      <article class="prose"><section><h1 id="rendervitem"><code>RenderVItem</code></h1><blockquote data-notist-kind="quote"><p>[!caution]ai 生成，可能叙事逻辑和表述并不是很好，仅供参考。</p></blockquote><p>矢量图元的渲染组件，需要 items 的 <code>render</code> feature，定义于 <code>ranim_items::vitem::render</code>。注意点是三维的（局部空间），<code>transform</code> 给出局部到世界的变换。「共面」是渲染时的假设（见下文「平面投影渲染」）。</p><pre><code class="language-rust"><span class="z-source z-rust"><span class="z-meta z-struct z-rust"><span class="z-storage z-modifier z-rust">pub</span> <span class="z-storage z-type z-struct z-rust">struct</span> </span><span class="z-meta z-struct z-rust"><span class="z-entity z-name z-struct z-rust">RenderVItem</span> </span><span class="z-meta z-struct z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+    <span class="z-comment z-line z-documentation z-rust"><span class="z-punctuation z-definition z-comment z-rust">///</span> 投影目标平面的法向；None 时由渲染器从点推导
+</span>    <span class="z-storage z-modifier z-rust">pub</span> <span class="z-variable z-other z-member z-rust">normal</span><span class="z-punctuation z-separator z-type z-rust">:</span> <span class="z-meta z-generic z-rust"><span class="z-support z-type z-rust">Option</span><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span>Vec3<span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span>,
+    <span class="z-comment z-line z-documentation z-rust"><span class="z-punctuation z-definition z-comment z-rust">///</span> 局部空间点列；(x, y, z, is_closed)
+</span>    <span class="z-storage z-modifier z-rust">pub</span> <span class="z-variable z-other z-member z-rust">points</span><span class="z-punctuation z-separator z-type z-rust">:</span> <span class="z-meta z-generic z-rust"><span class="z-support z-type z-rust">Vec</span><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span>Vec4<span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span>,
+    <span class="z-comment z-line z-documentation z-rust"><span class="z-punctuation z-definition z-comment z-rust">///</span> 局部到世界的变换
+</span>    <span class="z-storage z-modifier z-rust">pub</span> <span class="z-variable z-other z-member z-rust">transform</span><span class="z-punctuation z-separator z-type z-rust">:</span> Mat4,
+    <span class="z-storage z-modifier z-rust">pub</span> <span class="z-variable z-other z-member z-rust">fill_rgbas</span><span class="z-punctuation z-separator z-type z-rust">:</span> <span class="z-meta z-generic z-rust"><span class="z-support z-type z-rust">Vec</span><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span>Rgba<span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span>,
+    <span class="z-storage z-modifier z-rust">pub</span> <span class="z-variable z-other z-member z-rust">stroke_rgbas</span><span class="z-punctuation z-separator z-type z-rust">:</span> <span class="z-meta z-generic z-rust"><span class="z-support z-type z-rust">Vec</span><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span>Rgba<span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span>,
+    <span class="z-storage z-modifier z-rust">pub</span> <span class="z-variable z-other z-member z-rust">stroke_widths</span><span class="z-punctuation z-separator z-type z-rust">:</span> <span class="z-meta z-generic z-rust"><span class="z-support z-type z-rust">Vec</span><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span>Width<span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span>,
+</span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span></code></pre><section><h2 id="点列语义">点列语义</h2><p><code>points</code> 由用户层 <code>VItem</code> 的 vpoints 展开而来：二次贝塞尔路径的 anchor 与handle 交替排列，每个 <code>Vec4</code> 的 <code>w</code> 分量是该点是否闭合路径（closepath）的标记。颜色与线宽数组按<strong>路径段</strong>对齐（段数 = 点数 / 2 向上取整），默认描边宽度为 <code>DEFAULT_STROKE_WIDTH = 0.02</code>。</p><p>通常由逻辑 <code>VItem</code> 的值级 <code>Extract</code> 生成该组件，并将<code>ExtractContext</code> 累积的父变换与已有 <code>transform</code> 组合，写入 render world；GPU在平面基重建之后应用矩阵。<code>ranim_items::vitem::VItemPlugin</code> 安装裸逻辑<code>VItem</code>（及 <code>Vec&lt;VItem&gt;</code>、几何、SVG、文字输入）的提取与 GPU 管线；默认渲染配置已包含它，自定义 <code>RenderSetup</code> 时经 <code>RanimItemsPlugin</code> 或单独安装。变换wrapper 或未被覆盖的容器另注册实际完整类型的<code>ExtractPlugin&lt;T&gt;</code>。同一输入重复渲染不会修改帧中的点或矩阵。</p></section><section><h2 id="平面投影渲染">平面投影渲染</h2><p>渲染 <code>RenderVItem</code> 时，Ranim 假设所有点共面以计算深度，实际渲染的是它在某个平面上的<strong>投影</strong>：</p><ul><li><p>投影平面的初始基为 <code>(X, Y)</code>、法向为 <code>Z</code>，且包含点列的第一个点；</p></li><li><p><code>normal</code> 为 <code>Some</code> 时使用指定的投影平面；</p></li><li><p><code>normal</code> 为 <code>None</code> 时由 <code>vitem_normal_from_points</code> 在渲染时推导：先对 anchor点做 Newell 法（鞋带公式的 3D 形式）求面积法向；面积退化（如单段曲线）时扫描全部点寻找非共线三元组；点共线时取一个包含该直线的确定性平面；所有点重合时回退到 <code>Z</code> 轴。</p></li></ul><p>因此正常使用应保证一个 <code>RenderVItem</code> 的点共面（此时投影即其本身）；故意打破共面则得到的是投影效果。</p></section></section></article>
+      <nav class="adjacent" aria-label="Page navigation">
+        <a rel="prev" href="../" class="adjacent-link previous"><span class="adjacent-label">Previous</span><span class="adjacent-title">渲染表示与物件插件</span></a>
+        <a rel="next" href="../mesh_item/" class="adjacent-link next"><span class="adjacent-label">Next</span><span class="adjacent-title">RenderMeshItem</span></a>
+      </nav>
+      
+    </main>
+    <aside class="page-outline" aria-label="On this page">
+      <nav id="page-outline" aria-label="Page outline"><p class="rail-label">On this page</p><ol class="outline-list"><li data-level="1"><a data-outline-link href="#rendervitem">RenderVItem</a></li><li data-level="2"><a data-outline-link href="#%E7%82%B9%E5%88%97%E8%AF%AD%E4%B9%89">点列语义</a></li><li data-level="2"><a data-outline-link href="#%E5%B9%B3%E9%9D%A2%E6%8A%95%E5%BD%B1%E6%B8%B2%E6%9F%93">平面投影渲染</a></li></ol></nav>
+    </aside>
+    <footer class="book-footer"><span>Ranim Book</span><a href="#page-content">Back to top</a></footer>
+  </div>
+  
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>CameraFrame · Ranim Book</title>
+  <link rel="home" href="../../">
+  <script>
+    document.documentElement.classList.add('js');
+    try {
+      const root = document.documentElement;
+      const theme = localStorage.getItem('notist-theme');
+      root.dataset.theme = theme === 'light' || theme === 'dark' ? theme : 'auto';
+      const home = document.querySelector('link[rel="home"]').href;
+      const width = Number(localStorage.getItem(`notist-book-width:${home}`));
+      if (Number.isFinite(width) && width > 0) root.style.setProperty('--navigation-user-width', `${width}px`);
+    } catch (_) {}
+  </script>
+  <link rel="stylesheet" href="../../_notist/theme/book.css"><link rel="stylesheet" href="../../_notist/theme/status.css"><link rel="stylesheet" href="../../_notist/theme/highlight.css"><link rel="stylesheet" href="../../version-select.css">
+  <script src="../../_notist/theme/book.js" defer></script><script src="../../version-select.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#page-content">Skip to content</a>
+  <div id="reading-progress" class="reading-progress" aria-hidden="true"><span></span></div>
+  <header class="book-header">
+    <div class="header-inner">
+      <a class="book-brand" href="../../">Ranim Book</a>
+      <button id="nav-toggle" class="text-button" type="button" aria-label="Open contents" aria-controls="book-nav" aria-expanded="false">Contents</button>
+      <button id="theme-toggle" class="text-button" type="button" aria-label="Toggle color theme" title="Toggle color theme"><span class="theme-label">Theme</span></button>
+    </div>
+  </header>
+  <div id="nav-backdrop" class="nav-backdrop" hidden aria-hidden="true"></div>
+  <div class="book-layout">
+    <nav id="book-nav" class="book-navigation" aria-label="Contents">
+      <div class="rail-heading"><p class="rail-label">Contents</p><button id="nav-close" class="text-button" type="button" aria-label="Close contents">Close</button></div>
+      <ul class="navigation-tree"><li class="nav-item">
+  <a href="../../"><span class="nav-title">首页</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../getting_started/"><span class="nav-title">Getting Started</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../project-entry/"><span class="nav-title">项目入口：场景库与跨平台宿主</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../packages/"><span class="nav-title">Ranim Packages</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../cli/"><span class="nav-title">命令行入口</span></a>
+</li>
+
+<li class="nav-part"><span role="heading" aria-level="2">理解 Ranim</span></li>
+
+<li class="nav-item">
+  <div class="nav-label"><a href="../../understand/core/"><span class="nav-title">核心概念</span></a>
+</div>
+  <details class="nav-branch" open>
+    <summary class="nav-disclosure" aria-label="Toggle 核心概念"></summary>
+    <ul class="nav-children"><li class="nav-item">
+  <a href="../../understand/core/anim/"><span class="nav-title">动画系统</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../understand/core/extract/"><span class="nav-title">完整求值帧与渲染提取</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../understand/core/transformed/"><span class="nav-title">Transformed&lt;T&gt;</span></a>
+</li>
+
+</ul>
+  </details>
+</li>
+
+<li class="nav-item">
+  <div class="nav-label"><a href="../../understand/rendering/"><span class="nav-title">渲染表示与物件插件</span></a>
+</div>
+  <details class="nav-branch" open>
+    <summary class="nav-disclosure" aria-label="Toggle 渲染表示与物件插件"></summary>
+    <ul class="nav-children"><li class="nav-item">
+  <a href="../../understand/rendering/vitem/"><span class="nav-title">RenderVItem</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../understand/rendering/mesh_item/"><span class="nav-title">RenderMeshItem</span></a>
+</li>
+
+</ul>
+  </details>
+</li>
+
+<li class="nav-part"><span role="heading" aria-level="2">Items</span></li>
+
+<li class="nav-item">
+  <div class="nav-label"><a href="../"><span class="nav-title">Items</span></a>
+</div>
+  <details class="nav-branch" open>
+    <summary class="nav-disclosure" aria-label="Toggle Items"></summary>
+    <ul class="nav-children"><li class="nav-item">
+  <a href="./" aria-current="page"><span class="nav-title">CameraFrame</span></a>
+</li>
+
+<li class="nav-item">
+  <div class="nav-label"><a href="../vitem/"><span class="nav-title">VItem 类</span></a>
+</div>
+  <details class="nav-branch" open>
+    <summary class="nav-disclosure" aria-label="Toggle VItem 类"></summary>
+    <ul class="nav-children"><li class="nav-item">
+  <a href="../vitem/vitem/"><span class="nav-title">VItem</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../vitem/geometry/"><span class="nav-title">几何构造器</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../vitem/svg/"><span class="nav-title">SvgItem</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../vitem/text/"><span class="nav-title">文字物件</span></a>
+</li>
+
+</ul>
+  </details>
+</li>
+
+<li class="nav-item">
+  <div class="nav-label"><a href="../mesh/"><span class="nav-title">MeshItem 类</span></a>
+</div>
+  <details class="nav-branch" open>
+    <summary class="nav-disclosure" aria-label="Toggle MeshItem 类"></summary>
+    <ul class="nav-children"><li class="nav-item">
+  <a href="../mesh/mesh_item/"><span class="nav-title">MeshItem</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../mesh/surface/"><span class="nav-title">Surface</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../mesh/sphere/"><span class="nav-title">Sphere</span></a>
+</li>
+
+</ul>
+  </details>
+</li>
+
+</ul>
+  </details>
+</li>
+
+
+<li class="nav-separator" role="presentation"><hr></li>
+
+<li class="nav-part"><span role="heading" aria-level="2">News</span></li>
+
+<li class="nav-item">
+  <a href="../../news/v0.1/"><span class="nav-title">v0.1</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../news/v0.2/"><span class="nav-title">v0.2</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../news/v0.3/"><span class="nav-title">v0.3</span></a>
+</li>
+
+</ul>
+    </nav>
+    <script>// Runs directly after the complete navigation, before deferred reader enhancements.
+(() => {
+  const navigation = document.querySelector('#book-nav');
+  if (!navigation) return;
+  const home = document.querySelector('link[rel="home"]')?.href || document.querySelector('.book-brand')?.href;
+  const key = `notist-book-scroll:${home}`;
+  let saved = null;
+  let pending = null;
+  try { saved = JSON.parse(sessionStorage.getItem(key)); } catch (_) {}
+  const visible = () => navigation.getClientRects().length > 0;
+  const offset = link => link.getBoundingClientRect().top - navigation.getBoundingClientRect().top;
+  const save = (link = pending) => {
+    if (!visible()) return;
+    saved = { top: navigation.scrollTop };
+    if (link) saved.anchor = { url: link.href, offset: offset(link) };
+    try { sessionStorage.setItem(key, JSON.stringify(saved)); } catch (_) {}
+  };
+  const restore = () => {
+    if (!visible()) return;
+    if (Number.isFinite(saved?.top) && saved.top >= 0) navigation.scrollTop = saved.top;
+    const anchor = saved?.anchor;
+    const link = anchor && Number.isFinite(anchor.offset)
+      ? [...navigation.querySelectorAll('a[href]')].find(link => link.href === anchor.url) : null;
+    if (link) navigation.scrollTop += offset(link) - anchor.offset;
+    const current = navigation.querySelector('[aria-current="page"]');
+    if (!current) return;
+    const bounds = current.getBoundingClientRect();
+    const rail = navigation.getBoundingClientRect();
+    const start = rail.top + (navigation.querySelector('.rail-heading')?.getBoundingClientRect().height || 0);
+    if (bounds.bottom > rail.bottom) navigation.scrollTop += bounds.bottom - rail.bottom + 24;
+    else if (bounds.top < start) navigation.scrollTop += bounds.top - start - 24;
+  };
+  navigation.addEventListener('scroll', () => save(), { passive: true });
+  // Capture before the mobile reader closes the drawer. A pending link anchor must
+  // survive pagehide and any scroll event caused by restoring its position.
+  navigation.addEventListener('click', event => {
+    const link = event.target.closest('a[href]');
+    if (link && !event.defaultPrevented && event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && !link.hasAttribute('download') && (!link.target || link.target === '_self')) {
+      const target = new URL(link.href);
+      if (target.origin === location.origin && target.pathname !== location.pathname) pending = link;
+    }
+    save(pending);
+  }, true);
+  window.addEventListener('pagehide', () => save(pending));
+  // Hidden mobile drawers restore immediately when made visible, before painting.
+  new MutationObserver(restore).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+  new ResizeObserver(restore).observe(navigation);
+  restore();
+})();
+</script>
+    <div id="nav-resize" class="navigation-resize" role="separator" tabindex="0" aria-label="Resize contents" aria-orientation="vertical" aria-controls="book-nav" title="Drag or use arrow keys to resize contents; double-click or press Home to reset"></div>
+    <main id="page-content" tabindex="-1">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="../">Items</a></li><li><span aria-current="page">CameraFrame</span></li></ol></nav>
+      <details class="mobile-outline">
+        <summary>On this page <span class="outline-state" aria-hidden="true"><span class="outline-show">Show</span><span class="outline-hide">Hide</span></span></summary>
+        <ol class="outline-list"><li data-level="1"><a data-outline-link href="#cameraframe">CameraFrame</a></li><li data-level="2"><a data-outline-link href="#%E6%8A%95%E5%BD%B1">投影</a></li><li data-level="2"><a data-outline-link href="#3d-%E5%AE%9A%E4%BD%8D">3D 定位</a></li><li data-level="2"><a data-outline-link href="#%E5%85%B6%E4%BB%96">其他</a></li><li data-level="2"><a data-outline-link href="#%E6%B8%B2%E6%9F%93%E6%8F%92%E4%BB%B6">渲染插件</a></li></ol>
+      </details>
+      <article class="prose"><section><h1 id="cameraframe"><code>CameraFrame</code></h1><blockquote data-notist-kind="quote"><p>[!caution]ai 生成，可能叙事逻辑和表述并不是很好，仅供参考。</p></blockquote><p>相机数据，定义于 <code>ranim_items::camera</code>。它同时携带正交与透视两套投影参数，由 <code>perspective_blend</code> 在二者之间混合。</p><pre><code class="language-rust"><span class="z-source z-rust"><span class="z-meta z-struct z-rust"><span class="z-storage z-modifier z-rust">pub</span> <span class="z-storage z-type z-struct z-rust">struct</span> </span><span class="z-meta z-struct z-rust"><span class="z-entity z-name z-struct z-rust">CameraFrame</span> </span><span class="z-meta z-struct z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+    <span class="z-storage z-modifier z-rust">pub</span> <span class="z-variable z-other z-member z-rust">pos</span><span class="z-punctuation z-separator z-type z-rust">:</span> DVec3,              <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> 位置
+</span>    <span class="z-storage z-modifier z-rust">pub</span> <span class="z-variable z-other z-member z-rust">up</span><span class="z-punctuation z-separator z-type z-rust">:</span> DVec3,               <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> 上方向单位向量
+</span>    <span class="z-storage z-modifier z-rust">pub</span> <span class="z-variable z-other z-member z-rust">facing</span><span class="z-punctuation z-separator z-type z-rust">:</span> DVec3,           <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> 朝向单位向量
+</span>    <span class="z-storage z-modifier z-rust">pub</span> <span class="z-variable z-other z-member z-rust">near</span><span class="z-punctuation z-separator z-type z-rust">:</span> <span class="z-storage z-type z-rust">f64</span>,               <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> 近平面（far &gt; near）
+</span>    <span class="z-storage z-modifier z-rust">pub</span> <span class="z-variable z-other z-member z-rust">far</span><span class="z-punctuation z-separator z-type z-rust">:</span> <span class="z-storage z-type z-rust">f64</span>,                <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> 远平面
+</span>    <span class="z-storage z-modifier z-rust">pub</span> <span class="z-variable z-other z-member z-rust">perspective_blend</span><span class="z-punctuation z-separator z-type z-rust">:</span> <span class="z-storage z-type z-rust">f64</span>,  <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> 正交(0.0) ↔ 透视(1.0) 混合
+</span>    <span class="z-storage z-modifier z-rust">pub</span> <span class="z-variable z-other z-member z-rust">frame_height</span><span class="z-punctuation z-separator z-type z-rust">:</span> <span class="z-storage z-type z-rust">f64</span>,       <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> 正交：视野高度
+</span>    <span class="z-storage z-modifier z-rust">pub</span> <span class="z-variable z-other z-member z-rust">scale</span><span class="z-punctuation z-separator z-type z-rust">:</span> <span class="z-storage z-type z-rust">f64</span>,              <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> 正交：缩放系数
+</span>    <span class="z-storage z-modifier z-rust">pub</span> <span class="z-variable z-other z-member z-rust">fovy</span><span class="z-punctuation z-separator z-type z-rust">:</span> <span class="z-storage z-type z-rust">f64</span>,               <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> 透视：纵向视场角（弧度）
+</span></span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span></code></pre><p>默认值（<code>CameraFrame::default()</code>）：位于原点、朝 <code>-Z</code>、<code>+Y</code> 为上；<code>perspective_blend = 0.0</code>（纯 2D 正交）；<code>frame_height = 8.0</code>；<code>near = -1000</code>、<code>far = 1000</code>；<code>fovy = π/2</code>。2D 场景用默认值即可。</p><section><h2 id="投影">投影</h2><pre><code class="language-rust"><span class="z-source z-rust"><span class="z-storage z-type z-rust">let</span> view <span class="z-keyword z-operator z-assignment z-rust">=</span> cam<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">view_matrix</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>                       <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> look_to(pos, facing, up)
+</span><span class="z-storage z-type z-rust">let</span> proj <span class="z-keyword z-operator z-assignment z-rust">=</span> cam<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">projection_matrix</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>aspect_ratio</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+<span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span>   = orthographic_mat(aspect).lerp(perspective_mat(aspect), perspective_blend)
+</span></span></code></pre><p>正交矩阵由 <code>frame_height * scale</code> 与宽高比推出；透视矩阵使用 <code>fovy</code>，且<code>near</code> 会被钳到至少 <code>0.1</code>。<code>perspective_blend</code> 取中间值时两矩阵逐元素插值，可用于「2D 场景平滑进入 3D 透视」的运镜（见<code>examples/perspective_blend</code>）。</p></section><section><h2 id="3d-定位">3D 定位</h2><pre><code class="language-rust"><span class="z-source z-rust"><span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> 球坐标定位（Z-up），看向原点；perspective_blend 自动设为 1.0
+</span><span class="z-storage z-type z-rust">let</span> cam <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-meta z-path z-rust">CameraFrame<span class="z-punctuation z-accessor z-rust">::</span></span>from_spherical<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>phi<span class="z-punctuation z-separator z-rust">,</span> theta<span class="z-punctuation z-separator z-rust">,</span> distance</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+<span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> phi：与 +Z 的极角（0 = 正上方，π/2 = XY 平面）
+</span><span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> theta：方位角（0 = +X，π/2 = +Y）
+</span>
+<span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> 或围绕任意目标点：
+</span>cam<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">set_spherical</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>phi<span class="z-punctuation z-separator z-rust">,</span> theta<span class="z-punctuation z-separator z-rust">,</span> distance<span class="z-punctuation z-separator z-rust">,</span> target</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+cam<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">look_at</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>target</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span> <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> 只改朝向
+</span></span></code></pre><p>注意 <code>from_spherical</code> / <code>set_spherical</code> 把 <code>up</code> 固定为 <code>+Z</code>。</p></section><section><h2 id="其他">其他</h2><ul><li><p><code>set_view_matrix</code> / <code>with_view_matrix</code>：从视图矩阵反解 <code>pos</code> / <code>up</code> /<code>facing</code>。</p></li><li><p><code>center_canvas_in_frame(center, width, height, up, normal, aspect_ratio)</code>：透视模式下调整相机位置，使给定矩形画布恰好充满画面。</p></li><li><p><code>CameraFrame</code> 实现了 <code>Interpolatable</code>，可以直接用 <code>morph</code> 做运镜动画。</p></li></ul></section><section><h2 id="渲染插件">渲染插件</h2><p>启用 items 的 <code>render</code> feature 后，裸 <code>CameraFrame</code> 的提取与 viewport 准备由<code>ranim_items::camera::CameraFramePlugin</code> 提供；默认渲染配置已包含它（经<code>RanimItemsPlugin</code>），自定义 <code>RenderSetup</code> 时安装 <code>RanimItemsPlugin</code> 或按需单个安装该插件。相机数据和运镜求值本身不需要 GPU。若完整动画输出是<code>Transformed&lt;CameraFrame, G&gt;</code> 等组合，另安装精确类型的 <code>ExtractPlugin&lt;T&gt;</code>。</p></section></section></article>
+      <nav class="adjacent" aria-label="Page navigation">
+        <a rel="prev" href="../" class="adjacent-link previous"><span class="adjacent-label">Previous</span><span class="adjacent-title">Items</span></a>
+        <a rel="next" href="../vitem/" class="adjacent-link next"><span class="adjacent-label">Next</span><span class="adjacent-title">VItem 类</span></a>
+      </nav>
+      
+    </main>
+    <aside class="page-outline" aria-label="On this page">
+      <nav id="page-outline" aria-label="Page outline"><p class="rail-label">On this page</p><ol class="outline-list"><li data-level="1"><a data-outline-link href="#cameraframe">CameraFrame</a></li><li data-level="2"><a data-outline-link href="#%E6%8A%95%E5%BD%B1">投影</a></li><li data-level="2"><a data-outline-link href="#3d-%E5%AE%9A%E4%BD%8D">3D 定位</a></li><li data-level="2"><a data-outline-link href="#%E5%85%B6%E4%BB%96">其他</a></li><li data-level="2"><a data-outline-link href="#%E6%B8%B2%E6%9F%93%E6%8F%92%E4%BB%B6">渲染插件</a></li></ol></nav>
+    </aside>
+    <footer class="book-footer"><span>Ranim Book</span><a href="#page-content">Back to top</a></footer>
+  </div>
+  
+</body>
+</html>

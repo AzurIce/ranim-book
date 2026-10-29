@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>MeshItem · Ranim Book</title>
+  <link rel="home" href="../../../">
+  <script>
+    document.documentElement.classList.add('js');
+    try {
+      const root = document.documentElement;
+      const theme = localStorage.getItem('notist-theme');
+      root.dataset.theme = theme === 'light' || theme === 'dark' ? theme : 'auto';
+      const home = document.querySelector('link[rel="home"]').href;
+      const width = Number(localStorage.getItem(`notist-book-width:${home}`));
+      if (Number.isFinite(width) && width > 0) root.style.setProperty('--navigation-user-width', `${width}px`);
+    } catch (_) {}
+  </script>
+  <link rel="stylesheet" href="../../../_notist/theme/book.css"><link rel="stylesheet" href="../../../_notist/theme/status.css"><link rel="stylesheet" href="../../../_notist/theme/highlight.css"><link rel="stylesheet" href="../../../version-select.css">
+  <script src="../../../_notist/theme/book.js" defer></script><script src="../../../version-select.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#page-content">Skip to content</a>
+  <div id="reading-progress" class="reading-progress" aria-hidden="true"><span></span></div>
+  <header class="book-header">
+    <div class="header-inner">
+      <a class="book-brand" href="../../../">Ranim Book</a>
+      <button id="nav-toggle" class="text-button" type="button" aria-label="Open contents" aria-controls="book-nav" aria-expanded="false">Contents</button>
+      <button id="theme-toggle" class="text-button" type="button" aria-label="Toggle color theme" title="Toggle color theme"><span class="theme-label">Theme</span></button>
+    </div>
+  </header>
+  <div id="nav-backdrop" class="nav-backdrop" hidden aria-hidden="true"></div>
+  <div class="book-layout">
+    <nav id="book-nav" class="book-navigation" aria-label="Contents">
+      <div class="rail-heading"><p class="rail-label">Contents</p><button id="nav-close" class="text-button" type="button" aria-label="Close contents">Close</button></div>
+      <ul class="navigation-tree"><li class="nav-item">
+  <a href="../../../"><span class="nav-title">首页</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../getting_started/"><span class="nav-title">Getting Started</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../project-entry/"><span class="nav-title">项目入口：场景库与跨平台宿主</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../packages/"><span class="nav-title">Ranim Packages</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../cli/"><span class="nav-title">命令行入口</span></a>
+</li>
+
+<li class="nav-part"><span role="heading" aria-level="2">理解 Ranim</span></li>
+
+<li class="nav-item">
+  <div class="nav-label"><a href="../../../understand/core/"><span class="nav-title">核心概念</span></a>
+</div>
+  <details class="nav-branch" open>
+    <summary class="nav-disclosure" aria-label="Toggle 核心概念"></summary>
+    <ul class="nav-children"><li class="nav-item">
+  <a href="../../../understand/core/anim/"><span class="nav-title">动画系统</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../understand/core/extract/"><span class="nav-title">完整求值帧与渲染提取</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../understand/core/transformed/"><span class="nav-title">Transformed&lt;T&gt;</span></a>
+</li>
+
+</ul>
+  </details>
+</li>
+
+<li class="nav-item">
+  <div class="nav-label"><a href="../../../understand/rendering/"><span class="nav-title">渲染表示与物件插件</span></a>
+</div>
+  <details class="nav-branch" open>
+    <summary class="nav-disclosure" aria-label="Toggle 渲染表示与物件插件"></summary>
+    <ul class="nav-children"><li class="nav-item">
+  <a href="../../../understand/rendering/vitem/"><span class="nav-title">RenderVItem</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../understand/rendering/mesh_item/"><span class="nav-title">RenderMeshItem</span></a>
+</li>
+
+</ul>
+  </details>
+</li>
+
+<li class="nav-part"><span role="heading" aria-level="2">Items</span></li>
+
+<li class="nav-item">
+  <div class="nav-label"><a href="../../"><span class="nav-title">Items</span></a>
+</div>
+  <details class="nav-branch" open>
+    <summary class="nav-disclosure" aria-label="Toggle Items"></summary>
+    <ul class="nav-children"><li class="nav-item">
+  <a href="../../camera/"><span class="nav-title">CameraFrame</span></a>
+</li>
+
+<li class="nav-item">
+  <div class="nav-label"><a href="../../vitem/"><span class="nav-title">VItem 类</span></a>
+</div>
+  <details class="nav-branch" open>
+    <summary class="nav-disclosure" aria-label="Toggle VItem 类"></summary>
+    <ul class="nav-children"><li class="nav-item">
+  <a href="../../vitem/vitem/"><span class="nav-title">VItem</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../vitem/geometry/"><span class="nav-title">几何构造器</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../vitem/svg/"><span class="nav-title">SvgItem</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../vitem/text/"><span class="nav-title">文字物件</span></a>
+</li>
+
+</ul>
+  </details>
+</li>
+
+<li class="nav-item">
+  <div class="nav-label"><a href="../"><span class="nav-title">MeshItem 类</span></a>
+</div>
+  <details class="nav-branch" open>
+    <summary class="nav-disclosure" aria-label="Toggle MeshItem 类"></summary>
+    <ul class="nav-children"><li class="nav-item">
+  <a href="./" aria-current="page"><span class="nav-title">MeshItem</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../surface/"><span class="nav-title">Surface</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../sphere/"><span class="nav-title">Sphere</span></a>
+</li>
+
+</ul>
+  </details>
+</li>
+
+</ul>
+  </details>
+</li>
+
+
+<li class="nav-separator" role="presentation"><hr></li>
+
+<li class="nav-part"><span role="heading" aria-level="2">News</span></li>
+
+<li class="nav-item">
+  <a href="../../../news/v0.1/"><span class="nav-title">v0.1</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../news/v0.2/"><span class="nav-title">v0.2</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../news/v0.3/"><span class="nav-title">v0.3</span></a>
+</li>
+
+</ul>
+    </nav>
+    <script>// Runs directly after the complete navigation, before deferred reader enhancements.
+(() => {
+  const navigation = document.querySelector('#book-nav');
+  if (!navigation) return;
+  const home = document.querySelector('link[rel="home"]')?.href || document.querySelector('.book-brand')?.href;
+  const key = `notist-book-scroll:${home}`;
+  let saved = null;
+  let pending = null;
+  try { saved = JSON.parse(sessionStorage.getItem(key)); } catch (_) {}
+  const visible = () => navigation.getClientRects().length > 0;
+  const offset = link => link.getBoundingClientRect().top - navigation.getBoundingClientRect().top;
+  const save = (link = pending) => {
+    if (!visible()) return;
+    saved = { top: navigation.scrollTop };
+    if (link) saved.anchor = { url: link.href, offset: offset(link) };
+    try { sessionStorage.setItem(key, JSON.stringify(saved)); } catch (_) {}
+  };
+  const restore = () => {
+    if (!visible()) return;
+    if (Number.isFinite(saved?.top) && saved.top >= 0) navigation.scrollTop = saved.top;
+    const anchor = saved?.anchor;
+    const link = anchor && Number.isFinite(anchor.offset)
+      ? [...navigation.querySelectorAll('a[href]')].find(link => link.href === anchor.url) : null;
+    if (link) navigation.scrollTop += offset(link) - anchor.offset;
+    const current = navigation.querySelector('[aria-current="page"]');
+    if (!current) return;
+    const bounds = current.getBoundingClientRect();
+    const rail = navigation.getBoundingClientRect();
+    const start = rail.top + (navigation.querySelector('.rail-heading')?.getBoundingClientRect().height || 0);
+    if (bounds.bottom > rail.bottom) navigation.scrollTop += bounds.bottom - rail.bottom + 24;
+    else if (bounds.top < start) navigation.scrollTop += bounds.top - start - 24;
+  };
+  navigation.addEventListener('scroll', () => save(), { passive: true });
+  // Capture before the mobile reader closes the drawer. A pending link anchor must
+  // survive pagehide and any scroll event caused by restoring its position.
+  navigation.addEventListener('click', event => {
+    const link = event.target.closest('a[href]');
+    if (link && !event.defaultPrevented && event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && !link.hasAttribute('download') && (!link.target || link.target === '_self')) {
+      const target = new URL(link.href);
+      if (target.origin === location.origin && target.pathname !== location.pathname) pending = link;
+    }
+    save(pending);
+  }, true);
+  window.addEventListener('pagehide', () => save(pending));
+  // Hidden mobile drawers restore immediately when made visible, before painting.
+  new MutationObserver(restore).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+  new ResizeObserver(restore).observe(navigation);
+  restore();
+})();
+</script>
+    <div id="nav-resize" class="navigation-resize" role="separator" tabindex="0" aria-label="Resize contents" aria-orientation="vertical" aria-controls="book-nav" title="Drag or use arrow keys to resize contents; double-click or press Home to reset"></div>
+    <main id="page-content" tabindex="-1">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="../../">Items</a></li><li><a href="../">MeshItem 类</a></li><li><span aria-current="page">MeshItem</span></li></ol></nav>
+      <details class="mobile-outline">
+        <summary>On this page <span class="outline-state" aria-hidden="true"><span class="outline-show">Show</span><span class="outline-hide">Hide</span></span></summary>
+        <ol class="outline-list"><li data-level="1"><a data-outline-link href="#meshitem">MeshItem</a></li><li data-level="2"><a data-outline-link href="#%E5%8F%98%E6%8D%A2-transformed-t-g">变换：Transformed&lt;T, G&gt;</a></li></ol>
+      </details>
+      <article class="prose"><section><h1 id="meshitem"><code>MeshItem</code></h1><blockquote data-notist-kind="quote"><p>[!caution]ai 生成，可能叙事逻辑和表述并不是很好，仅供参考。</p></blockquote><pre><code class="language-rust"><span class="z-source z-rust"><span class="z-meta z-struct z-rust"><span class="z-storage z-modifier z-rust">pub</span> <span class="z-storage z-type z-struct z-rust">struct</span> </span><span class="z-meta z-struct z-rust"><span class="z-entity z-name z-struct z-rust">MeshItem</span> </span><span class="z-meta z-struct z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+    <span class="z-storage z-modifier z-rust">pub</span> <span class="z-variable z-other z-member z-rust">points</span><span class="z-punctuation z-separator z-type z-rust">:</span> <span class="z-meta z-generic z-rust">PointVec<span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span>DVec3<span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span>,         <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> 顶点（局部空间）
+</span>    <span class="z-storage z-modifier z-rust">pub</span> <span class="z-variable z-other z-member z-rust">triangle_indices</span><span class="z-punctuation z-separator z-type z-rust">:</span> <span class="z-meta z-generic z-rust"><span class="z-support z-type z-rust">Vec</span><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-storage z-type z-rust">u32</span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span>,      <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> 三角形索引
+</span>    <span class="z-storage z-modifier z-rust">pub</span> <span class="z-variable z-other z-member z-rust">vertex_colors</span><span class="z-punctuation z-separator z-type z-rust">:</span> <span class="z-meta z-generic z-rust">PointVec<span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span>Rgba<span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span>,   <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> 每顶点颜色
+</span>    <span class="z-storage z-modifier z-rust">pub</span> <span class="z-variable z-other z-member z-rust">vertex_normals</span><span class="z-punctuation z-separator z-type z-rust">:</span> <span class="z-meta z-generic z-rust">PointVec<span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span>DVec3<span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span>, <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> 每顶点法线；全零 → flat shading
+</span></span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span></code></pre><p>与渲染组件 <code>RenderMeshItem</code> 一一对应，但使用 f64 类型，且顶点/颜色/法线包在<code>PointVec</code> 里以支持对齐与插值，因此可以直接参与 <code>morph</code> 等动画。</p><p>构造与常用操作：</p><pre><code class="language-rust"><span class="z-source z-rust"><span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> 仅顶点（无索引，适合点云）或 顶点+索引
+</span><span class="z-storage z-type z-rust">let</span> mesh <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-meta z-path z-rust">MeshItem<span class="z-punctuation z-accessor z-rust">::</span></span>from_vertices<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>points</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+<span class="z-storage z-type z-rust">let</span> mesh <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-meta z-path z-rust">MeshItem<span class="z-punctuation z-accessor z-rust">::</span></span>from_indexed_vertices<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>points<span class="z-punctuation z-separator z-rust">,</span> triangle_indices</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+
+<span class="z-storage z-type z-rust">let</span> mesh <span class="z-keyword z-operator z-assignment z-rust">=</span> mesh<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">with_color</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-path z-rust">manim<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-constant z-other z-rust">BLUE_C</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span> <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> 统一每顶点颜色
+</span>mesh<span class="z-punctuation z-accessor z-dot z-rust">.</span>vertex_colors <span class="z-keyword z-operator z-assignment z-rust">=</span> colors<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">into</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>        <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> 或逐顶点自定义
+</span></span></code></pre><section><h2 id="变换-transformed-t-g">变换：<code>Transformed&lt;T, G&gt;</code></h2><p><code>MeshItem</code> 自身不持有变换矩阵——顶点始终处于局部空间。需要摆放、移动、旋转、缩放时，用 <a href="../../../understand/core/transformed/"><code>Transformed&lt;T, G&gt;</code></a>包裹。现有 mesh/surface 场景通常以 <code>DAffine3</code> 作为存储上界：</p><pre><code class="language-rust"><span class="z-source z-rust"><span class="z-storage z-type z-rust">let</span> mesh<span class="z-punctuation z-separator z-rust">:</span> <span class="z-meta z-generic z-rust">Transformed<span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-keyword z-operator z-rust">_</span>, DAffine3<span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span> <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-meta z-path z-rust">Transformed<span class="z-punctuation z-accessor z-rust">::</span></span>new<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>
+    mesh<span class="z-punctuation z-separator z-rust">,</span>
+    <span class="z-meta z-path z-rust">DAffine3<span class="z-punctuation z-accessor z-rust">::</span></span>from_translation<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-keyword z-operator z-range z-rust">...</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-separator z-rust">,</span>
+</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+</span></code></pre><p>也可以用 prelude 中的 extension trait：</p><pre><code class="language-rust"><span class="z-source z-rust"><span class="z-storage z-type z-rust">let</span> mesh <span class="z-keyword z-operator z-assignment z-rust">=</span> mesh<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-meta z-path z-rust">transformed<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-generic z-rust"><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span>DAffine3<span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-path z-rust">DAffine3<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-constant z-other z-rust">IDENTITY</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+</span></code></pre><p><code>Transformed&lt;T, G&gt;</code> 实现了 <code>Interpolatable</code>（<code>transform</code> 与内部数据分别插值）、<code>Aabb</code>、<code>Alignable</code>，并在 <code>G: From&lt;H&gt;</code> 时通过 <code>ApplyTransform&lt;H&gt;</code> 做 outercomposition。它不会自动 widening；需要更一般的存储时显式转换为<code>Transformed&lt;_, DAffine3&gt;</code>。完整 wrapper 保留在求值帧中；渲染提取时将 <code>G</code>转为 <code>DAffine3</code>，通过 <code>ExtractContext</code> 与父变换组合，再左乘 primitive 的<code>transform</code>。<code>MeshItem</code> 和 <code>VItem</code> 的局部几何都保持不变。宿主需注册与帧输入一致的 <code>ExtractPlugin&lt;Transformed&lt;MeshItem, G&gt;&gt;</code>，裸类型插件不会匹配它。层旋转、整体移动这类动画应优先用 wrapper（或像<code>examples/tetrahedron_spheres</code> 那样在自定义 Eval 中直接更新公开的<code>transform</code> 字段），而不是逐顶点改 <code>points</code>。</p><p>两个辅助函数：</p><ul><li><p><code>generate_grid_indices(nu, nv)</code>：生成 <code>nu × nv</code> 行主序网格的三角形索引；</p></li><li><p><code>compute_smooth_normals(points, triangle_indices)</code>：按顶角加权的平滑法线（退化三角形自动跳过）。</p></li></ul></section></section></article>
+      <nav class="adjacent" aria-label="Page navigation">
+        <a rel="prev" href="../" class="adjacent-link previous"><span class="adjacent-label">Previous</span><span class="adjacent-title">MeshItem 类</span></a>
+        <a rel="next" href="../surface/" class="adjacent-link next"><span class="adjacent-label">Next</span><span class="adjacent-title">Surface</span></a>
+      </nav>
+      
+    </main>
+    <aside class="page-outline" aria-label="On this page">
+      <nav id="page-outline" aria-label="Page outline"><p class="rail-label">On this page</p><ol class="outline-list"><li data-level="1"><a data-outline-link href="#meshitem">MeshItem</a></li><li data-level="2"><a data-outline-link href="#%E5%8F%98%E6%8D%A2-transformed-t-g">变换：Transformed&lt;T, G&gt;</a></li></ol></nav>
+    </aside>
+    <footer class="book-footer"><span>Ranim Book</span><a href="#page-content">Back to top</a></footer>
+  </div>
+  
+</body>
+</html>

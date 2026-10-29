@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>命令行入口 · Ranim Book</title>
+  <link rel="home" href="../">
+  <script>
+    document.documentElement.classList.add('js');
+    try {
+      const root = document.documentElement;
+      const theme = localStorage.getItem('notist-theme');
+      root.dataset.theme = theme === 'light' || theme === 'dark' ? theme : 'auto';
+      const home = document.querySelector('link[rel="home"]').href;
+      const width = Number(localStorage.getItem(`notist-book-width:${home}`));
+      if (Number.isFinite(width) && width > 0) root.style.setProperty('--navigation-user-width', `${width}px`);
+    } catch (_) {}
+  </script>
+  <link rel="stylesheet" href="../_notist/theme/book.css"><link rel="stylesheet" href="../_notist/theme/status.css"><link rel="stylesheet" href="../_notist/theme/highlight.css"><link rel="stylesheet" href="../version-select.css">
+  <script src="../_notist/theme/book.js" defer></script><script src="../version-select.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#page-content">Skip to content</a>
+  <div id="reading-progress" class="reading-progress" aria-hidden="true"><span></span></div>
+  <header class="book-header">
+    <div class="header-inner">
+      <a class="book-brand" href="../">Ranim Book</a>
+      <button id="nav-toggle" class="text-button" type="button" aria-label="Open contents" aria-controls="book-nav" aria-expanded="false">Contents</button>
+      <button id="theme-toggle" class="text-button" type="button" aria-label="Toggle color theme" title="Toggle color theme"><span class="theme-label">Theme</span></button>
+    </div>
+  </header>
+  <div id="nav-backdrop" class="nav-backdrop" hidden aria-hidden="true"></div>
+  <div class="book-layout">
+    <nav id="book-nav" class="book-navigation" aria-label="Contents">
+      <div class="rail-heading"><p class="rail-label">Contents</p><button id="nav-close" class="text-button" type="button" aria-label="Close contents">Close</button></div>
+      <ul class="navigation-tree"><li class="nav-item">
+  <a href="../"><span class="nav-title">首页</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../getting_started/"><span class="nav-title">Getting Started</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../project-entry/"><span class="nav-title">项目入口：场景库与跨平台宿主</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../packages/"><span class="nav-title">Ranim Packages</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="./" aria-current="page"><span class="nav-title">命令行入口</span></a>
+</li>
+
+<li class="nav-part"><span role="heading" aria-level="2">理解 Ranim</span></li>
+
+<li class="nav-item">
+  <div class="nav-label"><a href="../understand/core/"><span class="nav-title">核心概念</span></a>
+</div>
+  <details class="nav-branch" open>
+    <summary class="nav-disclosure" aria-label="Toggle 核心概念"></summary>
+    <ul class="nav-children"><li class="nav-item">
+  <a href="../understand/core/anim/"><span class="nav-title">动画系统</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../understand/core/extract/"><span class="nav-title">完整求值帧与渲染提取</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../understand/core/transformed/"><span class="nav-title">Transformed&lt;T&gt;</span></a>
+</li>
+
+</ul>
+  </details>
+</li>
+
+<li class="nav-item">
+  <div class="nav-label"><a href="../understand/rendering/"><span class="nav-title">渲染表示与物件插件</span></a>
+</div>
+  <details class="nav-branch" open>
+    <summary class="nav-disclosure" aria-label="Toggle 渲染表示与物件插件"></summary>
+    <ul class="nav-children"><li class="nav-item">
+  <a href="../understand/rendering/vitem/"><span class="nav-title">RenderVItem</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../understand/rendering/mesh_item/"><span class="nav-title">RenderMeshItem</span></a>
+</li>
+
+</ul>
+  </details>
+</li>
+
+<li class="nav-part"><span role="heading" aria-level="2">Items</span></li>
+
+<li class="nav-item">
+  <div class="nav-label"><a href="../items/"><span class="nav-title">Items</span></a>
+</div>
+  <details class="nav-branch" open>
+    <summary class="nav-disclosure" aria-label="Toggle Items"></summary>
+    <ul class="nav-children"><li class="nav-item">
+  <a href="../items/camera/"><span class="nav-title">CameraFrame</span></a>
+</li>
+
+<li class="nav-item">
+  <div class="nav-label"><a href="../items/vitem/"><span class="nav-title">VItem 类</span></a>
+</div>
+  <details class="nav-branch" open>
+    <summary class="nav-disclosure" aria-label="Toggle VItem 类"></summary>
+    <ul class="nav-children"><li class="nav-item">
+  <a href="../items/vitem/vitem/"><span class="nav-title">VItem</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../items/vitem/geometry/"><span class="nav-title">几何构造器</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../items/vitem/svg/"><span class="nav-title">SvgItem</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../items/vitem/text/"><span class="nav-title">文字物件</span></a>
+</li>
+
+</ul>
+  </details>
+</li>
+
+<li class="nav-item">
+  <div class="nav-label"><a href="../items/mesh/"><span class="nav-title">MeshItem 类</span></a>
+</div>
+  <details class="nav-branch" open>
+    <summary class="nav-disclosure" aria-label="Toggle MeshItem 类"></summary>
+    <ul class="nav-children"><li class="nav-item">
+  <a href="../items/mesh/mesh_item/"><span class="nav-title">MeshItem</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../items/mesh/surface/"><span class="nav-title">Surface</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../items/mesh/sphere/"><span class="nav-title">Sphere</span></a>
+</li>
+
+</ul>
+  </details>
+</li>
+
+</ul>
+  </details>
+</li>
+
+
+<li class="nav-separator" role="presentation"><hr></li>
+
+<li class="nav-part"><span role="heading" aria-level="2">News</span></li>
+
+<li class="nav-item">
+  <a href="../news/v0.1/"><span class="nav-title">v0.1</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../news/v0.2/"><span class="nav-title">v0.2</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../news/v0.3/"><span class="nav-title">v0.3</span></a>
+</li>
+
+</ul>
+    </nav>
+    <script>// Runs directly after the complete navigation, before deferred reader enhancements.
+(() => {
+  const navigation = document.querySelector('#book-nav');
+  if (!navigation) return;
+  const home = document.querySelector('link[rel="home"]')?.href || document.querySelector('.book-brand')?.href;
+  const key = `notist-book-scroll:${home}`;
+  let saved = null;
+  let pending = null;
+  try { saved = JSON.parse(sessionStorage.getItem(key)); } catch (_) {}
+  const visible = () => navigation.getClientRects().length > 0;
+  const offset = link => link.getBoundingClientRect().top - navigation.getBoundingClientRect().top;
+  const save = (link = pending) => {
+    if (!visible()) return;
+    saved = { top: navigation.scrollTop };
+    if (link) saved.anchor = { url: link.href, offset: offset(link) };
+    try { sessionStorage.setItem(key, JSON.stringify(saved)); } catch (_) {}
+  };
+  const restore = () => {
+    if (!visible()) return;
+    if (Number.isFinite(saved?.top) && saved.top >= 0) navigation.scrollTop = saved.top;
+    const anchor = saved?.anchor;
+    const link = anchor && Number.isFinite(anchor.offset)
+      ? [...navigation.querySelectorAll('a[href]')].find(link => link.href === anchor.url) : null;
+    if (link) navigation.scrollTop += offset(link) - anchor.offset;
+    const current = navigation.querySelector('[aria-current="page"]');
+    if (!current) return;
+    const bounds = current.getBoundingClientRect();
+    const rail = navigation.getBoundingClientRect();
+    const start = rail.top + (navigation.querySelector('.rail-heading')?.getBoundingClientRect().height || 0);
+    if (bounds.bottom > rail.bottom) navigation.scrollTop += bounds.bottom - rail.bottom + 24;
+    else if (bounds.top < start) navigation.scrollTop += bounds.top - start - 24;
+  };
+  navigation.addEventListener('scroll', () => save(), { passive: true });
+  // Capture before the mobile reader closes the drawer. A pending link anchor must
+  // survive pagehide and any scroll event caused by restoring its position.
+  navigation.addEventListener('click', event => {
+    const link = event.target.closest('a[href]');
+    if (link && !event.defaultPrevented && event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && !link.hasAttribute('download') && (!link.target || link.target === '_self')) {
+      const target = new URL(link.href);
+      if (target.origin === location.origin && target.pathname !== location.pathname) pending = link;
+    }
+    save(pending);
+  }, true);
+  window.addEventListener('pagehide', () => save(pending));
+  // Hidden mobile drawers restore immediately when made visible, before painting.
+  new MutationObserver(restore).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+  new ResizeObserver(restore).observe(navigation);
+  restore();
+})();
+</script>
+    <div id="nav-resize" class="navigation-resize" role="separator" tabindex="0" aria-label="Resize contents" aria-orientation="vertical" aria-controls="book-nav" title="Drag or use arrow keys to resize contents; double-click or press Home to reset"></div>
+    <main id="page-content" tabindex="-1">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><span aria-current="page">命令行入口</span></li></ol></nav>
+      <details class="mobile-outline">
+        <summary>On this page <span class="outline-state" aria-hidden="true"><span class="outline-show">Show</span><span class="outline-hide">Hide</span></span></summary>
+        <ol class="outline-list"><li data-level="1"><a data-outline-link href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%85%A5%E5%8F%A3">命令行入口</a></li><li data-level="2"><a data-outline-link href="#%E9%A1%B9%E7%9B%AE%E8%A3%85%E9%85%8D">项目装配</a></li><li data-level="2"><a data-outline-link href="#preview-scene">preview [SCENE]</a></li><li data-level="2"><a data-outline-link href="#output-scenes">output [SCENES...]</a></li><li data-level="2"><a data-outline-link href="#render-scene">render &lt;SCENE&gt;</a></li><li data-level="2"><a data-outline-link href="#inspect">inspect</a></li><li data-level="3"><a data-outline-link href="#inspect-scenes">inspect scenes</a></li><li data-level="3"><a data-outline-link href="#inspect-tree-scene">inspect tree [SCENE]</a></li><li data-level="3"><a data-outline-link href="#inspect-frame-scene-at-sec">inspect frame &lt;SCENE&gt; --at &lt;sec&gt;</a></li><li data-level="2"><a data-outline-link href="#%E6%8E%A8%E8%8D%90%E5%B7%A5%E4%BD%9C%E6%B5%81">推荐工作流</a></li></ol>
+      </details>
+      <article class="prose"><section><h1 id="命令行入口">命令行入口</h1><p>CLI 是 Ranim 项目的 <strong>native 二进制入口</strong>，不是场景定义本身。场景仍可定义在 <code>src/lib.rs</code> 或独立的库 crate 中；二进制选择要暴露的场景，组装成一个 bevy App（<code>ranim::App</code> 就是 <code>bevy_app::App</code> 的再导出）。WASM 不运行这套 CLI，而由宿主导出 <code>app() -&gt; WasmApp</code>，供 JavaScript 显式创建预览。两种入口与场景库的完整关系见<a href="../project-entry/">项目入口</a>。</p><p>native 的 <code>main</code> 装配 <code>App</code> 后用 <code>app.build()</code>（<code>RanimAppExt</code>，prelude 导出）定稿插件构建——断言插件就绪、执行一次bevy 的 <code>finish()</code> / <code>cleanup()</code>——得到 <code>ranim::RanimApp</code>，把它交给自由函数 <code>run_cli</code>（prelude 导出，native + <code>cmd-render</code> feature 门控；命名刻意避开bevy App 自带的 <code>run()</code> runner 入口）：它安装 tracing、解析进程参数，随即分发为四个子命令：</p><pre><code class="language-rust"><span class="z-source z-rust"><span class="z-keyword z-other z-rust">use</span> <span class="z-meta z-path z-rust">ranim<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">prelude<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-keyword z-operator z-arithmetic z-rust">*</span><span class="z-punctuation z-terminator z-rust">;</span>
+<span class="z-keyword z-other z-rust">use</span> <span class="z-meta z-path z-rust">my_animation<span class="z-punctuation z-accessor z-rust">::</span></span>hello<span class="z-punctuation z-terminator z-rust">;</span> <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> 场景定义来自本包的 src/lib.rs，也可以来自其他库。
+</span>
+<span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">main</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-meta z-function z-rust"> </span><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+    <span class="z-storage z-type z-rust">let</span> <span class="z-storage z-modifier z-rust">mut</span> app <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-meta z-path z-rust">App<span class="z-punctuation z-accessor z-rust">::</span></span>new<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+    app<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">add_scenes</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-meta z-path z-rust">hello<span class="z-punctuation z-accessor z-rust">::</span></span>scene<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+    <span class="z-support z-function z-rust">run_cli</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>app<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">build</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+</span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span></code></pre><pre><code class="language-text">&lt;project&gt; &lt;command&gt;
+├── preview   启动交互预览 app（需要 cmd-preview feature）
+├── output    渲染场景声明的所有 #[output(...)]（成片输出）
+├── render    用默认输出设置快速渲染一个场景一次（冒烟）
+└── inspect   不渲染，纯 CPU 检查场景 / 动画树 / 单帧物件
+</code></pre><p>在自己的项目中以 <code>cargo run -- &lt;command&gt;</code> 调用；在本仓库中运行示例：</p><pre><code class="language-bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> run<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>example</span> <span class="z-keyword z-operator z-assignment z-redirection z-shell">&lt;</span>example<span class="z-keyword z-operator z-assignment z-redirection z-shell">&gt;</span> <span class="z-punctuation z-terminator z-file-descriptor z-shell">-</span>- <span class="z-keyword z-operator z-assignment z-redirection z-shell">&lt;</span>command<span class="z-keyword z-operator z-assignment z-redirection z-shell">&gt;</span> ...</span>
+</span></code></pre><p>默认包含 <code>cmd-preview</code>，开启全部四类子命令；关闭 default 并只开启 <code>cmd-render</code>时，CLI 只提供 <code>output</code>、<code>render</code> 和 <code>inspect</code>，帮助中不显示 preview。</p><p>带 <code>required-features</code>（如 <code>typst</code>、<code>gltf</code>）的示例需同时开启对应 feature。仓库为 dev profile 开了 <code>opt-level = 1</code>、依赖 <code>opt-level = 3</code>，<code>inspect</code> 是纯CPU 查询，渲染也足够快，调试迭代一般不需要 release。</p><section><h2 id="项目装配">项目装配</h2><p>子命令只能看到 App 中显式注册的场景；在 <code>main</code> 或插件的 <code>build</code> 中通过<code>add_scene</code> / <code>add_scenes</code> 注册（场景方法由 <code>AppExt</code> 提供；插件 <code>build</code> 的<code>app: &amp;mut bevy_app::App</code> 与 <code>&amp;mut App</code> 是同一类型；完整示例见<a href="../getting_started/">Getting Started</a>）：</p><pre><code class="language-rust"><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">main</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-meta z-function z-rust"> </span><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+    <span class="z-storage z-type z-rust">let</span> <span class="z-storage z-modifier z-rust">mut</span> app <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-meta z-path z-rust">App<span class="z-punctuation z-accessor z-rust">::</span></span>new<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+    app<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">add_scenes</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-meta z-path z-rust">hello<span class="z-punctuation z-accessor z-rust">::</span></span>scene<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+    <span class="z-support z-function z-rust">run_cli</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>app<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">build</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+</span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span></code></pre><p>渲染装配是可选的：启用 <code>items</code> 的项目不注册 <code>RenderSetup</code> 时，渲染与预览使用默认配置，即注册内置相机与矢量/网格物件渲染（<code>ranim_items::RanimItemsPlugin</code>）。关闭 <code>items</code>时默认配置为空，自定义渲染项目应注册自己的 <code>RenderSetup</code>。需要渲染默认配置未覆盖的完整输出（容器、变换 wrapper、自定义类型）时，才在插件中提供自己的 <code>RenderSetup</code>：</p><pre><code class="language-rust"><span class="z-source z-rust"><span class="z-meta z-struct z-rust"><span class="z-storage z-modifier z-rust">pub</span> <span class="z-storage z-type z-struct z-rust">struct</span> </span><span class="z-meta z-struct z-rust"><span class="z-entity z-name z-struct z-rust">ProjectPlugin</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+
+<span class="z-meta z-impl z-rust"><span class="z-storage z-type z-impl z-rust">impl</span> </span><span class="z-meta z-impl z-rust">Plugin <span class="z-keyword z-other z-rust">for</span></span><span class="z-meta z-impl z-rust"> <span class="z-entity z-name z-impl z-rust">ProjectPlugin</span> </span><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+    <span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">build</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span><span class="z-keyword z-operator z-rust">&amp;</span><span class="z-variable z-parameter z-rust">self</span>, <span class="z-variable z-parameter z-rust">app</span><span class="z-punctuation z-separator z-rust">:</span> <span class="z-keyword z-operator z-rust">&amp;</span><span class="z-storage z-modifier z-rust">mut</span> <span class="z-meta z-path z-rust">bevy_app<span class="z-punctuation z-accessor z-rust">::</span></span>App</span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-meta z-function z-rust"> </span><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+        app<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">add_plugins</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>ScenesPlugin</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+        app<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">insert_resource</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-path z-rust">RenderSetup<span class="z-punctuation z-accessor z-rust">::</span></span>new<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">|</span></span></span><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-variable z-parameter z-rust">render_app</span><span class="z-punctuation z-section z-parameters z-end z-rust">|</span></span> </span><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+            render_app<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">add_plugins</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>
+                RanimItemsPlugin<span class="z-punctuation z-separator z-rust">,</span>
+                <span class="z-meta z-path z-rust">ExtractPlugin<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-generic z-rust"><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span>MyOutput<span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span><span class="z-meta z-path z-rust"><span class="z-punctuation z-accessor z-rust">::</span></span>default<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-separator z-rust">,</span> <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> 实际完整输出类型
+</span>            </span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+        </span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+    </span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span></code></pre><p>项目的 <code>RenderSetup</code> 在每次安装渲染 SubApp 时重放，安装提取与渲染插件。<code>inspect</code> 只查询 CPU 数据，不执行 setup 中的 GPU 装配。</p><p>命令报错时先看编译输出；运行成功但场景未出现时，检查 <code>main</code> 或插件的<code>build</code> 是否显式调用了 <code>add_scene</code> / <code>add_scenes</code>。</p></section><section><h2 id="preview-scene"><code>preview [SCENE]</code></h2><p>启动交互预览 app。需要 <code>cmd-preview</code> feature（它启用 <code>cmd-render</code>，后者启用 <code>render</code>）；不传场景名时预览第一个场景。适合编写场景时的实时调试。</p></section><section><h2 id="output-scenes"><code>output [SCENES...]</code></h2><p>渲染每个选中场景声明的<strong>所有</strong> <code>#[output(...)]</code>；不指定场景时渲染全部场景。这是交付前的最终验证命令。</p><p><code>#[output(...)]</code> 可用的属性（默认值：<code>1920x1080</code>、60 fps、mp4、<code>dir = "./output"</code>、<code>save_frames = false</code>）：</p><pre><code class="language-rust"><span class="z-source z-rust"><span class="z-meta z-annotation z-rust"><span class="z-punctuation z-definition z-annotation z-rust">#</span><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-variable z-annotation z-rust">output</span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span></span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust">
+    width <span class="z-keyword z-operator z-rust">=</span> 1920<span class="z-punctuation z-separator z-rust">,</span>            // 像素宽
+    height <span class="z-keyword z-operator z-rust">=</span> 1080<span class="z-punctuation z-separator z-rust">,</span>           // 像素高
+    fps <span class="z-keyword z-operator z-rust">=</span> 60<span class="z-punctuation z-separator z-rust">,</span>                // 帧率
+    format <span class="z-keyword z-operator z-rust">=</span> <span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>mp4<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span><span class="z-punctuation z-separator z-rust">,</span>          // mp4 / webm / mov / gif
+    dir <span class="z-keyword z-operator z-rust">=</span> <span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>./output<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span><span class="z-punctuation z-separator z-rust">,</span>        // 输出目录（相对路径基于当前工作目录）
+    name <span class="z-keyword z-operator z-rust">=</span> <span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>my_video<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span><span class="z-punctuation z-separator z-rust">,</span>       // 可选，覆盖 {name}（默认用场景名）
+    name_template <span class="z-keyword z-operator z-rust">=</span> <span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>{name}_{width}x{height}_{fps}<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span><span class="z-punctuation z-separator z-rust">,</span> // 输出文件主名模板
+    save_frames <span class="z-keyword z-operator z-rust">=</span> false<span class="z-punctuation z-separator z-rust">,</span>     // 同时保存 PNG 帧序列
+</span></span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span>
+</span></code></pre><p>一个场景可以声明多个 <code>#[output(...)]</code>（例如同时输出 mp4 和 gif）。</p><p>产物位置（以 <code>dir = "./output"</code>、场景名 <code>hello</code> 为例）：</p><pre><code class="language-text">output/hello_1920x1080_60.mp4            视频：&lt;dir&gt;/&lt;模板展开的主名&gt;.&lt;ext&gt;
+output/hello_1920x1080_60-frames/NNNN.png 帧序列（save_frames = true 时）
+output/hello_1920x1080_60/&lt;filename&gt;     TimeMark::Capture 截图
+</code></pre><p>场景中通过 <code>r.insert_time_mark(sec, TimeMark::Capture("x.png".to_string()))</code>声明的截图，在主视频渲染完成后统一处理。</p><p><code>--buffer-count &lt;N&gt;</code>（默认 2）控制 GPU readback 缓冲数量：越大并行度越高，但占用更多显存。</p><p>需要 GPU 与 ffmpeg；PATH 中找不到 ffmpeg 时会尝试在当前目录查找或下载。</p></section><section><h2 id="render-scene"><code>render &lt;SCENE&gt;</code></h2><p>用固定默认设置（<code>1920x1080</code>、60 fps、mp4）把单个场景快速渲染一次，输出到<code>./output/&lt;scene&gt;_1920x1080_60.mp4</code>。</p><p>它<strong>不读取</strong>任何 <code>#[output(...)]</code> 声明，也<strong>不处理</strong> <code>TimeMark::Capture</code>。适合迭代中只想快速看整体效果的情况；正式验收仍应使用 <code>output</code>。</p></section><section><h2 id="inspect"><code>inspect</code></h2><p>纯 CPU 检查，不创建 GPU context，可以在无 GPU 的环境运行。所有子命令支持<code>--format text|json</code>（默认 <code>text</code>；JSON 输出顶层含 <code>schema_version</code>，适合脚本化）。</p><section><h3 id="inspect-scenes"><code>inspect scenes</code></h3><pre><code class="language-bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> run<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>example</span> hello_ranim<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>no-default-features</span><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>features</span> anims,cmd-render<span class="z-keyword z-operator z-end-of-options z-shell"> --</span></span><span class="z-meta z-function-call z-arguments z-shell"> inspect scenes</span>
+</span></code></pre><p>列出 App 中注册的场景及其 <code>#[output(...)]</code> 摘要（尺寸、fps、格式、输出目录、<code>name_template</code>、<code>save_frames</code>），不调用场景构造函数。适合开工第一步：确认场景名拼写、场景是否注册成功、输出配置是否符合预期。</p></section><section><h3 id="inspect-tree-scene"><code>inspect tree [SCENE]</code></h3><pre><code class="language-bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> run<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>example</span> hello_ranim<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>no-default-features</span><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>features</span> anims,cmd-render<span class="z-keyword z-operator z-end-of-options z-shell"> --</span></span><span class="z-meta z-function-call z-arguments z-shell"> inspect tree hello_ranim</span>
+</span></code></pre><p>构建场景并输出层级动画树。每个节点包含：DFS <code>path</code>、<code>kind</code>（anim/children/audio）、<code>anim_name</code>、父局部坐标下的 <code>range</code>、<code>content_duration_secs</code>、<code>rate_func</code>、<code>enabled</code> 与 <code>children</code>；iterative 节点额外包含 <code>sim_step</code>（<code>with_steps(N)</code> 声明的进度步长 <code>1/N</code>，未声明时为默认值）。当项目里只有一个场景时 <code>[SCENE]</code> 可省略。</p><p>注意 <code>range</code> 是<strong>父局部坐标</strong>，不要直接当成全局时间。</p></section><section><h3 id="inspect-frame-scene-at-sec"><code>inspect frame &lt;SCENE&gt; --at &lt;sec&gt;</code></h3><pre><code class="language-bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> run<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>example</span> hello_ranim<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>no-default-features</span><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>features</span> anims,cmd-render<span class="z-keyword z-operator z-end-of-options z-shell"> --</span></span><span class="z-meta z-function-call z-arguments z-shell"> inspect frame hello_ranim --at 1.5 --verbose</span>
+</span></code></pre><p>在 <code>&lt;sec&gt;</code> 直接采样类型化帧；迭代动画使用各自声明的内容步长。JSON frame输出的 <code>schema_version</code> 为 <code>2</code>。每个输入包含 <code>order</code>（完整输出的全局插入顺序）、<code>id</code> / <code>animation_id</code> / <code>part</code>、<code>input_type</code> 与来源根动画 <code>source</code>。已支持的裸内置类型还提供 CPU 投影数据：矢量、网格、相机，或 SVG / 文字的图元分组；<code>--verbose</code> 追加完整几何数据。未提供检查适配的复合或自定义类型保留为 opaque 输入元数据，不需要 GPU 或该类型的渲染插件。</p><p>用于渲染前定位「某时刻物件不对 / 位置不对 / z-order 不对 / 颜色不对」等问题，避免直接上 GPU 盲调。已知局限（如实输出，不要误读）：</p><ul><li><p><code>source</code> 只能回溯到根动画的 <code>animation_id</code>，不能定位树内叶子节点；</p></li><li><p><code>part</code> 是根动画中完整求值输出的序号，跨活跃叶子与类型连续递增；容器成员不单独占用输入序号。一个 <code>SvgItem</code> 或 <code>TypstText</code> 是一条输入，其 CPU 投影数据可以包含多个图元；</p></li><li><p><code>order</code> 是输入顺序。渲染器在提取后还会按 <code>SourceOrder { order, part }</code> 排序生成最终 <code>SceneOrder</code>，不能把输入序号直接当作 render entity 数量或最终 rank。</p></li></ul></section></section><section><h2 id="推荐工作流">推荐工作流</h2><pre><code class="language-text">inspect scenes   确认场景与输出配置
+      │
+inspect tree     确认动画组织、时间范围、rate_func / enabled
+      │
+inspect frame    在关键时刻确认物件、几何、z-order 与颜色（不上 GPU）
+      │
+render           快速冒烟，看整体效果
+      │
+output           最终验证：成片、帧序列与 Capture 截图
+</code></pre><p>原则：能用便宜的 <code>inspect</code> 查清的问题，不要留到昂贵的 GPU 渲染之后才发现。</p></section></section></article>
+      <nav class="adjacent" aria-label="Page navigation">
+        <a rel="prev" href="../packages/" class="adjacent-link previous"><span class="adjacent-label">Previous</span><span class="adjacent-title">Packages</span></a>
+        <a rel="next" href="../understand/core/" class="adjacent-link next"><span class="adjacent-label">Next</span><span class="adjacent-title">核心概念</span></a>
+      </nav>
+      
+    </main>
+    <aside class="page-outline" aria-label="On this page">
+      <nav id="page-outline" aria-label="Page outline"><p class="rail-label">On this page</p><ol class="outline-list"><li data-level="1"><a data-outline-link href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%85%A5%E5%8F%A3">命令行入口</a></li><li data-level="2"><a data-outline-link href="#%E9%A1%B9%E7%9B%AE%E8%A3%85%E9%85%8D">项目装配</a></li><li data-level="2"><a data-outline-link href="#preview-scene">preview [SCENE]</a></li><li data-level="2"><a data-outline-link href="#output-scenes">output [SCENES...]</a></li><li data-level="2"><a data-outline-link href="#render-scene">render &lt;SCENE&gt;</a></li><li data-level="2"><a data-outline-link href="#inspect">inspect</a></li><li data-level="3"><a data-outline-link href="#inspect-scenes">inspect scenes</a></li><li data-level="3"><a data-outline-link href="#inspect-tree-scene">inspect tree [SCENE]</a></li><li data-level="3"><a data-outline-link href="#inspect-frame-scene-at-sec">inspect frame &lt;SCENE&gt; --at &lt;sec&gt;</a></li><li data-level="2"><a data-outline-link href="#%E6%8E%A8%E8%8D%90%E5%B7%A5%E4%BD%9C%E6%B5%81">推荐工作流</a></li></ol></nav>
+    </aside>
+    <footer class="book-footer"><span>Ranim Book</span><a href="#page-content">Back to top</a></footer>
+  </div>
+  
+</body>
+</html>

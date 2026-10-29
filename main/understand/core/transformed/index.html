@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Transformed&lt;T, G&gt;：变换表示、组合与物件语义 · Ranim Book</title>
+  <link rel="home" href="../../../">
+  <script>
+    document.documentElement.classList.add('js');
+    try {
+      const root = document.documentElement;
+      const theme = localStorage.getItem('notist-theme');
+      root.dataset.theme = theme === 'light' || theme === 'dark' ? theme : 'auto';
+      const home = document.querySelector('link[rel="home"]').href;
+      const width = Number(localStorage.getItem(`notist-book-width:${home}`));
+      if (Number.isFinite(width) && width > 0) root.style.setProperty('--navigation-user-width', `${width}px`);
+    } catch (_) {}
+  </script>
+  <link rel="stylesheet" href="../../../_notist/theme/book.css"><link rel="stylesheet" href="../../../_notist/theme/status.css"><link rel="stylesheet" href="../../../_notist/theme/highlight.css"><link rel="stylesheet" href="../../../version-select.css">
+  <script src="../../../_notist/theme/book.js" defer></script><script src="../../../version-select.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#page-content">Skip to content</a>
+  <div id="reading-progress" class="reading-progress" aria-hidden="true"><span></span></div>
+  <header class="book-header">
+    <div class="header-inner">
+      <a class="book-brand" href="../../../">Ranim Book</a>
+      <button id="nav-toggle" class="text-button" type="button" aria-label="Open contents" aria-controls="book-nav" aria-expanded="false">Contents</button>
+      <button id="theme-toggle" class="text-button" type="button" aria-label="Toggle color theme" title="Toggle color theme"><span class="theme-label">Theme</span></button>
+    </div>
+  </header>
+  <div id="nav-backdrop" class="nav-backdrop" hidden aria-hidden="true"></div>
+  <div class="book-layout">
+    <nav id="book-nav" class="book-navigation" aria-label="Contents">
+      <div class="rail-heading"><p class="rail-label">Contents</p><button id="nav-close" class="text-button" type="button" aria-label="Close contents">Close</button></div>
+      <ul class="navigation-tree"><li class="nav-item">
+  <a href="../../../"><span class="nav-title">首页</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../getting_started/"><span class="nav-title">Getting Started</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../project-entry/"><span class="nav-title">项目入口：场景库与跨平台宿主</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../packages/"><span class="nav-title">Ranim Packages</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../cli/"><span class="nav-title">命令行入口</span></a>
+</li>
+
+<li class="nav-part"><span role="heading" aria-level="2">理解 Ranim</span></li>
+
+<li class="nav-item">
+  <div class="nav-label"><a href="../"><span class="nav-title">核心概念</span></a>
+</div>
+  <details class="nav-branch" open>
+    <summary class="nav-disclosure" aria-label="Toggle 核心概念"></summary>
+    <ul class="nav-children"><li class="nav-item">
+  <a href="../anim/"><span class="nav-title">动画系统</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../extract/"><span class="nav-title">完整求值帧与渲染提取</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="./" aria-current="page"><span class="nav-title">Transformed&lt;T&gt;</span></a>
+</li>
+
+</ul>
+  </details>
+</li>
+
+<li class="nav-item">
+  <div class="nav-label"><a href="../../rendering/"><span class="nav-title">渲染表示与物件插件</span></a>
+</div>
+  <details class="nav-branch" open>
+    <summary class="nav-disclosure" aria-label="Toggle 渲染表示与物件插件"></summary>
+    <ul class="nav-children"><li class="nav-item">
+  <a href="../../rendering/vitem/"><span class="nav-title">RenderVItem</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../rendering/mesh_item/"><span class="nav-title">RenderMeshItem</span></a>
+</li>
+
+</ul>
+  </details>
+</li>
+
+<li class="nav-part"><span role="heading" aria-level="2">Items</span></li>
+
+<li class="nav-item">
+  <div class="nav-label"><a href="../../../items/"><span class="nav-title">Items</span></a>
+</div>
+  <details class="nav-branch" open>
+    <summary class="nav-disclosure" aria-label="Toggle Items"></summary>
+    <ul class="nav-children"><li class="nav-item">
+  <a href="../../../items/camera/"><span class="nav-title">CameraFrame</span></a>
+</li>
+
+<li class="nav-item">
+  <div class="nav-label"><a href="../../../items/vitem/"><span class="nav-title">VItem 类</span></a>
+</div>
+  <details class="nav-branch" open>
+    <summary class="nav-disclosure" aria-label="Toggle VItem 类"></summary>
+    <ul class="nav-children"><li class="nav-item">
+  <a href="../../../items/vitem/vitem/"><span class="nav-title">VItem</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../items/vitem/geometry/"><span class="nav-title">几何构造器</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../items/vitem/svg/"><span class="nav-title">SvgItem</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../items/vitem/text/"><span class="nav-title">文字物件</span></a>
+</li>
+
+</ul>
+  </details>
+</li>
+
+<li class="nav-item">
+  <div class="nav-label"><a href="../../../items/mesh/"><span class="nav-title">MeshItem 类</span></a>
+</div>
+  <details class="nav-branch" open>
+    <summary class="nav-disclosure" aria-label="Toggle MeshItem 类"></summary>
+    <ul class="nav-children"><li class="nav-item">
+  <a href="../../../items/mesh/mesh_item/"><span class="nav-title">MeshItem</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../items/mesh/surface/"><span class="nav-title">Surface</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../items/mesh/sphere/"><span class="nav-title">Sphere</span></a>
+</li>
+
+</ul>
+  </details>
+</li>
+
+</ul>
+  </details>
+</li>
+
+
+<li class="nav-separator" role="presentation"><hr></li>
+
+<li class="nav-part"><span role="heading" aria-level="2">News</span></li>
+
+<li class="nav-item">
+  <a href="../../../news/v0.1/"><span class="nav-title">v0.1</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../news/v0.2/"><span class="nav-title">v0.2</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../news/v0.3/"><span class="nav-title">v0.3</span></a>
+</li>
+
+</ul>
+    </nav>
+    <script>// Runs directly after the complete navigation, before deferred reader enhancements.
+(() => {
+  const navigation = document.querySelector('#book-nav');
+  if (!navigation) return;
+  const home = document.querySelector('link[rel="home"]')?.href || document.querySelector('.book-brand')?.href;
+  const key = `notist-book-scroll:${home}`;
+  let saved = null;
+  let pending = null;
+  try { saved = JSON.parse(sessionStorage.getItem(key)); } catch (_) {}
+  const visible = () => navigation.getClientRects().length > 0;
+  const offset = link => link.getBoundingClientRect().top - navigation.getBoundingClientRect().top;
+  const save = (link = pending) => {
+    if (!visible()) return;
+    saved = { top: navigation.scrollTop };
+    if (link) saved.anchor = { url: link.href, offset: offset(link) };
+    try { sessionStorage.setItem(key, JSON.stringify(saved)); } catch (_) {}
+  };
+  const restore = () => {
+    if (!visible()) return;
+    if (Number.isFinite(saved?.top) && saved.top >= 0) navigation.scrollTop = saved.top;
+    const anchor = saved?.anchor;
+    const link = anchor && Number.isFinite(anchor.offset)
+      ? [...navigation.querySelectorAll('a[href]')].find(link => link.href === anchor.url) : null;
+    if (link) navigation.scrollTop += offset(link) - anchor.offset;
+    const current = navigation.querySelector('[aria-current="page"]');
+    if (!current) return;
+    const bounds = current.getBoundingClientRect();
+    const rail = navigation.getBoundingClientRect();
+    const start = rail.top + (navigation.querySelector('.rail-heading')?.getBoundingClientRect().height || 0);
+    if (bounds.bottom > rail.bottom) navigation.scrollTop += bounds.bottom - rail.bottom + 24;
+    else if (bounds.top < start) navigation.scrollTop += bounds.top - start - 24;
+  };
+  navigation.addEventListener('scroll', () => save(), { passive: true });
+  // Capture before the mobile reader closes the drawer. A pending link anchor must
+  // survive pagehide and any scroll event caused by restoring its position.
+  navigation.addEventListener('click', event => {
+    const link = event.target.closest('a[href]');
+    if (link && !event.defaultPrevented && event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && !link.hasAttribute('download') && (!link.target || link.target === '_self')) {
+      const target = new URL(link.href);
+      if (target.origin === location.origin && target.pathname !== location.pathname) pending = link;
+    }
+    save(pending);
+  }, true);
+  window.addEventListener('pagehide', () => save(pending));
+  // Hidden mobile drawers restore immediately when made visible, before painting.
+  new MutationObserver(restore).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+  new ResizeObserver(restore).observe(navigation);
+  restore();
+})();
+</script>
+    <div id="nav-resize" class="navigation-resize" role="separator" tabindex="0" aria-label="Resize contents" aria-orientation="vertical" aria-controls="book-nav" title="Drag or use arrow keys to resize contents; double-click or press Home to reset"></div>
+    <main id="page-content" tabindex="-1">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="../">核心概念</a></li><li><span aria-current="page">Transformed&lt;T&gt;</span></li></ol></nav>
+      <details class="mobile-outline">
+        <summary>On this page <span class="outline-state" aria-hidden="true"><span class="outline-show">Show</span><span class="outline-hide">Hide</span></span></summary>
+        <ol class="outline-list"><li data-level="1"><a data-outline-link href="#transformed-t-g-%E5%8F%98%E6%8D%A2%E8%A1%A8%E7%A4%BA-%E7%BB%84%E5%90%88%E4%B8%8E%E7%89%A9%E4%BB%B6%E8%AF%AD%E4%B9%89">Transformed&lt;T, G&gt;：变换表示、组合与物件语义</a></li><li data-level="2"><a data-outline-link href="#1-%E5%8F%98%E6%8D%A2%E7%B1%BB%E5%9E%8B%E4%B8%8E%E4%BB%BF%E5%B0%84%E7%AB%AF%E7%82%B9">1. 变换类型与仿射端点</a></li><li data-level="2"><a data-outline-link href="#2-applytransform-g-%E7%89%A9%E4%BB%B6%E8%83%BD%E7%9B%B4%E6%8E%A5%E5%90%B8%E6%94%B6%E4%BB%80%E4%B9%88">2. ApplyTransform&lt;G&gt;：物件能直接吸收什么</a></li><li data-level="2"><a data-outline-link href="#3-%E6%9E%84%E9%80%A0-wrapper-%E5%8F%82%E6%95%B0%E5%B0%B1%E6%98%AF%E7%B2%BE%E7%A1%AE%E7%9A%84-g">3. 构造 wrapper：参数就是精确的 G</a></li><li data-level="2"><a data-outline-link href="#4-outer-%E4%B8%8E-inner-%E7%BB%84%E5%90%88">4. outer 与 inner 组合</a></li><li data-level="3"><a data-outline-link href="#4-1-%E4%B8%8D%E8%87%AA%E5%8A%A8-widening-%E4%B9%9F%E4%B8%8D%E8%AE%A1%E7%AE%97-join">4.1 不自动 widening，也不计算 join</a></li><li data-level="3"><a data-outline-link href="#4-2-%E5%B5%8C%E5%A5%97-wrapper">4.2 嵌套 wrapper</a></li><li data-level="2"><a data-outline-link href="#5-bake-%E6%98%AF%E7%BC%96%E8%AF%91%E6%9C%9F%E8%83%BD%E5%8A%9B">5. bake 是编译期能力</a></li><li data-level="2"><a data-outline-link href="#6-anchor-%E6%B8%B2%E6%9F%93%E6%8F%90%E5%8F%96-aabb-%E4%B8%8E%E5%87%A0%E4%BD%95%E8%BE%B9%E7%95%8C">6. anchor、渲染提取、Aabb 与几何边界</a></li><li data-level="3"><a data-outline-link href="#6-1-local-primitive-%E4%B8%80%E8%88%AC-local-data-%E4%B8%8E-placement">6.1 local primitive、一般 local data 与 placement</a></li><li data-level="2"><a data-outline-link href="#7-%E6%8F%92%E5%80%BC">7. 插值</a></li><li data-level="3"><a data-outline-link href="#7-1-wrapper-%E6%8F%92%E5%80%BC%E4%B8%8E-bake-%E6%8F%92%E5%80%BC%E6%98%AF%E4%B8%A4%E7%A7%8D%E9%A2%84%E6%9C%9F%E8%A1%8C%E4%B8%BA">7.1 wrapper 插值与 bake 插值是两种预期行为</a></li><li data-level="2"><a data-outline-link href="#8-rectangle-scale_axes-%E4%B8%8E-wrapper-%E7%BB%84%E5%90%88">8. Rectangle::scale_axes 与 wrapper 组合</a></li><li data-level="2"><a data-outline-link href="#9-%E5%87%A0%E4%BD%95%E8%A7%86%E8%A7%92">9. 几何视角</a></li></ol>
+      </details>
+      <article class="prose"><section><h1 id="transformed-t-g-变换表示-组合与物件语义"><code>Transformed&lt;T, G&gt;</code>：变换表示、组合与物件语义</h1><blockquote data-notist-kind="quote"><p>[!caution]ai 生成，可能叙事逻辑和表述并不是很好，仅供参考。</p></blockquote><p>ranim 把“物件自身的数据”和“附加在物件外的变换”分开表达：</p><pre><code class="language-rust"><span class="z-source z-rust"><span class="z-meta z-struct z-rust"><span class="z-storage z-modifier z-rust">pub</span> <span class="z-storage z-type z-struct z-rust">struct</span> </span><span class="z-meta z-struct z-rust"><span class="z-meta z-generic z-rust"><span class="z-entity z-name z-struct z-rust">Transformed</span><span class="z-meta z-generic z-rust"><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span>T, G<span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span></span></span><span class="z-meta z-struct z-rust"> </span><span class="z-meta z-struct z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+    <span class="z-storage z-modifier z-rust">pub</span> <span class="z-variable z-other z-member z-rust">inner</span><span class="z-punctuation z-separator z-type z-rust">:</span> T,
+    <span class="z-storage z-modifier z-rust">pub</span> <span class="z-variable z-other z-member z-rust">transform</span><span class="z-punctuation z-separator z-type z-rust">:</span> G,
+</span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span></code></pre><p><code>T</code> 是物件，<code>G</code> 是 wrapper <strong>实际存储的变换表示</strong>。字段保持公开，可以在自定义 evaluator 中直接读写；常规组合则推荐使用 <code>compose_outer</code> 和<code>compose_inner</code>，使乘法顺序一目了然。</p><section><h2 id="1-变换类型与仿射端点">1. 变换类型与仿射端点</h2><p>ranim 的模型变换层级如下：</p><notist-b4666d0e3ef46445-diagram notist-protocol="2" notist-function="/home/runner/work/ranim/ranim/book/_components/pele/lib.notc.diagram" notist-content="block" notist-source="
+flowchart LR
+    T[&quot;Translation&lt;br/&gt;T(3)&quot;] --&gt; R[&quot;Rigid&lt;br/&gt;SE(3)&quot;]
+    R --&gt; S[&quot;Similarity&lt;br/&gt;Sim(3)&quot;]
+    S --&gt; A[&quot;DAffine3&lt;br/&gt;Aff(3)&lt;br/&gt;模型变换端点&quot;]
+    D[&quot;Diag&lt;br/&gt;轴向缩放&quot;] --&gt; A
+    A -.-&gt; P[&quot;Projective&lt;br/&gt;仅作为相机投影边界&quot;]
+
+    classDef endpoint fill:#dbeafe,stroke:#2563eb,stroke-width:3px,color:#172554
+    classDef boundary fill:#e5e7eb,stroke:#9ca3af,stroke-width:1.5px,color:#6b7280
+    class A endpoint
+    class P boundary
+    linkStyle 4 stroke:#9ca3af,color:#6b7280
+" notist-theme="auto"></notist-b4666d0e3ef46445-diagram><ul><li><p><code>Translation</code>：纯平移；</p></li><li><p><code>Rigid</code>：旋转和平移；</p></li><li><p><code>Similarity</code>：正的均匀缩放、旋转和平移；</p></li><li><p><code>Diag</code>：沿坐标轴缩放，它不属于 <code>Similarity</code>；</p></li><li><p><code>DAffine3</code>：模型变换的最一般表示，可以表达剪切和一般仿射组合；</p></li><li><p>projective 不是模型变换的下一种存储类型，只存在于相机投影边界。</p></li></ul><p>图中的实线箭头对应无损的 <code>From</code> 嵌入。<code>From</code> 在 Rust 中不传递，因此 ranim显式提供已有层级中的全部转换：</p><pre><code class="language-text">Translation -&gt; Rigid / Similarity / DAffine3
+Rigid       -&gt; Similarity / DAffine3
+Similarity  -&gt; DAffine3
+Diag        -&gt; DAffine3
+</code></pre><p>每个表示都实现同一个 <code>TransformGroup</code> 能力，提供单位元和同族组合。组合顺序与仿射矩阵一致：</p><notist-b65ecff11e9f6ff1-math notist-protocol="2" notist-function="/home/runner/work/ranim/ranim/book/_components/typst/lib.notc.math" notist-content="block" notist-comptime-u43x="BlockContent" notist-text="op(&quot;compose&quot;)(g_2, g_1) = g_2 g_1"></notist-b65ecff11e9f6ff1-math><p>也就是先作用 <notist-b65ecff11e9f6ff1-math notist-protocol="2" notist-function="/home/runner/work/ranim/ranim/book/_components/typst/lib.notc.math" notist-content="inline" notist-comptime-u43x="InlineContent" notist-text="g_1"></notist-b65ecff11e9f6ff1-math>，再作用 <notist-b65ecff11e9f6ff1-math notist-protocol="2" notist-function="/home/runner/work/ranim/ranim/book/_components/typst/lib.notc.math" notist-content="inline" notist-comptime-u43x="InlineContent" notist-text="g_2"></notist-b65ecff11e9f6ff1-math>。<code>Similarity</code> 组合时，外层的缩放和旋转也会作用于内层平移；它不是把三个字段分别相加。</p><p><code>Diag</code> 仍保留当前数值行为，包括零缩放。这里没有额外引入“严格可逆”的运行时检查。</p></section><section><h2 id="2-applytransform-g-物件能直接吸收什么">2. <code>ApplyTransform&lt;G&gt;</code>：物件能直接吸收什么</h2><p>基础接口是：</p><pre><code class="language-rust"><span class="z-source z-rust"><span class="z-meta z-trait z-rust"><span class="z-storage z-modifier z-rust">pub</span> <span class="z-storage z-type z-trait z-rust">trait</span> <span class="z-entity z-name z-trait z-rust">ApplyTransform</span>&lt;G&gt; <span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+    <span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">apply</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span><span class="z-keyword z-operator z-rust">&amp;</span><span class="z-storage z-modifier z-rust">mut</span> <span class="z-variable z-parameter z-rust">self</span>, <span class="z-variable z-parameter z-rust">transform</span><span class="z-punctuation z-separator z-rust">:</span> G</span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-meta z-function z-rust"> <span class="z-meta z-function z-return-type z-rust"><span class="z-punctuation z-separator z-rust">-&gt;</span> <span class="z-keyword z-operator z-rust">&amp;</span><span class="z-storage z-modifier z-rust">mut</span> <span class="z-storage z-type z-rust">Self</span></span></span><span class="z-punctuation z-terminator z-rust">;</span>
+</span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span></code></pre><p>物件通过实现范围声明自己的闭包：</p><pre><code class="language-rust"><span class="z-source z-rust"><span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> 点数据可以吸收仿射变换及其子类型
+</span><span class="z-meta z-impl z-rust"><span class="z-storage z-type z-impl z-rust">impl</span></span><span class="z-meta z-impl z-rust"><span class="z-meta z-generic z-rust"><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span>G<span class="z-punctuation z-separator z-rust">:</span> <span class="z-meta z-generic z-rust"><span class="z-support z-type z-rust">Into</span><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span>DAffine3<span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span></span><span class="z-meta z-impl z-rust"> <span class="z-meta z-generic z-rust">ApplyTransform<span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span>G<span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span> <span class="z-keyword z-other z-rust">for</span></span><span class="z-meta z-impl z-rust"> <span class="z-entity z-name z-impl z-rust">VItem</span> </span><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span> <span class="z-comment z-block z-rust"><span class="z-punctuation z-definition z-comment z-rust">/*</span> ... <span class="z-punctuation z-definition z-comment z-rust">*/</span></span> </span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+
+<span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> 点集/网格数据可以吸收仿射变换
+</span><span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> canonical Circle、Ellipse、Rectangle、Square、Sphere 不直接吸收 placement
+</span></span></code></pre><p>便利操作由这个接口派生：</p><table><thead><tr><th scope="col"><p>操作</p></th><th scope="col"><p>提交给 <code>ApplyTransform</code> 的类型</p></th></tr></thead><tbody><tr><td><p><code>shift(offset)</code></p></td><td><p><code>Translation</code></p></td></tr><tr><td><p><code>rotate_on_axis(axis, angle)</code></p></td><td><p><code>Rigid</code></p></td></tr><tr><td><p><code>scale_uniform(s)</code></p></td><td><p><code>Similarity</code></p></td></tr><tr><td><p><code>scale(DVec3)</code></p></td><td><p><code>Diag</code></p></td></tr></tbody></table><p>canonical <code>Rectangle</code>、<code>Circle</code>、<code>Sphere</code> 等不直接实现 <code>ApplyTransform</code>；它们的平移、旋转和缩放都应通过 <code>Transformed&lt;T, G&gt;</code> 表达。<code>Rectangle::scale_axes</code> 是单独的内在尺寸编辑。点集型 <code>VItem</code>、<code>Polygon</code>、<code>Line</code>、<code>MeshItem</code> 和 <code>Surface</code> 才直接吸收一般仿射 <code>DAffine3</code>。</p></section><section><h2 id="3-构造-wrapper-参数就是精确的-g">3. 构造 wrapper：参数就是精确的 <code>G</code></h2><p>构造器同时接收物件与变换：</p><pre><code class="language-rust"><span class="z-source z-rust"><span class="z-storage z-type z-rust">let</span> item <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-meta z-path z-rust">Transformed<span class="z-punctuation z-accessor z-rust">::</span></span>new<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>mesh<span class="z-punctuation z-separator z-rust">,</span> <span class="z-meta z-path z-rust">DAffine3<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-constant z-other z-rust">IDENTITY</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+</span></code></pre><p>prelude 还导出了 blanket extension trait，可以写成：</p><pre><code class="language-rust"><span class="z-source z-rust"><span class="z-storage z-type z-rust">let</span> item <span class="z-keyword z-operator z-assignment z-rust">=</span> mesh<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-meta z-path z-rust">transformed<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-generic z-rust"><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span>DAffine3<span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-path z-rust">DAffine3<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-constant z-other z-rust">IDENTITY</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+</span></code></pre><p><code>.transformed::&lt;G&gt;(g)</code> 的参数必须恰好是 <code>G</code>；这个入口不会替调用者选择更宽的存储类型。通常可以让类型推断直接从参数得到 <code>G</code>：</p><pre><code class="language-rust"><span class="z-source z-rust"><span class="z-storage z-type z-rust">let</span> item <span class="z-keyword z-operator z-assignment z-rust">=</span> mesh<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">transformed</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>Translation<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>offset</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+<span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> 类型是 Transformed&lt;MeshItem, Translation&gt;
+</span></span></code></pre><p>选择较窄的 <code>G</code> 会让可组合的操作在编译期受限；选择 <code>DAffine3</code> 则是现有mesh/surface 场景常用的存储上界。</p></section><section><h2 id="4-outer-与-inner-组合">4. outer 与 inner 组合</h2><p>设 wrapper 当前存储 <notist-b65ecff11e9f6ff1-math notist-protocol="2" notist-function="/home/runner/work/ranim/ranim/book/_components/typst/lib.notc.math" notist-content="inline" notist-comptime-u43x="InlineContent" notist-text="F"></notist-b65ecff11e9f6ff1-math>，新变换为 <notist-b65ecff11e9f6ff1-math notist-protocol="2" notist-function="/home/runner/work/ranim/ranim/book/_components/typst/lib.notc.math" notist-content="inline" notist-comptime-u43x="InlineContent" notist-text="H"></notist-b65ecff11e9f6ff1-math>。两种组合只有乘法方向不同：</p><notist-b65ecff11e9f6ff1-math notist-protocol="2" notist-function="/home/runner/work/ranim/ranim/book/_components/typst/lib.notc.math" notist-content="block" notist-comptime-u43x="BlockContent" notist-text="F_(&quot;outer&quot;)&#39; = H F"></notist-b65ecff11e9f6ff1-math><notist-b65ecff11e9f6ff1-math notist-protocol="2" notist-function="/home/runner/work/ranim/ranim/book/_components/typst/lib.notc.math" notist-content="block" notist-comptime-u43x="BlockContent" notist-text="F_(&quot;inner&quot;)&#39; = F H"></notist-b65ecff11e9f6ff1-math><p>对应 API：</p><pre><code class="language-rust"><span class="z-source z-rust">item<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">compose_outer</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>h</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span> <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> transform = h * transform
+</span>item<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">compose_inner</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>h</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span> <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> transform = transform * h
+</span></span></code></pre><p><code>ApplyTransform&lt;H&gt; for Transformed&lt;T, G&gt;</code> 使用 <strong>outer composition</strong>，所以<code>shift</code>、<code>rotate</code>、<code>scale_uniform</code> 和 <code>scale</code> 在可用时也都走左乘：</p><pre><code class="language-rust"><span class="z-source z-rust">item<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">apply</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>h</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span> <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> 等价于 item.compose_outer(h)
+</span></span></code></pre><p><code>compose_outer</code> 与 <code>compose_inner</code> 都要求 <code>G: From&lt;H&gt;</code>，先把 <code>H</code> 嵌入现有的<code>G</code>，再在 <code>G</code> 内完成同族组合。它们不会创建新的 wrapper 类型。</p><section><h3 id="4-1-不自动-widening-也不计算-join">4.1 不自动 widening，也不计算 join</h3><p>下面的 wrapper 保持 <code>Similarity</code> 存储：</p><pre><code class="language-rust"><span class="z-source z-rust"><span class="z-storage z-type z-rust">let</span> <span class="z-storage z-modifier z-rust">mut</span> item <span class="z-keyword z-operator z-assignment z-rust">=</span> sphere<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">transformed</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-path z-rust">Similarity<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-constant z-other z-rust">IDENTITY</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+item<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">shift</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>offset</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>        <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> Translation -&gt; Similarity
+</span>item<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">scale_uniform</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-constant z-numeric z-float z-rust">2.</span><span class="z-constant z-numeric z-float z-rust">0</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>   <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> 仍是 Transformed&lt;Sphere, Similarity&gt;
+</span></span></code></pre><p>但一般 <code>Diag</code> 不能嵌入 <code>Similarity</code>，因此 <code>item.scale(non_uniform)</code> 不会偷偷把类型改成 <code>Transformed&lt;_, DAffine3&gt;</code>，而是在编译期不可用。需要更一般的组合时，显式 widening：</p><pre><code class="language-rust"><span class="z-source z-rust"><span class="z-storage z-type z-rust">let</span> narrow <span class="z-keyword z-operator z-assignment z-rust">=</span> mesh<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">transformed</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>Translation<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>offset</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+<span class="z-storage z-type z-rust">let</span> <span class="z-storage z-modifier z-rust">mut</span> affine<span class="z-punctuation z-separator z-rust">:</span> <span class="z-meta z-generic z-rust">Transformed<span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-keyword z-operator z-rust">_</span>, DAffine3<span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span> <span class="z-keyword z-operator z-assignment z-rust">=</span> narrow<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">into</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+affine<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">scale</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-path z-rust">DVec3<span class="z-punctuation z-accessor z-rust">::</span></span>new<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-constant z-numeric z-float z-rust">2.</span><span class="z-constant z-numeric z-float z-rust">0</span><span class="z-punctuation z-separator z-rust">,</span> <span class="z-constant z-numeric z-float z-rust">1.</span><span class="z-constant z-numeric z-float z-rust">0</span><span class="z-punctuation z-separator z-rust">,</span> <span class="z-constant z-numeric z-float z-rust">1.</span><span class="z-constant z-numeric z-float z-rust">0</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+</span></code></pre><p>这种显式 <code>Into</code> 让 API 的返回类型稳定，也避免为任意两种变换表示自动推导“最小共同上界”所带来的 coherence 问题。</p></section><section><h3 id="4-2-嵌套-wrapper">4.2 嵌套 wrapper</h3><p>嵌套依然从内向外展平：</p><pre><code class="language-text">Transformed {
+    transform: outer,
+    inner: Transformed {
+        transform: inner,
+        inner: x,
+    },
+}
+
+最终组合 = outer * inner
+</code></pre></section></section><section><h2 id="5-bake-是编译期能力">5. bake 是编译期能力</h2><p><code>bake</code> 的签名直接使用 wrapper 的 <code>G</code>：</p><pre><code class="language-rust"><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-modifier z-rust">pub</span> <span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">bake</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span><span class="z-variable z-parameter z-rust">self</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-meta z-function z-rust"> <span class="z-meta z-function z-return-type z-rust"><span class="z-punctuation z-separator z-rust">-&gt;</span> T
+</span></span><span class="z-meta z-function z-rust"><span class="z-keyword z-other z-rust">where</span>
+    T<span class="z-punctuation z-separator z-rust">:</span> <span class="z-meta z-generic z-rust">ApplyTransform<span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span>G<span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span></span><span class="z-punctuation z-terminator z-rust">;</span>
+</span></code></pre><p>所以它是否存在完全由类型系统决定：</p><pre><code class="language-rust"><span class="z-source z-rust"><span class="z-storage z-type z-rust">let</span> polygon <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-meta z-path z-rust">Polygon<span class="z-punctuation z-accessor z-rust">::</span></span>new<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>points</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span>
+    <span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">transformed</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-path z-rust">DAffine3<span class="z-punctuation z-accessor z-rust">::</span></span>from_scale<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-keyword z-operator z-range z-rust">...</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span>
+    <span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">bake</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span> <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> Polygon: ApplyTransform&lt;DAffine3&gt;
+</span>
+<span class="z-storage z-type z-rust">let</span> circle <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-meta z-path z-rust">Circle<span class="z-punctuation z-accessor z-rust">::</span></span>new<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-constant z-numeric z-float z-rust">1.</span><span class="z-constant z-numeric z-float z-rust">0</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">transformed</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-path z-rust">Similarity<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-constant z-other z-rust">IDENTITY</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+<span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> circle.bake(); // 编译失败：Circle 不吸收 placement；保留 wrapper
+</span></span></code></pre><p>wrapper 不再提供 <code>try_bake</code>。如果调用者确实需要把动态得到的 <code>DAffine3</code> 向下检查为 <code>Similarity</code>，应先显式执行 <code>Similarity::try_from(affine)</code>，然后构造<code>Transformed&lt;T, Similarity&gt;</code>；成功后 <code>bake</code> 仍然是静态能力。</p><p>这与几何闭包相符：</p><table><thead><tr><th scope="col"><p>物件表示</p></th><th scope="col"><p>可直接吸收的上界</p></th></tr></thead><tbody><tr><td><p>点、点集、<code>VItem</code>、一般 mesh 点数据</p></td><td><p><code>DAffine3</code></p></td></tr><tr><td><p><code>Parallelogram</code></p></td><td><p><code>DAffine3</code></p></td></tr><tr><td><p><code>Polygon</code> / <code>Line</code> / <code>VItem</code> / <code>MeshItem</code> / <code>Surface</code></p></td><td><p><code>DAffine3</code></p></td></tr><tr><td><p><code>Parallelogram</code> / <code>ArcBetweenPoints</code></p></td><td><p><code>DAffine3</code> / <code>Similarity</code>（按实现）</p></td></tr><tr><td><p>canonical <code>Circle</code> / <code>Ellipse</code> / <code>EllipticArc</code> / <code>Sphere</code> / <code>Rectangle</code> / <code>Square</code></p></td><td><p>不直接 bake placement</p></td></tr></tbody></table><p>一般仿射变换会把圆变成椭圆、把矩形变成平行四边形，因此不能无损地 bake 回原来的参数化类型。</p></section><section><h2 id="6-anchor-渲染提取-aabb-与几何边界">6. anchor、渲染提取、Aabb 与几何边界</h2><p>anchor 的语义首先属于 <code>inner</code> 的 local space：<code>Locate</code> 实现先在内部物件上定位，再把所得点通过 <code>G -&gt; DAffine3</code> 变换到 wrapper 的外部空间。当前 wrapper提供这种 forwarding 的是 core 的 <code>Centroid</code>，以及 geometry primitive 的<code>Origin</code> / <code>Focus</code>；不存在一个无冲突的任意 anchor blanket impl（<code>DVec3</code> 已经对所有 target 实现 <code>Locate</code>）。因此，未列出的 anchor 仍只对它直接支持的<code>inner</code> 类型生效，不能假定任意 <code>Locate&lt;A&gt;</code> 都会自动穿过 wrapper。</p><p><code>Transformed&lt;T, G&gt;</code> 在求值帧中保留完整 wrapper，不要求 <code>T</code> 实现渲染 trait。到了渲染侧，只要 <code>T: Extract</code>、<code>G: Clone + Into&lt;DAffine3&gt;</code>，就能通过值级<code>Extract</code> 组合变换并递归处理内部值：</p><pre><code class="language-text">G --Into&lt;DAffine3&gt;--&gt; ExtractContext 累计变换 --&gt; primitive 的渲染矩阵
+</code></pre><ul><li><p><code>Extract</code>：<code>ctx.with_transform</code> 按 <code>parent * child</code> 组合本层变换，递归提取内部值，保留局部几何；</p></li><li><p>逻辑物件：VItem/MeshItem 提取时把累计变换写入渲染组件的矩阵，顶点保持不变；相机则变换位置与方向；</p></li><li><p><code>Aabb</code>：变换内部包围盒的八个角点，再重新取界。</p></li></ul><p>宿主需为完整输出注册 <code>ExtractPlugin&lt;Transformed&lt;T, G&gt;&gt;</code>；只注册 <code>T</code> 的插件不会读取 wrapper 批次。值级协议与插件装配见<a href="../extract/">完整求值帧与渲染提取</a>。这使高层物件可以保留语义表示，同时渲染结果仍能包含更一般的仿射效果。<code>DAffine3</code> 是这里的端点，不会继续转换到projective 模型矩阵。</p><section><h3 id="6-1-local-primitive-一般-local-data-与-placement">6.1 local primitive、一般 local data 与 placement</h3><p>canonical local primitive（例如以原点为中心的 <code>Circle</code>、<code>Rectangle</code>、<code>Sphere</code>）把形状参数和 local 坐标约定写在自身类型中。一般 local data（<code>VItem</code> 点集、<code>Surface</code> 顶点等）则只是调用者提供的坐标；两者都<strong>不会自动中心化</strong>。需要把物件放到场景中时，使用 <code>Transformed</code> 的外部 <code>transform</code>，不要把外部 placement误当成 primitive 的 intrinsic 参数。</p><p><code>Rectangle::scale_axes</code> 例外也不是 placement：它是 intrinsic shape-data操作，沿 Rectangle 已有的 canonical/intrinsic axes 修改尺寸。wrapper 的<code>compose_outer</code> / <code>compose_inner</code> 才是外部变换组合。</p><p><code>Sphere -&gt; Surface</code> 只负责把 Sphere 的 canonical local 参数采样成顶点，<code>Surface</code> 不会再次 center；这样可避免重复 center。<code>bake</code> 是明确的边界操作：只有当 <code>T: ApplyTransform&lt;G&gt;</code> 时才把外部变换吸收到 <code>inner</code>，否则继续保留wrapper，直到渲染提取时才将变换转为 <code>DAffine3</code>，与父上下文组合。</p></section></section><section><h2 id="7-插值">7. 插值</h2><p>只有两个 wrapper 的 <code>T</code> 与 <code>G</code> 都相同时才能直接插值：</p><pre><code class="language-rust"><span class="z-source z-rust"><span class="z-storage z-type z-rust">Self</span> <span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+    inner<span class="z-punctuation z-separator z-rust">:</span> <span class="z-variable z-language z-rust">self</span><span class="z-punctuation z-accessor z-dot z-rust">.</span>inner<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">lerp</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-keyword z-operator z-bitwise z-rust">&amp;</span>target<span class="z-punctuation z-accessor z-dot z-rust">.</span>inner<span class="z-punctuation z-separator z-rust">,</span> t</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-separator z-rust">,</span>
+    transform<span class="z-punctuation z-separator z-rust">:</span> <span class="z-variable z-language z-rust">self</span><span class="z-punctuation z-accessor z-dot z-rust">.</span>transform<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">lerp</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-keyword z-operator z-bitwise z-rust">&amp;</span>target<span class="z-punctuation z-accessor z-dot z-rust">.</span>transform<span class="z-punctuation z-separator z-rust">,</span> t</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-separator z-rust">,</span>
+</span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span>
+</span></code></pre><p><code>inner</code> 与 <code>transform</code> 独立插值，不会先展平为点数据。若两端 wrapper 使用不同存储类型，应先由调用者把它们显式 widening 到同一个 <code>G</code>。</p><section><h3 id="7-1-wrapper-插值与-bake-插值是两种预期行为">7.1 wrapper 插值与 bake 插值是两种预期行为</h3><p>wrapper 的独立插值意味着：同一点集在不同放置下的过渡<strong>始终保留各自的局部形状</strong>，运动发生在 <code>transform</code> 上。例如两个仅放置不同的方块（inner 完全相同，变换分别放在 XY 平面与 XZ 平面上），中间帧不会出现“一个平面翻到另一个平面”的点级渐变——每个点在局部空间里静止不动，位姿由矩阵插值承载。这是预期行为，不是缺陷。</p><p>如果需要的是经典 manim 式的形态 morph——逐点在世界空间中走直线、法线和平面随顶点一起形变——就把两端的放置 <strong>bake 进底层数据</strong>再插值：转成裸 <code>VItem</code>或 <code>MeshItem</code> 后，插值就是纯底层点插值。两种模式由表示方式显式选择：</p><table><thead><tr><th scope="col"><p>模式</p></th><th scope="col"><p>表示</p></th><th scope="col"><p>插值路径</p></th></tr></thead><tbody><tr><td><p>位姿插值</p></td><td><p><code>Transformed&lt;T, G&gt;</code></p></td><td><p>inner 恒定（或各自插值），<code>G</code> 独立插值</p></td></tr><tr><td><p>形态 morph</p></td><td><p>裸 <code>VItem</code> / <code>MeshItem</code>（已 bake）</p></td><td><p>全部控制点世界空间逐点插值</p></td></tr></tbody></table><p><code>G</code> 的选择决定位姿插值的路径质量：<code>Translation</code> 是线性位移；<code>Rigid</code> 用 slerp 旋转 + lerp 平移，刚体位姿全程保持刚性；<code>DAffine3</code> 及<code>Mat4</code> 存储是逐分量线性混合，大角度旋转的中间帧可能出现轻微收缩，此时应改用 <code>Rigid</code> 存储，或按需 bake。</p></section></section><section><h2 id="8-rectangle-scale_axes-与-wrapper-组合">8. <code>Rectangle::scale_axes</code> 与 wrapper 组合</h2><p><code>Rectangle::scale_axes(DVec2)</code> 是<strong>形状参数编辑</strong>：它只修改 <code>size</code>，尺寸沿矩形已经存储的两条正交 shape axes 解释。矩形即使先旋转过，调用<code>scale_axes</code> 后仍保留这组旋转后的正交轴表示。</p><p>它不同于 wrapper 组合：</p><pre><code class="language-rust"><span class="z-source z-rust">rectangle<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">scale_axes</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-support z-function z-rust">dvec2</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-constant z-numeric z-float z-rust">2.</span><span class="z-constant z-numeric z-float z-rust">0</span><span class="z-punctuation z-separator z-rust">,</span> <span class="z-constant z-numeric z-float z-rust">0.</span><span class="z-constant z-numeric z-float z-rust">5</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+<span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> 修改 Rectangle 的维度参数
+</span>
+wrapped<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">compose_inner</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>Diag<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-support z-function z-rust">dvec3</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-constant z-numeric z-float z-rust">2.</span><span class="z-constant z-numeric z-float z-rust">0</span><span class="z-punctuation z-separator z-rust">,</span> <span class="z-constant z-numeric z-float z-rust">0.</span><span class="z-constant z-numeric z-float z-rust">5</span><span class="z-punctuation z-separator z-rust">,</span> <span class="z-constant z-numeric z-float z-rust">1.</span><span class="z-constant z-numeric z-float z-rust">0</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+<span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> inner 不变，右乘 wrapper.transform
+</span>
+wrapped<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">compose_outer</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>Diag<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-support z-function z-rust">dvec3</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-constant z-numeric z-float z-rust">2.</span><span class="z-constant z-numeric z-float z-rust">0</span><span class="z-punctuation z-separator z-rust">,</span> <span class="z-constant z-numeric z-float z-rust">0.</span><span class="z-constant z-numeric z-float z-rust">5</span><span class="z-punctuation z-separator z-rust">,</span> <span class="z-constant z-numeric z-float z-rust">1.</span><span class="z-constant z-numeric z-float z-rust">0</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+<span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> inner 不变，左乘 wrapper.transform
+</span></span></code></pre><p>不要把 <code>scale_axes</code> 理解为矩阵乘法的别名：前者维护 <code>Rectangle</code> 的正交参数化表示，后两者维护 wrapper 的组合顺序。</p></section><section><h2 id="9-几何视角">9. 几何视角</h2><p>Klein 的 Erlangen 纲领把一种几何理解为“研究某个变换群下的不变量”。在ranim 中：</p><ul><li><p><code>G</code> 描述允许组合的变换；</p></li><li><p><code>ApplyTransform&lt;G&gt;</code> 描述物件表示对这个群是否闭包；</p></li><li><p><code>Transformed&lt;T, G&gt;</code> 把外部组合与 <code>T</code> 的参数化语义分离；</p></li><li><p><code>bake</code> 在编译期重新要求闭包；</p></li><li><p>求值帧保留完整 wrapper，值级 <code>Extract</code> 在渲染侧的仿射边界组合变换并生成视觉数据。</p></li></ul><p>这个分层让变换的数学顺序、Rust 类型与物件几何语义保持一致。</p></section></section></article>
+      <nav class="adjacent" aria-label="Page navigation">
+        <a rel="prev" href="../extract/" class="adjacent-link previous"><span class="adjacent-label">Previous</span><span class="adjacent-title">完整求值帧与渲染提取</span></a>
+        <a rel="next" href="../../rendering/" class="adjacent-link next"><span class="adjacent-label">Next</span><span class="adjacent-title">渲染表示与物件插件</span></a>
+      </nav>
+      
+    </main>
+    <aside class="page-outline" aria-label="On this page">
+      <nav id="page-outline" aria-label="Page outline"><p class="rail-label">On this page</p><ol class="outline-list"><li data-level="1"><a data-outline-link href="#transformed-t-g-%E5%8F%98%E6%8D%A2%E8%A1%A8%E7%A4%BA-%E7%BB%84%E5%90%88%E4%B8%8E%E7%89%A9%E4%BB%B6%E8%AF%AD%E4%B9%89">Transformed&lt;T, G&gt;：变换表示、组合与物件语义</a></li><li data-level="2"><a data-outline-link href="#1-%E5%8F%98%E6%8D%A2%E7%B1%BB%E5%9E%8B%E4%B8%8E%E4%BB%BF%E5%B0%84%E7%AB%AF%E7%82%B9">1. 变换类型与仿射端点</a></li><li data-level="2"><a data-outline-link href="#2-applytransform-g-%E7%89%A9%E4%BB%B6%E8%83%BD%E7%9B%B4%E6%8E%A5%E5%90%B8%E6%94%B6%E4%BB%80%E4%B9%88">2. ApplyTransform&lt;G&gt;：物件能直接吸收什么</a></li><li data-level="2"><a data-outline-link href="#3-%E6%9E%84%E9%80%A0-wrapper-%E5%8F%82%E6%95%B0%E5%B0%B1%E6%98%AF%E7%B2%BE%E7%A1%AE%E7%9A%84-g">3. 构造 wrapper：参数就是精确的 G</a></li><li data-level="2"><a data-outline-link href="#4-outer-%E4%B8%8E-inner-%E7%BB%84%E5%90%88">4. outer 与 inner 组合</a></li><li data-level="3"><a data-outline-link href="#4-1-%E4%B8%8D%E8%87%AA%E5%8A%A8-widening-%E4%B9%9F%E4%B8%8D%E8%AE%A1%E7%AE%97-join">4.1 不自动 widening，也不计算 join</a></li><li data-level="3"><a data-outline-link href="#4-2-%E5%B5%8C%E5%A5%97-wrapper">4.2 嵌套 wrapper</a></li><li data-level="2"><a data-outline-link href="#5-bake-%E6%98%AF%E7%BC%96%E8%AF%91%E6%9C%9F%E8%83%BD%E5%8A%9B">5. bake 是编译期能力</a></li><li data-level="2"><a data-outline-link href="#6-anchor-%E6%B8%B2%E6%9F%93%E6%8F%90%E5%8F%96-aabb-%E4%B8%8E%E5%87%A0%E4%BD%95%E8%BE%B9%E7%95%8C">6. anchor、渲染提取、Aabb 与几何边界</a></li><li data-level="3"><a data-outline-link href="#6-1-local-primitive-%E4%B8%80%E8%88%AC-local-data-%E4%B8%8E-placement">6.1 local primitive、一般 local data 与 placement</a></li><li data-level="2"><a data-outline-link href="#7-%E6%8F%92%E5%80%BC">7. 插值</a></li><li data-level="3"><a data-outline-link href="#7-1-wrapper-%E6%8F%92%E5%80%BC%E4%B8%8E-bake-%E6%8F%92%E5%80%BC%E6%98%AF%E4%B8%A4%E7%A7%8D%E9%A2%84%E6%9C%9F%E8%A1%8C%E4%B8%BA">7.1 wrapper 插值与 bake 插值是两种预期行为</a></li><li data-level="2"><a data-outline-link href="#8-rectangle-scale_axes-%E4%B8%8E-wrapper-%E7%BB%84%E5%90%88">8. Rectangle::scale_axes 与 wrapper 组合</a></li><li data-level="2"><a data-outline-link href="#9-%E5%87%A0%E4%BD%95%E8%A7%86%E8%A7%92">9. 几何视角</a></li></ol></nav>
+    </aside>
+    <footer class="book-footer"><span>Ranim Book</span><a href="#page-content">Back to top</a></footer>
+  </div>
+  <script type="module" src="./components.js"></script>
+</body>
+</html>

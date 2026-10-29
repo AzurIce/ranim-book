@@ -1,270 +1,251 @@
-<!DOCTYPE HTML>
-<html lang="zh" class="light sidebar-visible" dir="ltr">
-    <head>
-        <!-- Book generated using mdBook -->
-        <meta charset="UTF-8">
-        <title>v0.1 - Ranim Book</title>
-
-
-        <!-- Custom HTML head -->
-
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="theme-color" content="#ffffff">
-
-        <link rel="icon" href="../../favicon-de23e50b.svg">
-        <link rel="shortcut icon" href="../../favicon-8114d1fc.png">
-        <link rel="stylesheet" href="../../css/variables-8adf115d.css">
-        <link rel="stylesheet" href="../../css/general-2459343d.css">
-        <link rel="stylesheet" href="../../css/chrome-ae938929.css">
-        <link rel="stylesheet" href="../../css/print-9e4910d8.css" media="print">
-
-        <!-- Fonts -->
-        <link rel="stylesheet" href="../../fonts/fonts-9644e21d.css">
-
-        <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="mdbook-highlight-css" href="../../highlight-493f70e1.css">
-        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../tomorrow-night-4c0ae647.css">
-        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
-
-        <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../version-select-0246a208.css">
-        <link rel="stylesheet" href="../../theme/pagetoc-6390151b.css">
-
-
-        <!-- Provide site root and default themes to javascript -->
-        <script>
-            const path_to_root = "../../";
-            const default_light_theme = "light";
-            const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-ad101039.js";
-        </script>
-        <!-- Start loading toc.js asap -->
-        <script src="../../toc-bed341cd.js"></script>
-    </head>
-    <body>
-    <div id="mdbook-help-container">
-        <div id="mdbook-help-popup">
-            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
-            <div>
-                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
-                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
-                <p>Press <kbd>?</kbd> to show this help</p>
-                <p>Press <kbd>Esc</kbd> to hide this help</p>
-            </div>
-        </div>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>v0.1 · Ranim Book</title>
+  <link rel="home" href="../../">
+  <script>
+    document.documentElement.classList.add('js');
+    try {
+      const root = document.documentElement;
+      const theme = localStorage.getItem('notist-theme');
+      root.dataset.theme = theme === 'light' || theme === 'dark' ? theme : 'auto';
+      const home = document.querySelector('link[rel="home"]').href;
+      const width = Number(localStorage.getItem(`notist-book-width:${home}`));
+      if (Number.isFinite(width) && width > 0) root.style.setProperty('--navigation-user-width', `${width}px`);
+    } catch (_) {}
+  </script>
+  <link rel="stylesheet" href="../../_notist/theme/book.css"><link rel="stylesheet" href="../../_notist/theme/status.css"><link rel="stylesheet" href="../../_notist/theme/highlight.css"><link rel="stylesheet" href="../../version-select.css">
+  <script src="../../_notist/theme/book.js" defer></script><script src="../../version-select.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#page-content">Skip to content</a>
+  <div id="reading-progress" class="reading-progress" aria-hidden="true"><span></span></div>
+  <header class="book-header">
+    <div class="header-inner">
+      <a class="book-brand" href="../../">Ranim Book</a>
+      <button id="nav-toggle" class="text-button" type="button" aria-label="Open contents" aria-controls="book-nav" aria-expanded="false">Contents</button>
+      <button id="theme-toggle" class="text-button" type="button" aria-label="Toggle color theme" title="Toggle color theme"><span class="theme-label">Theme</span></button>
     </div>
-    <div id="mdbook-body-container">
-        <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <script>
-            try {
-                let theme = localStorage.getItem('mdbook-theme');
-                let sidebar = localStorage.getItem('mdbook-sidebar');
+  </header>
+  <div id="nav-backdrop" class="nav-backdrop" hidden aria-hidden="true"></div>
+  <div class="book-layout">
+    <nav id="book-nav" class="book-navigation" aria-label="Contents">
+      <div class="rail-heading"><p class="rail-label">Contents</p><button id="nav-close" class="text-button" type="button" aria-label="Close contents">Close</button></div>
+      <ul class="navigation-tree"><li class="nav-item">
+  <a href="../../"><span class="nav-title">首页</span></a>
+</li>
 
-                if (theme.startsWith('"') && theme.endsWith('"')) {
-                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
-                }
+<li class="nav-item">
+  <a href="../../getting_started/"><span class="nav-title">Getting Started</span></a>
+</li>
 
-                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
-                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
-                }
-            } catch (e) { }
-        </script>
+<li class="nav-item">
+  <a href="../../project-entry/"><span class="nav-title">项目入口：场景库与跨平台宿主</span></a>
+</li>
 
-        <!-- Set the theme before any content is loaded, prevents flash -->
-        <script>
-            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
-            let theme;
-            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
-            if (theme === null || theme === undefined) { theme = default_theme; }
-            const html = document.documentElement;
-            html.classList.remove('light')
-            html.classList.add(theme);
-            html.classList.add("js");
-        </script>
+<li class="nav-item">
+  <a href="../../packages/"><span class="nav-title">Ranim Packages</span></a>
+</li>
 
-        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+<li class="nav-item">
+  <a href="../../cli/"><span class="nav-title">命令行入口</span></a>
+</li>
 
-        <!-- Hide / unhide sidebar before it is displayed -->
-        <script>
-            let sidebar = null;
-            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
-            if (document.body.clientWidth >= 1080) {
-                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
-                sidebar = sidebar || 'visible';
-            } else {
-                sidebar = 'hidden';
-                sidebar_toggle.checked = false;
-            }
-            if (sidebar === 'visible') {
-                sidebar_toggle.checked = true;
-            } else {
-                html.classList.remove('sidebar-visible');
-            }
-        </script>
+<li class="nav-part"><span role="heading" aria-level="2">理解 Ranim</span></li>
 
-        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
-            <!-- populated by js -->
-            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
-            <noscript>
-                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
-            </noscript>
-            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
-                <div class="sidebar-resize-indicator"></div>
-            </div>
-        </nav>
+<li class="nav-item">
+  <div class="nav-label"><a href="../../understand/core/"><span class="nav-title">核心概念</span></a>
+</div>
+  <details class="nav-branch" open>
+    <summary class="nav-disclosure" aria-label="Toggle 核心概念"></summary>
+    <ul class="nav-children"><li class="nav-item">
+  <a href="../../understand/core/anim/"><span class="nav-title">动画系统</span></a>
+</li>
 
-        <div id="mdbook-page-wrapper" class="page-wrapper">
+<li class="nav-item">
+  <a href="../../understand/core/extract/"><span class="nav-title">完整求值帧与渲染提取</span></a>
+</li>
 
-            <div class="page">
-                <div id="mdbook-menu-bar-hover-placeholder"></div>
-                <div id="mdbook-menu-bar" class="menu-bar sticky">
-                    <div class="left-buttons">
-                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
-                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
-                        </label>
-                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
-                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
-                        </button>
-                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
-                        </ul>
-                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
-                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
-                        </button>
-                    </div>
+<li class="nav-item">
+  <a href="../../understand/core/transformed/"><span class="nav-title">Transformed&lt;T&gt;</span></a>
+</li>
 
-                    <h1 class="menu-title">Ranim Book</h1>
-
-                    <div class="right-buttons">
-                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
-                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
-                        </a>
-
-                    </div>
-                </div>
-
-                <div id="mdbook-search-wrapper" class="hidden">
-                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
-                        <div class="search-wrapper">
-                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
-                            <div class="spinner-wrapper">
-                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
-                            </div>
-                        </div>
-                    </form>
-                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
-                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
-                        <ul id="mdbook-searchresults">
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script>
-                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
-                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
-                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
-                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
-                    });
-                </script>
-
-                <div id="mdbook-content" class="content">
-                    <main>
-                        <h1 id="v01"><a class="header" href="#v01">v0.1</a></h1>
-<blockquote>
-<p><strong>Status: Backfilled（补写）</strong> — 覆盖 <a href="https://github.com/AzurIce/ranim/pull/3">#3</a>–<a href="https://github.com/AzurIce/ranim/pull/96">#96</a>；按 v0.1.5（2025-10-18）发布时点快照描述。
-起源期 PR（<a href="https://github.com/AzurIce/ranim/pull/3">#3</a>–<a href="https://github.com/AzurIce/ranim/pull/28">#28</a>，2024-11 → 2025-03）先于首个 tag <code>v0.1.0-alpha.1</code> 落地；<code>alpha.8</code>/<code>alpha.10</code>/<code>alpha.15</code>/<code>alpha.16</code> 从未发布，<code>v0.1.1</code>–<code>v0.1.3</code> 只含未经 PR 的直接修复。</p>
-</blockquote>
-<p>v0.1 的故事，是 ranim <strong>找到自己的渲染范式</strong>的故事：以 compute shader 描边起家（<a href="https://github.com/AzurIce/ranim/pull/3">#3</a>），短暂借道 Vello（<a href="https://github.com/AzurIce/ranim/pull/15">#15</a>/<a href="https://github.com/AzurIce/ranim/pull/18">#18</a>），最终落到 wgpu 单管线 SDF（<a href="https://github.com/AzurIce/ranim/pull/22">#22</a>，受 <a href="https://github.com/jkjkil4/JAnim">JAnim</a> 启发）——这条 SDF 路线一直延续至今。支撑它的骨架也在这个版本线里成形：Extract → Prepare → Render 三阶段（<a href="https://github.com/AzurIce/ranim/pull/5">#5</a>）、Timeline 编码（<a href="https://github.com/AzurIce/ranim/pull/28">#28</a>）、Preview App（<a href="https://github.com/AzurIce/ranim/pull/53">#53</a>）、dylib 热重载的 CLI（<a href="https://github.com/AzurIce/ranim/pull/77">#77</a>），以及 v0.1.5 收官时的 crate 拆分与流水线化渲染（<a href="https://github.com/AzurIce/ranim/pull/94">#94</a>/<a href="https://github.com/AzurIce/ranim/pull/96">#96</a>）。</p>
-<h2 id="新增"><a class="header" href="#新增">新增</a></h2>
-<ul>
-<li><strong>SDF 渲染管线</strong>：单一 <code>vitem.wgsl</code> 片元着色器渲染全部 VItem——精确点到二次贝塞尔距离（解三次方程）+ 绕行判定 + 反走样；这是今天 vitem 渲染的直系祖先</li>
-<li><strong>三阶段渲染架构</strong>：Extract（CPU）→ Prepare（CPU→GPU）→ Render，物件所有权移交 <code>Scene</code> 换取 <code>Id</code></li>
-<li><strong>Preview App</strong>：winit + egui-wgpu 窗口内预览，时间轴 scrub；后成为 wasm 网页预览与热重载的底座</li>
-<li><strong>ranim-cli</strong>：<code>linkme</code> distributed slice + <code>libloading</code> 的 dylib 热重载，<code>ranim preview</code> / <code>ranim render</code>，<code>#[scene]</code>/<code>#[output]</code> 宏</li>
-<li><strong>CameraFrame 即物件</strong>：相机成为普通可动画 item，<code>perspective_blend</code> 正交↔透视连续混合，<code>frame_height = 8.0</code> 分辨率无关坐标</li>
-<li><strong>Item 体系</strong>：<code>Extract::Target</code>、<code>VisualItem</code>、组合物件（元组 Renderable）、几何构造器（arrow/arc/circle/polygon/line/svg/typst）、<code>TypstText</code>（按字符 diff 对齐）</li>
-<li><strong>crate 拆分</strong>：ranim-core / ranim-items / ranim-anims / ranim-render / ranim-app / ranim-cli / ranim-macros，façade 再导出</li>
-<li>serde feature（<code>derive_more</code> 去样板）、wasm 构建进 CI、zola 站点（后被 mdbook 取代）</li>
 </ul>
-<h2 id="演进中的关键更名"><a class="header" href="#演进中的关键更名">演进中的关键更名</a></h2>
-<p>v0.1 是 API 高速重构期，列几条主干系谱，便于读旧代码：</p>
-<ul>
-<li><code>Mobject</code> → <code>Rabject</code>（<a href="https://github.com/AzurIce/ranim/pull/3">#3</a>）→ <code>TimelineId</code>（<a href="https://github.com/AzurIce/ranim/pull/64">#64</a>）</li>
-<li><code>RanimTimeline</code>/<code>RabjectTimeline</code> → <code>RanimScene</code>/<code>ItemTimeline</code>（<a href="https://github.com/AzurIce/ranim/pull/64">#64</a>）</li>
-<li><code>Blueprint</code> 系统：<a href="https://github.com/AzurIce/ranim/pull/57">#57</a> 引入 → <a href="https://github.com/AzurIce/ranim/pull/64">#64</a> 移除（“items 只保留自描述数据”）</li>
-<li>场景定义：trait（<code>SceneConstructor</code>/<code>SceneMeta</code>/<code>Scene</code>）→ <code>fn(&amp;mut RanimScene)</code> + <code>#[scene]</code> 宏（<a href="https://github.com/AzurIce/ranim/pull/77">#77</a>）</li>
-<li>坐标系：像素相关 → <code>frame_height = 8.0</code> 恒定（<a href="https://github.com/AzurIce/ranim/pull/44">#44</a>）</li>
-<li>包路径：单体 <code>ranim::</code> → <code>ranim::{core, items, anims, render}</code>（<a href="https://github.com/AzurIce/ranim/pull/94">#94</a>）</li>
+  </details>
+</li>
+
+<li class="nav-item">
+  <div class="nav-label"><a href="../../understand/rendering/"><span class="nav-title">渲染表示与物件插件</span></a>
+</div>
+  <details class="nav-branch" open>
+    <summary class="nav-disclosure" aria-label="Toggle 渲染表示与物件插件"></summary>
+    <ul class="nav-children"><li class="nav-item">
+  <a href="../../understand/rendering/vitem/"><span class="nav-title">RenderVItem</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../understand/rendering/mesh_item/"><span class="nav-title">RenderMeshItem</span></a>
+</li>
+
 </ul>
-<h2 id="起源compute-shader-时代"><a class="header" href="#起源compute-shader-时代">起源：compute shader 时代</a></h2>
-<p>相关 PR：<a href="https://github.com/AzurIce/ranim/pull/3">#3</a>（stroke compute）、<a href="https://github.com/AzurIce/ranim/pull/5">#5</a>（三阶段架构）、<a href="https://github.com/AzurIce/ranim/pull/9">#9</a>/<a href="https://github.com/AzurIce/ranim/pull/10">#10</a>（curve fill）、<a href="https://github.com/AzurIce/ranim/pull/12">#12</a>（fading）</p>
-<ul>
-<li><strong><a href="https://github.com/AzurIce/ranim/pull/3">#3</a>（首个 PR）</strong>：VMobject 描边从 CPU 搬进 compute shader——每个二次贝塞尔段一个 workgroup，16 采样求点与切线，沿法向挤出描边轮廓顶点，转角连接由 <code>joint_angles</code> storage buffer 解决；渲染 pass 直接读 compute 写出的顶点数组（无 vertex buffer）。同 PR 里 <code>Mobject</code> 更名 <code>Rabject</code>；</li>
-<li><strong><a href="https://github.com/AzurIce/ranim/pull/5">#5</a></strong>：奠定至今的三阶段架构——物件无层级，插入 <code>Scene</code> 即移交所有权换取 <code>RabjectId</code>，按 <code>Extract → Prepare → Render</code> 渲染；<code>Animation</code> 包着消费进度 <code>alpha</code> 的 <code>AnimationFunc</code>（与消费 <code>dt</code> 的 <code>Updater</code> 相对）——“动画是 alpha 的函数“从这里开始；</li>
-<li><strong><a href="https://github.com/AzurIce/ranim/pull/9">#9</a>/<a href="https://github.com/AzurIce/ranim/pull/10">#10</a></strong>：真正的曲线填充——填充三角形带参考三角形 <code>uv_coord</code> 与 <code>fill_all</code> 旗标，片元里求值二次曲线只保留曲线内部；<code>WgpuContext</code>/<code>WgpuBuffer</code> 由此诞生；</li>
-<li><strong><a href="https://github.com/AzurIce/ranim/pull/12">#12</a></strong>：淡入淡出的语义确立为<strong>整个物件</strong>在零透明快照与当前状态之间插值，而非缩放透明度——<code>Opacity</code> trait 只负责各类型自己的透明度写入。</li>
+  </details>
+</li>
+
+<li class="nav-part"><span role="heading" aria-level="2">Items</span></li>
+
+<li class="nav-item">
+  <div class="nav-label"><a href="../../items/"><span class="nav-title">Items</span></a>
+</div>
+  <details class="nav-branch" open>
+    <summary class="nav-disclosure" aria-label="Toggle Items"></summary>
+    <ul class="nav-children"><li class="nav-item">
+  <a href="../../items/camera/"><span class="nav-title">CameraFrame</span></a>
+</li>
+
+<li class="nav-item">
+  <div class="nav-label"><a href="../../items/vitem/"><span class="nav-title">VItem 类</span></a>
+</div>
+  <details class="nav-branch" open>
+    <summary class="nav-disclosure" aria-label="Toggle VItem 类"></summary>
+    <ul class="nav-children"><li class="nav-item">
+  <a href="../../items/vitem/vitem/"><span class="nav-title">VItem</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../items/vitem/geometry/"><span class="nav-title">几何构造器</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../items/vitem/svg/"><span class="nav-title">SvgItem</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../items/vitem/text/"><span class="nav-title">文字物件</span></a>
+</li>
+
 </ul>
-<h2 id="渲染范式三连跳"><a class="header" href="#渲染范式三连跳">渲染范式三连跳</a></h2>
-<p>相关 PR：<a href="https://github.com/AzurIce/ranim/pull/15">#15</a>（Vello + Wgpu）、<a href="https://github.com/AzurIce/ranim/pull/18">#18</a>（Vello for 2d）、<a href="https://github.com/AzurIce/ranim/pull/22">#22</a>（SDF）</p>
-<pre class="mermaid">flowchart LR
-    subgraph E1["时代一 · #3–#12"]
-        A1["VMobject 描边&lt;br/&gt;compute 挤出 + joint_angles"] --&gt; R1["wgpu"]
+  </details>
+</li>
+
+<li class="nav-item">
+  <div class="nav-label"><a href="../../items/mesh/"><span class="nav-title">MeshItem 类</span></a>
+</div>
+  <details class="nav-branch" open>
+    <summary class="nav-disclosure" aria-label="Toggle MeshItem 类"></summary>
+    <ul class="nav-children"><li class="nav-item">
+  <a href="../../items/mesh/mesh_item/"><span class="nav-title">MeshItem</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../items/mesh/surface/"><span class="nav-title">Surface</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../items/mesh/sphere/"><span class="nav-title">Sphere</span></a>
+</li>
+
+</ul>
+  </details>
+</li>
+
+</ul>
+  </details>
+</li>
+
+
+<li class="nav-separator" role="presentation"><hr></li>
+
+<li class="nav-part"><span role="heading" aria-level="2">News</span></li>
+
+<li class="nav-item">
+  <a href="./" aria-current="page"><span class="nav-title">v0.1</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../v0.2/"><span class="nav-title">v0.2</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../v0.3/"><span class="nav-title">v0.3</span></a>
+</li>
+
+</ul>
+    </nav>
+    <script>// Runs directly after the complete navigation, before deferred reader enhancements.
+(() => {
+  const navigation = document.querySelector('#book-nav');
+  if (!navigation) return;
+  const home = document.querySelector('link[rel="home"]')?.href || document.querySelector('.book-brand')?.href;
+  const key = `notist-book-scroll:${home}`;
+  let saved = null;
+  let pending = null;
+  try { saved = JSON.parse(sessionStorage.getItem(key)); } catch (_) {}
+  const visible = () => navigation.getClientRects().length > 0;
+  const offset = link => link.getBoundingClientRect().top - navigation.getBoundingClientRect().top;
+  const save = (link = pending) => {
+    if (!visible()) return;
+    saved = { top: navigation.scrollTop };
+    if (link) saved.anchor = { url: link.href, offset: offset(link) };
+    try { sessionStorage.setItem(key, JSON.stringify(saved)); } catch (_) {}
+  };
+  const restore = () => {
+    if (!visible()) return;
+    if (Number.isFinite(saved?.top) && saved.top >= 0) navigation.scrollTop = saved.top;
+    const anchor = saved?.anchor;
+    const link = anchor && Number.isFinite(anchor.offset)
+      ? [...navigation.querySelectorAll('a[href]')].find(link => link.href === anchor.url) : null;
+    if (link) navigation.scrollTop += offset(link) - anchor.offset;
+    const current = navigation.querySelector('[aria-current="page"]');
+    if (!current) return;
+    const bounds = current.getBoundingClientRect();
+    const rail = navigation.getBoundingClientRect();
+    const start = rail.top + (navigation.querySelector('.rail-heading')?.getBoundingClientRect().height || 0);
+    if (bounds.bottom > rail.bottom) navigation.scrollTop += bounds.bottom - rail.bottom + 24;
+    else if (bounds.top < start) navigation.scrollTop += bounds.top - start - 24;
+  };
+  navigation.addEventListener('scroll', () => save(), { passive: true });
+  // Capture before the mobile reader closes the drawer. A pending link anchor must
+  // survive pagehide and any scroll event caused by restoring its position.
+  navigation.addEventListener('click', event => {
+    const link = event.target.closest('a[href]');
+    if (link && !event.defaultPrevented && event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && !link.hasAttribute('download') && (!link.target || link.target === '_self')) {
+      const target = new URL(link.href);
+      if (target.origin === location.origin && target.pathname !== location.pathname) pending = link;
+    }
+    save(pending);
+  }, true);
+  window.addEventListener('pagehide', () => save(pending));
+  // Hidden mobile drawers restore immediately when made visible, before painting.
+  new MutationObserver(restore).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+  new ResizeObserver(restore).observe(navigation);
+  restore();
+})();
+</script>
+    <div id="nav-resize" class="navigation-resize" role="separator" tabindex="0" aria-label="Resize contents" aria-orientation="vertical" aria-controls="book-nav" title="Drag or use arrow keys to resize contents; double-click or press Home to reset"></div>
+    <main id="page-content" tabindex="-1">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><span aria-current="page">v0.1</span></li></ol></nav>
+      <details class="mobile-outline">
+        <summary>On this page <span class="outline-state" aria-hidden="true"><span class="outline-show">Show</span><span class="outline-hide">Hide</span></span></summary>
+        <ol class="outline-list"><li data-level="1"><a data-outline-link href="#v0-1">v0.1</a></li><li data-level="2"><a data-outline-link href="#%E6%96%B0%E5%A2%9E">新增</a></li><li data-level="2"><a data-outline-link href="#%E6%BC%94%E8%BF%9B%E4%B8%AD%E7%9A%84%E5%85%B3%E9%94%AE%E6%9B%B4%E5%90%8D">演进中的关键更名</a></li><li data-level="2"><a data-outline-link href="#%E8%B5%B7%E6%BA%90-compute-shader-%E6%97%B6%E4%BB%A3">起源：compute shader 时代</a></li><li data-level="2"><a data-outline-link href="#%E6%B8%B2%E6%9F%93%E8%8C%83%E5%BC%8F%E4%B8%89%E8%BF%9E%E8%B7%B3">渲染范式三连跳</a></li><li data-level="2"><a data-outline-link href="#%E5%8A%A8%E7%94%BB-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E5%9D%90%E6%A0%87%E7%B3%BB">动画、相机与坐标系</a></li><li data-level="2"><a data-outline-link href="#preview-app">Preview App</a></li><li data-level="2"><a data-outline-link href="#item-%E4%BD%93%E7%B3%BB%E6%88%90%E5%9E%8B">Item 体系成型</a></li><li data-level="2"><a data-outline-link href="#%E5%B7%A5%E7%A8%8B%E5%8C%96-dylib-%E6%8B%86%E5%88%86%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF">工程化：dylib、拆分与流水线</a></li><li data-level="2"><a data-outline-link href="#%E5%85%B6%E4%BD%99%E5%B0%8F%E7%89%B9%E6%80%A7%E4%B8%8E%E4%BF%AE%E5%A4%8D">其余小特性与修复</a></li></ol>
+      </details>
+      <article class="prose"><section><h1 id="v0-1">v0.1</h1><blockquote data-notist-kind="quote"><p><strong>Status: Backfilled（补写）</strong> — 覆盖 <a href="https://github.com/AzurIce/ranim/pull/3">#3</a>–<a href="https://github.com/AzurIce/ranim/pull/96">#96</a>；按 v0.1.5（2025-10-18）发布时点快照描述。起源期 PR（<a href="https://github.com/AzurIce/ranim/pull/3">#3</a>–<a href="https://github.com/AzurIce/ranim/pull/28">#28</a>，2024-11 → 2025-03）先于首个 tag <code>v0.1.0-alpha.1</code> 落地；<code>alpha.8</code>/<code>alpha.10</code>/<code>alpha.15</code>/<code>alpha.16</code> 从未发布，<code>v0.1.1</code>–<code>v0.1.3</code> 只含未经 PR 的直接修复。</p></blockquote><p>v0.1 的故事，是 ranim <strong>找到自己的渲染范式</strong>的故事：以 compute shader 描边起家（<a href="https://github.com/AzurIce/ranim/pull/3">#3</a>），短暂借道 Vello（<a href="https://github.com/AzurIce/ranim/pull/15">#15</a>/<a href="https://github.com/AzurIce/ranim/pull/18">#18</a>），最终落到 wgpu 单管线 SDF（<a href="https://github.com/AzurIce/ranim/pull/22">#22</a>，受 <a href="https://github.com/jkjkil4/JAnim">JAnim</a> 启发）——这条 SDF 路线一直延续至今。支撑它的骨架也在这个版本线里成形：Extract → Prepare → Render 三阶段（<a href="https://github.com/AzurIce/ranim/pull/5">#5</a>）、Timeline 编码（<a href="https://github.com/AzurIce/ranim/pull/28">#28</a>）、Preview App（<a href="https://github.com/AzurIce/ranim/pull/53">#53</a>）、dylib 热重载的 CLI（<a href="https://github.com/AzurIce/ranim/pull/77">#77</a>），以及 v0.1.5 收官时的 crate 拆分与流水线化渲染（<a href="https://github.com/AzurIce/ranim/pull/94">#94</a>/<a href="https://github.com/AzurIce/ranim/pull/96">#96</a>）。</p><section><h2 id="新增">新增</h2><ul><li><p><strong>SDF 渲染管线</strong>：单一 <code>vitem.wgsl</code> 片元着色器渲染全部 VItem——精确点到二次贝塞尔距离（解三次方程）+ 绕行判定 + 反走样；这是今天 vitem 渲染的直系祖先</p></li><li><p><strong>三阶段渲染架构</strong>：Extract（CPU）→ Prepare（CPU→GPU）→ Render，物件所有权移交 <code>Scene</code> 换取 <code>Id</code></p></li><li><p><strong>Preview App</strong>：winit + egui-wgpu 窗口内预览，时间轴 scrub；后成为 wasm 网页预览与热重载的底座</p></li><li><p><strong>ranim-cli</strong>：<code>linkme</code> distributed slice + <code>libloading</code> 的 dylib 热重载，<code>ranim preview</code> / <code>ranim render</code>，<code>#[scene]</code>/<code>#[output]</code> 宏</p></li><li><p><strong>CameraFrame 即物件</strong>：相机成为普通可动画 item，<code>perspective_blend</code> 正交↔透视连续混合，<code>frame_height = 8.0</code> 分辨率无关坐标</p></li><li><p><strong>Item 体系</strong>：<code>Extract::Target</code>、<code>VisualItem</code>、组合物件（元组 Renderable）、几何构造器（arrow/arc/circle/polygon/line/svg/typst）、<code>TypstText</code>（按字符 diff 对齐）</p></li><li><p><strong>crate 拆分</strong>：ranim-core / ranim-items / ranim-anims / ranim-render / ranim-app / ranim-cli / ranim-macros，façade 再导出</p></li><li><p>serde feature（<code>derive_more</code> 去样板）、wasm 构建进 CI、zola 站点（后被 mdbook 取代）</p></li></ul></section><section><h2 id="演进中的关键更名">演进中的关键更名</h2><p>v0.1 是 API 高速重构期，列几条主干系谱，便于读旧代码：</p><ul><li><p><code>Mobject</code> → <code>Rabject</code>（<a href="https://github.com/AzurIce/ranim/pull/3">#3</a>）→ <code>TimelineId</code>（<a href="https://github.com/AzurIce/ranim/pull/64">#64</a>）</p></li><li><p><code>RanimTimeline</code>/<code>RabjectTimeline</code> → <code>RanimScene</code>/<code>ItemTimeline</code>（<a href="https://github.com/AzurIce/ranim/pull/64">#64</a>）</p></li><li><p><code>Blueprint</code> 系统：<a href="https://github.com/AzurIce/ranim/pull/57">#57</a> 引入 → <a href="https://github.com/AzurIce/ranim/pull/64">#64</a> 移除（"items 只保留自描述数据"）</p></li><li><p>场景定义：trait（<code>SceneConstructor</code>/<code>SceneMeta</code>/<code>Scene</code>）→ <code>fn(&amp;mut RanimScene)</code> + <code>#[scene]</code> 宏（<a href="https://github.com/AzurIce/ranim/pull/77">#77</a>）</p></li><li><p>坐标系：像素相关 → <code>frame_height = 8.0</code> 恒定（<a href="https://github.com/AzurIce/ranim/pull/44">#44</a>）</p></li><li><p>包路径：单体 <code>ranim::</code> → <code>ranim::{core, items, anims, render}</code>（<a href="https://github.com/AzurIce/ranim/pull/94">#94</a>）</p></li></ul></section><section><h2 id="起源-compute-shader-时代">起源：compute shader 时代</h2><p>相关 PR：<a href="https://github.com/AzurIce/ranim/pull/3">#3</a>（stroke compute）、<a href="https://github.com/AzurIce/ranim/pull/5">#5</a>（三阶段架构）、<a href="https://github.com/AzurIce/ranim/pull/9">#9</a>/<a href="https://github.com/AzurIce/ranim/pull/10">#10</a>（curve fill）、<a href="https://github.com/AzurIce/ranim/pull/12">#12</a>（fading）</p><ul><li><p><strong><a href="https://github.com/AzurIce/ranim/pull/3">#3</a>（首个 PR）</strong>：VMobject 描边从 CPU 搬进 compute shader——每个二次贝塞尔段一个 workgroup，16 采样求点与切线，沿法向挤出描边轮廓顶点，转角连接由 <code>joint_angles</code> storage buffer 解决；渲染 pass 直接读 compute 写出的顶点数组（无 vertex buffer）。同 PR 里 <code>Mobject</code> 更名 <code>Rabject</code>；</p></li><li><p><strong><a href="https://github.com/AzurIce/ranim/pull/5">#5</a></strong>：奠定至今的三阶段架构——物件无层级，插入 <code>Scene</code> 即移交所有权换取 <code>RabjectId</code>，按 <code>Extract → Prepare → Render</code> 渲染；<code>Animation</code> 包着消费进度 <code>alpha</code> 的 <code>AnimationFunc</code>（与消费 <code>dt</code> 的 <code>Updater</code> 相对）——"动画是 alpha 的函数"从这里开始；</p></li><li><p><strong><a href="https://github.com/AzurIce/ranim/pull/9">#9</a>/<a href="https://github.com/AzurIce/ranim/pull/10">#10</a></strong>：真正的曲线填充——填充三角形带参考三角形 <code>uv_coord</code> 与 <code>fill_all</code> 旗标，片元里求值二次曲线只保留曲线内部；<code>WgpuContext</code>/<code>WgpuBuffer</code> 由此诞生；</p></li><li><p><strong><a href="https://github.com/AzurIce/ranim/pull/12">#12</a></strong>：淡入淡出的语义确立为<strong>整个物件</strong>在零透明快照与当前状态之间插值，而非缩放透明度——<code>Opacity</code> trait 只负责各类型自己的透明度写入。</p></li></ul></section><section><h2 id="渲染范式三连跳">渲染范式三连跳</h2><p>相关 PR：<a href="https://github.com/AzurIce/ranim/pull/15">#15</a>（Vello + Wgpu）、<a href="https://github.com/AzurIce/ranim/pull/18">#18</a>（Vello for 2d）、<a href="https://github.com/AzurIce/ranim/pull/22">#22</a>（SDF）</p><notist-b4666d0e3ef46445-diagram notist-protocol="2" notist-function="/home/runner/work/ranim/ranim/book/_components/pele/lib.notc.diagram" notist-content="block" notist-source="flowchart LR
+    subgraph E1[&quot;时代一 · #3–#12&quot;]
+        A1[&quot;VMobject 描边&lt;br/&gt;compute 挤出 + joint_angles&quot;] --&gt; R1[&quot;wgpu&quot;]
     end
-    subgraph E2["时代二 · #15 / #18"]
-        W["wgpu 手写 2D&lt;br/&gt;（#18 删除）"] --&gt; C["Canvas 纹理"]
-        V["vello 2D&lt;br/&gt;透明纹理叠加"] --&gt; C
-        C --&gt; R2["合成进 3D 场景"]
+    subgraph E2[&quot;时代二 · #15 / #18&quot;]
+        W[&quot;wgpu 手写 2D&lt;br/&gt;（#18 删除）&quot;] --&gt; C[&quot;Canvas 纹理&quot;]
+        V[&quot;vello 2D&lt;br/&gt;透明纹理叠加&quot;] --&gt; C
+        C --&gt; R2[&quot;合成进 3D 场景&quot;]
     end
-    subgraph E3["时代三 · #22 至今"]
-        S["全部 VItem"] --&gt; P["单一 vitem.wgsl&lt;br/&gt;SDF：点到二次贝塞尔距离"]
-        P --&gt; R3["wgpu"]
+    subgraph E3[&quot;时代三 · #22 至今&quot;]
+        S[&quot;全部 VItem&quot;] --&gt; P[&quot;单一 vitem.wgsl&lt;br/&gt;SDF：点到二次贝塞尔距离&quot;]
+        P --&gt; R3[&quot;wgpu&quot;]
     end
-    E1 -- "#15 引入 vello" --&gt; E2
-    E2 -- "#22 弃用 vello" --&gt; E3
-</pre>
-
-<ul>
-<li><strong><a href="https://github.com/AzurIce/ranim/pull/15">#15</a></strong>：世界变成 3D，2D 内容住进 <code>Canvas</code>（“basically a 2d scene”）。手写 wgpu 2D 与 Vello 并存：vello 渲到透明纹理再叠加混合——“所有 vello 渲染的东西都叠在别人上面”；<code>Entity</code> trait 取代过于僵硬的 <code>Rabject</code> 管线;</li>
-<li><strong><a href="https://github.com/AzurIce/ranim/pull/18">#18</a></strong>：删掉全部手写 wgpu 2D 路径（<code>rabject2d/vpath/*</code> 与三个 vpath shader，-2647 行），2D 完全交给 vello，3D 留在 wgpu;</li>
-<li><strong><a href="https://github.com/AzurIce/ranim/pull/22">#22</a></strong>：范式定音——完全弃用 vello（diff -7967 行），所有 VItem 经<strong>单一 SDF 片元管线</strong>渲染：storage buffer 存点（xy 坐标 + <code>is_closed</code>）、填/描色与描边宽度，<code>distance_bezier</code> 解三次方程求精确最近点，<code>SubpathAttr</code> 做绕行/内部判定，<code>ANTI_ALIAS_WIDTH = 0.015</code> 反走样。今天的 <code>vitem.wgsl</code> 仍是这条路线。</li>
-</ul>
-<h2 id="动画相机与坐标系"><a class="header" href="#动画相机与坐标系">动画、相机与坐标系</a></h2>
-<p>相关 PR：<a href="https://github.com/AzurIce/ranim/pull/25">#25</a>、<a href="https://github.com/AzurIce/ranim/pull/28">#28</a>、<a href="https://github.com/AzurIce/ranim/pull/44">#44</a></p>
-<ul>
-<li><strong><a href="https://github.com/AzurIce/ranim/pull/25">#25</a></strong>：动画二分为 <code>Dynamic</code>（每帧 <code>prepare_alpha</code> 重备实例）与 <code>Static</code>（一次性准备，如 creation/freeze）；clip box 从 CPU 边界框搬进 compute shader 用 <code>atomicMin</code>/<code>atomicMax</code> 维护——这个思路后来在 v0.2 的 GPU-driven 合批（<a href="https://github.com/AzurIce/ranim/pull/138">#138</a>/<a href="https://github.com/AzurIce/ranim/pull/142">#142</a>）里长成主角；</li>
-<li><strong><a href="https://github.com/AzurIce/ranim/pull/28">#28</a></strong>：timeline 与 eval 泛化到任意类型（<code>TimelineTrait</code>/<code>Evaluator</code>/<code>ChainedAnimation</code>），<code>CameraFrame</code> 成为普通可动画 item（相机动画自此可能），“stacked” 动画（同一 item 的多条 timeline 经 <code>sync()</code> 同步），宏拆入 <code>packages/ranim-macros</code>；</li>
-<li><strong><a href="https://github.com/AzurIce/ranim/pull/44">#44</a></strong>：<code>CameraFrame { pos, up, facing, scale, fovy, near, far, perspective_blend }</code> 完全可插值——<code>perspective_blend</code> 在正交与透视投影矩阵间按 <span class="typst-inline"><svg class="typst-doc" viewbox="0 0 147.584188889 18.513" width="147.584188889pt" height="18.513pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:h5="http://www.w3.org/1999/xhtml"><g transform="matrix(1 0 0 -1 5.5 13.013)"><use xlink:href="#gA0FB579194F343CD9FDF753DC465FC21" x="0" y="0" fill="currentColor" fill-rule="nonzero" /></g><g transform="matrix(1 0 0 -1 14.102 13.013)"><use xlink:href="#gCBFDB4FAA60E8030E7B751E03D6CAAA6" x="0" y="0" fill="currentColor" fill-rule="nonzero" /></g><g transform="matrix(1 0 0 -1 18.381 13.013)"><use xlink:href="#g1BC53DB87870246BC0DB40E75DD190A0" x="0" y="0" fill="currentColor" fill-rule="nonzero" /></g><g transform="matrix(1 0 0 -1 23.254 13.013)"><use xlink:href="#g11C1096A524ED08942C2BB5E0564A17C" x="0" y="0" fill="currentColor" fill-rule="nonzero" /></g><g transform="matrix(1 0 0 -1 30.588555556 13.013)"><use xlink:href="#g4409E2CB062F4B2A6E5513C033F25B3C" x="0" y="0" fill="currentColor" fill-rule="nonzero" /></g><g transform="matrix(1 0 0 -1 42.202111111 13.013)"><use xlink:href="#gCBFDB4FAA60E8030E7B751E03D6CAAA6" x="0" y="0" fill="currentColor" fill-rule="nonzero" /></g><g transform="matrix(1 0 0 -1 46.481111111 13.013)"><use xlink:href="#g3E2A4E29F5F78B7482203F9341039E72" x="0" y="0" fill="currentColor" fill-rule="nonzero" /></g><g transform="matrix(1 0 0 -1 54.425555556 13.013)"><use xlink:href="#g8C5DE8B42A8F44179A2C3172A23CB10B" x="0" y="0" fill="currentColor" fill-rule="nonzero" /></g><g transform="matrix(1 0 0 -1 65.428 13.013)"><use xlink:href="#g1BC53DB87870246BC0DB40E75DD190A0" x="0" y="0" fill="currentColor" fill-rule="nonzero" /></g><g transform="matrix(1 0 0 -1 70.301 13.013)"><use xlink:href="#g11C1096A524ED08942C2BB5E0564A17C" x="0" y="0" fill="currentColor" fill-rule="nonzero" /></g><g transform="matrix(1 0 0 -1 74.58 13.013)"><use xlink:href="#gA0FB579194F343CD9FDF753DC465FC21" x="0" y="0" fill="currentColor" fill-rule="nonzero" /></g><g transform="matrix(1 0 0 -1 80.542 15.73)"><use xlink:href="#gC6A21FA43B2697FE35F4CD0F04557AE" x="0" y="0" fill="currentColor" fill-rule="nonzero" /><use xlink:href="#g576A3323DB977271A4D8BB25B18144F9" x="3.85" y="0" fill="currentColor" fill-rule="nonzero" /><use xlink:href="#g804A82AB66E0D99E9B61C48DB9EA0894" x="6.8684" y="0" fill="currentColor" fill-rule="nonzero" /><use xlink:href="#g335453BAF425443BABA37D06BB54E0DA" x="9.8637" y="0" fill="currentColor" fill-rule="nonzero" /><use xlink:href="#gC6A21FA43B2697FE35F4CD0F04557AE" x="14.1449" y="0" fill="currentColor" fill-rule="nonzero" /></g><g transform="matrix(1 0 0 -1 101.597344444 13.013)"><use xlink:href="#g87240BDFB8354F39978D04972C933174" x="0" y="0" fill="currentColor" fill-rule="nonzero" /></g><g transform="matrix(1 0 0 -1 112.599788889 13.013)"><use xlink:href="#g1BC53DB87870246BC0DB40E75DD190A0" x="0" y="0" fill="currentColor" fill-rule="nonzero" /></g><g transform="matrix(1 0 0 -1 117.472788889 13.013)"><use xlink:href="#gA0FB579194F343CD9FDF753DC465FC21" x="0" y="0" fill="currentColor" fill-rule="nonzero" /></g><g transform="matrix(1 0 0 -1 123.434788889 15.73)"><use xlink:href="#g9851E1167D2D7999DC76BF8D64FF048E" x="0" y="0" fill="currentColor" fill-rule="nonzero" /><use xlink:href="#g4386AEA5E04608A8D0EC2DB677D165DE" x="4.2812" y="0" fill="currentColor" fill-rule="nonzero" /><use xlink:href="#g576A3323DB977271A4D8BB25B18144F9" x="7.7" y="0" fill="currentColor" fill-rule="nonzero" /><use xlink:href="#g46B1746E53D571C47B6C9842FDCD666C" x="10.7184" y="0" fill="currentColor" fill-rule="nonzero" /><use xlink:href="#g9851E1167D2D7999DC76BF8D64FF048E" x="13.7522" y="0" fill="currentColor" fill-rule="nonzero" /></g><defs><symbol id="gA0FB579194F343CD9FDF753DC465FC21" overflow="visible"><path d="M 0 0m 6.105 7.513h -3.52c -0.253 0 -0.374 -0.011 -0.374 -0.253c 0 -0.121 0.121 -0.176 0.363 -0.176c 0.22 0 0.66 0.033 0.66 -0.143c 0 -0.022 -0.011 -0.088 -0.044 -0.198l -1.452 -5.841c -0.066 -0.242 -0.176 -0.385 -0.33 -0.44c -0.077 -0.022 -0.275 -0.033 -0.616 -0.033c -0.242 0 -0.352 -0.022 -0.352 -0.253c 0 -0.121 0.066 -0.176 0.209 -0.176l 1.375 0.033l 0.704 -0.011c 0.121 0 0.561 -0.022 0.704 -0.022c 0.176 0 0.264 0.088 0.264 0.264c 0 0.11 -0.121 0.165 -0.352 0.165c -0.44 0 -0.66 0.044 -0.66 0.143c 0 0 0.011 0.033 0.033 0.176l 0.66 2.684h 1.815c 0.715 0 1.397 0.22 2.035 0.649c 0.715 0.473 1.067 1.056 1.067 1.749c 0 1.089 -1.034 1.683 -2.189 1.683Z m -0.341 -0.429c 0.957 0 1.43 -0.33 1.43 -0.99c 0 -0.616 -0.308 -1.441 -0.627 -1.727c -0.418 -0.374 -0.968 -0.561 -1.65 -0.561h -1.474l 0.726 2.904c 0.088 0.374 0.088 0.374 0.55 0.374Z " /></symbol><symbol id="gCBFDB4FAA60E8030E7B751E03D6CAAA6" overflow="visible"><path d="M 0 0m 3.498 -2.728c 0.099 0 0.154 0.055 0.154 0.154c 0 0.033 -0.022 0.077 -0.055 0.121c -0.572 0.44 -1.034 1.166 -1.375 2.167c -0.297 0.869 -0.451 1.727 -0.451 2.574v 0.924c 0 0.847 0.154 1.705 0.451 2.574c 0.341 1.001 0.803 1.727 1.375 2.167c 0.033 0.033 0.055 0.077 0.055 0.121c 0 0.099 -0.055 0.154 -0.154 0.154c -0.011 0 -0.044 -0.011 -0.077 -0.033c -0.66 -0.506 -1.21 -1.254 -1.661 -2.255c -0.429 -0.957 -0.649 -1.859 -0.649 -2.728v -0.924c 0 -0.869 0.22 -1.771 0.649 -2.728c 0.451 -1.001 1.001 -1.749 1.661 -2.255c 0.033 -0.022 0.066 -0.033 0.077 -0.033Z " /></symbol><symbol id="g1BC53DB87870246BC0DB40E75DD190A0" overflow="visible"><path d="M 0 0m 3.091 4.895c -0.396 0 -0.792 -0.187 -1.177 -0.561l 0.759 3.135c -0.022 0.099 -0.055 0.165 -0.187 0.165c -0.363 0 -1.166 -0.099 -1.309 -0.11c -0.165 -0.022 -0.253 -0.099 -0.253 -0.264c 0 -0.11 0.099 -0.165 0.308 -0.165c 0.209 0 0.495 0.011 0.495 -0.143c 0 -0.044 -0.055 -0.264 -0.154 -0.671l -0.88 -3.542c -0.121 -0.462 -0.176 -0.836 -0.176 -1.111c 0 -0.946 0.506 -1.749 1.408 -1.749c 0.715 0 1.342 0.363 1.892 1.1c 0.495 0.682 0.748 1.397 0.748 2.134c 0 0.957 -0.561 1.782 -1.474 1.782Z m -0.022 -0.33c 0.429 0 0.638 -0.33 0.638 -0.979c 0 -0.297 -0.066 -0.693 -0.198 -1.188c -0.242 -0.935 -0.561 -1.573 -0.946 -1.914c -0.22 -0.187 -0.429 -0.275 -0.638 -0.275c -0.451 0 -0.671 0.352 -0.671 1.056c 0 0.242 0.055 0.605 0.165 1.089l 0.242 0.99c 0.033 0.165 0.088 0.286 0.154 0.374c 0.429 0.561 0.847 0.847 1.254 0.847Z " /></symbol><symbol id="g11C1096A524ED08942C2BB5E0564A17C" overflow="visible"><path d="M 0 0m 0.858 -2.695c 0.66 0.506 1.21 1.254 1.661 2.255c 0.429 0.957 0.649 1.859 0.649 2.728v 0.924c 0 0.869 -0.22 1.771 -0.649 2.728c -0.451 1.001 -1.001 1.749 -1.661 2.255c -0.033 0.022 -0.066 0.033 -0.077 0.033c -0.099 0 -0.154 -0.055 -0.154 -0.154c 0 -0.044 0.022 -0.088 0.055 -0.121c 0.572 -0.44 1.034 -1.166 1.375 -2.167c 0.297 -0.869 0.451 -1.727 0.451 -2.574v -0.924c 0 -0.847 -0.154 -1.705 -0.451 -2.574c -0.341 -1.001 -0.803 -1.727 -1.375 -2.167c -0.033 -0.044 -0.055 -0.088 -0.055 -0.121c 0 -0.099 0.055 -0.154 0.154 -0.154c 0.011 0 0.044 0.011 0.077 0.033Z " /></symbol><symbol id="g4409E2CB062F4B2A6E5513C033F25B3C" overflow="visible"><path d="M 0 0m 7.678 4.037h -6.798c -0.176 0 -0.264 -0.088 -0.264 -0.253c 0 -0.165 0.088 -0.253 0.264 -0.253h 6.798c 0.176 0 0.264 0.088 0.264 0.253c 0 0.132 -0.121 0.253 -0.264 0.253Z m 0 -2.068h -6.798c -0.176 0 -0.264 -0.088 -0.264 -0.253c 0 -0.165 0.088 -0.253 0.264 -0.253h 6.798c 0.176 0 0.264 0.088 0.264 0.253c 0 0.143 -0.121 0.253 -0.264 0.253Z " /></symbol><symbol id="g3E2A4E29F5F78B7482203F9341039E72" overflow="visible"><path d="M 0 0m 2.959 7.326c -0.451 -0.462 -1.111 -0.693 -1.98 -0.693v -0.429c 0.572 0 1.045 0.088 1.408 0.264v -5.566c 0 -0.198 -0.044 -0.33 -0.143 -0.385c -0.099 -0.055 -0.374 -0.088 -0.814 -0.088h -0.385v -0.429c 0.275 0.022 0.869 0.033 1.782 0.033c 0.913 0 1.507 -0.011 1.782 -0.033v 0.429h -0.385c -0.451 0 -0.726 0.033 -0.814 0.088c -0.088 0.055 -0.143 0.187 -0.143 0.385v 6.094c 0 0.264 -0.022 0.33 -0.308 0.33Z " /></symbol><symbol id="g8C5DE8B42A8F44179A2C3172A23CB10B" overflow="visible"><path d="M 0 0m 7.678 2.97h -6.798c -0.176 0 -0.264 -0.077 -0.264 -0.22c 0 -0.143 0.088 -0.22 0.264 -0.22h 6.798c 0.176 0 0.264 0.077 0.264 0.22c 0 0.132 -0.132 0.22 -0.264 0.22Z " /></symbol><symbol id="gC6A21FA43B2697FE35F4CD0F04557AE" overflow="visible"><path d="M 0 0m 1.9173 -0.0847c 0.4774 0 0.8778 0.1694 1.2089 0.5082c 0.3311 0.3388 0.5005 0.7469 0.5005 1.2243c 0 0.4851 -0.1617 0.9086 -0.4851 1.2628c -0.3234 0.3542 -0.7315 0.539 -1.2166 0.539c -0.4851 0 -0.8855 -0.1848 -1.2166 -0.539c -0.3311 -0.3542 -0.4928 -0.7777 -0.4928 -1.2628c 0 -0.4774 0.1617 -0.8855 0.4928 -1.2243c 0.3311 -0.3388 0.7392 -0.5082 1.2089 -0.5082Z m 0.0077 0.2464c -0.3696 0 -0.6468 0.1617 -0.8393 0.4928c -0.1232 0.2156 -0.1848 0.5698 -0.1848 1.0549c 0 0.4697 0.0616 0.8085 0.1771 1.0241c 0.1848 0.3311 0.462 0.4928 0.8393 0.4928c 0.3619 0 0.6391 -0.1617 0.8316 -0.4774c 0.1309 -0.2156 0.1925 -0.5621 0.1925 -1.0395c 0 -0.8932 -0.2618 -1.5477 -1.0164 -1.5477Z " /></symbol><symbol id="g576A3323DB977271A4D8BB25B18144F9" overflow="visible"><path d="M 0 0m 2.8028 2.9106c 0 0.3003 -0.2849 0.4928 -0.5852 0.4928c -0.3927 0 -0.693 -0.231 -0.8932 -0.7007v 0.7007l -1.1088 -0.0847v -0.2926c 0.2695 0 0.4312 -0.0231 0.4928 -0.0693c 0.0616 -0.0462 0.0924 -0.1463 0.0924 -0.3234v -2.0251c 0 -0.1463 -0.0231 -0.2387 -0.077 -0.2695c -0.0539 -0.0308 -0.2233 -0.0462 -0.5082 -0.0462v -0.2926l 0.8855 0.0231c 0.3234 0.0077 0.6545 0 0.9856 -0.0231v 0.2926h -0.1848c -0.2541 0 -0.4158 0.0231 -0.4697 0.0616c -0.0539 0.0385 -0.077 0.1309 -0.077 0.2695v 1.1627c 0 0.3311 0.0616 0.6314 0.1771 0.8855c 0.154 0.3311 0.3773 0.5005 0.6776 0.5082c -0.077 -0.077 -0.1155 -0.1694 -0.1155 -0.2772c 0 -0.2387 0.1155 -0.3542 0.3542 -0.3542c 0.2079 0 0.3542 0.1617 0.3542 0.3619Z " /></symbol><symbol id="g804A82AB66E0D99E9B61C48DB9EA0894" overflow="visible"><path d="M 0 0m 2.5564 0.9702v 0.462h -0.2464v -0.4466c 0 -0.385 -0.1386 -0.8162 -0.4774 -0.8162c -0.3157 0 -0.4697 0.2618 -0.4697 0.7854v 2.0867h 1.0703v 0.2926h -1.0703v 1.4014h -0.2464c -0.0077 -0.2541 -0.0308 -0.4774 -0.0847 -0.6776c -0.1309 -0.5082 -0.4312 -0.77 -0.8855 -0.7931v -0.2233h 0.6391v -2.0713c 0 -0.4543 0.1386 -0.7469 0.4081 -0.8932c 0.2079 -0.1078 0.4004 -0.1617 0.5929 -0.1617c 0.5082 0 0.77 0.5082 0.77 1.0549Z " /></symbol><symbol id="g335453BAF425443BABA37D06BB54E0DA" overflow="visible"><path d="M 0 0m 2.4178 3.1955c 0.3465 0 0.5236 -0.2695 0.5236 -0.8162v -1.771c 0 -0.1463 -0.0231 -0.2387 -0.077 -0.2695c -0.0539 -0.0308 -0.2233 -0.0385 -0.5082 -0.0385v -0.3003l 0.8855 0.0231l 0.8778 -0.0231v 0.3003c -0.2464 0 -0.4081 0.0077 -0.4851 0.0308c -0.077 0.0231 -0.1078 0.077 -0.1078 0.1617v 1.4553c 0 0.3696 -0.0077 0.6237 -0.0308 0.77c -0.077 0.4697 -0.4235 0.7084 -1.0318 0.7084c -0.4697 0 -0.8239 -0.2156 -1.0626 -0.6468v 2.5641l -1.155 -0.0847v -0.2926c 0.2772 0 0.4466 -0.0231 0.5082 -0.0693c 0.0616 -0.0462 0.0847 -0.154 0.0847 -0.3311v -3.9578c 0 -0.1463 -0.0308 -0.2387 -0.0847 -0.2695c -0.0539 -0.0308 -0.2233 -0.0385 -0.5082 -0.0385v -0.3003l 0.8855 0.0231l 0.8778 -0.0231v 0.3003c -0.2849 0 -0.4466 0.0077 -0.5005 0.0385c -0.0539 0.0308 -0.0847 0.1232 -0.0847 0.2695v 1.4014c 0 0.6237 0.3927 1.1858 0.9933 1.1858Z " /></symbol><symbol id="g87240BDFB8354F39978D04972C933174" overflow="visible"><path d="M 0 0m 7.678 3.014h -3.135v 3.135c 0 0.176 -0.088 0.264 -0.264 0.264c -0.176 0 -0.264 -0.088 -0.264 -0.264v -3.135h -3.135c -0.176 0 -0.264 -0.088 -0.264 -0.264c 0 -0.176 0.088 -0.264 0.264 -0.264h 3.135v -3.135c 0 -0.176 0.088 -0.264 0.264 -0.264c 0.176 0 0.264 0.088 0.264 0.264v 3.135h 3.135c 0.176 0 0.264 0.088 0.264 0.264c 0 0.143 -0.121 0.264 -0.264 0.264Z " /></symbol><symbol id="g9851E1167D2D7999DC76BF8D64FF048E" overflow="visible"><path d="M 0 0m 2.2946 -0.1001c 0.4774 0 0.8855 0.1694 1.2166 0.5159c 0.3311 0.3465 0.5005 0.7546 0.5005 1.2397c 0 0.4697 -0.154 0.8701 -0.4543 1.2089c -0.3157 0.3619 -0.7007 0.539 -1.1627 0.539c -0.3927 0 -0.7315 -0.154 -1.0241 -0.4543v 0.4543l -1.155 -0.0847v -0.2926c 0.2849 0 0.4543 -0.0154 0.5082 -0.0539c 0.0539 -0.0385 0.0847 -0.1386 0.0847 -0.3003v -3.5574c 0 -0.1463 -0.0308 -0.2387 -0.0847 -0.2695c -0.0539 -0.0308 -0.2233 -0.0385 -0.5082 -0.0385v -0.3003l 0.8778 0.0231l 0.8855 -0.0231v 0.3003c -0.2849 0 -0.4466 0.0077 -0.5005 0.0385c -0.0539 0.0308 -0.0847 0.1232 -0.0847 0.2695v 1.2243c 0.1694 -0.2387 0.5005 -0.4389 0.9009 -0.4389Z m 0.0462 3.2494c 0.3157 0 0.5621 -0.1771 0.7546 -0.5313c 0.1463 -0.3003 0.2233 -0.616 0.2233 -0.9625c 0 -0.3619 -0.0847 -0.693 -0.2541 -0.9933c -0.2002 -0.3619 -0.4697 -0.539 -0.8008 -0.539c -0.3234 0 -0.5775 0.154 -0.77 0.4543c -0.0693 0.1001 -0.1001 0.2002 -0.1001 0.3003v 1.6863c 0.2233 0.3927 0.539 0.5852 0.9471 0.5852Z " /></symbol><symbol id="g4386AEA5E04608A8D0EC2DB677D165DE" overflow="visible"><path d="M 0 0m 3.1955 1.9327c 0 0.8855 -0.5159 1.5169 -1.3783 1.5169c -0.462 0 -0.847 -0.1771 -1.1627 -0.539c -0.2926 -0.3388 -0.4389 -0.7469 -0.4389 -1.2166c 0 -0.4851 0.1617 -0.8932 0.4851 -1.2474c 0.3234 -0.3542 0.7238 -0.5313 1.2012 -0.5313c 0.4389 0 0.7777 0.154 1.0087 0.4543c 0.1925 0.2541 0.2849 0.4389 0.2849 0.5621c 0 0.077 -0.0462 0.1155 -0.1309 0.1155c -0.0616 0 -0.1001 -0.0385 -0.1232 -0.1232c -0.1694 -0.5082 -0.5005 -0.7623 -0.9933 -0.7623c -0.3465 0 -0.616 0.1617 -0.8239 0.4928c -0.1463 0.2387 -0.2156 0.6006 -0.2233 1.0934h 2.079c 0.1694 0 0.2156 0.0154 0.2156 0.1848Z m -0.6853 0.7546c 0.0847 -0.2541 0.1232 -0.5005 0.1232 -0.7238h -1.7248c 0.0231 0.5082 0.154 0.8547 0.385 1.0318c 0.1925 0.154 0.3619 0.231 0.5236 0.231c 0.3465 0 0.5775 -0.1771 0.693 -0.539Z " /></symbol><symbol id="g46B1746E53D571C47B6C9842FDCD666C" overflow="visible"><path d="M 0 0m 2.772 1.001c 0 0.5852 -0.4004 0.9548 -1.1935 1.1088c -0.3619 0.0693 -0.5929 0.154 -0.7161 0.2387c -0.1232 0.0847 -0.1848 0.2079 -0.1848 0.3542c 0 0.3619 0.2695 0.539 0.8085 0.539c 0.5236 0 0.8085 -0.2926 0.847 -0.8855c 0.0077 -0.0616 0.0462 -0.0924 0.1232 -0.0924c 0.0847 0 0.1309 0.0693 0.1309 0.2079v 0.7623c 0 0.1463 -0.0385 0.2156 -0.1155 0.2156c -0.0847 0 -0.2002 -0.1386 -0.2772 -0.2002c -0.1925 0.1309 -0.4312 0.2002 -0.7084 0.2002c -0.6853 0 -1.232 -0.308 -1.232 -0.9625c 0 -0.2618 0.1078 -0.4851 0.3311 -0.6622c 0.2695 -0.2233 0.5236 -0.2695 1.0087 -0.3542c 0.5005 -0.1001 0.7546 -0.3234 0.7546 -0.6699c 0 -0.4389 -0.2695 -0.6622 -0.8162 -0.6622c -0.5313 0 -0.8701 0.3542 -1.0164 1.0549c -0.0231 0.1001 -0.0616 0.154 -0.1309 0.154c -0.0847 0 -0.1309 -0.077 -0.1309 -0.2233v -0.9933c 0 -0.1463 0.0385 -0.2156 0.1155 -0.2156c 0.0231 0 0.0616 0.0231 0.1232 0.077c 0.1386 0.1232 0.077 0.1001 0.2156 0.2387c 0.2233 -0.2079 0.5005 -0.3157 0.8239 -0.3157c 0.7315 0 1.2397 0.3773 1.2397 1.0857Z " /></symbol></defs></svg></span> 连续混合（closes <a href="https://github.com/AzurIce/ranim/pull/43">#43</a>）；坐标改为分辨率无关的恒定 <code>frame_height = 8.0</code>（closes <a href="https://github.com/AzurIce/ranim/pull/37">#37</a>），示例全部重写。</li>
-</ul>
-<h2 id="preview-app"><a class="header" href="#preview-app">Preview App</a></h2>
-<p><a href="https://github.com/AzurIce/ranim/pull/53">#53</a>（closes issue <a href="https://github.com/AzurIce/ranim/pull/52">#52</a>）</p>
-<p>egui 0.31 + winit <code>ApplicationHandler</code> 手写集成（当时还不是 eframe），场景经专用 <code>AppPipeline</code> 渲到 wgpu surface 的视口矩形，egui 时间轴控件（<code>TimelineState</code>）对 sealed timeline 做任意时刻 scrub；GPU profiling（wgpu-profiler/puffin）藏在 <code>profiling</code> feature 后。</p>
-<p><label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="assets/preview-app-prototype.gif" alt="Preview App 原型（#53）：winit 窗口内预览 bubble_sort 示例，底部时间轴拖动 scrub"><span class="img-wrapper"><img src="assets/preview-app-prototype.gif" alt="Preview App 原型（#53）：winit 窗口内预览 bubble_sort 示例，底部时间轴拖动 scrub"></span></label></p>
-<p>这个原型后来长出 wasm 网页版（<a href="https://github.com/AzurIce/ranim/pull/64">#64</a>）与热重载（<a href="https://github.com/AzurIce/ranim/pull/77">#77</a>），并在 v0.2 换用 eframe（<a href="https://github.com/AzurIce/ranim/pull/114">#114</a>）。</p>
-<h2 id="item-体系成型"><a class="header" href="#item-体系成型">Item 体系成型</a></h2>
-<p>相关 PR：<a href="https://github.com/AzurIce/ranim/pull/57">#57</a>、<a href="https://github.com/AzurIce/ranim/pull/60">#60</a>、<a href="https://github.com/AzurIce/ranim/pull/64">#64</a>、<a href="https://github.com/AzurIce/ranim/pull/69">#69</a></p>
-<ul>
-<li><strong><a href="https://github.com/AzurIce/ranim/pull/57">#57</a></strong>：typed timeline handle（<code>TimelineItem&lt;'t, Mark&gt;</code> + marker 类型），<code>insert(item)</code> 返回带类型的句柄；per-item Extract 成形（<code>VItemPrimitiveData</code>）；</li>
-<li><strong><a href="https://github.com/AzurIce/ranim/pull/60">#60</a></strong>：组合物件——为元组/数组实现 <code>Renderable</code>，<code>Arrow { tip, line }</code> 作为整体存进实例池。设计上<strong>明确拒绝父子层级</strong>：“如果 tip 淡出了只剩线，它还是箭头吗？”——拆分交给 <code>decompose</code>；（这一立场直到 v0.3 的场景图 <code>hierarchy::Node</code> 才被系统性重审，见 v0.3 篇。）</li>
-<li><strong><a href="https://github.com/AzurIce/ranim/pull/64">#64</a>（本时代最大 PR，+35k 行）</strong>：item 与时间线大重构——<code>Extract</code> 提取到关联 <code>Target</code>；<code>Renderable</code> 改名 <code>RenderCommand</code>、旧 <code>Primitive</code> 改名 <code>RenderResource</code>、新的 <code>Primitive</code> trait 声明 <code>type RenderInstance</code>；<code>VisualItem</code> 串起 <code>Extract → Renderable → RenderInstance</code> 流水；Blueprint 系统移除。时间线侧 <code>RanimTimeline</code>→<code>RanimScene</code>、<code>RabjectTimeline</code>→<code>ItemTimeline</code>、<code>Rabject</code>→<code>TimelineId</code>。同 PR 关闭 <a href="https://github.com/AzurIce/ranim/pull/67">#67</a>（预览上 wasm）与 <a href="https://github.com/AzurIce/ranim/pull/54">#54</a>：website 改造为 mdbook book + rustdoc + 每个示例内嵌 wasm 预览；</li>
-<li><strong><a href="https://github.com/AzurIce/ranim/pull/69">#69</a></strong>：<code>DynTimeline</code> 类型擦除——一个 item 的 timeline 集合可容纳多种动画类型，<code>map&lt;T, E&gt;</code> 在 item 状态类型变化时转换 timeline（closes <a href="https://github.com/AzurIce/ranim/pull/68">#68</a>）。</li>
-</ul>
-<h2 id="工程化dylib拆分与流水线"><a class="header" href="#工程化dylib拆分与流水线">工程化：dylib、拆分与流水线</a></h2>
-<p>相关 PR：<a href="https://github.com/AzurIce/ranim/pull/73">#73</a>、<a href="https://github.com/AzurIce/ranim/pull/77">#77</a>、<a href="https://github.com/AzurIce/ranim/pull/87">#87</a>、<a href="https://github.com/AzurIce/ranim/pull/94">#94</a>、<a href="https://github.com/AzurIce/ranim/pull/96">#96</a></p>
-<ul>
-<li><strong><a href="https://github.com/AzurIce/ranim/pull/73">#73</a></strong>：wasm 示例进 CI 构建，仓库里提交的 <code>pkg/</code> 产物删除（-24.5k 行）；</li>
-<li><strong><a href="https://github.com/AzurIce/ranim/pull/77">#77</a>（ranim-cli 诞生，v0.1.0）</strong>：<code>#[scene]</code>/<code>#[output]</code> 宏经 <code>linkme</code> distributed slice 收集 <code>&amp;'static Scene</code>，CLI 把用户 crate 构建成 dylib、复制到临时路径后 <code>libloading</code> 加载——<code>ranim preview</code> 监听重建热重载，<code>ranim render</code> 构建并渲染。<code>SceneConstructor</code> 从此就是 <code>fn(&amp;mut RanimScene)</code>；输出路径规范为 <code>&lt;dir&gt;/&lt;场景名&gt;_&lt;宽&gt;x&lt;高&gt;_&lt;fps&gt;.mp4</code>（closes <a href="https://github.com/AzurIce/ranim/pull/76">#76</a>）；</li>
-<li><strong><a href="https://github.com/AzurIce/ranim/pull/87">#87</a></strong>：每个 example 变成独立 cdylib（<code>examples/&lt;name&gt;/lib.rs</code>），一次构建同时服务 render 与 preview，与用户项目的 dylib 故事一致；</li>
-<li><strong><a href="https://github.com/AzurIce/ranim/pull/94">#94</a>（crate 拆分）</strong>：单体 crate 按职责拆为 ranim-core / ranim-items / ranim-anims / ranim-render / ranim-app（+ 既有 ranim-cli/ranim-macros），façade <code>ranim</code> 再导出 <code>core</code>/<code>items</code>/<code>anims</code>/<code>render</code>——用户 dylib 只依赖轻量 crate（为 issue <a href="https://github.com/AzurIce/ranim/pull/84">#84</a> 的编译时间与二进制体积）；</li>
-<li><strong><a href="https://github.com/AzurIce/ranim/pull/96">#96</a>（v0.1.5 收官）</strong>：三件套——<code>CoreItemStore</code> 作为场景求值的交换格式；<code>RenderPool</code>（slotmap + 按 <code>TypeId</code> 回收）复用 GPU 实例；专用渲染 worker 线程（<code>async_channel</code> bounded(1)）让第 N 帧在 GPU 上渲染时主线程求值第 N+1 帧。CPU 求值与 GPU 渲染自此解耦。</li>
-</ul>
-<pre class="mermaid">sequenceDiagram
+    E1 -- &quot;#15 引入 vello&quot; --&gt; E2
+    E2 -- &quot;#22 弃用 vello&quot; --&gt; E3" notist-theme="auto"></notist-b4666d0e3ef46445-diagram><ul><li><p><strong><a href="https://github.com/AzurIce/ranim/pull/15">#15</a></strong>：世界变成 3D，2D 内容住进 <code>Canvas</code>（"basically a 2d scene"）。手写 wgpu 2D 与 Vello 并存：vello 渲到透明纹理再叠加混合——"所有 vello 渲染的东西都叠在别人上面"；<code>Entity</code> trait 取代过于僵硬的 <code>Rabject</code> 管线;</p></li><li><p><strong><a href="https://github.com/AzurIce/ranim/pull/18">#18</a></strong>：删掉全部手写 wgpu 2D 路径（<code>rabject2d/vpath/*</code> 与三个 vpath shader，-2647 行），2D 完全交给 vello，3D 留在 wgpu;</p></li><li><p><strong><a href="https://github.com/AzurIce/ranim/pull/22">#22</a></strong>：范式定音——完全弃用 vello（diff -7967 行），所有 VItem 经<strong>单一 SDF 片元管线</strong>渲染：storage buffer 存点（xy 坐标 + <code>is_closed</code>）、填/描色与描边宽度，<code>distance_bezier</code> 解三次方程求精确最近点，<code>SubpathAttr</code> 做绕行/内部判定，<code>ANTI_ALIAS_WIDTH = 0.015</code> 反走样。今天的 <code>vitem.wgsl</code> 仍是这条路线。</p></li></ul></section><section><h2 id="动画-相机与坐标系">动画、相机与坐标系</h2><p>相关 PR：<a href="https://github.com/AzurIce/ranim/pull/25">#25</a>、<a href="https://github.com/AzurIce/ranim/pull/28">#28</a>、<a href="https://github.com/AzurIce/ranim/pull/44">#44</a></p><ul><li><p><strong><a href="https://github.com/AzurIce/ranim/pull/25">#25</a></strong>：动画二分为 <code>Dynamic</code>（每帧 <code>prepare_alpha</code> 重备实例）与 <code>Static</code>（一次性准备，如 creation/freeze）；clip box 从 CPU 边界框搬进 compute shader 用 <code>atomicMin</code>/<code>atomicMax</code> 维护——这个思路后来在 v0.2 的 GPU-driven 合批（<a href="https://github.com/AzurIce/ranim/pull/138">#138</a>/<a href="https://github.com/AzurIce/ranim/pull/142">#142</a>）里长成主角；</p></li><li><p><strong><a href="https://github.com/AzurIce/ranim/pull/28">#28</a></strong>：timeline 与 eval 泛化到任意类型（<code>TimelineTrait</code>/<code>Evaluator</code>/<code>ChainedAnimation</code>），<code>CameraFrame</code> 成为普通可动画 item（相机动画自此可能），"stacked" 动画（同一 item 的多条 timeline 经 <code>sync()</code> 同步），宏拆入 <code>packages/ranim-macros</code>；</p></li><li><p><strong><a href="https://github.com/AzurIce/ranim/pull/44">#44</a></strong>：<code>CameraFrame { pos, up, facing, scale, fovy, near, far, perspective_blend }</code> 完全可插值——<code>perspective_blend</code> 在正交与透视投影矩阵间按 <notist-b65ecff11e9f6ff1-math notist-protocol="2" notist-function="/home/runner/work/ranim/ranim/book/_components/typst/lib.notc.math" notist-content="inline" notist-comptime-u43x="InlineContent" notist-text="P(b) = (1 - b) P_&quot;ortho&quot; + b P_&quot;persp&quot;"></notist-b65ecff11e9f6ff1-math> 连续混合（closes <a href="https://github.com/AzurIce/ranim/pull/43">#43</a>）；坐标改为分辨率无关的恒定 <code>frame_height = 8.0</code>（closes <a href="https://github.com/AzurIce/ranim/pull/37">#37</a>），示例全部重写。</p></li></ul></section><section><h2 id="preview-app">Preview App</h2><p><a href="https://github.com/AzurIce/ranim/pull/53">#53</a>（closes issue <a href="https://github.com/AzurIce/ranim/pull/52">#52</a>）</p><p>egui 0.31 + winit <code>ApplicationHandler</code> 手写集成（当时还不是 eframe），场景经专用 <code>AppPipeline</code> 渲到 wgpu surface 的视口矩形，egui 时间轴控件（<code>TimelineState</code>）对 sealed timeline 做任意时刻 scrub；GPU profiling（wgpu-profiler/puffin）藏在 <code>profiling</code> feature 后。</p><p><span class="notist-embed"><img src="assets/preview-app-prototype.gif" alt="Preview App 原型（）：winit 窗口内预览 bubble_sort 示例，底部时间轴拖动 scrub"></span></p><p>这个原型后来长出 wasm 网页版（<a href="https://github.com/AzurIce/ranim/pull/64">#64</a>）与热重载（<a href="https://github.com/AzurIce/ranim/pull/77">#77</a>），并在 v0.2 换用 eframe（<a href="https://github.com/AzurIce/ranim/pull/114">#114</a>）。</p></section><section><h2 id="item-体系成型">Item 体系成型</h2><p>相关 PR：<a href="https://github.com/AzurIce/ranim/pull/57">#57</a>、<a href="https://github.com/AzurIce/ranim/pull/60">#60</a>、<a href="https://github.com/AzurIce/ranim/pull/64">#64</a>、<a href="https://github.com/AzurIce/ranim/pull/69">#69</a></p><ul><li><p><strong><a href="https://github.com/AzurIce/ranim/pull/57">#57</a></strong>：typed timeline handle（<code>TimelineItem&lt;'t, Mark&gt;</code> + marker 类型），<code>insert(item)</code> 返回带类型的句柄；per-item Extract 成形（<code>VItemPrimitiveData</code>）；</p></li><li><p><strong><a href="https://github.com/AzurIce/ranim/pull/60">#60</a></strong>：组合物件——为元组/数组实现 <code>Renderable</code>，<code>Arrow { tip, line }</code> 作为整体存进实例池。设计上<strong>明确拒绝父子层级</strong>："如果 tip 淡出了只剩线，它还是箭头吗？"——拆分交给 <code>decompose</code>；（这一立场直到 v0.3 的场景图 <code>hierarchy::Node</code> 才被系统性重审，见 v0.3 篇。）</p></li><li><p><strong><a href="https://github.com/AzurIce/ranim/pull/64">#64</a>（本时代最大 PR，+35k 行）</strong>：item 与时间线大重构——<code>Extract</code> 提取到关联 <code>Target</code>；<code>Renderable</code> 改名 <code>RenderCommand</code>、旧 <code>Primitive</code> 改名 <code>RenderResource</code>、新的 <code>Primitive</code> trait 声明 <code>type RenderInstance</code>；<code>VisualItem</code> 串起 <code>Extract → Renderable → RenderInstance</code> 流水；Blueprint 系统移除。时间线侧 <code>RanimTimeline</code>→<code>RanimScene</code>、<code>RabjectTimeline</code>→<code>ItemTimeline</code>、<code>Rabject</code>→<code>TimelineId</code>。同 PR 关闭 <a href="https://github.com/AzurIce/ranim/pull/67">#67</a>（预览上 wasm）与 <a href="https://github.com/AzurIce/ranim/pull/54">#54</a>：website 改造为 mdbook book + rustdoc + 每个示例内嵌 wasm 预览；</p></li><li><p><strong><a href="https://github.com/AzurIce/ranim/pull/69">#69</a></strong>：<code>DynTimeline</code> 类型擦除——一个 item 的 timeline 集合可容纳多种动画类型，<code>map&lt;T, E&gt;</code> 在 item 状态类型变化时转换 timeline（closes <a href="https://github.com/AzurIce/ranim/pull/68">#68</a>）。</p></li></ul></section><section><h2 id="工程化-dylib-拆分与流水线">工程化：dylib、拆分与流水线</h2><p>相关 PR：<a href="https://github.com/AzurIce/ranim/pull/73">#73</a>、<a href="https://github.com/AzurIce/ranim/pull/77">#77</a>、<a href="https://github.com/AzurIce/ranim/pull/87">#87</a>、<a href="https://github.com/AzurIce/ranim/pull/94">#94</a>、<a href="https://github.com/AzurIce/ranim/pull/96">#96</a></p><ul><li><p><strong><a href="https://github.com/AzurIce/ranim/pull/73">#73</a></strong>：wasm 示例进 CI 构建，仓库里提交的 <code>pkg/</code> 产物删除（-24.5k 行）；</p></li><li><p><strong><a href="https://github.com/AzurIce/ranim/pull/77">#77</a>（ranim-cli 诞生，v0.1.0）</strong>：<code>#[scene]</code>/<code>#[output]</code> 宏经 <code>linkme</code> distributed slice 收集 <code>&amp;'static Scene</code>，CLI 把用户 crate 构建成 dylib、复制到临时路径后 <code>libloading</code> 加载——<code>ranim preview</code> 监听重建热重载，<code>ranim render</code> 构建并渲染。<code>SceneConstructor</code> 从此就是 <code>fn(&amp;mut RanimScene)</code>；输出路径规范为 <code>&lt;dir&gt;/&lt;场景名&gt;_&lt;宽&gt;x&lt;高&gt;_&lt;fps&gt;.mp4</code>（closes <a href="https://github.com/AzurIce/ranim/pull/76">#76</a>）；</p></li><li><p><strong><a href="https://github.com/AzurIce/ranim/pull/87">#87</a></strong>：每个 example 变成独立 cdylib（<code>examples/&lt;name&gt;/lib.rs</code>），一次构建同时服务 render 与 preview，与用户项目的 dylib 故事一致；</p></li><li><p><strong><a href="https://github.com/AzurIce/ranim/pull/94">#94</a>（crate 拆分）</strong>：单体 crate 按职责拆为 ranim-core / ranim-items / ranim-anims / ranim-render / ranim-app（+ 既有 ranim-cli/ranim-macros），façade <code>ranim</code> 再导出 <code>core</code>/<code>items</code>/<code>anims</code>/<code>render</code>——用户 dylib 只依赖轻量 crate（为 issue <a href="https://github.com/AzurIce/ranim/pull/84">#84</a> 的编译时间与二进制体积）；</p></li><li><p><strong><a href="https://github.com/AzurIce/ranim/pull/96">#96</a>（v0.1.5 收官）</strong>：三件套——<code>CoreItemStore</code> 作为场景求值的交换格式；<code>RenderPool</code>（slotmap + 按 <code>TypeId</code> 回收）复用 GPU 实例；专用渲染 worker 线程（<code>async_channel</code> bounded(1)）让第 N 帧在 GPU 上渲染时主线程求值第 N+1 帧。CPU 求值与 GPU 渲染自此解耦。</p></li></ul><notist-b4666d0e3ef46445-diagram notist-protocol="2" notist-function="/home/runner/work/ranim/ranim/book/_components/pele/lib.notc.diagram" notist-content="block" notist-source="sequenceDiagram
     participant M as 主线程（求值）
     participant W as worker 线程（渲染）
     Note over M,W: async_channel bounded(1) 同步
@@ -272,79 +253,18 @@
     W-&gt;&gt;W: 复用 RenderPool 实例，渲染第 N 帧
     M-&gt;&gt;M: 与渲染并行：求值第 N+1 帧
     W--&gt;&gt;M: 第 N 帧完成
-    M-&gt;&gt;W: 提交第 N+1 帧
-</pre>
-
-<h2 id="其余小特性与修复"><a class="header" href="#其余小特性与修复">其余小特性与修复</a></h2>
-<ul>
-<li><strong><a href="https://github.com/AzurIce/ranim/pull/23">#23</a></strong>：第一个 zola 生成的网站（后由 <a href="https://github.com/AzurIce/ranim/pull/64">#64</a> 的 mdbook + wasm 方案取代）；</li>
-<li><strong><a href="https://github.com/AzurIce/ranim/pull/62">#62</a></strong>：wgpu 24 → 25（合并顺序与 PR 号无关，见文首注）;</li>
-<li><strong><a href="https://github.com/AzurIce/ranim/pull/63">#63</a></strong>：<code>serde</code> feature 与 <code>derive_more</code> 去样板——<strong>首个外部贡献</strong>（MilkBlock）；</li>
-<li><strong><a href="https://github.com/AzurIce/ranim/pull/71">#71</a></strong>：修零长向量叉积归一化的 NaN（closes <a href="https://github.com/AzurIce/ranim/pull/70">#70</a>），测试重写为精确 <code>PI</code> 断言；</li>
-<li><strong><a href="https://github.com/AzurIce/ranim/pull/90">#90</a></strong>：<code>#[scene(clear_color = "#...")]</code> 可配清屏色；</li>
-<li><strong><a href="https://github.com/AzurIce/ranim/pull/91">#91</a></strong>：修 <code>Alignable</code> 对 <code>VPointComponentVec</code>/<code>VItem</code>/<code>Group&lt;T&gt;</code> 的对齐（双侧补齐到最大长度，<code>resize_preserving_order</code>）；</li>
-<li><strong><a href="https://github.com/AzurIce/ranim/pull/93">#93</a></strong>：<code>TypstText</code> item——Typst 源码经 <code>typst_svg</code> 转字形轮廓，<code>Alignable</code> 按<strong>字符级 diff</strong> 实现，文本变换动画按匹配/插入/删除的字符 morph。</li>
-</ul>
-<p>v0.1.1–v0.1.3（2025-08-10 → 2025-08-20）是未经 PR 的小修复版本；v0.1.4 带 <a href="https://github.com/AzurIce/ranim/pull/90">#90</a>/<a href="https://github.com/AzurIce/ranim/pull/91">#91</a>；v0.1.5（2025-10-18）以 <a href="https://github.com/AzurIce/ranim/pull/93">#93</a>/<a href="https://github.com/AzurIce/ranim/pull/94">#94</a>/<a href="https://github.com/AzurIce/ranim/pull/96">#96</a> 收官——单 crate 时代就此结束，接力棒交给 v0.2。</p>
-
-                    </main>
-
-                    <nav class="nav-wrapper" aria-label="Page navigation">
-                        <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../items/mesh/sphere.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
-                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
-                            </a>
-
-                            <a rel="next prefetch" href="../../news/v0.2/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
-                            </a>
-
-                        <div style="clear: both"></div>
-                    </nav>
-                </div>
-            </div>
-
-            <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../items/mesh/sphere.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
-                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
-                    </a>
-
-                    <a rel="next prefetch" href="../../news/v0.2/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
-                    </a>
-            </nav>
-
-        </div>
-
-        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
-        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
-        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
-        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
-        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
-
-
-
-        <script>
-            window.playground_copyable = true;
-        </script>
-
-
-        <script src="../../elasticlunr-ef4e11c1.min.js"></script>
-        <script src="../../mark-09e88c2c.min.js"></script>
-        <script src="../../searcher-09f2665d.js"></script>
-
-        <script src="../../clipboard-1626706a.min.js"></script>
-        <script src="../../highlight-abc7f01d.js"></script>
-        <script src="../../book-a0b12cfe.js"></script>
-
-        <!-- Custom JS scripts -->
-        <script src="../../version-select-fdcb80bd.js"></script>
-        <script src="../../theme/pagetoc-ad23158a.js"></script>
-        <script src="../../mermaid-eefea253.min.js"></script>
-        <script src="../../mermaid-init-025d9952.js"></script>
-
-
-
-    </div>
-    </body>
+    M-&gt;&gt;W: 提交第 N+1 帧" notist-theme="auto"></notist-b4666d0e3ef46445-diagram></section><section><h2 id="其余小特性与修复">其余小特性与修复</h2><ul><li><p><strong><a href="https://github.com/AzurIce/ranim/pull/23">#23</a></strong>：第一个 zola 生成的网站（后由 <a href="https://github.com/AzurIce/ranim/pull/64">#64</a> 的 mdbook + wasm 方案取代）；</p></li><li><p><strong><a href="https://github.com/AzurIce/ranim/pull/62">#62</a></strong>：wgpu 24 → 25（合并顺序与 PR 号无关，见文首注）;</p></li><li><p><strong><a href="https://github.com/AzurIce/ranim/pull/63">#63</a></strong>：<code>serde</code> feature 与 <code>derive_more</code> 去样板——<strong>首个外部贡献</strong>（MilkBlock）；</p></li><li><p><strong><a href="https://github.com/AzurIce/ranim/pull/71">#71</a></strong>：修零长向量叉积归一化的 NaN（closes <a href="https://github.com/AzurIce/ranim/pull/70">#70</a>），测试重写为精确 <code>PI</code> 断言；</p></li><li><p><strong><a href="https://github.com/AzurIce/ranim/pull/90">#90</a></strong>：<code>#[scene(clear_color = "#...")]</code> 可配清屏色；</p></li><li><p><strong><a href="https://github.com/AzurIce/ranim/pull/91">#91</a></strong>：修 <code>Alignable</code> 对 <code>VPointComponentVec</code>/<code>VItem</code>/<code>Group&lt;T&gt;</code> 的对齐（双侧补齐到最大长度，<code>resize_preserving_order</code>）；</p></li><li><p><strong><a href="https://github.com/AzurIce/ranim/pull/93">#93</a></strong>：<code>TypstText</code> item——Typst 源码经 <code>typst_svg</code> 转字形轮廓，<code>Alignable</code> 按<strong>字符级 diff</strong> 实现，文本变换动画按匹配/插入/删除的字符 morph。</p></li></ul><p>v0.1.1–v0.1.3（2025-08-10 → 2025-08-20）是未经 PR 的小修复版本；v0.1.4 带 <a href="https://github.com/AzurIce/ranim/pull/90">#90</a>/<a href="https://github.com/AzurIce/ranim/pull/91">#91</a>；v0.1.5（2025-10-18）以 <a href="https://github.com/AzurIce/ranim/pull/93">#93</a>/<a href="https://github.com/AzurIce/ranim/pull/94">#94</a>/<a href="https://github.com/AzurIce/ranim/pull/96">#96</a> 收官——单 crate 时代就此结束，接力棒交给 v0.2。</p></section></section></article>
+      <nav class="adjacent" aria-label="Page navigation">
+        <a rel="prev" href="../../items/mesh/sphere/" class="adjacent-link previous"><span class="adjacent-label">Previous</span><span class="adjacent-title">Sphere</span></a>
+        <a rel="next" href="../v0.2/" class="adjacent-link next"><span class="adjacent-label">Next</span><span class="adjacent-title">v0.2</span></a>
+      </nav>
+      
+    </main>
+    <aside class="page-outline" aria-label="On this page">
+      <nav id="page-outline" aria-label="Page outline"><p class="rail-label">On this page</p><ol class="outline-list"><li data-level="1"><a data-outline-link href="#v0-1">v0.1</a></li><li data-level="2"><a data-outline-link href="#%E6%96%B0%E5%A2%9E">新增</a></li><li data-level="2"><a data-outline-link href="#%E6%BC%94%E8%BF%9B%E4%B8%AD%E7%9A%84%E5%85%B3%E9%94%AE%E6%9B%B4%E5%90%8D">演进中的关键更名</a></li><li data-level="2"><a data-outline-link href="#%E8%B5%B7%E6%BA%90-compute-shader-%E6%97%B6%E4%BB%A3">起源：compute shader 时代</a></li><li data-level="2"><a data-outline-link href="#%E6%B8%B2%E6%9F%93%E8%8C%83%E5%BC%8F%E4%B8%89%E8%BF%9E%E8%B7%B3">渲染范式三连跳</a></li><li data-level="2"><a data-outline-link href="#%E5%8A%A8%E7%94%BB-%E7%9B%B8%E6%9C%BA%E4%B8%8E%E5%9D%90%E6%A0%87%E7%B3%BB">动画、相机与坐标系</a></li><li data-level="2"><a data-outline-link href="#preview-app">Preview App</a></li><li data-level="2"><a data-outline-link href="#item-%E4%BD%93%E7%B3%BB%E6%88%90%E5%9E%8B">Item 体系成型</a></li><li data-level="2"><a data-outline-link href="#%E5%B7%A5%E7%A8%8B%E5%8C%96-dylib-%E6%8B%86%E5%88%86%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF">工程化：dylib、拆分与流水线</a></li><li data-level="2"><a data-outline-link href="#%E5%85%B6%E4%BD%99%E5%B0%8F%E7%89%B9%E6%80%A7%E4%B8%8E%E4%BF%AE%E5%A4%8D">其余小特性与修复</a></li></ol></nav>
+    </aside>
+    <footer class="book-footer"><span>Ranim Book</span><a href="#page-content">Back to top</a></footer>
+  </div>
+  <script type="module" src="./components.js"></script>
+</body>
 </html>

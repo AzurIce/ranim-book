@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>完整求值帧与渲染提取 · Ranim Book</title>
+  <link rel="home" href="../../../">
+  <script>
+    document.documentElement.classList.add('js');
+    try {
+      const root = document.documentElement;
+      const theme = localStorage.getItem('notist-theme');
+      root.dataset.theme = theme === 'light' || theme === 'dark' ? theme : 'auto';
+      const home = document.querySelector('link[rel="home"]').href;
+      const width = Number(localStorage.getItem(`notist-book-width:${home}`));
+      if (Number.isFinite(width) && width > 0) root.style.setProperty('--navigation-user-width', `${width}px`);
+    } catch (_) {}
+  </script>
+  <link rel="stylesheet" href="../../../_notist/theme/book.css"><link rel="stylesheet" href="../../../_notist/theme/status.css"><link rel="stylesheet" href="../../../_notist/theme/highlight.css"><link rel="stylesheet" href="../../../version-select.css">
+  <script src="../../../_notist/theme/book.js" defer></script><script src="../../../version-select.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#page-content">Skip to content</a>
+  <div id="reading-progress" class="reading-progress" aria-hidden="true"><span></span></div>
+  <header class="book-header">
+    <div class="header-inner">
+      <a class="book-brand" href="../../../">Ranim Book</a>
+      <button id="nav-toggle" class="text-button" type="button" aria-label="Open contents" aria-controls="book-nav" aria-expanded="false">Contents</button>
+      <button id="theme-toggle" class="text-button" type="button" aria-label="Toggle color theme" title="Toggle color theme"><span class="theme-label">Theme</span></button>
+    </div>
+  </header>
+  <div id="nav-backdrop" class="nav-backdrop" hidden aria-hidden="true"></div>
+  <div class="book-layout">
+    <nav id="book-nav" class="book-navigation" aria-label="Contents">
+      <div class="rail-heading"><p class="rail-label">Contents</p><button id="nav-close" class="text-button" type="button" aria-label="Close contents">Close</button></div>
+      <ul class="navigation-tree"><li class="nav-item">
+  <a href="../../../"><span class="nav-title">首页</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../getting_started/"><span class="nav-title">Getting Started</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../project-entry/"><span class="nav-title">项目入口：场景库与跨平台宿主</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../packages/"><span class="nav-title">Ranim Packages</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../cli/"><span class="nav-title">命令行入口</span></a>
+</li>
+
+<li class="nav-part"><span role="heading" aria-level="2">理解 Ranim</span></li>
+
+<li class="nav-item">
+  <div class="nav-label"><a href="../"><span class="nav-title">核心概念</span></a>
+</div>
+  <details class="nav-branch" open>
+    <summary class="nav-disclosure" aria-label="Toggle 核心概念"></summary>
+    <ul class="nav-children"><li class="nav-item">
+  <a href="../anim/"><span class="nav-title">动画系统</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="./" aria-current="page"><span class="nav-title">完整求值帧与渲染提取</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../transformed/"><span class="nav-title">Transformed&lt;T&gt;</span></a>
+</li>
+
+</ul>
+  </details>
+</li>
+
+<li class="nav-item">
+  <div class="nav-label"><a href="../../rendering/"><span class="nav-title">渲染表示与物件插件</span></a>
+</div>
+  <details class="nav-branch" open>
+    <summary class="nav-disclosure" aria-label="Toggle 渲染表示与物件插件"></summary>
+    <ul class="nav-children"><li class="nav-item">
+  <a href="../../rendering/vitem/"><span class="nav-title">RenderVItem</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../rendering/mesh_item/"><span class="nav-title">RenderMeshItem</span></a>
+</li>
+
+</ul>
+  </details>
+</li>
+
+<li class="nav-part"><span role="heading" aria-level="2">Items</span></li>
+
+<li class="nav-item">
+  <div class="nav-label"><a href="../../../items/"><span class="nav-title">Items</span></a>
+</div>
+  <details class="nav-branch" open>
+    <summary class="nav-disclosure" aria-label="Toggle Items"></summary>
+    <ul class="nav-children"><li class="nav-item">
+  <a href="../../../items/camera/"><span class="nav-title">CameraFrame</span></a>
+</li>
+
+<li class="nav-item">
+  <div class="nav-label"><a href="../../../items/vitem/"><span class="nav-title">VItem 类</span></a>
+</div>
+  <details class="nav-branch" open>
+    <summary class="nav-disclosure" aria-label="Toggle VItem 类"></summary>
+    <ul class="nav-children"><li class="nav-item">
+  <a href="../../../items/vitem/vitem/"><span class="nav-title">VItem</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../items/vitem/geometry/"><span class="nav-title">几何构造器</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../items/vitem/svg/"><span class="nav-title">SvgItem</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../items/vitem/text/"><span class="nav-title">文字物件</span></a>
+</li>
+
+</ul>
+  </details>
+</li>
+
+<li class="nav-item">
+  <div class="nav-label"><a href="../../../items/mesh/"><span class="nav-title">MeshItem 类</span></a>
+</div>
+  <details class="nav-branch" open>
+    <summary class="nav-disclosure" aria-label="Toggle MeshItem 类"></summary>
+    <ul class="nav-children"><li class="nav-item">
+  <a href="../../../items/mesh/mesh_item/"><span class="nav-title">MeshItem</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../items/mesh/surface/"><span class="nav-title">Surface</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../items/mesh/sphere/"><span class="nav-title">Sphere</span></a>
+</li>
+
+</ul>
+  </details>
+</li>
+
+</ul>
+  </details>
+</li>
+
+
+<li class="nav-separator" role="presentation"><hr></li>
+
+<li class="nav-part"><span role="heading" aria-level="2">News</span></li>
+
+<li class="nav-item">
+  <a href="../../../news/v0.1/"><span class="nav-title">v0.1</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../news/v0.2/"><span class="nav-title">v0.2</span></a>
+</li>
+
+<li class="nav-item">
+  <a href="../../../news/v0.3/"><span class="nav-title">v0.3</span></a>
+</li>
+
+</ul>
+    </nav>
+    <script>// Runs directly after the complete navigation, before deferred reader enhancements.
+(() => {
+  const navigation = document.querySelector('#book-nav');
+  if (!navigation) return;
+  const home = document.querySelector('link[rel="home"]')?.href || document.querySelector('.book-brand')?.href;
+  const key = `notist-book-scroll:${home}`;
+  let saved = null;
+  let pending = null;
+  try { saved = JSON.parse(sessionStorage.getItem(key)); } catch (_) {}
+  const visible = () => navigation.getClientRects().length > 0;
+  const offset = link => link.getBoundingClientRect().top - navigation.getBoundingClientRect().top;
+  const save = (link = pending) => {
+    if (!visible()) return;
+    saved = { top: navigation.scrollTop };
+    if (link) saved.anchor = { url: link.href, offset: offset(link) };
+    try { sessionStorage.setItem(key, JSON.stringify(saved)); } catch (_) {}
+  };
+  const restore = () => {
+    if (!visible()) return;
+    if (Number.isFinite(saved?.top) && saved.top >= 0) navigation.scrollTop = saved.top;
+    const anchor = saved?.anchor;
+    const link = anchor && Number.isFinite(anchor.offset)
+      ? [...navigation.querySelectorAll('a[href]')].find(link => link.href === anchor.url) : null;
+    if (link) navigation.scrollTop += offset(link) - anchor.offset;
+    const current = navigation.querySelector('[aria-current="page"]');
+    if (!current) return;
+    const bounds = current.getBoundingClientRect();
+    const rail = navigation.getBoundingClientRect();
+    const start = rail.top + (navigation.querySelector('.rail-heading')?.getBoundingClientRect().height || 0);
+    if (bounds.bottom > rail.bottom) navigation.scrollTop += bounds.bottom - rail.bottom + 24;
+    else if (bounds.top < start) navigation.scrollTop += bounds.top - start - 24;
+  };
+  navigation.addEventListener('scroll', () => save(), { passive: true });
+  // Capture before the mobile reader closes the drawer. A pending link anchor must
+  // survive pagehide and any scroll event caused by restoring its position.
+  navigation.addEventListener('click', event => {
+    const link = event.target.closest('a[href]');
+    if (link && !event.defaultPrevented && event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && !link.hasAttribute('download') && (!link.target || link.target === '_self')) {
+      const target = new URL(link.href);
+      if (target.origin === location.origin && target.pathname !== location.pathname) pending = link;
+    }
+    save(pending);
+  }, true);
+  window.addEventListener('pagehide', () => save(pending));
+  // Hidden mobile drawers restore immediately when made visible, before painting.
+  new MutationObserver(restore).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+  new ResizeObserver(restore).observe(navigation);
+  restore();
+})();
+</script>
+    <div id="nav-resize" class="navigation-resize" role="separator" tabindex="0" aria-label="Resize contents" aria-orientation="vertical" aria-controls="book-nav" title="Drag or use arrow keys to resize contents; double-click or press Home to reset"></div>
+    <main id="page-content" tabindex="-1">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="../">核心概念</a></li><li><span aria-current="page">完整求值帧与渲染提取</span></li></ol></nav>
+      <details class="mobile-outline">
+        <summary>On this page <span class="outline-state" aria-hidden="true"><span class="outline-show">Show</span><span class="outline-hide">Hide</span></span></summary>
+        <ol class="outline-list"><li data-level="1"><a data-outline-link href="#%E5%AE%8C%E6%95%B4%E6%B1%82%E5%80%BC%E5%B8%A7%E4%B8%8E%E6%B8%B2%E6%9F%93%E6%8F%90%E5%8F%96">完整求值帧与渲染提取</a></li><li data-level="2"><a data-outline-link href="#evaluatedframe-%E4%BF%9D%E5%AD%98%E5%AE%8C%E6%95%B4%E8%BE%93%E5%87%BA">EvaluatedFrame：保存完整输出</a></li><li data-level="2"><a data-outline-link href="#extract-%E5%9C%A8%E6%B8%B2%E6%9F%93%E4%BE%A7%E8%A7%A3%E9%87%8A%E4%B8%80%E4%B8%AA%E5%80%BC">Extract：在渲染侧解释一个值</a></li><li data-level="2"><a data-outline-link href="#extractplugin-t-%E6%B3%A8%E5%86%8C%E7%B2%BE%E7%A1%AE%E7%9A%84%E5%B8%A7%E7%B1%BB%E5%9E%8B">ExtractPlugin&lt;T&gt;：注册精确的帧类型</a></li><li data-level="2"><a data-outline-link href="#%E5%85%AC%E5%85%B1-schedule-%E4%B8%8E-phase">公共 schedule 与 phase</a></li><li data-level="2"><a data-outline-link href="#%E6%8C%81%E4%B9%85%E8%BE%93%E5%87%BA-%E5%8F%98%E6%9B%B4%E6%A3%80%E6%B5%8B%E4%B8%8E%E9%A1%BA%E5%BA%8F">持久输出、变更检测与顺序</a></li><li data-level="2"><a data-outline-link href="#%E7%B1%BB%E5%9E%8B%E8%BA%AB%E4%BB%BD">类型身份</a></li></ol>
+      </details>
+      <article class="prose"><section><h1 id="完整求值帧与渲染提取">完整求值帧与渲染提取</h1><p>动画叶子的 <code>Eval::Output</code> 原样进入 <code>EvaluatedFrame</code>，渲染侧再决定如何把它转换为实体、组件或资源。<code>Vec&lt;T&gt;</code>、元组、<code>Node</code> 和 <code>Transformed&lt;T, G&gt;</code> 等结构都会保留在输出值中。纯 CPU 求值不要求输出实现渲染 trait，也不依赖renderer 或逻辑 ECS World。</p><section><h2 id="evaluatedframe-保存完整输出"><code>EvaluatedFrame</code>：保存完整输出</h2><p>作为动画叶子使用的 <code>Eval</code> 需要其 <code>Output: Clone + Send + Sync + 'static</code>。普通采样将拥有所有权的完整输出直接写入帧；<code>hold</code> 和 lagged 静态填充则捕获同样的原始值，播放时克隆并重放，保留原来的具体类型。</p><p><code>ranim_core::frame::EvaluatedFrame</code> 按具体类型保存可复用批次。类型擦除发生在整个批次上，同类型的输出连续保存。<code>SceneEvaluator::sample_at(sec, &amp;mut frame)</code>先清空上一帧，再写入当前结果；<code>clear</code> 保留各批次容量。</p><pre><code class="language-rust"><span class="z-source z-rust"><span class="z-keyword z-other z-rust">use</span> <span class="z-meta z-path z-rust">ranim_core<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">frame<span class="z-punctuation z-accessor z-rust">::</span></span>EvaluatedFrame<span class="z-punctuation z-terminator z-rust">;</span>
+<span class="z-keyword z-other z-rust">use</span> <span class="z-meta z-path z-rust">ranim_items<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">vitem<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">geometry<span class="z-punctuation z-accessor z-rust">::</span></span>Circle<span class="z-punctuation z-terminator z-rust">;</span>
+
+<span class="z-storage z-type z-rust">let</span> <span class="z-storage z-modifier z-rust">mut</span> frame <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-meta z-path z-rust">EvaluatedFrame<span class="z-punctuation z-accessor z-rust">::</span></span>new<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+evaluator<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">sample_at</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-constant z-numeric z-float z-rust">1.</span><span class="z-constant z-numeric z-float z-rust">0</span><span class="z-punctuation z-separator z-rust">,</span> <span class="z-keyword z-operator z-bitwise z-rust">&amp;</span><span class="z-storage z-modifier z-rust">mut</span> frame</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+
+<span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> 若动画的 Output 是 Vec&lt;Circle&gt;，整个 Vec 是一条帧输入。
+</span><span class="z-storage z-type z-rust">let</span> groups <span class="z-keyword z-operator z-assignment z-rust">=</span> frame<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-meta z-path z-rust">items<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-generic z-rust"><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-meta z-generic z-rust"><span class="z-support z-type z-rust">Vec</span><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span>Circle<span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+<span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> frame.items::&lt;Circle&gt;() 不会穿过 Vec 读取其成员。
+</span></span></code></pre><p>每个 <code>FrameItem&lt;T&gt;</code> 包含：</p><ul><li><p><code>id: (animation_id, part)</code>：根 Stack 的顶层动画序号，以及该动画本次求值的完整输出序号。<code>part</code> 跨活跃叶子与类型连续递增，不是容器成员或 render entity的序号。</p></li><li><p><code>order: usize</code>：所有类型共享的全局插入顺序。</p></li><li><p><code>value: T</code>：完整的求值结果，包括其容器和变换 wrapper。</p></li></ul><p><code>push(id, value)</code> 追加输入；<code>update(iterator)</code> 替换整帧为一个类型的批次。<code>frame.len()</code> 只表示完整输出条目数：一条 <code>Vec&lt;Circle&gt;</code> 或 <code>SvgItem</code> 输入可以产生多个渲染实体，提取也可以只更新资源。帧条目、实体、GPU instance 和 drawcall 的数量互不等同。</p></section><section><h2 id="extract-在渲染侧解释一个值"><code>Extract</code>：在渲染侧解释一个值</h2><p>渲染协议定义在 <code>ranim_render::extract</code>：</p><pre><code class="language-rust"><span class="z-source z-rust"><span class="z-meta z-trait z-rust"><span class="z-storage z-modifier z-rust">pub</span> <span class="z-storage z-type z-trait z-rust">trait</span> <span class="z-entity z-name z-trait z-rust">Extract</span> <span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+    <span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">extract</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span><span class="z-keyword z-operator z-rust">&amp;</span><span class="z-variable z-parameter z-rust">self</span>, <span class="z-variable z-parameter z-rust">ctx</span><span class="z-punctuation z-separator z-rust">:</span> <span class="z-keyword z-operator z-rust">&amp;</span><span class="z-storage z-modifier z-rust">mut</span> <span class="z-meta z-generic z-rust">ExtractContext<span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span>&#39;<span class="z-keyword z-operator z-rust">_</span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-punctuation z-terminator z-rust">;</span>
+</span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span></code></pre><p>实现借用原始值，通过上下文更新 render world；不返回统一的 <code>Output</code> 或图元列表。一个物件可以委托给已有表示的 <code>Extract</code>，也可以直接写入自己的组件或资源。例如自定义标记复用圆的提取实现：</p><pre><code class="language-rust"><span class="z-source z-rust"><span class="z-keyword z-other z-rust">use</span> <span class="z-meta z-path z-rust">ranim_items<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">vitem<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">geometry<span class="z-punctuation z-accessor z-rust">::</span></span>Circle<span class="z-punctuation z-terminator z-rust">;</span>
+<span class="z-keyword z-other z-rust">use</span> <span class="z-meta z-path z-rust">ranim_render<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">extract<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>Extract<span class="z-punctuation z-separator z-rust">,</span> ExtractContext</span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+
+<span class="z-meta z-annotation z-rust"><span class="z-punctuation z-definition z-annotation z-rust">#</span><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-variable z-annotation z-rust">derive</span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span></span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust">Clone</span></span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span>
+<span class="z-meta z-struct z-rust"><span class="z-storage z-type z-struct z-rust">struct</span> </span><span class="z-meta z-struct z-rust"><span class="z-entity z-name z-struct z-rust">Marker</span> </span><span class="z-meta z-struct z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+    <span class="z-variable z-other z-member z-rust">radius</span><span class="z-punctuation z-separator z-type z-rust">:</span> <span class="z-storage z-type z-rust">f64</span>,
+</span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+
+<span class="z-meta z-impl z-rust"><span class="z-storage z-type z-impl z-rust">impl</span> </span><span class="z-meta z-impl z-rust">Extract <span class="z-keyword z-other z-rust">for</span></span><span class="z-meta z-impl z-rust"> <span class="z-entity z-name z-impl z-rust">Marker</span> </span><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+    <span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">extract</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span><span class="z-keyword z-operator z-rust">&amp;</span><span class="z-variable z-parameter z-rust">self</span>, <span class="z-variable z-parameter z-rust">ctx</span><span class="z-punctuation z-separator z-rust">:</span> <span class="z-keyword z-operator z-rust">&amp;</span><span class="z-storage z-modifier z-rust">mut</span> <span class="z-meta z-generic z-rust">ExtractContext<span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span>&#39;<span class="z-keyword z-operator z-rust">_</span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-meta z-function z-rust"> </span><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+        <span class="z-meta z-path z-rust">Circle<span class="z-punctuation z-accessor z-rust">::</span></span>new<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-variable z-language z-rust">self</span><span class="z-punctuation z-accessor z-dot z-rust">.</span>radius</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">extract</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>ctx</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+    </span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span></code></pre><p><code>ranim-items</code> 的 <code>render</code> feature 提供内置物件的这类实现，顶层 <code>ranim</code> 的<code>render</code> feature 在 items 已启用时通过弱依赖 <code>ranim-items?/render</code> 启用它。renderer 为 <code>Vec&lt;T&gt;</code>、数组、<code>Option&lt;T&gt;</code>、1..=15元组及 <code>Transformed&lt;T, G&gt;</code> 提供递归实现，<code>Node</code> 则由 items 实现。递归发生在render world 的提取阶段，成员通过同一个上下文共享输出顺序与身份。</p><p>上下文提供四个主要入口：</p><ul><li><p><code>ctx.entity::&lt;Bundle&gt;()</code>：以输出 bundle 类型领取该输入的下一个持久实体。相同输入、位置与 bundle 类型复用实体；同一位置换成另一种 bundle 时重建实体，避免残留旧形态的组件。未再领取的输出自动删除。同一个 bundle 形态内自行增删的附加组件仍由实现管理。</p></li><li><p><code>ctx.world_mut()</code>：访问 render world，以更新资源或进行自定义操作。直接创建的实体不由上下文追踪，需要实现自己管理生命周期。</p></li><li><p><code>ctx.transform()</code>：读取当前累计的局部到世界变换。</p></li><li><p><code>ctx.with_transform(transform, |ctx| ...)</code>：在 <code>current * transform</code> 下提取子树，退出作用域后恢复父上下文。</p></li></ul><p><code>Transformed&lt;T, G&gt;</code> 在 <code>T: Extract</code>、<code>G: Clone + Into&lt;DAffine3&gt;</code> 时递归提取<code>inner</code>。items 的提取实现把累计变换左乘到 <code>RenderVItem</code> / <code>RenderMeshItem</code> 的矩阵，相机则变换位置与方向。局部几何和帧中的 wrapper 保持不变，重复绘制同一帧不会累积变换。详见 <a href="../transformed/">Transformed</a>。</p></section><section><h2 id="extractplugin-t-注册精确的帧类型"><code>ExtractPlugin&lt;T&gt;</code>：注册精确的帧类型</h2><p>实现 <code>Extract</code> 使一个值能够被解释；<code>ExtractPlugin&lt;T&gt;</code> 把解释入口注册到渲染 SubApp 的提取阶段（<code>RenderSchedule::Extract</code>）。<code>T</code> 必须是帧实际保存的完整类型：</p><pre><code class="language-rust"><span class="z-source z-rust"><span class="z-keyword z-other z-rust">use</span> <span class="z-meta z-path z-rust">ranim<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>App<span class="z-punctuation z-separator z-rust">,</span> Plugin</span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+<span class="z-keyword z-other z-rust">use</span> <span class="z-meta z-path z-rust">ranim_items<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>RanimItemsPlugin<span class="z-punctuation z-separator z-rust">,</span> <span class="z-meta z-path z-rust">vitem<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">geometry<span class="z-punctuation z-accessor z-rust">::</span></span>Circle</span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+<span class="z-keyword z-other z-rust">use</span> <span class="z-meta z-path z-rust">ranim_render<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>RenderSetup<span class="z-punctuation z-separator z-rust">,</span> <span class="z-meta z-path z-rust">extract<span class="z-punctuation z-accessor z-rust">::</span></span>ExtractPlugin</span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+
+<span class="z-meta z-struct z-rust"><span class="z-storage z-modifier z-rust">pub</span> <span class="z-storage z-type z-struct z-rust">struct</span> </span><span class="z-meta z-struct z-rust"><span class="z-entity z-name z-struct z-rust">ProjectPlugin</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+
+<span class="z-meta z-impl z-rust"><span class="z-storage z-type z-impl z-rust">impl</span> </span><span class="z-meta z-impl z-rust">Plugin <span class="z-keyword z-other z-rust">for</span></span><span class="z-meta z-impl z-rust"> <span class="z-entity z-name z-impl z-rust">ProjectPlugin</span> </span><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+    <span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">build</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span><span class="z-keyword z-operator z-rust">&amp;</span><span class="z-variable z-parameter z-rust">self</span>, <span class="z-variable z-parameter z-rust">app</span><span class="z-punctuation z-separator z-rust">:</span> <span class="z-keyword z-operator z-rust">&amp;</span><span class="z-storage z-modifier z-rust">mut</span> App</span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-meta z-function z-rust"> </span><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+        app<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">add_plugins</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>ScenesPlugin</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+        app<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">insert_resource</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-path z-rust">RenderSetup<span class="z-punctuation z-accessor z-rust">::</span></span>new<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">|</span></span></span><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-variable z-parameter z-rust">render_app</span><span class="z-punctuation z-section z-parameters z-end z-rust">|</span></span> </span><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+            render_app<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">add_plugins</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>
+                RanimItemsPlugin<span class="z-punctuation z-separator z-rust">,</span>
+                <span class="z-meta z-path z-rust">ExtractPlugin<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-generic z-rust"><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-meta z-generic z-rust"><span class="z-support z-type z-rust">Vec</span><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span>Circle<span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span><span class="z-meta z-path z-rust"><span class="z-punctuation z-accessor z-rust">::</span></span>default<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-separator z-rust">,</span>
+                <span class="z-meta z-path z-rust">ExtractPlugin<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-generic z-rust"><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span>Marker<span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span><span class="z-meta z-path z-rust"><span class="z-punctuation z-accessor z-rust">::</span></span>default<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-separator z-rust">,</span>
+            </span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+        </span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+    </span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span></code></pre><p><code>ExtractPlugin&lt;Vec&lt;Circle&gt;&gt;</code> 读取 <code>frame.items::&lt;Vec&lt;Circle&gt;&gt;()</code>，随后调用容器和成员的值级 <code>Extract</code>。只安装 <code>ExtractPlugin&lt;Circle&gt;</code> 不会读取 <code>Vec&lt;Circle&gt;</code>；<code>Transformed&lt;Circle, Translation&gt;</code>、元组和树等完整输出类型也要分别显式注册。递归委托不要求为每个内部成员另外安装插件。</p><p>三个物件插件来自 <code>ranim-items</code>：<code>CameraFramePlugin</code> 注册裸相机输入及 viewport准备，<code>VItemPlugin</code> 注册裸 <code>VItem</code>、<code>Vec&lt;VItem&gt;</code>、几何、SVG 与启用 <code>typst</code> 后的文字输入；<code>MeshItemPlugin</code> 注册裸 <code>MeshItem</code>、<code>Surface</code> 与 <code>Sphere</code>。它们同时安装对应 GPU 缓冲、管线和渲染系统，并由 <code>RanimItemsPlugin</code> 捆绑为一——启用 <code>items</code> 的项目未注册<code>RenderSetup</code> 时的默认配置就是它，未启用 <code>items</code> 时使用空配置；<code>RanimItemsPlugin</code> 与三个单件插件互斥（Bevy 插件唯一，重复安装会 panic）。<code>RenderVItem</code> / <code>RenderMeshItem</code> 也归各自items 的 <code>render</code> 模块，renderer 本体不依赖这些具体组件。它们是 render world的数据组件，不实现动画或值级提取协议，普通动画输出使用逻辑物件。</p><p>family plugin 不枚举容器或 wrapper 组合。项目插件可保存一份<code>RenderSetup</code>，统一声明整个项目需要的渲染插件；场景插件只注册场景，避免组合多个场景时重复安装同一 Bevy plugin。<code>RenderSetup::new</code> 保存可重复执行的装配回调，构造 setup 不创建 GPU 对象。</p><p>output 与 preview 从项目 App 读取这份 resource（缺省时回退到默认配置），克隆后交给渲染 SubApp 的安装函数。低层宿主也可自行装配：</p><pre><code class="language-rust"><span class="z-source z-rust"><span class="z-keyword z-other z-rust">use</span> <span class="z-meta z-path z-rust">ranim_render<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>RenderSetup<span class="z-punctuation z-separator z-rust">,</span> install_render_app</span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+
+<span class="z-storage z-type z-rust">let</span> setup <span class="z-keyword z-operator z-assignment z-rust">=</span> app<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">world</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-meta z-path z-rust">resource<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-generic z-rust"><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span>RenderSetup<span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">clone</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+<span class="z-support z-function z-rust">install_render_app</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-keyword z-operator z-bitwise z-rust">&amp;</span><span class="z-storage z-modifier z-rust">mut</span> app<span class="z-punctuation z-separator z-rust">,</span> <span class="z-keyword z-operator z-bitwise z-rust">&amp;</span>ctx<span class="z-punctuation z-separator z-rust">,</span> width<span class="z-punctuation z-separator z-rust">,</span> height<span class="z-punctuation z-separator z-rust">,</span> oit_layers<span class="z-punctuation z-separator z-rust">,</span> setup</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+</span></code></pre><p><code>RenderSetup</code> 是 bevy <code>Resource</code>，也是 <code>is_unique = false</code> 的普通 bevy plugin；每次安装渲染 SubApp（输出、预览、分辨率重建）时重放回调，安装新的 systems、组件和 GPU 资源。<code>install_render_app</code> 把构建好的 SubApp 以 <code>RanimRenderApp</code>标签挂进项目 App，并挂 extract 钩子：每次 <code>App::update()</code> 主 schedule 结束后，主世界的 <code>EvaluatedFrame</code> 被交换进渲染世界。只需要裸渲染图时也可以直接用<code>build_render_app(ctx, width, height, oit_layers)</code> 创建独立的 <code>SubApp</code>。</p><p>纯 CPU 求值与 <code>inspect</code> 不执行这份渲染装配；未知检查类型仍保留输入元数据。</p></section><section><h2 id="公共-schedule-与-phase">公共 schedule 与 phase</h2><p>渲染 SubApp 的公共阶段是 <code>ranim_render::schedule</code> 中 pub 的枚举：<code>RenderSchedule::{Extract, Prepare, View}</code> 是 schedule label，<code>ViewPhase::{Clear, Compute, Depth, Color, Resolve}</code> 是 <code>View</code> schedule 内按序排列的 system set。手写插件直接引用这些值注册系统：</p><pre><code class="language-rust"><span class="z-source z-rust"><span class="z-keyword z-other z-rust">use</span> <span class="z-meta z-path z-rust">bevy_ecs<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">schedule<span class="z-punctuation z-accessor z-rust">::</span></span>IntoScheduleConfigs<span class="z-punctuation z-terminator z-rust">;</span>
+<span class="z-keyword z-other z-rust">use</span> <span class="z-meta z-path z-rust">ranim_render<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">schedule<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>RenderSchedule<span class="z-punctuation z-separator z-rust">,</span> ViewPhase</span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+
+render_app<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">add_systems</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-path z-rust">RenderSchedule<span class="z-punctuation z-accessor z-rust">::</span></span>Extract<span class="z-punctuation z-separator z-rust">,</span> my_extract_system</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+render_app<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">add_systems</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-path z-rust">RenderSchedule<span class="z-punctuation z-accessor z-rust">::</span></span>Prepare<span class="z-punctuation z-separator z-rust">,</span> my_prepare_system</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+render_app<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">add_systems</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>
+    <span class="z-meta z-path z-rust">RenderSchedule<span class="z-punctuation z-accessor z-rust">::</span></span>View<span class="z-punctuation z-separator z-rust">,</span>
+    my_color_pass<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">in_set</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-path z-rust">ViewPhase<span class="z-punctuation z-accessor z-rust">::</span></span>Color</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-separator z-rust">,</span>
+</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+</span></code></pre><p><code>ExtractPlugin&lt;T&gt;</code> 同样注册到 <code>RenderSchedule::Extract</code>。枚举值即阶段身份：所有插件的系统进入同一阶段并遵循同一顺序（<code>View</code> 内五个 phase 已 <code>chain</code>），不需要任何句柄 resource。只在插件内部使用的 schedule label 或 system set 仍可照常定义，通过公共阶段建立所需依赖。</p><p>独立 CPU 测试不经过 <code>install_render_app</code> 时，由测试宿主自行<code>init_schedule(RenderSchedule::Extract)</code> 等初始化所需阶段；读取和注册都不创建GPU。</p></section><section><h2 id="持久输出-变更检测与顺序">持久输出、变更检测与顺序</h2><p>泛型提取插件按输入类型分别维护身份映射，以输入 ID 和输出子序号定位实体。同类型、同 ID 的输入复用相应输出；输入消失或展开结果变少时，未领取的实体被删除。内置 primitive 的值相同则跳过组件写入，保留 <code>Changed&lt;T&gt;</code> 的增量语义；自定义实现直接写组件时需要自己判断是否有变化。</p><p>每次 <code>ctx.entity::&lt;Bundle&gt;()</code> 写入<code>ranim_render::world::SourceOrder { order, part }</code>：<code>order</code> 来自完整输入，<code>part</code>是其递归提取的输出序号。renderer 在提取完成后统一排序为连续的 <code>SceneOrder</code>，再准备 GPU 数据。这样文字、SVG 和容器内部的顺序都排在相邻输入之间，深度偏置范围由实际渲染顺序决定。</p><p><code>RenderAppExt::render_frame</code>（<code>SubApp</code> 的扩展 trait）接收 <code>&amp;mut EvaluatedFrame</code>，临时将帧作为 Resource 交换进渲染 SubApp，完成一次 <code>update()</code> 后归还输入与批次容量。<code>Extract</code> 借用输入，不会把渲染后的 primitive 写回原帧。</p></section><section><h2 id="类型身份">类型身份</h2><p>typed batch 按实际 <code>TypeId</code> 匹配：提取系统只读取类型身份匹配的批次，不会根据字符串类型名强制转换。宿主与渲染插件在同一个编译单元内构建，类型身份自然一致。渲染插件可以为任何类型注册提取，包括下游 crate 的私有类型——注册发生在运行时，不要求宿主在源码层面命名该类型。</p></section></section></article>
+      <nav class="adjacent" aria-label="Page navigation">
+        <a rel="prev" href="../anim/" class="adjacent-link previous"><span class="adjacent-label">Previous</span><span class="adjacent-title">动画系统</span></a>
+        <a rel="next" href="../transformed/" class="adjacent-link next"><span class="adjacent-label">Next</span><span class="adjacent-title">Transformed&lt;T, G&gt;：变换表示、组合与物件语义</span></a>
+      </nav>
+      
+    </main>
+    <aside class="page-outline" aria-label="On this page">
+      <nav id="page-outline" aria-label="Page outline"><p class="rail-label">On this page</p><ol class="outline-list"><li data-level="1"><a data-outline-link href="#%E5%AE%8C%E6%95%B4%E6%B1%82%E5%80%BC%E5%B8%A7%E4%B8%8E%E6%B8%B2%E6%9F%93%E6%8F%90%E5%8F%96">完整求值帧与渲染提取</a></li><li data-level="2"><a data-outline-link href="#evaluatedframe-%E4%BF%9D%E5%AD%98%E5%AE%8C%E6%95%B4%E8%BE%93%E5%87%BA">EvaluatedFrame：保存完整输出</a></li><li data-level="2"><a data-outline-link href="#extract-%E5%9C%A8%E6%B8%B2%E6%9F%93%E4%BE%A7%E8%A7%A3%E9%87%8A%E4%B8%80%E4%B8%AA%E5%80%BC">Extract：在渲染侧解释一个值</a></li><li data-level="2"><a data-outline-link href="#extractplugin-t-%E6%B3%A8%E5%86%8C%E7%B2%BE%E7%A1%AE%E7%9A%84%E5%B8%A7%E7%B1%BB%E5%9E%8B">ExtractPlugin&lt;T&gt;：注册精确的帧类型</a></li><li data-level="2"><a data-outline-link href="#%E5%85%AC%E5%85%B1-schedule-%E4%B8%8E-phase">公共 schedule 与 phase</a></li><li data-level="2"><a data-outline-link href="#%E6%8C%81%E4%B9%85%E8%BE%93%E5%87%BA-%E5%8F%98%E6%9B%B4%E6%A3%80%E6%B5%8B%E4%B8%8E%E9%A1%BA%E5%BA%8F">持久输出、变更检测与顺序</a></li><li data-level="2"><a data-outline-link href="#%E7%B1%BB%E5%9E%8B%E8%BA%AB%E4%BB%BD">类型身份</a></li></ol></nav>
+    </aside>
+    <footer class="book-footer"><span>Ranim Book</span><a href="#page-content">Back to top</a></footer>
+  </div>
+  
+</body>
+</html>
