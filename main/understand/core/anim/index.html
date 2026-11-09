@@ -1,3 +1,9 @@
+
+
+
+
+
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -17,8 +23,12 @@
       if (Number.isFinite(width) && width > 0) root.style.setProperty('--navigation-user-width', `${width}px`);
     } catch (_) {}
   </script>
-  <link rel="stylesheet" href="../../../_notist/theme/book.css"><link rel="stylesheet" href="../../../_notist/theme/status.css"><link rel="stylesheet" href="../../../_notist/theme/highlight.css"><link rel="stylesheet" href="../../../version-select.css">
-  <script src="../../../_notist/theme/book.js" defer></script><script src="../../../version-select.js" defer></script>
+  <link rel="stylesheet" href="../../../book.css">
+  <link rel="stylesheet" href="../../../status.css">
+  <link rel="stylesheet" href="../../../_notist/highlight.css">
+  <script src="../../../book.js" defer></script>
+  <link rel="stylesheet" href="../../../version-select.css">
+  <script src="../../../version-select.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#page-content">Skip to content</a>
@@ -34,142 +44,327 @@
   <div class="book-layout">
     <nav id="book-nav" class="book-navigation" aria-label="Contents">
       <div class="rail-heading"><p class="rail-label">Contents</p><button id="nav-close" class="text-button" type="button" aria-label="Close contents">Close</button></div>
-      <ul class="navigation-tree"><li class="nav-item">
-  <a href="../../../"><span class="nav-title">首页</span></a>
-</li>
+      <ul class="navigation-tree">
+
 
 <li class="nav-item">
-  <a href="../../../getting_started/"><span class="nav-title">Getting Started</span></a>
+  
+  
+<a href="../../.././"><span class="nav-title">首页</span></a>
+
+
+  
 </li>
 
-<li class="nav-item">
-  <a href="../../../project-entry/"><span class="nav-title">项目入口：场景库与跨平台宿主</span></a>
-</li>
+
 
 <li class="nav-item">
-  <a href="../../../packages/"><span class="nav-title">Ranim Packages</span></a>
+  
+  
+<a href="../../../getting_started/"><span class="nav-title">Getting Started</span></a>
+
+
+  
 </li>
 
+
+
 <li class="nav-item">
-  <a href="../../../cli/"><span class="nav-title">命令行入口</span></a>
+  
+  
+<a href="../../../project-entry/"><span class="nav-title">项目入口：场景库与跨平台宿主</span></a>
+
+
+  
 </li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../../../packages/"><span class="nav-title">Ranim Packages</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../../../cli/"><span class="nav-title">命令行入口</span></a>
+
+
+  
+</li>
+
+
 
 <li class="nav-part"><span role="heading" aria-level="2">理解 Ranim</span></li>
 
+
+
 <li class="nav-item">
-  <div class="nav-label"><a href="../"><span class="nav-title">核心概念</span></a>
+  
+  <div class="nav-label">
+<a href="../"><span class="nav-title">核心概念</span></a>
+
 </div>
   <details class="nav-branch" open>
     <summary class="nav-disclosure" aria-label="Toggle 核心概念"></summary>
-    <ul class="nav-children"><li class="nav-item">
-  <a href="./" aria-current="page"><span class="nav-title">动画系统</span></a>
-</li>
+    <ul class="nav-children">
 
 <li class="nav-item">
-  <a href="../extract/"><span class="nav-title">完整求值帧与渲染提取</span></a>
+  
+  
+<a href="./" aria-current="page"><span class="nav-title">动画系统</span></a>
+
+
+  
 </li>
 
+
+
 <li class="nav-item">
-  <a href="../transformed/"><span class="nav-title">Transformed&lt;T&gt;</span></a>
+  
+  
+<a href="../extract/"><span class="nav-title">完整求值帧与渲染提取</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../transformed/"><span class="nav-title">Transformed&lt;T&gt;</span></a>
+
+
+  
 </li>
 
 </ul>
   </details>
+  
 </li>
 
+
+
 <li class="nav-item">
-  <div class="nav-label"><a href="../../rendering/"><span class="nav-title">渲染表示与物件插件</span></a>
+  
+  <div class="nav-label">
+<a href="../../rendering/"><span class="nav-title">渲染表示与物件插件</span></a>
+
 </div>
   <details class="nav-branch" open>
     <summary class="nav-disclosure" aria-label="Toggle 渲染表示与物件插件"></summary>
-    <ul class="nav-children"><li class="nav-item">
-  <a href="../../rendering/vitem/"><span class="nav-title">RenderVItem</span></a>
-</li>
+    <ul class="nav-children">
 
 <li class="nav-item">
-  <a href="../../rendering/mesh_item/"><span class="nav-title">RenderMeshItem</span></a>
+  
+  
+<a href="../../rendering/vitem/"><span class="nav-title">RenderVItem</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../../rendering/mesh_item/"><span class="nav-title">RenderMeshItem</span></a>
+
+
+  
 </li>
 
 </ul>
   </details>
+  
 </li>
+
+
 
 <li class="nav-part"><span role="heading" aria-level="2">Items</span></li>
 
+
+
 <li class="nav-item">
-  <div class="nav-label"><a href="../../../items/"><span class="nav-title">Items</span></a>
+  
+  <div class="nav-label">
+<a href="../../../items/"><span class="nav-title">Items</span></a>
+
 </div>
   <details class="nav-branch" open>
     <summary class="nav-disclosure" aria-label="Toggle Items"></summary>
-    <ul class="nav-children"><li class="nav-item">
-  <a href="../../../items/camera/"><span class="nav-title">CameraFrame</span></a>
-</li>
+    <ul class="nav-children">
 
 <li class="nav-item">
-  <div class="nav-label"><a href="../../../items/vitem/"><span class="nav-title">VItem 类</span></a>
+  
+  
+<a href="../../../items/camera/"><span class="nav-title">CameraFrame</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  <div class="nav-label">
+<a href="../../../items/vitem/"><span class="nav-title">VItem 类</span></a>
+
 </div>
   <details class="nav-branch" open>
     <summary class="nav-disclosure" aria-label="Toggle VItem 类"></summary>
-    <ul class="nav-children"><li class="nav-item">
-  <a href="../../../items/vitem/vitem/"><span class="nav-title">VItem</span></a>
-</li>
+    <ul class="nav-children">
 
 <li class="nav-item">
-  <a href="../../../items/vitem/geometry/"><span class="nav-title">几何构造器</span></a>
+  
+  
+<a href="../../../items/vitem/vitem/"><span class="nav-title">VItem</span></a>
+
+
+  
 </li>
 
-<li class="nav-item">
-  <a href="../../../items/vitem/svg/"><span class="nav-title">SvgItem</span></a>
-</li>
+
 
 <li class="nav-item">
-  <a href="../../../items/vitem/text/"><span class="nav-title">文字物件</span></a>
+  
+  
+<a href="../../../items/vitem/geometry/"><span class="nav-title">几何构造器</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../../../items/vitem/svg/"><span class="nav-title">SvgItem</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../../../items/vitem/text/"><span class="nav-title">文字物件</span></a>
+
+
+  
 </li>
 
 </ul>
   </details>
+  
 </li>
 
+
+
 <li class="nav-item">
-  <div class="nav-label"><a href="../../../items/mesh/"><span class="nav-title">MeshItem 类</span></a>
+  
+  <div class="nav-label">
+<a href="../../../items/mesh/"><span class="nav-title">MeshItem 类</span></a>
+
 </div>
   <details class="nav-branch" open>
     <summary class="nav-disclosure" aria-label="Toggle MeshItem 类"></summary>
-    <ul class="nav-children"><li class="nav-item">
-  <a href="../../../items/mesh/mesh_item/"><span class="nav-title">MeshItem</span></a>
-</li>
+    <ul class="nav-children">
 
 <li class="nav-item">
-  <a href="../../../items/mesh/surface/"><span class="nav-title">Surface</span></a>
+  
+  
+<a href="../../../items/mesh/mesh_item/"><span class="nav-title">MeshItem</span></a>
+
+
+  
 </li>
 
+
+
 <li class="nav-item">
-  <a href="../../../items/mesh/sphere/"><span class="nav-title">Sphere</span></a>
+  
+  
+<a href="../../../items/mesh/surface/"><span class="nav-title">Surface</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../../../items/mesh/sphere/"><span class="nav-title">Sphere</span></a>
+
+
+  
 </li>
 
 </ul>
   </details>
+  
 </li>
 
 </ul>
   </details>
+  
 </li>
+
 
 
 <li class="nav-separator" role="presentation"><hr></li>
 
+
+
 <li class="nav-part"><span role="heading" aria-level="2">News</span></li>
 
-<li class="nav-item">
-  <a href="../../../news/v0.1/"><span class="nav-title">v0.1</span></a>
-</li>
+
 
 <li class="nav-item">
-  <a href="../../../news/v0.2/"><span class="nav-title">v0.2</span></a>
+  
+  
+<a href="../../../news/v0.1/"><span class="nav-title">v0.1</span></a>
+
+
+  
 </li>
 
+
+
 <li class="nav-item">
-  <a href="../../../news/v0.3/"><span class="nav-title">v0.3</span></a>
+  
+  
+<a href="../../../news/v0.2/"><span class="nav-title">v0.2</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../../../news/v0.3/"><span class="nav-title">v0.3</span></a>
+
+
+  
 </li>
 
 </ul>
@@ -227,10 +422,12 @@
     <div id="nav-resize" class="navigation-resize" role="separator" tabindex="0" aria-label="Resize contents" aria-orientation="vertical" aria-controls="book-nav" title="Drag or use arrow keys to resize contents; double-click or press Home to reset"></div>
     <main id="page-content" tabindex="-1">
       <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="../">核心概念</a></li><li><span aria-current="page">动画系统</span></li></ol></nav>
+      
       <details class="mobile-outline">
         <summary>On this page <span class="outline-state" aria-hidden="true"><span class="outline-show">Show</span><span class="outline-hide">Hide</span></span></summary>
         <ol class="outline-list"><li data-level="1"><a data-outline-link href="#%E5%8A%A8%E7%94%BB%E7%B3%BB%E7%BB%9F">动画系统</a></li><li data-level="2"><a data-outline-link href="#eval-%E5%8F%B6%E5%AD%90%E6%B1%82%E5%80%BC%E5%8D%8F%E8%AE%AE">Eval：叶子求值协议</a></li><li data-level="3"><a data-outline-link href="#%E8%BF%9B%E5%BA%A6%E6%98%AF%E5%94%AF%E4%B8%80%E5%9D%90%E6%A0%87">进度是唯一坐标</a></li><li data-level="2"><a data-outline-link href="#%E5%86%85%E5%AE%B9%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%9D%A5%E6%BA%90-pure-%E4%B8%8E-iterative">内容的两种来源：Pure 与 Iterative</a></li><li data-level="3"><a data-outline-link href="#%E7%BA%AF%E9%97%AD%E5%8C%85-pure">纯闭包：Pure</a></li><li data-level="3"><a data-outline-link href="#%E8%BF%AD%E4%BB%A3%E5%8C%BA%E6%AE%B5-iterativeeval-iterative">迭代区段：IterativeEval + Iterative</a></li><li data-level="2"><a data-outline-link href="#%E4%BB%8E-eval-%E5%88%B0%E5%8F%AF%E6%92%AD%E6%94%BE%E7%9A%84%E5%8A%A8%E7%94%BB">从 Eval 到可播放的动画</a></li><li data-level="3"><a data-outline-link href="#unplaced-playbackext-paramed-%E4%B8%8E-at">Unplaced、PlaybackExt、Paramed 与 At</a></li><li data-level="2"><a data-outline-link href="#animation-compose-%E9%A1%BA%E5%BA%8F-%E5%B9%B6%E8%A1%8C-%E4%BA%A4%E9%94%99">animation::compose：顺序、并行、交错</a></li><li data-level="3"><a data-outline-link href="#%E9%A1%BA%E5%BA%8F%E5%AE%B9%E5%99%A8-animsequence">顺序容器：AnimSequence</a></li><li data-level="4"><a data-outline-link href="#forward-%E4%B8%8E-hold">forward 与 hold</a></li><li data-level="4"><a data-outline-link href="#show-hide-%E4%B8%8E%E6%9C%80%E7%BB%88%E6%B1%82%E5%80%BC">show、hide 与最终求值</a></li><li data-level="3"><a data-outline-link href="#%E5%B9%B6%E8%A1%8C%E5%AE%B9%E5%99%A8-animstack-%E4%B8%8E%E6%A0%B9%E5%9C%BA%E6%99%AF">并行容器：AnimStack 与根场景</a></li><li data-level="4"><a data-outline-link href="#%E5%9C%BA%E6%99%AF%E6%97%B6%E9%95%BF%E4%B8%8E%E6%98%BE%E5%BC%8F%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F">场景时长与显式生命周期</a></li><li data-level="3"><a data-outline-link href="#%E4%BA%A4%E9%94%99%E5%AE%B9%E5%99%A8-animlagged">交错容器：AnimLagged</a></li><li data-level="3"><a data-outline-link href="#seq-stack-%E4%B8%8E-lagged">seq!、stack! 与 lagged!</a></li><li data-level="2"><a data-outline-link href="#%E8%BF%90%E8%A1%8C%E6%9C%9F-animnode-nodecontent-%E4%B8%8E-sceneevaluator">运行期：AnimNode、NodeContent 与 SceneEvaluator</a></li><li data-level="2"><a data-outline-link href="#%E9%9F%B3%E9%A2%91%E5%8F%B6%E5%AD%90">音频叶子</a></li></ol>
       </details>
+      
       <article class="prose"><section><h1 id="动画系统">动画系统</h1><blockquote data-notist-kind="quote"><p>[!caution]ai 生成，可能叙事逻辑和表述并不是很好，仅供参考。</p></blockquote><p>Ranim 的一个场景就是一棵动画树。这棵树分成「定义期」和「运行期」两个层面：</p><ul><li><p><strong>定义期（开放）</strong>：叶子是任何实现了 <code>Eval</code> 的类型——<code>FadeIn</code>、<code>Morph</code>、<code>Pure</code>、<code>Iterative</code> 或自定义 struct，<code>Eval::Output</code> 是该动画产出的 item类型 <code>T</code>。容器和作者侧组合子位于 <code>animation::compose</code>：<code>AnimSequence</code> /<code>AnimStack</code> / <code>AnimLagged</code>。</p></li><li><p><strong>运行期（封闭核心）</strong>：所有定义都会通过 <code>IntoAnimNode</code> lower 成一个<code>AnimNode</code>。<code>AnimNode</code> 的内容是封闭的 <code>NodeContent</code>：<code>Children</code> 或 <code>Leaf</code>（动画 / 音频）。视觉求值、seal 时音频烘焙、preview introspection 都是这棵运行时树上的 interpreter。</p></li></ul><p>本章自底向上整理这条链路：</p><pre><code class="language-text">trait Eval&lt;Output = T&gt;                  叶子协议：alpha -&gt; T 的纯函数
   │ 具体叶子 struct：FadeIn / Morph / Pure / Iterative / 自定义 …
   │ blanket IntoAnimNode（默认 linear、1 秒、enabled）
@@ -406,15 +603,18 @@ scene<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-
     square<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">write</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-separator z-rust">,</span>
 <span class="z-punctuation z-section z-group z-end z-rust">]</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
 </span></code></pre><p><code>Sound::into_anim_node</code> 产生 <code>NodeContent::Leaf(LeafContent::Audio(Box&lt;AudioTrack&gt;))</code>。它同样参与<code>seq!</code> / <code>stack!</code> / <code>lagged!</code>、<code>.at()</code>、<code>.with_duration()</code>、<code>.with_rate_func()</code> 和 <code>.with_enabled()</code>。音频不进入逐帧视觉管线，而是在<code>RanimScene::seal</code> 时通过 <code>bake_audio</code> 一次性混音；见 <code>ranim-core</code> 的音频模块文档。</p></section></section></article>
+      
       <nav class="adjacent" aria-label="Page navigation">
         <a rel="prev" href="../" class="adjacent-link previous"><span class="adjacent-label">Previous</span><span class="adjacent-title">核心概念</span></a>
         <a rel="next" href="../extract/" class="adjacent-link next"><span class="adjacent-label">Next</span><span class="adjacent-title">完整求值帧与渲染提取</span></a>
       </nav>
       
     </main>
+    
     <aside class="page-outline" aria-label="On this page">
       <nav id="page-outline" aria-label="Page outline"><p class="rail-label">On this page</p><ol class="outline-list"><li data-level="1"><a data-outline-link href="#%E5%8A%A8%E7%94%BB%E7%B3%BB%E7%BB%9F">动画系统</a></li><li data-level="2"><a data-outline-link href="#eval-%E5%8F%B6%E5%AD%90%E6%B1%82%E5%80%BC%E5%8D%8F%E8%AE%AE">Eval：叶子求值协议</a></li><li data-level="3"><a data-outline-link href="#%E8%BF%9B%E5%BA%A6%E6%98%AF%E5%94%AF%E4%B8%80%E5%9D%90%E6%A0%87">进度是唯一坐标</a></li><li data-level="2"><a data-outline-link href="#%E5%86%85%E5%AE%B9%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%9D%A5%E6%BA%90-pure-%E4%B8%8E-iterative">内容的两种来源：Pure 与 Iterative</a></li><li data-level="3"><a data-outline-link href="#%E7%BA%AF%E9%97%AD%E5%8C%85-pure">纯闭包：Pure</a></li><li data-level="3"><a data-outline-link href="#%E8%BF%AD%E4%BB%A3%E5%8C%BA%E6%AE%B5-iterativeeval-iterative">迭代区段：IterativeEval + Iterative</a></li><li data-level="2"><a data-outline-link href="#%E4%BB%8E-eval-%E5%88%B0%E5%8F%AF%E6%92%AD%E6%94%BE%E7%9A%84%E5%8A%A8%E7%94%BB">从 Eval 到可播放的动画</a></li><li data-level="3"><a data-outline-link href="#unplaced-playbackext-paramed-%E4%B8%8E-at">Unplaced、PlaybackExt、Paramed 与 At</a></li><li data-level="2"><a data-outline-link href="#animation-compose-%E9%A1%BA%E5%BA%8F-%E5%B9%B6%E8%A1%8C-%E4%BA%A4%E9%94%99">animation::compose：顺序、并行、交错</a></li><li data-level="3"><a data-outline-link href="#%E9%A1%BA%E5%BA%8F%E5%AE%B9%E5%99%A8-animsequence">顺序容器：AnimSequence</a></li><li data-level="4"><a data-outline-link href="#forward-%E4%B8%8E-hold">forward 与 hold</a></li><li data-level="4"><a data-outline-link href="#show-hide-%E4%B8%8E%E6%9C%80%E7%BB%88%E6%B1%82%E5%80%BC">show、hide 与最终求值</a></li><li data-level="3"><a data-outline-link href="#%E5%B9%B6%E8%A1%8C%E5%AE%B9%E5%99%A8-animstack-%E4%B8%8E%E6%A0%B9%E5%9C%BA%E6%99%AF">并行容器：AnimStack 与根场景</a></li><li data-level="4"><a data-outline-link href="#%E5%9C%BA%E6%99%AF%E6%97%B6%E9%95%BF%E4%B8%8E%E6%98%BE%E5%BC%8F%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F">场景时长与显式生命周期</a></li><li data-level="3"><a data-outline-link href="#%E4%BA%A4%E9%94%99%E5%AE%B9%E5%99%A8-animlagged">交错容器：AnimLagged</a></li><li data-level="3"><a data-outline-link href="#seq-stack-%E4%B8%8E-lagged">seq!、stack! 与 lagged!</a></li><li data-level="2"><a data-outline-link href="#%E8%BF%90%E8%A1%8C%E6%9C%9F-animnode-nodecontent-%E4%B8%8E-sceneevaluator">运行期：AnimNode、NodeContent 与 SceneEvaluator</a></li><li data-level="2"><a data-outline-link href="#%E9%9F%B3%E9%A2%91%E5%8F%B6%E5%AD%90">音频叶子</a></li></ol></nav>
     </aside>
+    
     <footer class="book-footer"><span>Ranim Book</span><a href="#page-content">Back to top</a></footer>
   </div>
   

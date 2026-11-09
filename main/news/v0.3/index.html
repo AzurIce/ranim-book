@@ -1,3 +1,9 @@
+
+
+
+
+
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -17,8 +23,12 @@
       if (Number.isFinite(width) && width > 0) root.style.setProperty('--navigation-user-width', `${width}px`);
     } catch (_) {}
   </script>
-  <link rel="stylesheet" href="../../_notist/theme/book.css"><link rel="stylesheet" href="../../_notist/theme/status.css"><link rel="stylesheet" href="../../_notist/theme/highlight.css"><link rel="stylesheet" href="../../version-select.css">
-  <script src="../../_notist/theme/book.js" defer></script><script src="../../version-select.js" defer></script>
+  <link rel="stylesheet" href="../../book.css">
+  <link rel="stylesheet" href="../../status.css">
+  <link rel="stylesheet" href="../../_notist/highlight.css">
+  <script src="../../book.js" defer></script>
+  <link rel="stylesheet" href="../../version-select.css">
+  <script src="../../version-select.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#page-content">Skip to content</a>
@@ -34,142 +44,327 @@
   <div class="book-layout">
     <nav id="book-nav" class="book-navigation" aria-label="Contents">
       <div class="rail-heading"><p class="rail-label">Contents</p><button id="nav-close" class="text-button" type="button" aria-label="Close contents">Close</button></div>
-      <ul class="navigation-tree"><li class="nav-item">
-  <a href="../../"><span class="nav-title">首页</span></a>
-</li>
+      <ul class="navigation-tree">
+
 
 <li class="nav-item">
-  <a href="../../getting_started/"><span class="nav-title">Getting Started</span></a>
+  
+  
+<a href="../.././"><span class="nav-title">首页</span></a>
+
+
+  
 </li>
 
-<li class="nav-item">
-  <a href="../../project-entry/"><span class="nav-title">项目入口：场景库与跨平台宿主</span></a>
-</li>
+
 
 <li class="nav-item">
-  <a href="../../packages/"><span class="nav-title">Ranim Packages</span></a>
+  
+  
+<a href="../../getting_started/"><span class="nav-title">Getting Started</span></a>
+
+
+  
 </li>
 
+
+
 <li class="nav-item">
-  <a href="../../cli/"><span class="nav-title">命令行入口</span></a>
+  
+  
+<a href="../../project-entry/"><span class="nav-title">项目入口：场景库与跨平台宿主</span></a>
+
+
+  
 </li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../../packages/"><span class="nav-title">Ranim Packages</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../../cli/"><span class="nav-title">命令行入口</span></a>
+
+
+  
+</li>
+
+
 
 <li class="nav-part"><span role="heading" aria-level="2">理解 Ranim</span></li>
 
+
+
 <li class="nav-item">
-  <div class="nav-label"><a href="../../understand/core/"><span class="nav-title">核心概念</span></a>
+  
+  <div class="nav-label">
+<a href="../../understand/core/"><span class="nav-title">核心概念</span></a>
+
 </div>
   <details class="nav-branch" open>
     <summary class="nav-disclosure" aria-label="Toggle 核心概念"></summary>
-    <ul class="nav-children"><li class="nav-item">
-  <a href="../../understand/core/anim/"><span class="nav-title">动画系统</span></a>
-</li>
+    <ul class="nav-children">
 
 <li class="nav-item">
-  <a href="../../understand/core/extract/"><span class="nav-title">完整求值帧与渲染提取</span></a>
+  
+  
+<a href="../../understand/core/anim/"><span class="nav-title">动画系统</span></a>
+
+
+  
 </li>
 
+
+
 <li class="nav-item">
-  <a href="../../understand/core/transformed/"><span class="nav-title">Transformed&lt;T&gt;</span></a>
+  
+  
+<a href="../../understand/core/extract/"><span class="nav-title">完整求值帧与渲染提取</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../../understand/core/transformed/"><span class="nav-title">Transformed&lt;T&gt;</span></a>
+
+
+  
 </li>
 
 </ul>
   </details>
+  
 </li>
 
+
+
 <li class="nav-item">
-  <div class="nav-label"><a href="../../understand/rendering/"><span class="nav-title">渲染表示与物件插件</span></a>
+  
+  <div class="nav-label">
+<a href="../../understand/rendering/"><span class="nav-title">渲染表示与物件插件</span></a>
+
 </div>
   <details class="nav-branch" open>
     <summary class="nav-disclosure" aria-label="Toggle 渲染表示与物件插件"></summary>
-    <ul class="nav-children"><li class="nav-item">
-  <a href="../../understand/rendering/vitem/"><span class="nav-title">RenderVItem</span></a>
-</li>
+    <ul class="nav-children">
 
 <li class="nav-item">
-  <a href="../../understand/rendering/mesh_item/"><span class="nav-title">RenderMeshItem</span></a>
+  
+  
+<a href="../../understand/rendering/vitem/"><span class="nav-title">RenderVItem</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../../understand/rendering/mesh_item/"><span class="nav-title">RenderMeshItem</span></a>
+
+
+  
 </li>
 
 </ul>
   </details>
+  
 </li>
+
+
 
 <li class="nav-part"><span role="heading" aria-level="2">Items</span></li>
 
+
+
 <li class="nav-item">
-  <div class="nav-label"><a href="../../items/"><span class="nav-title">Items</span></a>
+  
+  <div class="nav-label">
+<a href="../../items/"><span class="nav-title">Items</span></a>
+
 </div>
   <details class="nav-branch" open>
     <summary class="nav-disclosure" aria-label="Toggle Items"></summary>
-    <ul class="nav-children"><li class="nav-item">
-  <a href="../../items/camera/"><span class="nav-title">CameraFrame</span></a>
-</li>
+    <ul class="nav-children">
 
 <li class="nav-item">
-  <div class="nav-label"><a href="../../items/vitem/"><span class="nav-title">VItem 类</span></a>
+  
+  
+<a href="../../items/camera/"><span class="nav-title">CameraFrame</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  <div class="nav-label">
+<a href="../../items/vitem/"><span class="nav-title">VItem 类</span></a>
+
 </div>
   <details class="nav-branch" open>
     <summary class="nav-disclosure" aria-label="Toggle VItem 类"></summary>
-    <ul class="nav-children"><li class="nav-item">
-  <a href="../../items/vitem/vitem/"><span class="nav-title">VItem</span></a>
-</li>
+    <ul class="nav-children">
 
 <li class="nav-item">
-  <a href="../../items/vitem/geometry/"><span class="nav-title">几何构造器</span></a>
+  
+  
+<a href="../../items/vitem/vitem/"><span class="nav-title">VItem</span></a>
+
+
+  
 </li>
 
-<li class="nav-item">
-  <a href="../../items/vitem/svg/"><span class="nav-title">SvgItem</span></a>
-</li>
+
 
 <li class="nav-item">
-  <a href="../../items/vitem/text/"><span class="nav-title">文字物件</span></a>
+  
+  
+<a href="../../items/vitem/geometry/"><span class="nav-title">几何构造器</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../../items/vitem/svg/"><span class="nav-title">SvgItem</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../../items/vitem/text/"><span class="nav-title">文字物件</span></a>
+
+
+  
 </li>
 
 </ul>
   </details>
+  
 </li>
 
+
+
 <li class="nav-item">
-  <div class="nav-label"><a href="../../items/mesh/"><span class="nav-title">MeshItem 类</span></a>
+  
+  <div class="nav-label">
+<a href="../../items/mesh/"><span class="nav-title">MeshItem 类</span></a>
+
 </div>
   <details class="nav-branch" open>
     <summary class="nav-disclosure" aria-label="Toggle MeshItem 类"></summary>
-    <ul class="nav-children"><li class="nav-item">
-  <a href="../../items/mesh/mesh_item/"><span class="nav-title">MeshItem</span></a>
-</li>
+    <ul class="nav-children">
 
 <li class="nav-item">
-  <a href="../../items/mesh/surface/"><span class="nav-title">Surface</span></a>
+  
+  
+<a href="../../items/mesh/mesh_item/"><span class="nav-title">MeshItem</span></a>
+
+
+  
 </li>
 
+
+
 <li class="nav-item">
-  <a href="../../items/mesh/sphere/"><span class="nav-title">Sphere</span></a>
+  
+  
+<a href="../../items/mesh/surface/"><span class="nav-title">Surface</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../../items/mesh/sphere/"><span class="nav-title">Sphere</span></a>
+
+
+  
 </li>
 
 </ul>
   </details>
+  
 </li>
 
 </ul>
   </details>
+  
 </li>
+
 
 
 <li class="nav-separator" role="presentation"><hr></li>
 
+
+
 <li class="nav-part"><span role="heading" aria-level="2">News</span></li>
 
-<li class="nav-item">
-  <a href="../v0.1/"><span class="nav-title">v0.1</span></a>
-</li>
+
 
 <li class="nav-item">
-  <a href="../v0.2/"><span class="nav-title">v0.2</span></a>
+  
+  
+<a href="../v0.1/"><span class="nav-title">v0.1</span></a>
+
+
+  
 </li>
 
+
+
 <li class="nav-item">
-  <a href="./" aria-current="page"><span class="nav-title">v0.3</span></a>
+  
+  
+<a href="../v0.2/"><span class="nav-title">v0.2</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="./" aria-current="page"><span class="nav-title">v0.3</span></a>
+
+
+  
 </li>
 
 </ul>
@@ -227,10 +422,12 @@
     <div id="nav-resize" class="navigation-resize" role="separator" tabindex="0" aria-label="Resize contents" aria-orientation="vertical" aria-controls="book-nav" title="Drag or use arrow keys to resize contents; double-click or press Home to reset"></div>
     <main id="page-content" tabindex="-1">
       <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><span aria-current="page">v0.3</span></li></ol></nav>
+      
       <details class="mobile-outline">
         <summary>On this page <span class="outline-state" aria-hidden="true"><span class="outline-show">Show</span><span class="outline-hide">Hide</span></span></summary>
         <ol class="outline-list"><li data-level="1"><a data-outline-link href="#v0-3">v0.3</a></li><li data-level="2"><a data-outline-link href="#%E6%96%B0%E5%A2%9E">新增</a></li><li data-level="2"><a data-outline-link href="#breaking-changes">BREAKING CHANGES</a></li><li data-level="2"><a data-outline-link href="#composable-animation-arrangement">Composable Animation Arrangement</a></li><li data-level="3"><a data-outline-link href="#animsequence-%E5%92%8C-animstack">AnimSequence 和 AnimStack</a></li><li data-level="3"><a data-outline-link href="#animnode-eval-%E4%B8%8E-intoanimnode">AnimNode、Eval 与 IntoAnimNode</a></li><li data-level="3"><a data-outline-link href="#animlagged-%E4%B8%8E%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%94%B6%E9%9B%86">AnimLagged 与迭代器收集</a></li><li data-level="3"><a data-outline-link href="#paramed-a-at-a">Paramed&lt;A&gt;、At&lt;A&gt;</a></li><li data-level="2"><a data-outline-link href="#preview-app-%E6%97%B6%E9%97%B4%E8%BD%B4%E6%8E%A7%E4%BB%B6%E9%87%8D%E6%9E%84">Preview App 时间轴控件重构</a></li><li data-level="2"><a data-outline-link href="#%E5%AE%8C%E6%95%B4%E6%B1%82%E5%80%BC%E5%B8%A7-%E5%80%BC%E7%BA%A7-extract-%E4%B8%8E-render-subapp">完整求值帧、值级 Extract 与 render SubApp</a></li><li data-level="3"><a data-outline-link href="#%E5%AE%8C%E6%95%B4-eval-output-%E4%BF%9D%E7%95%99%E8%AF%AD%E4%B9%89">完整 Eval::Output 保留语义</a></li><li data-level="3"><a data-outline-link href="#%E5%80%BC%E7%BA%A7-extract-%E5%A4%8D%E7%94%A8%E5%B7%B2%E6%9C%89%E8%A1%A8%E7%A4%BA">值级 Extract 复用已有表示</a></li><li data-level="3"><a data-outline-link href="#core-%E7%94%9F%E4%BA%A7-evaluatedframe-render-subapp-%E6%B6%88%E8%B4%B9">core 生产 EvaluatedFrame，render SubApp 消费</a></li><li data-level="3"><a data-outline-link href="#%E6%98%BE%E5%BC%8F%E7%BB%84%E5%90%88%E7%B2%BE%E7%A1%AE%E8%BE%93%E5%85%A5%E7%B1%BB%E5%9E%8B%E4%B8%8E-gpu-%E7%AE%A1%E7%BA%BF">显式组合精确输入类型与 GPU 管线</a></li><li data-level="3"><a data-outline-link href="#%E6%8C%81%E4%B9%85%E8%BE%93%E5%87%BA-%E5%8F%98%E6%9B%B4%E6%A3%80%E6%B5%8B%E4%B8%8E%E5%B1%95%E5%BC%80%E9%A1%BA%E5%BA%8F">持久输出、变更检测与展开顺序</a></li><li data-level="3"><a data-outline-link href="#schedule-%E7%BB%84%E7%BB%87%E6%B8%B2%E6%9F%93%E9%98%B6%E6%AE%B5">Schedule 组织渲染阶段</a></li><li data-level="2"><a data-outline-link href="#%E6%B1%82%E5%80%BC%E4%B8%8E%E8%BF%AD%E4%BB%A3%E5%BC%8F%E5%8A%A8%E7%94%BB%E5%8C%BA%E6%AE%B5">求值与迭代式动画区段</a></li><li data-level="3"><a data-outline-link href="#%E5%8D%95%E4%B8%80-eval-%E5%8D%8F%E8%AE%AE">单一 Eval 协议</a></li><li data-level="3"><a data-outline-link href="#%E7%BA%AF%E9%97%AD%E5%8C%85-pure">纯闭包：Pure</a></li><li data-level="3"><a data-outline-link href="#%E8%BF%AD%E4%BB%A3%E5%8C%BA%E6%AE%B5-iterativeeval-iterative">迭代区段：IterativeEval + Iterative</a></li><li data-level="3"><a data-outline-link href="#%E8%BF%9B%E5%BA%A6%E6%98%AF%E5%94%AF%E4%B8%80%E5%9D%90%E6%A0%87">进度是唯一坐标</a></li><li data-level="3"><a data-outline-link href="#sceneevaluator-%E5%8D%95%E5%85%A5%E5%8F%A3%E4%BC%9A%E8%AF%9D%E9%A9%B1%E5%8A%A8">SceneEvaluator：单入口会话驱动</a></li><li data-level="3"><a data-outline-link href="#%E6%A8%A1%E5%9D%97%E5%B8%83%E5%B1%80">模块布局</a></li><li data-level="3"><a data-outline-link href="#%E7%A4%BA%E4%BE%8B">示例</a></li><li data-level="2"><a data-outline-link href="#vitem-%E6%B3%95%E5%90%91%E6%8A%95%E5%BD%B1-%E5%B8%A6%E5%AE%BD%E4%BC%98%E5%85%88%E4%BA%8E-alu">VItem 法向投影：带宽优先于 ALU</a></li><li data-level="2"><a data-outline-link href="#%E7%BB%93%E6%9E%84%E5%AE%B9%E5%99%A8%E4%B8%8E%E5%BC%82%E6%9E%84%E5%85%83%E7%BB%84%E7%9A%84%E5%80%BC%E7%BA%A7%E6%8F%90%E5%8F%96">结构容器与异构元组的值级提取</a></li><li data-level="2"><a data-outline-link href="#%E6%B8%B2%E6%9F%93%E4%B8%8E%E8%BE%93%E5%87%BA%E4%BD%93%E7%B3%BB">渲染与输出体系</a></li><li data-level="3"><a data-outline-link href="#%E6%B8%B2%E6%9F%93-worker-api-%E5%85%AC%E5%BC%80">渲染 worker API 公开</a></li><li data-level="3"><a data-outline-link href="#%E8%BE%93%E5%87%BA%E5%90%8D%E6%A8%A1%E6%9D%BF">输出名模板</a></li><li data-level="3"><a data-outline-link href="#%E6%8C%89%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%91%BD%E4%BB%A4%E5%88%92%E5%88%86-feature">按模块与命令划分 feature</a></li><li data-level="3"><a data-outline-link href="#examples-%E5%8D%95-target-%E4%B8%8E-rustdoc-%E5%AE%9E%E6%97%B6%E9%A2%84%E8%A7%88">examples 单 target 与 rustdoc 实时预览</a></li><li data-level="3"><a data-outline-link href="#coplanar-z-fighting-%E6%8C%89-scene-order-%E6%B7%B1%E5%BA%A6%E5%81%8F%E7%BD%AE">coplanar z-fighting 按 scene-order 深度偏置</a></li><li data-level="2"><a data-outline-link href="#cli-inspect-output-render-%E6%8B%86%E5%88%86%E4%B8%8E-agent-%E5%B7%A5%E4%BD%9C%E6%B5%81">CLI：inspect、output/render 拆分与 agent 工作流</a></li><li data-level="3"><a data-outline-link href="#%E5%87%BA%E5%8F%91%E7%82%B9-%E8%AE%A9-agent-%E8%87%AA%E4%B8%BB%E5%AE%8C%E6%88%90-%E5%86%99%E5%9C%BA%E6%99%AF-%E8%87%AA%E6%9F%A5-%E5%87%BA%E7%89%87">出发点：让 agent 自主完成&quot;写场景 → 自查 → 出片&quot;</a></li><li data-level="3"><a data-outline-link href="#%E5%85%B6%E4%BB%96">其他</a></li><li data-level="2"><a data-outline-link href="#%E7%B1%BB%E5%9E%8B%E5%8C%96%E5%8F%98%E6%8D%A2%E7%B3%BB%E7%BB%9F">类型化变换系统</a></li><li data-level="3"><a data-outline-link href="#%E5%8A%A8%E6%9C%BA-%E4%BB%8E%E6%95%A3%E8%90%BD%E7%9A%84%E5%8F%98%E6%8D%A2%E8%A1%8C%E4%B8%BA%E5%88%B0%E7%BB%9F%E4%B8%80%E6%A8%A1%E5%9E%8B">动机：从散落的变换行为到统一模型</a></li><li data-level="3"><a data-outline-link href="#transformed-t-g-%E4%B8%8E%E7%B1%BB%E5%9E%8B%E5%8C%96%E5%8F%98%E6%8D%A2%E7%BE%A4">Transformed&lt;T, G&gt; 与类型化变换群</a></li><li data-level="3"><a data-outline-link href="#%E8%AF%AD%E4%B9%89%E9%97%AD%E5%8C%85%E4%B8%8E-bake">语义闭包与 bake</a></li><li data-level="3"><a data-outline-link href="#%E8%A7%84%E8%8C%83%E5%B1%80%E9%83%A8%E5%8E%9F%E8%AF%AD-placement-lives-in-transformed-only">规范局部原语：placement lives in Transformed only</a></li><li data-level="3"><a data-outline-link href="#%E5%8F%98%E6%8D%A2%E8%B4%AF%E7%A9%BF%E6%A0%B8%E5%BF%83%E4%B8%8E%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF">变换贯穿核心与渲染管线</a></li><li data-level="3"><a data-outline-link href="#%E6%B3%95%E5%90%91%E9%87%8F%E7%9A%84%E4%BB%BF%E5%B0%84%E5%8F%98%E6%8D%A2">法向量的仿射变换</a></li><li data-level="2"><a data-outline-link href="#%E5%9C%BA%E6%99%AF%E5%9B%BE%E5%B1%82%E7%BA%A7%E4%B8%8E-gltf-%E5%AF%BC%E5%85%A5">场景图层级与 glTF 导入</a></li></ol>
       </details>
+      
       <article class="prose"><section><h1 id="v0-3">v0.3</h1><blockquote data-notist-kind="quote"><p><strong>Status: Draft</strong> — 随 main 更新，v0.3 发布时冻结。已覆盖 <a href="https://github.com/AzurIce/ranim/pull/166">#166</a>–<a href="https://github.com/AzurIce/ranim/pull/202">#202</a> 中的全部特性与架构类 PR；基建/修复类（<a href="https://github.com/AzurIce/ranim/pull/178">#178</a>、<a href="https://github.com/AzurIce/ranim/pull/179">#179</a>、<a href="https://github.com/AzurIce/ranim/pull/188">#188</a>、<a href="https://github.com/AzurIce/ranim/pull/191">#191</a>、<a href="https://github.com/AzurIce/ranim/pull/199">#199</a>、<a href="https://github.com/AzurIce/ranim/pull/203">#203</a>）不入篇。</p></blockquote><p>本篇是 v0.3 的 News 纪事（体裁类似 Bevy News）。编排、求值输出与渲染侧按当前实现编写：完整 <code>Eval::Output</code> 原样进入类型化帧，独立 render SubApp 通过值级 <code>Extract</code>和显式泛型插件消费这些输出。</p><section><h2 id="新增">新增</h2><ul><li><p>音频平面</p><ul><li><p><code>AudioClip</code>/<code>AudioTrack</code>/<code>Sound</code>：音频作为叶子与视觉动画并列编排，支持 gain、fade、trim（<code>with_play_secs</code> 接受源轴 range）；线性变速与视觉动画统一走 cell 层的 <code>with_duration</code>/<code>with_rate_func</code>（磁带式变速，音高随窗口缩放）</p></li><li><p><code>AudioClip::from_file</code>/<code>from_bytes</code>（随 <code>audio-decode</code> feature）纯 Rust 解码（symphonia，WAV/MP3/FLAC/AAC/Ogg Vorbis）并经 rubato FFT 重采样归一到 48 kHz 立体声，不再依赖 ffmpeg 二进制</p></li><li><p><code>RanimScene::seal</code> 时一次性 bake 成 master stereo/48 kHz buffer；线性路径预混，非线性路径走 residual forest</p></li><li><p>preview 原生播放（随 <code>cmd-preview</code> feature）、Web Audio 同步播放与 render 端 ffmpeg muxing（MP4/MOV AAC，WebM libopus，GIF 丢弃）</p></li></ul></li><li><p>可组合动画编排系统（见 "Composable Animation Arrangement" 一节）</p><ul><li><p><code>AnimSequence</code>/<code>AnimStack</code> 容器与 <code>seq!</code>/<code>stack!</code> 宏，<code>hold</code>/<code>forward</code>/<code>extend</code> 等编排 API</p></li><li><p><code>AnimLagged</code> 容器（stagger 排布 + 窗口外静态填充）与 <code>lagged!</code> 宏、迭代器容器收集（<code>collect::&lt;AnimStack&gt;()</code>/<code>collect::&lt;AnimSequence&gt;()</code>、<code>into_stack</code>/<code>into_seq</code>/<code>into_lagged</code>）</p></li><li><p>播放参数 <code>Paramed&lt;A&gt;</code>（<code>with_duration</code>/<code>with_rate_func</code>/<code>with_enabled</code>）与放置 <code>At&lt;A&gt;</code></p></li></ul></li><li><p>求值协议与适配器（见"求值与迭代式动画区段"一节）</p><ul><li><p>单一 <code>Eval</code> 协议：<code>eval_alpha(&amp;self, alpha)</code> 是叶子动画唯一的求值入口</p></li><li><p>进度是唯一坐标：<code>Time</code>/<code>DeltaTime</code> 结构已删除，<code>ranim_core::time</code> 只保留 <code>Alpha</code>/<code>DeltaAlpha</code> 两个类型别名</p></li><li><p>纯/迭代特化位于 <em>ranim-core</em>：<code>Pure</code> 包装闭式闭包，<code>Iterative</code> 包装 <code>IterativeEval</code> step 逻辑；闭包经 <code>Pure::new(|alpha| ...)</code> / <code>Iterative::from_fn(state, step_fn)</code> 成为动画</p></li><li><p><code>SceneEvaluator::sample_at</code> 是唯一 session 交互，seek/重放由 stateful 节点内部完成</p></li></ul></li><li><p>类型化变换系统（见"类型化变换系统"一节）</p><ul><li><p><code>Transformed&lt;T, G&gt;</code> 包装器、<code>ApplyTransform&lt;G&gt;</code> primitive trait 与类型化变换群（<code>Translation</code>/<code>Rigid</code>/<code>Similarity</code>/<code>Diag</code>/<code>DAffine3</code>），语义闭包约束的 <code>bake()</code></p></li><li><p>规范局部原语：语义形状移除定位字段，placement 只存在于 <code>Transformed</code>（"canonical local primitives" 教义）</p></li><li><p>渲染组件 <code>RenderVItem</code> 携带局部到世界 <code>transform: Mat4</code>，渲染侧 per-item transform storage buffer，插值契约（wrapper lerp 动位姿、morph 是显式 bake）</p></li><li><p>场景图层级 <code>hierarchy::Node</code> 与 glTF/GLB 导入（见"场景图层级与 glTF 导入"一节）</p></li></ul></li><li><p>VItem 法向投影：<code>Basis2d</code> 移除，<code>normal: Option</code> + shader 内现场生成正交基（见"VItem 法向投影"一节）</p></li><li><p>完整求值输出与值级 <code>Extract</code>：容器、异构元组、层级树与变换 wrapper 原样入帧，渲染侧递归提取；<code>ExtractPlugin&lt;T&gt;</code> 为实际完整类型显式注册入口</p></li><li><p>命令行入口：<code>ranim::App</code> 与 <code>ranim::Plugin</code> 分别是 <code>bevy_app::App</code> / <code>bevy_app::Plugin</code> 的直接再导出；场景注册/选择（<code>add_scene</code>/<code>add_scenes</code>/<code>scenes</code>/<code>scene(name)</code>/<code>first_scene()</code>）由 <code>ranim::app::AppExt</code>（prelude 已导出）在 App 上提供，<code>scene(name)</code>/<code>first_scene()</code> 返回克隆的 <code>Scene</code>。<code>ranim::RanimAppExt::build</code>（prelude 已导出）把构建中的 App 定稿为 <code>ranim::RanimApp</code>：断言插件 Ready 并执行一次 bevy 的 <code>finish()</code>/<code>cleanup()</code>；<code>RanimApp</code> 是项目的会话期形态——<code>Deref</code>/<code>DerefMut</code> 到 bevy <code>App</code>，update、渲染 SubApp 安装、资源访问与场景选择照常工作，但不再是插件构建目标，「会话入口要求插件已构建完毕」由此成为显式的类型前提。CLI 入口是自由函数 <code>ranim::cmd::cli::run_cli</code>（接收 <code>RanimApp</code>，prelude 导出为 <code>run_cli</code>，native + <code>cmd-render</code> 门控），与 <code>preview_scene(app.build(), scene)</code>、<code>render_scene(&amp;scene, &amp;setup, ...)</code> 同风格：安装 tracing、解析进程参数并分发 <code>preview</code> / <code>output</code> / <code>render</code> / <code>inspect</code> 子命令，出错时打印并以非零状态退出；命名避开 bevy App 自带的 <code>run()</code> runner 入口。<code>App::new()</code> + <code>add_scenes([...])</code> + <code>run_cli(app.build())</code> 即最小项目；插件 <code>build</code> 的 <code>&amp;mut bevy_app::App</code> 与 <code>&amp;mut App</code> 是同一类型；<code>inspect scenes/tree/frame</code> 无 GPU 检查；agent one-shot 例子已迁至独立仓库 <code>ranim-one-shot</code>（见"CLI"一节）</p></li><li><p>渲染与输出：<code>Renderer</code> 结构体溶解为渲染 SubApp 的安装与驱动 API——<code>ranim_render::build_render_app(ctx, width, height, oit_layers)</code> 构建裸渲染 <code>SubApp</code>，<code>install_render_app</code> 应用项目 <code>RenderSetup</code> 后以 <code>RanimRenderApp</code> 标签挂进 App 并挂 extract 钩子（每次 <code>App::update()</code> 主 schedule 结束后把主世界的 <code>EvaluatedFrame</code> 交换进渲染世界），<code>RenderAppExt</code> 为 SubApp 提供手动驱动与 GPU profiler 访问器；公共阶段改为 pub 的 <code>RenderSchedule::{Extract, Prepare, View}</code> 与 <code>ViewPhase::{Clear, Compute, Depth, Color, Resolve}</code> 枚举（<code>RenderSchedules</code> 句柄 resource 已删除）；core 中按类型批次传输的 <code>EvaluatedFrame</code> 与项目提供的 <code>RenderSetup</code>（未注册时按 <code>items</code> 是否启用，分别回退到安装 <code>RanimItemsPlugin</code> 的默认渲染配置或空配置）；渲染 worker API（<code>RenderWorker</code>/<code>RenderThreadHandle</code>/<code>RanimRenderApp</code>）公开；<code>Output::name_template</code> 输出名模板；examples 用同一个 bin target 按平台选择 native CLI 与 WASM 导出，共享装配，并经 <code>#[wasm_demo_doc]</code> 提供 rustdoc 实时预览；coplanar z-fighting 按 scene-order 深度偏置解决</p></li></ul></section><section><h2 id="breaking-changes">BREAKING CHANGES</h2><ul><li><p>动画组织系统</p><ul><li><p>弃用 <code>Timeline</code>（迁移到 <code>AnimSequence</code>/<code>AnimStack</code>）</p></li><li><p>运行时节点统一为 <code>AnimNode { timing shell, NodeContent }</code>；<code>AnimationCell&lt;T&gt;</code> 不再存在，播放参数改为 <code>Paramed&lt;A&gt;</code> / <code>At&lt;A&gt;</code>，放置状态由 <code>Unplaced</code> 表达</p></li><li><p><code>AnimationInfoKind</code> 收敛为 <code>Anim</code> / <code>Children</code> / <code>Audio</code>；检查动画树时按子片段窗口判断顺序或重叠，<code>inspect tree</code> 的 <code>kind</code> 对应为 <code>anim</code> / <code>children</code> / <code>audio</code></p></li><li><p>作者协议改名与分层：<code>Animation</code> → <code>IntoAnimNode</code>（<code>build()</code> → <code>into_anim_node()</code>），<code>Placeable</code> → <code>Unplaced</code>，<code>AnimationExt</code> → <code>PlaybackExt</code></p></li><li><p>模块路径分层：<code>animation::node</code>（运行时核心）、<code>animation::eval</code>（叶子协议与适配器）、<code>animation::build</code>（lowering / playback）、<code>animation::compose</code>（sequence/stack/lagged）、<code>animation::sound</code>（音频叶子）</p></li><li><p><em>ranim-anims</em> 中全部内置动画创建工具方法现在默认用 <code>linear</code> 速率函数和 <code>1.0</code> 持续秒数</p></li></ul></li><li><p>求值与内置动画 API</p><ul><li><p><code>Eval&lt;T&gt;</code> 泛型参数改为关联类型，方法集收敛为单一 <code>eval_alpha(&amp;self, alpha)</code>（见"求值与迭代式动画区段"一节）；<code>sample</code>/<code>reset</code>/<code>step</code> 与 <code>PureEval</code> 已删除</p></li><li><p><code>Time</code>/<code>DeltaTime</code> 结构已删除；<code>Eval::eval_alpha</code> 收 <code>f64</code>，<code>IterativeEval::step</code> 收 <code>alpha</code>/<code>delta_alpha</code></p></li><li><p>内置动画工具方法直接返回具名动画类型（如 <code>fade_in()</code> 返回 <code>FadeIn&lt;T&gt;</code>），这些类型直接实现 <code>Eval</code></p></li><li><p><code>Pure</code> 与 <code>Iterative</code> 从 <em>ranim-anims</em> 移入 <em>ranim-core</em> 的 <code>animation::eval::{pure, iterative}</code></p></li><li><p><code>CameraFrame::orbit</code> 移到 <em>ranim-anims</em> 的 <code>CameraFrameAnim</code></p></li><li><p>删除 <em>ranim-anims</em> 的 <code>Lagged</code> 求值器与 <code>lagged</code> 模块（<code>LaggedAnim</code> 糖），stagger 排布改用 <code>AnimLagged</code> 容器</p></li><li><p>删除 core 中原有的 <code>Extract&lt;Target = CoreItem&gt;</code>、<code>AnyExtractCoreItem</code>、<code>DynItem</code> 与封闭的 <code>CoreItem</code> 枚举；求值保留完整输出。渲染协议改为 <code>ranim_render::extract::Extract::extract(&amp;self, ctx)</code>，由宿主显式安装 <code>ExtractPlugin&lt;实际完整输出类型&gt;</code></p></li><li><p>动画叶子的 <code>Output</code> 要求 <code>Clone + Send + Sync + 'static</code>；纯 CPU 求值不要求实现渲染 trait</p></li></ul></li><li><p>变换与物件模型（见"类型化变换系统"一节）</p><ul><li><p><code>MeshItem</code>/<code>Surface</code> 移除内嵌 transform 字段与 <code>with_transform</code>，外挂变换改用 <code>.transformed(...)</code></p></li><li><p><code>Square</code>/<code>Rectangle</code>/<code>Circle</code>/<code>Sphere</code>/<code>Arc</code>/<code>Ellipse</code>/<code>EllipticArc</code>/<code>TextItem</code> 等语义形状移除 <code>center</code>/<code>axes</code>/<code>p0</code>/<code>origin</code> 等定位字段：构造后用 <code>.transformed(Translation(...))</code> 放置；裸值不再实现 <code>ApplyTransform</code>，<code>shift</code>/<code>rotate_*</code>/非均匀 <code>scale</code> 需先包裹（或转为 <code>Polygon</code>/<code>VItem</code> 等点集类型）</p></li><li><p>渲染组件 <code>RenderVItem</code> 的 <code>points</code>/<code>normal</code> 变为局部空间值，定位存放在新增的 <code>transform: Mat4</code>；消费提取点数据的代码需先应用 transform</p></li><li><p><code>ranim_items::mesh::MeshItem</code> 用户层类型由 f32（<code>Vec3</code>/<code>Mat4</code>）改为 f64（<code>DVec3</code>/<code>DMat4</code>）</p></li></ul></li><li><p>渲染与 CLI</p><ul><li><p>项目模型切换到 bevy App：<code>ranim::App</code> 与 <code>ranim::Plugin</code> 分别是 <code>bevy_app::App</code> / <code>bevy_app::Plugin</code> 的直接再导出；<code>SceneHandle</code> / <code>PluginError</code> 已删除。场景注册与选择（<code>add_scene</code> / <code>add_scenes</code> / <code>scene</code> / <code>first_scene</code> / <code>scenes</code>）由 <code>ranim::app::AppExt</code> trait（prelude 已导出）在 App 上提供，场景存于 <code>Scenes</code> resource；<code>app.scene(name)</code> / <code>app.first_scene()</code> 返回克隆的 <code>Scene</code>。插件 <code>build</code> 的 <code>app: &amp;mut bevy_app::App</code> 与 <code>&amp;mut ranim::App</code> 是同一类型，两种写法等价；项目资源是普通 bevy resource（类型 <code>#[derive(Resource)]</code>，<code>ranim::Resource</code> 已再导出，<code>insert_resource</code> 存入、<code>world()</code> 读取）</p></li><li><p>命令行入口是自由函数 <code>ranim::cmd::cli::run_cli</code>（接收 <code>ranim::RanimApp</code>，prelude 导出为 <code>run_cli</code>，native + <code>cmd-render</code> 门控）：安装 tracing、解析进程参数并分发子命令，出错时打印并以非零状态退出；最小项目注册场景后以 <code>app.build()</code>（<code>ranim::RanimAppExt</code>，prelude 导出）定稿插件构建——断言插件 Ready，执行一次 bevy <code>finish()</code>/<code>cleanup()</code>——再调用 <code>run_cli(app.build())</code>，子命令 <code>preview</code> / <code>output</code> / <code>render</code> / <code>inspect</code> 不变。<code>RanimApp</code> <code>Deref</code>/<code>DerefMut</code> 到 bevy <code>App</code>，是 update、SubApp 安装与资源访问的会话期形态，不再是插件构建目标。命名刻意避开 bevy App 自带的 <code>run()</code>（runner 模型）。<code>inspect</code> 可查询包含延迟 setup 的项目，仍不初始化 GPU</p></li><li><p><code>Renderer</code> 结构体溶解：<code>ranim_render::build_render_app(ctx, width, height, oit_layers)</code> 构建裸渲染 <code>SubApp</code>；<code>install_render_app(app, ctx, width, height, oit_layers, setup)</code> 应用项目 <code>RenderSetup</code> 后以 <code>RanimRenderApp</code> 标签挂进 App，并挂 extract 钩子（每次 <code>App::update()</code> 主 schedule 结束后把主世界的 <code>EvaluatedFrame</code> 交换进渲染世界）；<code>RenderAppExt</code> 为 <code>SubApp</code> 提供 <code>render_frame(textures, clear_color, frame)</code> 手动驱动与 GPU profiler 访问器。<code>RenderSchedule::{Extract, Prepare, View}</code> 与 <code>ViewPhase::{Clear, Compute, Depth, Color, Resolve}</code> 是 pub 的 label / set 枚举，渲染插件直接引用（<code>RenderSchedules</code> 句柄 resource 已删除）</p></li><li><p><code>RenderSetup</code> 现在是 bevy <code>Resource</code> + bevy <code>Plugin</code>（<code>is_unique = false</code>）：项目可将 setup 存为 App resource，装配 <code>ranim_items::RanimItemsPlugin</code>（捆绑内置相机、矢量与网格物件插件）与未覆盖完整类型的 <code>ExtractPlugin&lt;T&gt;</code>；项目未注册 setup 时，启用 <code>items</code> 的宿主回退到仅含 <code>RanimItemsPlugin</code> 的默认配置，未启用时使用空配置，渲染宿主不再硬编码物件插件</p></li><li><p><code>RenderWorker::new</code> / <code>RanimRenderApp::new</code> 等离线渲染 API 改为接收 <code>(scene: &amp;Scene, setup: &amp;RenderSetup, output, buffer_count)</code>；<code>render_scene*</code> / <code>render_scene_output*</code> 帮助函数同样接收 <code>&amp;Scene</code> 与 <code>&amp;RenderSetup</code>；preview 为 <code>preview_scene(app: RanimApp, scene)</code></p></li><li><p>删除 <code>ranim_core::core_item</code>：通用变换移到 <code>ranim_core::transformed</code>；相机移到 <code>ranim_items::camera</code>；render world 组件改为 items 的 <code>vitem::render::RenderVItem</code> / <code>mesh::render::RenderMeshItem</code>，对应缓冲、管线与系统同归该物件模块，通过 items 的 <code>render</code> feature 提供</p></li><li><p>帧数据统一为 <code>ranim_core::frame::EvaluatedFrame</code>：替换 <code>ranim_render::world::RenderFrame</code> 与原来的 <code>scene_evaluator::EvaluatedFrame</code> Vec 别名，item ID 使用 <code>ranim_core::frame::FrameItemId</code>；<code>RenderAppExt::render_frame</code> 与 <code>RenderWorker::render_store</code> 改为接收 <code>&amp;mut EvaluatedFrame</code>，渲染完成后返还帧数据供复用</p></li><li><p><code>SceneEvaluator::sample_at</code> 直接替换 <code>EvaluatedFrame</code> 的内容；<code>SealedRanimScene::eval_at_sec</code> / <code>eval_at_alpha</code> 同样接收 <code>&amp;mut EvaluatedFrame</code>。结果按具体类型用 <code>frame.items::&lt;T&gt;()</code> 读取，每项包含 <code>id</code>、<code>order</code> 与完整的 <code>value</code></p></li><li><p>自定义物件通过值级 <code>Extract</code> 递归复用现有实现，或经 <code>ExtractContext</code> 写入实体和资源；<code>ExtractPlugin&lt;T&gt;</code> 只匹配精确的帧类型，注册 <code>T</code> 不会自动读取 <code>Vec&lt;T&gt;</code> 或 <code>Transformed&lt;T, G&gt;</code></p></li><li><p><code>TextItem</code> / <code>TypstText</code> 保留自身类型，项目启用 <code>typst</code>；裸文字类型的提取由 <code>VItemPlugin</code> 提供（默认渲染配置已包含）</p></li><li><p>typed frame 按实际 <code>TypeId</code> 匹配；inspect 保留未适配输入的 opaque 元数据，提取系统只能读取匹配类型的批次，不按同名类型强转</p></li><li><p><code>inspect frame</code> 的 JSON schema 升级到 <code>2</code>，完整输出的输入顺序为 <code>order</code>，新增 <code>input_type</code>；支持的裸内置类型提供 CPU 几何投影，未适配的完整类型保留为 opaque 元数据</p></li><li><p><code>VItemsBuffer::update</code>/<code>MeshItemsBuffer::update</code> 的迭代项改为 <code>(scene_order, item)</code> 对</p></li><li><p><code>render</code> 子命令语义变化：批量渲染所有 <code>#[output]</code> 改用 <code>output</code>；<code>render &lt;scene&gt;</code> 只做单场景临时渲染，忽略 <code>#[output]</code> 与 Capture mark</p></li><li><p><code>ranim_items::vitem::Basis2d</code> 移除，<code>VItem.basis</code> 改为 <code>normal: Option&lt;DVec3&gt;</code>（构造迁移：<code>with_basis(Basis2d::XY)</code> → <code>with_normal(...)</code> 或留空自动计算）</p></li><li><p><code>SvgItem</code> 内部改为放置树（<code>Transformed&lt;Node&lt;VItem&gt;, DAffine3&gt;</code>）：<code>tree()</code>/<code>tree_mut()</code>/<code>into_tree()</code> 返回放置而非裸节点（用 <code>.inner</code> 取 frame）；glTF 支持为 opt-in 的 <code>gltf</code> feature</p></li></ul></li></ul></section><section><h2 id="composable-animation-arrangement">Composable Animation Arrangement</h2><p>https://github.com/AzurIce/ranim/pull/170</p><section><h3 id="animsequence-和-animstack"><code>AnimSequence</code> 和 <code>AnimStack</code></h3><p>Ranim 动画编排的本质是构造动画数据表示并放入集合，在之前的设计中整个 <code>RanimScene</code> 通过内部的 <code>Vec&lt;Timeline&gt;</code> 来维护动画。</p><p><code>Timeline</code> 的本质是 <code>Vec&lt;Box&lt;dyn CoreItemAnimation&gt;&gt;</code> 动画序列容器，其中的每个元素都是前后相继的动画表示，同一时间一个 <code>Timeline</code> 只有一个动画激活，于是以前在动画组合代数上非常局限：</p><ul><li><p>串行的动画必须通过 <code>Timeline</code> 的 API 手动推进/同步时间到对应位置</p></li><li><p>并行的动画必须通过创建新的 <code>Timeline</code> 来实现</p></li><li><p>整个场景的 <code>Vec&lt;Timeline&gt;</code> 本质是一次性并行组合多个串行编排的性质</p></li></ul><p>在 Ranim v0.3 中，原本的 <code>Timeline</code> 被弃用，新增了两个可组合的基本动画容器 <code>AnimSequence</code> 和 <code>AnimStack</code>。</p><p>比如对于如下的动画：</p><ul><li><p>正方形：0.0s ~ 1.0s 淡入 | 1.0s ~ 2.0s 变成圆形 | 2.0s ~ 3.0s 淡出</p></li><li><p>文字：0.5s ~ 1.5s 写入 | 1.5s ~ 2.5s 擦除</p></li></ul><p>在以前的 Timeline API 下要这样编写：</p><pre><code class="language-rust"><span class="z-source z-rust"><span class="z-storage z-type z-rust">let</span> r_vitem <span class="z-keyword z-operator z-assignment z-rust">=</span> r<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">insert_with</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">|</span></span></span><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-variable z-parameter z-rust">t</span><span class="z-punctuation z-section z-parameters z-end z-rust">|</span></span> </span><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
     t<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">play</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>item<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">fade_in</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span>
         <span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">play</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>item<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">morph_to</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-path z-rust">VItem<span class="z-punctuation z-accessor z-rust">::</span></span>from<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-path z-rust">Circle<span class="z-punctuation z-accessor z-rust">::</span></span>default<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span>
@@ -454,17 +651,20 @@ frame<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-
     R --&gt;|pose| L1[&quot;Node：path 叶子&quot;]
     C1 --&gt;|pose| L2[&quot;path 叶子（id: stripes）&quot;]
     C1 --&gt;|pose| L3[&quot;path 叶子&quot;]" notist-theme="auto"></notist-b4666d0e3ef46445-diagram><p>位姿住在边上——图中每条 <code>pose</code> 边都是一个 <code>Transformed</code> 包裹：</p><ul><li><p><code>Node</code> 是纯结构（id + 可选 payload + 子节点），每个子节点的位姿住在边上的 <code>Transformed</code> 里；全部递归代数——渲染提取、lerp、align、partial/empty、AABB、centroid、样式转发、按 id 寻址（<code>by_id</code>/<code>by_ids</code>/<code>by_id_path</code>）——由 <code>Transformed</code> 自身的实现组合而来，<code>Node</code> 不再依赖 <code>TransformGroup</code>；</p></li><li><p>对齐遵循统一规则：<strong>缺席侧用对侧的透明克隆填充</strong>（payload 缺席、空/非空子列表同理），跨结构 lerp 平滑淡入淡出；<code>leaf()</code>/<code>group()</code>/<code>branch()</code> 构造器保持调用点简短，裸节点与包裹节点可在同一 <code>vec![...]</code> 里混排（裸节点按 identity 位姿放置）；</p></li><li><p><code>SvgItem</code> 重建在该树上：<code>&lt;g&gt;</code> 映射为纯 frame、<code>&lt;path&gt;</code> 为 payload 叶子，元素 id 全程可寻址——<code>svg.by_id("stripes")?.set_fill_color(BLACK)</code>；<code>SvgItem::new</code> 把居中 + Y 翻转<strong>组合</strong>到根放置上（而非替换根变换），viewBox 缩放得以保留；提取插件按深度优先保持 painter's-algorithm 顺序，<code>From&lt;SvgItem&gt; for Vec&lt;VItem&gt;</code> 保留旧的 bake 工作流（<code>TextItem</code> 依赖于此）；</p></li><li><p>glTF/GLB 导入（新 <code>gltf</code> feature，opt-in）：<code>node_tree_from_path</code>/<code>node_tree_from_gltf</code> 返回 <code>GltfTree</code>（节点树 + 文档索引→路径映射），名字（<code>by_id</code>）与文档索引（<code>node</code>，动画 channel 与 <code>skin.joints</code> 的寻址方式）双寻址；glTF 强制的 Y-up 自动转为 ranim 的 Z-up（翻转组合进场景根放置）；单 primitive mesh 直接作 payload，多 primitive 拆为兄弟叶子。首版不含 materials/skins/morph targets/动画/<code>data:</code> buffer；</p></li><li><p>整树 posing 只组合根矩阵，不重写所有控制点。<a href="https://github.com/AzurIce/ranim/pull/202">#202</a> 中 Ghostscript Tiger（138 paths）的 posing 对照记录如下；当前求值帧传输与 render extract 已分开，该记录不作为完整新管线的性能测量：</p><table><thead><tr><th scope="col"><p>操作（整树）</p></th><th scope="col"><p>旧（baked）</p></th><th scope="col"><p>新（树上）</p></th></tr></thead><tbody><tr><td><p>pose：rotate</p></td><td><p>4.57 µs</p></td><td><p>18.9 ns（~250×）</p></td></tr><tr><td><p>pose：shift</p></td><td><p>4.52 µs</p></td><td><p>9.5 ns（~500×）</p></td></tr></tbody></table></li></ul></section></section></article>
+      
       <nav class="adjacent" aria-label="Page navigation">
         <a rel="prev" href="../v0.2/" class="adjacent-link previous"><span class="adjacent-label">Previous</span><span class="adjacent-title">v0.2</span></a>
         
       </nav>
       
     </main>
+    
     <aside class="page-outline" aria-label="On this page">
       <nav id="page-outline" aria-label="Page outline"><p class="rail-label">On this page</p><ol class="outline-list"><li data-level="1"><a data-outline-link href="#v0-3">v0.3</a></li><li data-level="2"><a data-outline-link href="#%E6%96%B0%E5%A2%9E">新增</a></li><li data-level="2"><a data-outline-link href="#breaking-changes">BREAKING CHANGES</a></li><li data-level="2"><a data-outline-link href="#composable-animation-arrangement">Composable Animation Arrangement</a></li><li data-level="3"><a data-outline-link href="#animsequence-%E5%92%8C-animstack">AnimSequence 和 AnimStack</a></li><li data-level="3"><a data-outline-link href="#animnode-eval-%E4%B8%8E-intoanimnode">AnimNode、Eval 与 IntoAnimNode</a></li><li data-level="3"><a data-outline-link href="#animlagged-%E4%B8%8E%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%94%B6%E9%9B%86">AnimLagged 与迭代器收集</a></li><li data-level="3"><a data-outline-link href="#paramed-a-at-a">Paramed&lt;A&gt;、At&lt;A&gt;</a></li><li data-level="2"><a data-outline-link href="#preview-app-%E6%97%B6%E9%97%B4%E8%BD%B4%E6%8E%A7%E4%BB%B6%E9%87%8D%E6%9E%84">Preview App 时间轴控件重构</a></li><li data-level="2"><a data-outline-link href="#%E5%AE%8C%E6%95%B4%E6%B1%82%E5%80%BC%E5%B8%A7-%E5%80%BC%E7%BA%A7-extract-%E4%B8%8E-render-subapp">完整求值帧、值级 Extract 与 render SubApp</a></li><li data-level="3"><a data-outline-link href="#%E5%AE%8C%E6%95%B4-eval-output-%E4%BF%9D%E7%95%99%E8%AF%AD%E4%B9%89">完整 Eval::Output 保留语义</a></li><li data-level="3"><a data-outline-link href="#%E5%80%BC%E7%BA%A7-extract-%E5%A4%8D%E7%94%A8%E5%B7%B2%E6%9C%89%E8%A1%A8%E7%A4%BA">值级 Extract 复用已有表示</a></li><li data-level="3"><a data-outline-link href="#core-%E7%94%9F%E4%BA%A7-evaluatedframe-render-subapp-%E6%B6%88%E8%B4%B9">core 生产 EvaluatedFrame，render SubApp 消费</a></li><li data-level="3"><a data-outline-link href="#%E6%98%BE%E5%BC%8F%E7%BB%84%E5%90%88%E7%B2%BE%E7%A1%AE%E8%BE%93%E5%85%A5%E7%B1%BB%E5%9E%8B%E4%B8%8E-gpu-%E7%AE%A1%E7%BA%BF">显式组合精确输入类型与 GPU 管线</a></li><li data-level="3"><a data-outline-link href="#%E6%8C%81%E4%B9%85%E8%BE%93%E5%87%BA-%E5%8F%98%E6%9B%B4%E6%A3%80%E6%B5%8B%E4%B8%8E%E5%B1%95%E5%BC%80%E9%A1%BA%E5%BA%8F">持久输出、变更检测与展开顺序</a></li><li data-level="3"><a data-outline-link href="#schedule-%E7%BB%84%E7%BB%87%E6%B8%B2%E6%9F%93%E9%98%B6%E6%AE%B5">Schedule 组织渲染阶段</a></li><li data-level="2"><a data-outline-link href="#%E6%B1%82%E5%80%BC%E4%B8%8E%E8%BF%AD%E4%BB%A3%E5%BC%8F%E5%8A%A8%E7%94%BB%E5%8C%BA%E6%AE%B5">求值与迭代式动画区段</a></li><li data-level="3"><a data-outline-link href="#%E5%8D%95%E4%B8%80-eval-%E5%8D%8F%E8%AE%AE">单一 Eval 协议</a></li><li data-level="3"><a data-outline-link href="#%E7%BA%AF%E9%97%AD%E5%8C%85-pure">纯闭包：Pure</a></li><li data-level="3"><a data-outline-link href="#%E8%BF%AD%E4%BB%A3%E5%8C%BA%E6%AE%B5-iterativeeval-iterative">迭代区段：IterativeEval + Iterative</a></li><li data-level="3"><a data-outline-link href="#%E8%BF%9B%E5%BA%A6%E6%98%AF%E5%94%AF%E4%B8%80%E5%9D%90%E6%A0%87">进度是唯一坐标</a></li><li data-level="3"><a data-outline-link href="#sceneevaluator-%E5%8D%95%E5%85%A5%E5%8F%A3%E4%BC%9A%E8%AF%9D%E9%A9%B1%E5%8A%A8">SceneEvaluator：单入口会话驱动</a></li><li data-level="3"><a data-outline-link href="#%E6%A8%A1%E5%9D%97%E5%B8%83%E5%B1%80">模块布局</a></li><li data-level="3"><a data-outline-link href="#%E7%A4%BA%E4%BE%8B">示例</a></li><li data-level="2"><a data-outline-link href="#vitem-%E6%B3%95%E5%90%91%E6%8A%95%E5%BD%B1-%E5%B8%A6%E5%AE%BD%E4%BC%98%E5%85%88%E4%BA%8E-alu">VItem 法向投影：带宽优先于 ALU</a></li><li data-level="2"><a data-outline-link href="#%E7%BB%93%E6%9E%84%E5%AE%B9%E5%99%A8%E4%B8%8E%E5%BC%82%E6%9E%84%E5%85%83%E7%BB%84%E7%9A%84%E5%80%BC%E7%BA%A7%E6%8F%90%E5%8F%96">结构容器与异构元组的值级提取</a></li><li data-level="2"><a data-outline-link href="#%E6%B8%B2%E6%9F%93%E4%B8%8E%E8%BE%93%E5%87%BA%E4%BD%93%E7%B3%BB">渲染与输出体系</a></li><li data-level="3"><a data-outline-link href="#%E6%B8%B2%E6%9F%93-worker-api-%E5%85%AC%E5%BC%80">渲染 worker API 公开</a></li><li data-level="3"><a data-outline-link href="#%E8%BE%93%E5%87%BA%E5%90%8D%E6%A8%A1%E6%9D%BF">输出名模板</a></li><li data-level="3"><a data-outline-link href="#%E6%8C%89%E6%A8%A1%E5%9D%97%E4%B8%8E%E5%91%BD%E4%BB%A4%E5%88%92%E5%88%86-feature">按模块与命令划分 feature</a></li><li data-level="3"><a data-outline-link href="#examples-%E5%8D%95-target-%E4%B8%8E-rustdoc-%E5%AE%9E%E6%97%B6%E9%A2%84%E8%A7%88">examples 单 target 与 rustdoc 实时预览</a></li><li data-level="3"><a data-outline-link href="#coplanar-z-fighting-%E6%8C%89-scene-order-%E6%B7%B1%E5%BA%A6%E5%81%8F%E7%BD%AE">coplanar z-fighting 按 scene-order 深度偏置</a></li><li data-level="2"><a data-outline-link href="#cli-inspect-output-render-%E6%8B%86%E5%88%86%E4%B8%8E-agent-%E5%B7%A5%E4%BD%9C%E6%B5%81">CLI：inspect、output/render 拆分与 agent 工作流</a></li><li data-level="3"><a data-outline-link href="#%E5%87%BA%E5%8F%91%E7%82%B9-%E8%AE%A9-agent-%E8%87%AA%E4%B8%BB%E5%AE%8C%E6%88%90-%E5%86%99%E5%9C%BA%E6%99%AF-%E8%87%AA%E6%9F%A5-%E5%87%BA%E7%89%87">出发点：让 agent 自主完成&quot;写场景 → 自查 → 出片&quot;</a></li><li data-level="3"><a data-outline-link href="#%E5%85%B6%E4%BB%96">其他</a></li><li data-level="2"><a data-outline-link href="#%E7%B1%BB%E5%9E%8B%E5%8C%96%E5%8F%98%E6%8D%A2%E7%B3%BB%E7%BB%9F">类型化变换系统</a></li><li data-level="3"><a data-outline-link href="#%E5%8A%A8%E6%9C%BA-%E4%BB%8E%E6%95%A3%E8%90%BD%E7%9A%84%E5%8F%98%E6%8D%A2%E8%A1%8C%E4%B8%BA%E5%88%B0%E7%BB%9F%E4%B8%80%E6%A8%A1%E5%9E%8B">动机：从散落的变换行为到统一模型</a></li><li data-level="3"><a data-outline-link href="#transformed-t-g-%E4%B8%8E%E7%B1%BB%E5%9E%8B%E5%8C%96%E5%8F%98%E6%8D%A2%E7%BE%A4">Transformed&lt;T, G&gt; 与类型化变换群</a></li><li data-level="3"><a data-outline-link href="#%E8%AF%AD%E4%B9%89%E9%97%AD%E5%8C%85%E4%B8%8E-bake">语义闭包与 bake</a></li><li data-level="3"><a data-outline-link href="#%E8%A7%84%E8%8C%83%E5%B1%80%E9%83%A8%E5%8E%9F%E8%AF%AD-placement-lives-in-transformed-only">规范局部原语：placement lives in Transformed only</a></li><li data-level="3"><a data-outline-link href="#%E5%8F%98%E6%8D%A2%E8%B4%AF%E7%A9%BF%E6%A0%B8%E5%BF%83%E4%B8%8E%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF">变换贯穿核心与渲染管线</a></li><li data-level="3"><a data-outline-link href="#%E6%B3%95%E5%90%91%E9%87%8F%E7%9A%84%E4%BB%BF%E5%B0%84%E5%8F%98%E6%8D%A2">法向量的仿射变换</a></li><li data-level="2"><a data-outline-link href="#%E5%9C%BA%E6%99%AF%E5%9B%BE%E5%B1%82%E7%BA%A7%E4%B8%8E-gltf-%E5%AF%BC%E5%85%A5">场景图层级与 glTF 导入</a></li></ol></nav>
     </aside>
+    
     <footer class="book-footer"><span>Ranim Book</span><a href="#page-content">Back to top</a></footer>
   </div>
-  <script type="module" src="./components.js"></script>
+  <script type="module" src="../../_notist/pages/news/v0.3/README.js"></script>
 </body>
 </html>

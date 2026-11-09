@@ -1,3 +1,9 @@
+
+
+
+
+
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -17,8 +23,12 @@
       if (Number.isFinite(width) && width > 0) root.style.setProperty('--navigation-user-width', `${width}px`);
     } catch (_) {}
   </script>
-  <link rel="stylesheet" href="../../../_notist/theme/book.css"><link rel="stylesheet" href="../../../_notist/theme/status.css"><link rel="stylesheet" href="../../../_notist/theme/highlight.css"><link rel="stylesheet" href="../../../version-select.css">
-  <script src="../../../_notist/theme/book.js" defer></script><script src="../../../version-select.js" defer></script>
+  <link rel="stylesheet" href="../../../book.css">
+  <link rel="stylesheet" href="../../../status.css">
+  <link rel="stylesheet" href="../../../_notist/highlight.css">
+  <script src="../../../book.js" defer></script>
+  <link rel="stylesheet" href="../../../version-select.css">
+  <script src="../../../version-select.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#page-content">Skip to content</a>
@@ -34,142 +44,327 @@
   <div class="book-layout">
     <nav id="book-nav" class="book-navigation" aria-label="Contents">
       <div class="rail-heading"><p class="rail-label">Contents</p><button id="nav-close" class="text-button" type="button" aria-label="Close contents">Close</button></div>
-      <ul class="navigation-tree"><li class="nav-item">
-  <a href="../../../"><span class="nav-title">首页</span></a>
-</li>
+      <ul class="navigation-tree">
+
 
 <li class="nav-item">
-  <a href="../../../getting_started/"><span class="nav-title">Getting Started</span></a>
+  
+  
+<a href="../../.././"><span class="nav-title">首页</span></a>
+
+
+  
 </li>
 
-<li class="nav-item">
-  <a href="../../../project-entry/"><span class="nav-title">项目入口：场景库与跨平台宿主</span></a>
-</li>
+
 
 <li class="nav-item">
-  <a href="../../../packages/"><span class="nav-title">Ranim Packages</span></a>
+  
+  
+<a href="../../../getting_started/"><span class="nav-title">Getting Started</span></a>
+
+
+  
 </li>
 
+
+
 <li class="nav-item">
-  <a href="../../../cli/"><span class="nav-title">命令行入口</span></a>
+  
+  
+<a href="../../../project-entry/"><span class="nav-title">项目入口：场景库与跨平台宿主</span></a>
+
+
+  
 </li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../../../packages/"><span class="nav-title">Ranim Packages</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../../../cli/"><span class="nav-title">命令行入口</span></a>
+
+
+  
+</li>
+
+
 
 <li class="nav-part"><span role="heading" aria-level="2">理解 Ranim</span></li>
 
+
+
 <li class="nav-item">
-  <div class="nav-label"><a href="../"><span class="nav-title">核心概念</span></a>
+  
+  <div class="nav-label">
+<a href="../"><span class="nav-title">核心概念</span></a>
+
 </div>
   <details class="nav-branch" open>
     <summary class="nav-disclosure" aria-label="Toggle 核心概念"></summary>
-    <ul class="nav-children"><li class="nav-item">
-  <a href="../anim/"><span class="nav-title">动画系统</span></a>
-</li>
+    <ul class="nav-children">
 
 <li class="nav-item">
-  <a href="../extract/"><span class="nav-title">完整求值帧与渲染提取</span></a>
+  
+  
+<a href="../anim/"><span class="nav-title">动画系统</span></a>
+
+
+  
 </li>
 
+
+
 <li class="nav-item">
-  <a href="./" aria-current="page"><span class="nav-title">Transformed&lt;T&gt;</span></a>
+  
+  
+<a href="../extract/"><span class="nav-title">完整求值帧与渲染提取</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="./" aria-current="page"><span class="nav-title">Transformed&lt;T&gt;</span></a>
+
+
+  
 </li>
 
 </ul>
   </details>
+  
 </li>
 
+
+
 <li class="nav-item">
-  <div class="nav-label"><a href="../../rendering/"><span class="nav-title">渲染表示与物件插件</span></a>
+  
+  <div class="nav-label">
+<a href="../../rendering/"><span class="nav-title">渲染表示与物件插件</span></a>
+
 </div>
   <details class="nav-branch" open>
     <summary class="nav-disclosure" aria-label="Toggle 渲染表示与物件插件"></summary>
-    <ul class="nav-children"><li class="nav-item">
-  <a href="../../rendering/vitem/"><span class="nav-title">RenderVItem</span></a>
-</li>
+    <ul class="nav-children">
 
 <li class="nav-item">
-  <a href="../../rendering/mesh_item/"><span class="nav-title">RenderMeshItem</span></a>
+  
+  
+<a href="../../rendering/vitem/"><span class="nav-title">RenderVItem</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../../rendering/mesh_item/"><span class="nav-title">RenderMeshItem</span></a>
+
+
+  
 </li>
 
 </ul>
   </details>
+  
 </li>
+
+
 
 <li class="nav-part"><span role="heading" aria-level="2">Items</span></li>
 
+
+
 <li class="nav-item">
-  <div class="nav-label"><a href="../../../items/"><span class="nav-title">Items</span></a>
+  
+  <div class="nav-label">
+<a href="../../../items/"><span class="nav-title">Items</span></a>
+
 </div>
   <details class="nav-branch" open>
     <summary class="nav-disclosure" aria-label="Toggle Items"></summary>
-    <ul class="nav-children"><li class="nav-item">
-  <a href="../../../items/camera/"><span class="nav-title">CameraFrame</span></a>
-</li>
+    <ul class="nav-children">
 
 <li class="nav-item">
-  <div class="nav-label"><a href="../../../items/vitem/"><span class="nav-title">VItem 类</span></a>
+  
+  
+<a href="../../../items/camera/"><span class="nav-title">CameraFrame</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  <div class="nav-label">
+<a href="../../../items/vitem/"><span class="nav-title">VItem 类</span></a>
+
 </div>
   <details class="nav-branch" open>
     <summary class="nav-disclosure" aria-label="Toggle VItem 类"></summary>
-    <ul class="nav-children"><li class="nav-item">
-  <a href="../../../items/vitem/vitem/"><span class="nav-title">VItem</span></a>
-</li>
+    <ul class="nav-children">
 
 <li class="nav-item">
-  <a href="../../../items/vitem/geometry/"><span class="nav-title">几何构造器</span></a>
+  
+  
+<a href="../../../items/vitem/vitem/"><span class="nav-title">VItem</span></a>
+
+
+  
 </li>
 
-<li class="nav-item">
-  <a href="../../../items/vitem/svg/"><span class="nav-title">SvgItem</span></a>
-</li>
+
 
 <li class="nav-item">
-  <a href="../../../items/vitem/text/"><span class="nav-title">文字物件</span></a>
+  
+  
+<a href="../../../items/vitem/geometry/"><span class="nav-title">几何构造器</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../../../items/vitem/svg/"><span class="nav-title">SvgItem</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../../../items/vitem/text/"><span class="nav-title">文字物件</span></a>
+
+
+  
 </li>
 
 </ul>
   </details>
+  
 </li>
 
+
+
 <li class="nav-item">
-  <div class="nav-label"><a href="../../../items/mesh/"><span class="nav-title">MeshItem 类</span></a>
+  
+  <div class="nav-label">
+<a href="../../../items/mesh/"><span class="nav-title">MeshItem 类</span></a>
+
 </div>
   <details class="nav-branch" open>
     <summary class="nav-disclosure" aria-label="Toggle MeshItem 类"></summary>
-    <ul class="nav-children"><li class="nav-item">
-  <a href="../../../items/mesh/mesh_item/"><span class="nav-title">MeshItem</span></a>
-</li>
+    <ul class="nav-children">
 
 <li class="nav-item">
-  <a href="../../../items/mesh/surface/"><span class="nav-title">Surface</span></a>
+  
+  
+<a href="../../../items/mesh/mesh_item/"><span class="nav-title">MeshItem</span></a>
+
+
+  
 </li>
 
+
+
 <li class="nav-item">
-  <a href="../../../items/mesh/sphere/"><span class="nav-title">Sphere</span></a>
+  
+  
+<a href="../../../items/mesh/surface/"><span class="nav-title">Surface</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../../../items/mesh/sphere/"><span class="nav-title">Sphere</span></a>
+
+
+  
 </li>
 
 </ul>
   </details>
+  
 </li>
 
 </ul>
   </details>
+  
 </li>
+
 
 
 <li class="nav-separator" role="presentation"><hr></li>
 
+
+
 <li class="nav-part"><span role="heading" aria-level="2">News</span></li>
 
-<li class="nav-item">
-  <a href="../../../news/v0.1/"><span class="nav-title">v0.1</span></a>
-</li>
+
 
 <li class="nav-item">
-  <a href="../../../news/v0.2/"><span class="nav-title">v0.2</span></a>
+  
+  
+<a href="../../../news/v0.1/"><span class="nav-title">v0.1</span></a>
+
+
+  
 </li>
 
+
+
 <li class="nav-item">
-  <a href="../../../news/v0.3/"><span class="nav-title">v0.3</span></a>
+  
+  
+<a href="../../../news/v0.2/"><span class="nav-title">v0.2</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../../../news/v0.3/"><span class="nav-title">v0.3</span></a>
+
+
+  
 </li>
 
 </ul>
@@ -227,10 +422,12 @@
     <div id="nav-resize" class="navigation-resize" role="separator" tabindex="0" aria-label="Resize contents" aria-orientation="vertical" aria-controls="book-nav" title="Drag or use arrow keys to resize contents; double-click or press Home to reset"></div>
     <main id="page-content" tabindex="-1">
       <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="../">核心概念</a></li><li><span aria-current="page">Transformed&lt;T&gt;</span></li></ol></nav>
+      
       <details class="mobile-outline">
         <summary>On this page <span class="outline-state" aria-hidden="true"><span class="outline-show">Show</span><span class="outline-hide">Hide</span></span></summary>
         <ol class="outline-list"><li data-level="1"><a data-outline-link href="#transformed-t-g-%E5%8F%98%E6%8D%A2%E8%A1%A8%E7%A4%BA-%E7%BB%84%E5%90%88%E4%B8%8E%E7%89%A9%E4%BB%B6%E8%AF%AD%E4%B9%89">Transformed&lt;T, G&gt;：变换表示、组合与物件语义</a></li><li data-level="2"><a data-outline-link href="#1-%E5%8F%98%E6%8D%A2%E7%B1%BB%E5%9E%8B%E4%B8%8E%E4%BB%BF%E5%B0%84%E7%AB%AF%E7%82%B9">1. 变换类型与仿射端点</a></li><li data-level="2"><a data-outline-link href="#2-applytransform-g-%E7%89%A9%E4%BB%B6%E8%83%BD%E7%9B%B4%E6%8E%A5%E5%90%B8%E6%94%B6%E4%BB%80%E4%B9%88">2. ApplyTransform&lt;G&gt;：物件能直接吸收什么</a></li><li data-level="2"><a data-outline-link href="#3-%E6%9E%84%E9%80%A0-wrapper-%E5%8F%82%E6%95%B0%E5%B0%B1%E6%98%AF%E7%B2%BE%E7%A1%AE%E7%9A%84-g">3. 构造 wrapper：参数就是精确的 G</a></li><li data-level="2"><a data-outline-link href="#4-outer-%E4%B8%8E-inner-%E7%BB%84%E5%90%88">4. outer 与 inner 组合</a></li><li data-level="3"><a data-outline-link href="#4-1-%E4%B8%8D%E8%87%AA%E5%8A%A8-widening-%E4%B9%9F%E4%B8%8D%E8%AE%A1%E7%AE%97-join">4.1 不自动 widening，也不计算 join</a></li><li data-level="3"><a data-outline-link href="#4-2-%E5%B5%8C%E5%A5%97-wrapper">4.2 嵌套 wrapper</a></li><li data-level="2"><a data-outline-link href="#5-bake-%E6%98%AF%E7%BC%96%E8%AF%91%E6%9C%9F%E8%83%BD%E5%8A%9B">5. bake 是编译期能力</a></li><li data-level="2"><a data-outline-link href="#6-anchor-%E6%B8%B2%E6%9F%93%E6%8F%90%E5%8F%96-aabb-%E4%B8%8E%E5%87%A0%E4%BD%95%E8%BE%B9%E7%95%8C">6. anchor、渲染提取、Aabb 与几何边界</a></li><li data-level="3"><a data-outline-link href="#6-1-local-primitive-%E4%B8%80%E8%88%AC-local-data-%E4%B8%8E-placement">6.1 local primitive、一般 local data 与 placement</a></li><li data-level="2"><a data-outline-link href="#7-%E6%8F%92%E5%80%BC">7. 插值</a></li><li data-level="3"><a data-outline-link href="#7-1-wrapper-%E6%8F%92%E5%80%BC%E4%B8%8E-bake-%E6%8F%92%E5%80%BC%E6%98%AF%E4%B8%A4%E7%A7%8D%E9%A2%84%E6%9C%9F%E8%A1%8C%E4%B8%BA">7.1 wrapper 插值与 bake 插值是两种预期行为</a></li><li data-level="2"><a data-outline-link href="#8-rectangle-scale_axes-%E4%B8%8E-wrapper-%E7%BB%84%E5%90%88">8. Rectangle::scale_axes 与 wrapper 组合</a></li><li data-level="2"><a data-outline-link href="#9-%E5%87%A0%E4%BD%95%E8%A7%86%E8%A7%92">9. 几何视角</a></li></ol>
       </details>
+      
       <article class="prose"><section><h1 id="transformed-t-g-变换表示-组合与物件语义"><code>Transformed&lt;T, G&gt;</code>：变换表示、组合与物件语义</h1><blockquote data-notist-kind="quote"><p>[!caution]ai 生成，可能叙事逻辑和表述并不是很好，仅供参考。</p></blockquote><p>ranim 把“物件自身的数据”和“附加在物件外的变换”分开表达：</p><pre><code class="language-rust"><span class="z-source z-rust"><span class="z-meta z-struct z-rust"><span class="z-storage z-modifier z-rust">pub</span> <span class="z-storage z-type z-struct z-rust">struct</span> </span><span class="z-meta z-struct z-rust"><span class="z-meta z-generic z-rust"><span class="z-entity z-name z-struct z-rust">Transformed</span><span class="z-meta z-generic z-rust"><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span>T, G<span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span></span></span><span class="z-meta z-struct z-rust"> </span><span class="z-meta z-struct z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
     <span class="z-storage z-modifier z-rust">pub</span> <span class="z-variable z-other z-member z-rust">inner</span><span class="z-punctuation z-separator z-type z-rust">:</span> T,
     <span class="z-storage z-modifier z-rust">pub</span> <span class="z-variable z-other z-member z-rust">transform</span><span class="z-punctuation z-separator z-type z-rust">:</span> G,
@@ -305,17 +502,20 @@ wrapped<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="
 wrapped<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">compose_outer</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>Diag<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-support z-function z-rust">dvec3</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-constant z-numeric z-float z-rust">2.</span><span class="z-constant z-numeric z-float z-rust">0</span><span class="z-punctuation z-separator z-rust">,</span> <span class="z-constant z-numeric z-float z-rust">0.</span><span class="z-constant z-numeric z-float z-rust">5</span><span class="z-punctuation z-separator z-rust">,</span> <span class="z-constant z-numeric z-float z-rust">1.</span><span class="z-constant z-numeric z-float z-rust">0</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
 <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> inner 不变，左乘 wrapper.transform
 </span></span></code></pre><p>不要把 <code>scale_axes</code> 理解为矩阵乘法的别名：前者维护 <code>Rectangle</code> 的正交参数化表示，后两者维护 wrapper 的组合顺序。</p></section><section><h2 id="9-几何视角">9. 几何视角</h2><p>Klein 的 Erlangen 纲领把一种几何理解为“研究某个变换群下的不变量”。在ranim 中：</p><ul><li><p><code>G</code> 描述允许组合的变换；</p></li><li><p><code>ApplyTransform&lt;G&gt;</code> 描述物件表示对这个群是否闭包；</p></li><li><p><code>Transformed&lt;T, G&gt;</code> 把外部组合与 <code>T</code> 的参数化语义分离；</p></li><li><p><code>bake</code> 在编译期重新要求闭包；</p></li><li><p>求值帧保留完整 wrapper，值级 <code>Extract</code> 在渲染侧的仿射边界组合变换并生成视觉数据。</p></li></ul><p>这个分层让变换的数学顺序、Rust 类型与物件几何语义保持一致。</p></section></section></article>
+      
       <nav class="adjacent" aria-label="Page navigation">
         <a rel="prev" href="../extract/" class="adjacent-link previous"><span class="adjacent-label">Previous</span><span class="adjacent-title">完整求值帧与渲染提取</span></a>
         <a rel="next" href="../../rendering/" class="adjacent-link next"><span class="adjacent-label">Next</span><span class="adjacent-title">渲染表示与物件插件</span></a>
       </nav>
       
     </main>
+    
     <aside class="page-outline" aria-label="On this page">
       <nav id="page-outline" aria-label="Page outline"><p class="rail-label">On this page</p><ol class="outline-list"><li data-level="1"><a data-outline-link href="#transformed-t-g-%E5%8F%98%E6%8D%A2%E8%A1%A8%E7%A4%BA-%E7%BB%84%E5%90%88%E4%B8%8E%E7%89%A9%E4%BB%B6%E8%AF%AD%E4%B9%89">Transformed&lt;T, G&gt;：变换表示、组合与物件语义</a></li><li data-level="2"><a data-outline-link href="#1-%E5%8F%98%E6%8D%A2%E7%B1%BB%E5%9E%8B%E4%B8%8E%E4%BB%BF%E5%B0%84%E7%AB%AF%E7%82%B9">1. 变换类型与仿射端点</a></li><li data-level="2"><a data-outline-link href="#2-applytransform-g-%E7%89%A9%E4%BB%B6%E8%83%BD%E7%9B%B4%E6%8E%A5%E5%90%B8%E6%94%B6%E4%BB%80%E4%B9%88">2. ApplyTransform&lt;G&gt;：物件能直接吸收什么</a></li><li data-level="2"><a data-outline-link href="#3-%E6%9E%84%E9%80%A0-wrapper-%E5%8F%82%E6%95%B0%E5%B0%B1%E6%98%AF%E7%B2%BE%E7%A1%AE%E7%9A%84-g">3. 构造 wrapper：参数就是精确的 G</a></li><li data-level="2"><a data-outline-link href="#4-outer-%E4%B8%8E-inner-%E7%BB%84%E5%90%88">4. outer 与 inner 组合</a></li><li data-level="3"><a data-outline-link href="#4-1-%E4%B8%8D%E8%87%AA%E5%8A%A8-widening-%E4%B9%9F%E4%B8%8D%E8%AE%A1%E7%AE%97-join">4.1 不自动 widening，也不计算 join</a></li><li data-level="3"><a data-outline-link href="#4-2-%E5%B5%8C%E5%A5%97-wrapper">4.2 嵌套 wrapper</a></li><li data-level="2"><a data-outline-link href="#5-bake-%E6%98%AF%E7%BC%96%E8%AF%91%E6%9C%9F%E8%83%BD%E5%8A%9B">5. bake 是编译期能力</a></li><li data-level="2"><a data-outline-link href="#6-anchor-%E6%B8%B2%E6%9F%93%E6%8F%90%E5%8F%96-aabb-%E4%B8%8E%E5%87%A0%E4%BD%95%E8%BE%B9%E7%95%8C">6. anchor、渲染提取、Aabb 与几何边界</a></li><li data-level="3"><a data-outline-link href="#6-1-local-primitive-%E4%B8%80%E8%88%AC-local-data-%E4%B8%8E-placement">6.1 local primitive、一般 local data 与 placement</a></li><li data-level="2"><a data-outline-link href="#7-%E6%8F%92%E5%80%BC">7. 插值</a></li><li data-level="3"><a data-outline-link href="#7-1-wrapper-%E6%8F%92%E5%80%BC%E4%B8%8E-bake-%E6%8F%92%E5%80%BC%E6%98%AF%E4%B8%A4%E7%A7%8D%E9%A2%84%E6%9C%9F%E8%A1%8C%E4%B8%BA">7.1 wrapper 插值与 bake 插值是两种预期行为</a></li><li data-level="2"><a data-outline-link href="#8-rectangle-scale_axes-%E4%B8%8E-wrapper-%E7%BB%84%E5%90%88">8. Rectangle::scale_axes 与 wrapper 组合</a></li><li data-level="2"><a data-outline-link href="#9-%E5%87%A0%E4%BD%95%E8%A7%86%E8%A7%92">9. 几何视角</a></li></ol></nav>
     </aside>
+    
     <footer class="book-footer"><span>Ranim Book</span><a href="#page-content">Back to top</a></footer>
   </div>
-  <script type="module" src="./components.js"></script>
+  <script type="module" src="../../../_notist/pages/understand/core/transformed.js"></script>
 </body>
 </html>

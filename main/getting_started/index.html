@@ -1,3 +1,9 @@
+
+
+
+
+
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -17,8 +23,12 @@
       if (Number.isFinite(width) && width > 0) root.style.setProperty('--navigation-user-width', `${width}px`);
     } catch (_) {}
   </script>
-  <link rel="stylesheet" href="../_notist/theme/book.css"><link rel="stylesheet" href="../_notist/theme/status.css"><link rel="stylesheet" href="../_notist/theme/highlight.css"><link rel="stylesheet" href="../version-select.css">
-  <script src="../_notist/theme/book.js" defer></script><script src="../version-select.js" defer></script>
+  <link rel="stylesheet" href="../book.css">
+  <link rel="stylesheet" href="../status.css">
+  <link rel="stylesheet" href="../_notist/highlight.css">
+  <script src="../book.js" defer></script>
+  <link rel="stylesheet" href="../version-select.css">
+  <script src="../version-select.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#page-content">Skip to content</a>
@@ -34,142 +44,327 @@
   <div class="book-layout">
     <nav id="book-nav" class="book-navigation" aria-label="Contents">
       <div class="rail-heading"><p class="rail-label">Contents</p><button id="nav-close" class="text-button" type="button" aria-label="Close contents">Close</button></div>
-      <ul class="navigation-tree"><li class="nav-item">
-  <a href="../"><span class="nav-title">首页</span></a>
-</li>
+      <ul class="navigation-tree">
+
 
 <li class="nav-item">
-  <a href="./" aria-current="page"><span class="nav-title">Getting Started</span></a>
+  
+  
+<a href=".././"><span class="nav-title">首页</span></a>
+
+
+  
 </li>
 
-<li class="nav-item">
-  <a href="../project-entry/"><span class="nav-title">项目入口：场景库与跨平台宿主</span></a>
-</li>
+
 
 <li class="nav-item">
-  <a href="../packages/"><span class="nav-title">Ranim Packages</span></a>
+  
+  
+<a href="./" aria-current="page"><span class="nav-title">Getting Started</span></a>
+
+
+  
 </li>
 
+
+
 <li class="nav-item">
-  <a href="../cli/"><span class="nav-title">命令行入口</span></a>
+  
+  
+<a href="../project-entry/"><span class="nav-title">项目入口：场景库与跨平台宿主</span></a>
+
+
+  
 </li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../packages/"><span class="nav-title">Ranim Packages</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../cli/"><span class="nav-title">命令行入口</span></a>
+
+
+  
+</li>
+
+
 
 <li class="nav-part"><span role="heading" aria-level="2">理解 Ranim</span></li>
 
+
+
 <li class="nav-item">
-  <div class="nav-label"><a href="../understand/core/"><span class="nav-title">核心概念</span></a>
+  
+  <div class="nav-label">
+<a href="../understand/core/"><span class="nav-title">核心概念</span></a>
+
 </div>
   <details class="nav-branch" open>
     <summary class="nav-disclosure" aria-label="Toggle 核心概念"></summary>
-    <ul class="nav-children"><li class="nav-item">
-  <a href="../understand/core/anim/"><span class="nav-title">动画系统</span></a>
-</li>
+    <ul class="nav-children">
 
 <li class="nav-item">
-  <a href="../understand/core/extract/"><span class="nav-title">完整求值帧与渲染提取</span></a>
+  
+  
+<a href="../understand/core/anim/"><span class="nav-title">动画系统</span></a>
+
+
+  
 </li>
 
+
+
 <li class="nav-item">
-  <a href="../understand/core/transformed/"><span class="nav-title">Transformed&lt;T&gt;</span></a>
+  
+  
+<a href="../understand/core/extract/"><span class="nav-title">完整求值帧与渲染提取</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../understand/core/transformed/"><span class="nav-title">Transformed&lt;T&gt;</span></a>
+
+
+  
 </li>
 
 </ul>
   </details>
+  
 </li>
 
+
+
 <li class="nav-item">
-  <div class="nav-label"><a href="../understand/rendering/"><span class="nav-title">渲染表示与物件插件</span></a>
+  
+  <div class="nav-label">
+<a href="../understand/rendering/"><span class="nav-title">渲染表示与物件插件</span></a>
+
 </div>
   <details class="nav-branch" open>
     <summary class="nav-disclosure" aria-label="Toggle 渲染表示与物件插件"></summary>
-    <ul class="nav-children"><li class="nav-item">
-  <a href="../understand/rendering/vitem/"><span class="nav-title">RenderVItem</span></a>
-</li>
+    <ul class="nav-children">
 
 <li class="nav-item">
-  <a href="../understand/rendering/mesh_item/"><span class="nav-title">RenderMeshItem</span></a>
+  
+  
+<a href="../understand/rendering/vitem/"><span class="nav-title">RenderVItem</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../understand/rendering/mesh_item/"><span class="nav-title">RenderMeshItem</span></a>
+
+
+  
 </li>
 
 </ul>
   </details>
+  
 </li>
+
+
 
 <li class="nav-part"><span role="heading" aria-level="2">Items</span></li>
 
+
+
 <li class="nav-item">
-  <div class="nav-label"><a href="../items/"><span class="nav-title">Items</span></a>
+  
+  <div class="nav-label">
+<a href="../items/"><span class="nav-title">Items</span></a>
+
 </div>
   <details class="nav-branch" open>
     <summary class="nav-disclosure" aria-label="Toggle Items"></summary>
-    <ul class="nav-children"><li class="nav-item">
-  <a href="../items/camera/"><span class="nav-title">CameraFrame</span></a>
-</li>
+    <ul class="nav-children">
 
 <li class="nav-item">
-  <div class="nav-label"><a href="../items/vitem/"><span class="nav-title">VItem 类</span></a>
+  
+  
+<a href="../items/camera/"><span class="nav-title">CameraFrame</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  <div class="nav-label">
+<a href="../items/vitem/"><span class="nav-title">VItem 类</span></a>
+
 </div>
   <details class="nav-branch" open>
     <summary class="nav-disclosure" aria-label="Toggle VItem 类"></summary>
-    <ul class="nav-children"><li class="nav-item">
-  <a href="../items/vitem/vitem/"><span class="nav-title">VItem</span></a>
-</li>
+    <ul class="nav-children">
 
 <li class="nav-item">
-  <a href="../items/vitem/geometry/"><span class="nav-title">几何构造器</span></a>
+  
+  
+<a href="../items/vitem/vitem/"><span class="nav-title">VItem</span></a>
+
+
+  
 </li>
 
-<li class="nav-item">
-  <a href="../items/vitem/svg/"><span class="nav-title">SvgItem</span></a>
-</li>
+
 
 <li class="nav-item">
-  <a href="../items/vitem/text/"><span class="nav-title">文字物件</span></a>
+  
+  
+<a href="../items/vitem/geometry/"><span class="nav-title">几何构造器</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../items/vitem/svg/"><span class="nav-title">SvgItem</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../items/vitem/text/"><span class="nav-title">文字物件</span></a>
+
+
+  
 </li>
 
 </ul>
   </details>
+  
 </li>
 
+
+
 <li class="nav-item">
-  <div class="nav-label"><a href="../items/mesh/"><span class="nav-title">MeshItem 类</span></a>
+  
+  <div class="nav-label">
+<a href="../items/mesh/"><span class="nav-title">MeshItem 类</span></a>
+
 </div>
   <details class="nav-branch" open>
     <summary class="nav-disclosure" aria-label="Toggle MeshItem 类"></summary>
-    <ul class="nav-children"><li class="nav-item">
-  <a href="../items/mesh/mesh_item/"><span class="nav-title">MeshItem</span></a>
-</li>
+    <ul class="nav-children">
 
 <li class="nav-item">
-  <a href="../items/mesh/surface/"><span class="nav-title">Surface</span></a>
+  
+  
+<a href="../items/mesh/mesh_item/"><span class="nav-title">MeshItem</span></a>
+
+
+  
 </li>
 
+
+
 <li class="nav-item">
-  <a href="../items/mesh/sphere/"><span class="nav-title">Sphere</span></a>
+  
+  
+<a href="../items/mesh/surface/"><span class="nav-title">Surface</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../items/mesh/sphere/"><span class="nav-title">Sphere</span></a>
+
+
+  
 </li>
 
 </ul>
   </details>
+  
 </li>
 
 </ul>
   </details>
+  
 </li>
+
 
 
 <li class="nav-separator" role="presentation"><hr></li>
 
+
+
 <li class="nav-part"><span role="heading" aria-level="2">News</span></li>
 
-<li class="nav-item">
-  <a href="../news/v0.1/"><span class="nav-title">v0.1</span></a>
-</li>
+
 
 <li class="nav-item">
-  <a href="../news/v0.2/"><span class="nav-title">v0.2</span></a>
+  
+  
+<a href="../news/v0.1/"><span class="nav-title">v0.1</span></a>
+
+
+  
 </li>
 
+
+
 <li class="nav-item">
-  <a href="../news/v0.3/"><span class="nav-title">v0.3</span></a>
+  
+  
+<a href="../news/v0.2/"><span class="nav-title">v0.2</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../news/v0.3/"><span class="nav-title">v0.3</span></a>
+
+
+  
 </li>
 
 </ul>
@@ -227,10 +422,12 @@
     <div id="nav-resize" class="navigation-resize" role="separator" tabindex="0" aria-label="Resize contents" aria-orientation="vertical" aria-controls="book-nav" title="Drag or use arrow keys to resize contents; double-click or press Home to reset"></div>
     <main id="page-content" tabindex="-1">
       <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><span aria-current="page">Getting Started</span></li></ol></nav>
+      
       <details class="mobile-outline">
         <summary>On this page <span class="outline-state" aria-hidden="true"><span class="outline-show">Show</span><span class="outline-hide">Hide</span></span></summary>
         <ol class="outline-list"><li data-level="1"><a data-outline-link href="#getting-started">Getting Started</a></li><li data-level="2"><a data-outline-link href="#%E5%87%86%E5%A4%87%E9%A1%B9%E7%9B%AE">准备项目</a></li><li data-level="3"><a data-outline-link href="#prelude-%E8%A6%86%E7%9B%96%E4%BB%80%E4%B9%88">Prelude 覆盖什么</a></li><li data-level="2"><a data-outline-link href="#%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%9C%BA%E6%99%AF">第一个场景</a></li><li data-level="3"><a data-outline-link href="#%E7%94%A8-plugin-%E7%BB%84%E7%BB%87%E9%A1%B9%E7%9B%AE-%E5%8F%AF%E9%80%89">用 Plugin 组织项目（可选）</a></li><li data-level="3"><a data-outline-link href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B8%B2%E6%9F%93%E9%85%8D%E7%BD%AE-%E5%8F%AF%E9%80%89">自定义渲染配置（可选）</a></li><li data-level="2"><a data-outline-link href="#scene-%E7%9A%84%E6%A0%B9%E6%98%AF%E5%B9%B6%E8%A1%8C-stack">Scene 的根是并行 Stack</a></li><li data-level="2"><a data-outline-link href="#%E4%BD%BF%E7%94%A8-animsequence">使用 AnimSequence</a></li><li data-level="3"><a data-outline-link href="#hold-%E4%B8%8E-forward">hold 与 forward</a></li><li data-level="3"><a data-outline-link href="#show-%E4%B8%8E-hide">show 与 hide</a></li><li data-level="2"><a data-outline-link href="#%E5%B9%B6%E8%A1%8C%E7%BB%84%E5%90%88">并行组合</a></li><li data-level="2"><a data-outline-link href="#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E4%B8%8E%E5%8A%A8%E7%94%BB%E6%89%A9%E5%B1%95-trait">类型转换与动画扩展 trait</a></li><li data-level="2"><a data-outline-link href="#scene-%E4%B8%8E-output-%E5%B1%9E%E6%80%A7">Scene 与 Output 属性</a></li><li data-level="2"><a data-outline-link href="#%E9%A2%84%E8%A7%88%E4%B8%8E%E6%B8%B2%E6%9F%93">预览与渲染</a></li><li data-level="3"><a data-outline-link href="#wasm-%E9%A2%84%E8%A7%88%E5%AE%BF%E4%B8%BB">WASM 预览宿主</a></li><li data-level="3"><a data-outline-link href="#%E5%91%BD%E4%BB%A4%E8%A1%8C-%E9%A2%84%E8%A7%88%E4%B8%8E%E6%B8%B2%E6%9F%93">命令行：预览与渲染</a></li></ol>
       </details>
+      
       <article class="prose"><section><h1 id="getting-started">Getting Started</h1><blockquote data-notist-kind="quote"><p>[!caution]本书绝大多数内容目前均由 ai 生成，可能叙事逻辑和表述并不是很好，仅供参考。</p></blockquote><p>Ranim 的场景仍由一个 <code>fn(&amp;mut RanimScene)</code> 函数构造，只负责定义动画，可以写在 <code>src/lib.rs</code>、普通模块或独立的库 crate 中；<strong>不要求把场景搬进二进制</strong>。变化在运行入口：宿主二进制用 <code>App</code> 显式注册场景与项目配置，<code>app.build()</code> 定稿后，native 下交给 <code>run_cli</code>，WASM 下包装为 <code>WasmApp</code>，通过导出的 <code>app()</code> 供 JavaScript 使用。<code>Plugin</code> 只是复用注册和配置的可选工具，并不替代场景函数。</p><p>本章介绍场景的编写。完整的 lib / bin 布局、两种平台入口和构建命令见<a href="../project-entry/">项目入口：场景库与跨平台宿主</a>。</p><section><h2 id="准备项目">准备项目</h2><p><code>Cargo.toml</code> 只需要 <code>ranim</code> 依赖：</p><pre><code class="language-toml"><span class="z-source z-toml"><span class="z-punctuation z-definition z-table z-begin z-toml">[</span><span class="z-meta z-tag z-table z-toml"><span class="z-entity z-name z-table z-toml">dependencies</span></span><span class="z-punctuation z-definition z-table z-end z-toml">]</span>
 <span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">ranim</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-string z-quoted z-double z-basic z-toml"><span class="z-punctuation z-definition z-string z-begin z-toml">&quot;</span>...<span class="z-punctuation z-definition z-string z-end z-toml">&quot;</span></span>
 </span></code></pre><p>默认启用 <code>anims</code>、<code>items</code>、<code>cmd-preview</code>；<code>cmd-preview → cmd-render → render</code>。只需原生导出时，设置 <code>default-features = false</code> 并开启 <code>anims,cmd-render</code>。<code>render</code> 本身只提供渲染器和 WASM 宿主，不包含内置物件或原生命令。例如包名为 <code>my-animation</code>，场景定义在 <code>src/lib.rs</code> 时，native 的<code>src/main.rs</code> 从库中导入并注册场景，<code>build()</code> 定稿后交给 <code>run_cli</code>：</p><pre><code class="language-rust"><span class="z-source z-rust"><span class="z-keyword z-other z-rust">use</span> <span class="z-meta z-path z-rust">ranim<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">prelude<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-keyword z-operator z-arithmetic z-rust">*</span><span class="z-punctuation z-terminator z-rust">;</span>
@@ -430,15 +627,18 @@ app<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-su
 </span></code></pre><p><code>tree</code> 的 Scene 名称在只有一个 Scene 时可以省略；<code>frame</code> 必须指定 Scene 名称，<code>--at</code> 为采样时间（秒）。需要完整几何数据时给 <code>frame</code> 加 <code>--verbose</code>，机器可读输出加 <code>--format json</code>。</p><p><code>preview</code> 可以接收一个可选 Scene 名称；<code>output</code> 可以接收零个或多个 Scene 名称，并渲染它们声明的所有 <code>#[output(...)]</code>；<code>render</code> 接收恰好一个 Scene 名称，使用默认输出设置（<code>1920x1080</code>、60 fps、mp4）做一次临时渲染，不读取 <code>#[output(...)]</code>。完整说明见<a href="../cli/">命令行入口</a>。</p><p>在本仓库中运行示例：</p><pre><code class="language-bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> run<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>example</span> getting_started0<span class="z-keyword z-operator z-end-of-options z-shell"> --</span></span><span class="z-meta z-function-call z-arguments z-shell"> preview</span>
 <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> run<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>example</span> getting_started0<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>no-default-features</span><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>features</span> anims,cmd-render<span class="z-keyword z-operator z-end-of-options z-shell"> --</span></span><span class="z-meta z-function-call z-arguments z-shell"> output</span>
 </span></code></pre><p>带 <code>required-features</code>（如 <code>typst</code>、<code>gltf</code>）的示例需要同时开启对应 feature。</p></section></section></section></article>
+      
       <nav class="adjacent" aria-label="Page navigation">
         <a rel="prev" href="../" class="adjacent-link previous"><span class="adjacent-label">Previous</span><span class="adjacent-title">Ranim Book</span></a>
         <a rel="next" href="../project-entry/" class="adjacent-link next"><span class="adjacent-label">Next</span><span class="adjacent-title">项目入口：场景库与跨平台宿主</span></a>
       </nav>
       
     </main>
+    
     <aside class="page-outline" aria-label="On this page">
       <nav id="page-outline" aria-label="Page outline"><p class="rail-label">On this page</p><ol class="outline-list"><li data-level="1"><a data-outline-link href="#getting-started">Getting Started</a></li><li data-level="2"><a data-outline-link href="#%E5%87%86%E5%A4%87%E9%A1%B9%E7%9B%AE">准备项目</a></li><li data-level="3"><a data-outline-link href="#prelude-%E8%A6%86%E7%9B%96%E4%BB%80%E4%B9%88">Prelude 覆盖什么</a></li><li data-level="2"><a data-outline-link href="#%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%9C%BA%E6%99%AF">第一个场景</a></li><li data-level="3"><a data-outline-link href="#%E7%94%A8-plugin-%E7%BB%84%E7%BB%87%E9%A1%B9%E7%9B%AE-%E5%8F%AF%E9%80%89">用 Plugin 组织项目（可选）</a></li><li data-level="3"><a data-outline-link href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B8%B2%E6%9F%93%E9%85%8D%E7%BD%AE-%E5%8F%AF%E9%80%89">自定义渲染配置（可选）</a></li><li data-level="2"><a data-outline-link href="#scene-%E7%9A%84%E6%A0%B9%E6%98%AF%E5%B9%B6%E8%A1%8C-stack">Scene 的根是并行 Stack</a></li><li data-level="2"><a data-outline-link href="#%E4%BD%BF%E7%94%A8-animsequence">使用 AnimSequence</a></li><li data-level="3"><a data-outline-link href="#hold-%E4%B8%8E-forward">hold 与 forward</a></li><li data-level="3"><a data-outline-link href="#show-%E4%B8%8E-hide">show 与 hide</a></li><li data-level="2"><a data-outline-link href="#%E5%B9%B6%E8%A1%8C%E7%BB%84%E5%90%88">并行组合</a></li><li data-level="2"><a data-outline-link href="#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E4%B8%8E%E5%8A%A8%E7%94%BB%E6%89%A9%E5%B1%95-trait">类型转换与动画扩展 trait</a></li><li data-level="2"><a data-outline-link href="#scene-%E4%B8%8E-output-%E5%B1%9E%E6%80%A7">Scene 与 Output 属性</a></li><li data-level="2"><a data-outline-link href="#%E9%A2%84%E8%A7%88%E4%B8%8E%E6%B8%B2%E6%9F%93">预览与渲染</a></li><li data-level="3"><a data-outline-link href="#wasm-%E9%A2%84%E8%A7%88%E5%AE%BF%E4%B8%BB">WASM 预览宿主</a></li><li data-level="3"><a data-outline-link href="#%E5%91%BD%E4%BB%A4%E8%A1%8C-%E9%A2%84%E8%A7%88%E4%B8%8E%E6%B8%B2%E6%9F%93">命令行：预览与渲染</a></li></ol></nav>
     </aside>
+    
     <footer class="book-footer"><span>Ranim Book</span><a href="#page-content">Back to top</a></footer>
   </div>
   

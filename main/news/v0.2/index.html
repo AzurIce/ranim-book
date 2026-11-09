@@ -1,3 +1,9 @@
+
+
+
+
+
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -17,8 +23,12 @@
       if (Number.isFinite(width) && width > 0) root.style.setProperty('--navigation-user-width', `${width}px`);
     } catch (_) {}
   </script>
-  <link rel="stylesheet" href="../../_notist/theme/book.css"><link rel="stylesheet" href="../../_notist/theme/status.css"><link rel="stylesheet" href="../../_notist/theme/highlight.css"><link rel="stylesheet" href="../../version-select.css">
-  <script src="../../_notist/theme/book.js" defer></script><script src="../../version-select.js" defer></script>
+  <link rel="stylesheet" href="../../book.css">
+  <link rel="stylesheet" href="../../status.css">
+  <link rel="stylesheet" href="../../_notist/highlight.css">
+  <script src="../../book.js" defer></script>
+  <link rel="stylesheet" href="../../version-select.css">
+  <script src="../../version-select.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#page-content">Skip to content</a>
@@ -34,142 +44,327 @@
   <div class="book-layout">
     <nav id="book-nav" class="book-navigation" aria-label="Contents">
       <div class="rail-heading"><p class="rail-label">Contents</p><button id="nav-close" class="text-button" type="button" aria-label="Close contents">Close</button></div>
-      <ul class="navigation-tree"><li class="nav-item">
-  <a href="../../"><span class="nav-title">首页</span></a>
-</li>
+      <ul class="navigation-tree">
+
 
 <li class="nav-item">
-  <a href="../../getting_started/"><span class="nav-title">Getting Started</span></a>
+  
+  
+<a href="../.././"><span class="nav-title">首页</span></a>
+
+
+  
 </li>
 
-<li class="nav-item">
-  <a href="../../project-entry/"><span class="nav-title">项目入口：场景库与跨平台宿主</span></a>
-</li>
+
 
 <li class="nav-item">
-  <a href="../../packages/"><span class="nav-title">Ranim Packages</span></a>
+  
+  
+<a href="../../getting_started/"><span class="nav-title">Getting Started</span></a>
+
+
+  
 </li>
 
+
+
 <li class="nav-item">
-  <a href="../../cli/"><span class="nav-title">命令行入口</span></a>
+  
+  
+<a href="../../project-entry/"><span class="nav-title">项目入口：场景库与跨平台宿主</span></a>
+
+
+  
 </li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../../packages/"><span class="nav-title">Ranim Packages</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../../cli/"><span class="nav-title">命令行入口</span></a>
+
+
+  
+</li>
+
+
 
 <li class="nav-part"><span role="heading" aria-level="2">理解 Ranim</span></li>
 
+
+
 <li class="nav-item">
-  <div class="nav-label"><a href="../../understand/core/"><span class="nav-title">核心概念</span></a>
+  
+  <div class="nav-label">
+<a href="../../understand/core/"><span class="nav-title">核心概念</span></a>
+
 </div>
   <details class="nav-branch" open>
     <summary class="nav-disclosure" aria-label="Toggle 核心概念"></summary>
-    <ul class="nav-children"><li class="nav-item">
-  <a href="../../understand/core/anim/"><span class="nav-title">动画系统</span></a>
-</li>
+    <ul class="nav-children">
 
 <li class="nav-item">
-  <a href="../../understand/core/extract/"><span class="nav-title">完整求值帧与渲染提取</span></a>
+  
+  
+<a href="../../understand/core/anim/"><span class="nav-title">动画系统</span></a>
+
+
+  
 </li>
 
+
+
 <li class="nav-item">
-  <a href="../../understand/core/transformed/"><span class="nav-title">Transformed&lt;T&gt;</span></a>
+  
+  
+<a href="../../understand/core/extract/"><span class="nav-title">完整求值帧与渲染提取</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../../understand/core/transformed/"><span class="nav-title">Transformed&lt;T&gt;</span></a>
+
+
+  
 </li>
 
 </ul>
   </details>
+  
 </li>
 
+
+
 <li class="nav-item">
-  <div class="nav-label"><a href="../../understand/rendering/"><span class="nav-title">渲染表示与物件插件</span></a>
+  
+  <div class="nav-label">
+<a href="../../understand/rendering/"><span class="nav-title">渲染表示与物件插件</span></a>
+
 </div>
   <details class="nav-branch" open>
     <summary class="nav-disclosure" aria-label="Toggle 渲染表示与物件插件"></summary>
-    <ul class="nav-children"><li class="nav-item">
-  <a href="../../understand/rendering/vitem/"><span class="nav-title">RenderVItem</span></a>
-</li>
+    <ul class="nav-children">
 
 <li class="nav-item">
-  <a href="../../understand/rendering/mesh_item/"><span class="nav-title">RenderMeshItem</span></a>
+  
+  
+<a href="../../understand/rendering/vitem/"><span class="nav-title">RenderVItem</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../../understand/rendering/mesh_item/"><span class="nav-title">RenderMeshItem</span></a>
+
+
+  
 </li>
 
 </ul>
   </details>
+  
 </li>
+
+
 
 <li class="nav-part"><span role="heading" aria-level="2">Items</span></li>
 
+
+
 <li class="nav-item">
-  <div class="nav-label"><a href="../../items/"><span class="nav-title">Items</span></a>
+  
+  <div class="nav-label">
+<a href="../../items/"><span class="nav-title">Items</span></a>
+
 </div>
   <details class="nav-branch" open>
     <summary class="nav-disclosure" aria-label="Toggle Items"></summary>
-    <ul class="nav-children"><li class="nav-item">
-  <a href="../../items/camera/"><span class="nav-title">CameraFrame</span></a>
-</li>
+    <ul class="nav-children">
 
 <li class="nav-item">
-  <div class="nav-label"><a href="../../items/vitem/"><span class="nav-title">VItem 类</span></a>
+  
+  
+<a href="../../items/camera/"><span class="nav-title">CameraFrame</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  <div class="nav-label">
+<a href="../../items/vitem/"><span class="nav-title">VItem 类</span></a>
+
 </div>
   <details class="nav-branch" open>
     <summary class="nav-disclosure" aria-label="Toggle VItem 类"></summary>
-    <ul class="nav-children"><li class="nav-item">
-  <a href="../../items/vitem/vitem/"><span class="nav-title">VItem</span></a>
-</li>
+    <ul class="nav-children">
 
 <li class="nav-item">
-  <a href="../../items/vitem/geometry/"><span class="nav-title">几何构造器</span></a>
+  
+  
+<a href="../../items/vitem/vitem/"><span class="nav-title">VItem</span></a>
+
+
+  
 </li>
 
-<li class="nav-item">
-  <a href="../../items/vitem/svg/"><span class="nav-title">SvgItem</span></a>
-</li>
+
 
 <li class="nav-item">
-  <a href="../../items/vitem/text/"><span class="nav-title">文字物件</span></a>
+  
+  
+<a href="../../items/vitem/geometry/"><span class="nav-title">几何构造器</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../../items/vitem/svg/"><span class="nav-title">SvgItem</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../../items/vitem/text/"><span class="nav-title">文字物件</span></a>
+
+
+  
 </li>
 
 </ul>
   </details>
+  
 </li>
 
+
+
 <li class="nav-item">
-  <div class="nav-label"><a href="../../items/mesh/"><span class="nav-title">MeshItem 类</span></a>
+  
+  <div class="nav-label">
+<a href="../../items/mesh/"><span class="nav-title">MeshItem 类</span></a>
+
 </div>
   <details class="nav-branch" open>
     <summary class="nav-disclosure" aria-label="Toggle MeshItem 类"></summary>
-    <ul class="nav-children"><li class="nav-item">
-  <a href="../../items/mesh/mesh_item/"><span class="nav-title">MeshItem</span></a>
-</li>
+    <ul class="nav-children">
 
 <li class="nav-item">
-  <a href="../../items/mesh/surface/"><span class="nav-title">Surface</span></a>
+  
+  
+<a href="../../items/mesh/mesh_item/"><span class="nav-title">MeshItem</span></a>
+
+
+  
 </li>
 
+
+
 <li class="nav-item">
-  <a href="../../items/mesh/sphere/"><span class="nav-title">Sphere</span></a>
+  
+  
+<a href="../../items/mesh/surface/"><span class="nav-title">Surface</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../../items/mesh/sphere/"><span class="nav-title">Sphere</span></a>
+
+
+  
 </li>
 
 </ul>
   </details>
+  
 </li>
 
 </ul>
   </details>
+  
 </li>
+
 
 
 <li class="nav-separator" role="presentation"><hr></li>
 
+
+
 <li class="nav-part"><span role="heading" aria-level="2">News</span></li>
 
-<li class="nav-item">
-  <a href="../v0.1/"><span class="nav-title">v0.1</span></a>
-</li>
+
 
 <li class="nav-item">
-  <a href="./" aria-current="page"><span class="nav-title">v0.2</span></a>
+  
+  
+<a href="../v0.1/"><span class="nav-title">v0.1</span></a>
+
+
+  
 </li>
 
+
+
 <li class="nav-item">
-  <a href="../v0.3/"><span class="nav-title">v0.3</span></a>
+  
+  
+<a href="./" aria-current="page"><span class="nav-title">v0.2</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../v0.3/"><span class="nav-title">v0.3</span></a>
+
+
+  
 </li>
 
 </ul>
@@ -227,10 +422,12 @@
     <div id="nav-resize" class="navigation-resize" role="separator" tabindex="0" aria-label="Resize contents" aria-orientation="vertical" aria-controls="book-nav" title="Drag or use arrow keys to resize contents; double-click or press Home to reset"></div>
     <main id="page-content" tabindex="-1">
       <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><span aria-current="page">v0.2</span></li></ol></nav>
+      
       <details class="mobile-outline">
         <summary>On this page <span class="outline-state" aria-hidden="true"><span class="outline-show">Show</span><span class="outline-hide">Hide</span></span></summary>
         <ol class="outline-list"><li data-level="1"><a data-outline-link href="#v0-2">v0.2</a></li><li data-level="2"><a data-outline-link href="#%E6%96%B0%E5%A2%9E">新增</a></li><li data-level="2"><a data-outline-link href="#breaking-changes">BREAKING CHANGES</a></li><li data-level="2"><a data-outline-link href="#%E5%8A%A8%E7%94%BB%E7%BC%96%E7%A0%81%E9%87%8D%E5%86%99-%E4%BB%8E%E5%B8%A6%E7%8A%B6%E6%80%81%E7%9A%84-timeline-%E5%88%B0%E7%BA%AF%E7%BC%96%E7%A0%81">动画编码重写：从带状态的 Timeline 到纯编码</a></li><li data-level="2"><a data-outline-link href="#%E6%B8%B2%E6%9F%93-i-%E5%B9%B3%E9%9D%A2%E5%8C%96-vitem-%E6%B7%B1%E5%BA%A6%E4%B8%8E-oit">渲染 I：平面化 VItem、深度与 OIT</a></li><li data-level="3"><a data-outline-link href="#vitem2d-%E7%82%B9%E6%9C%89%E4%BA%86%E7%9C%9F%E6%B7%B1%E5%BA%A6-107">VItem2d：点有了真深度（#107）</a></li><li data-level="3"><a data-outline-link href="#rendergraph-109">RenderGraph（#109）</a></li><li data-level="3"><a data-outline-link href="#oit-flattened-k-buffer-110-112">OIT：flattened k-buffer（#110/#112）</a></li><li data-level="3"><a data-outline-link href="#%E8%BD%AC%E6%AD%A3-112">转正（#112）</a></li><li data-level="2"><a data-outline-link href="#%E6%B8%B2%E6%9F%93-ii-gpu-driven-%E5%90%88%E6%89%B9">渲染 II：GPU-driven 合批</a></li><li data-level="2"><a data-outline-link href="#%E6%B8%B2%E6%9F%93-iii-%E5%8F%8C%E7%BC%93%E5%86%B2%E8%AF%BB%E5%9B%9E">渲染 III：双缓冲读回</a></li><li data-level="2"><a data-outline-link href="#meshitem-%E8%BF%9B%E5%85%A5-3d">MeshItem：进入 3D</a></li><li data-level="2"><a data-outline-link href="#%E5%87%A0%E4%BD%95%E4%B8%8E%E9%94%9A%E7%82%B9">几何与锚点</a></li><li data-level="2"><a data-outline-link href="#%E8%BE%93%E5%87%BA%E4%BD%93%E7%B3%BB">输出体系</a></li><li data-level="2"><a data-outline-link href="#%E5%8C%85%E7%BB%93%E6%9E%84-ranim-core-%E6%88%90%E4%B8%BA%E7%BA%AF%E5%8A%A8%E7%94%BB%E5%BC%95%E6%93%8E">包结构：ranim-core 成为纯动画引擎</a></li></ol>
       </details>
+      
       <article class="prose"><section><h1 id="v0-2">v0.2</h1><blockquote data-notist-kind="quote"><p><strong>Status: Backfilled（补写）</strong> — 覆盖 <a href="https://github.com/AzurIce/ranim/pull/99">#99</a>–<a href="https://github.com/AzurIce/ranim/pull/163">#163</a>；按 v0.2.0（2026-04-05）/ v0.2.1（2026-05-28）发布时点快照描述。</p></blockquote><p>v0.2 的主线是把 v0.1 末期的两块"实验田"种成正文：<strong>动画编码</strong>去掉 item 状态、变成纯可求值的编码（<a href="https://github.com/AzurIce/ranim/pull/99">#99</a>/<a href="https://github.com/AzurIce/ranim/pull/104">#104</a>），<strong>渲染</strong>走进度缓冲与 OIT、再以 GPU-driven 合批收尾（<a href="https://github.com/AzurIce/ranim/pull/107">#107</a>–<a href="https://github.com/AzurIce/ranim/pull/112">#112</a>、<a href="https://github.com/AzurIce/ranim/pull/138">#138</a>/<a href="https://github.com/AzurIce/ranim/pull/142">#142</a>），然后顺势进入 3D（<a href="https://github.com/AzurIce/ranim/pull/146">#146</a> MeshItem）。与此同时几何构造器、锚点体系与输出格式迅速铺开，包结构完成了"ranim-core 是纯动画引擎"的定位重构。</p><section><h2 id="新增">新增</h2><ul><li><p>动画编码重写：<code>AnimationCell</code> + 单方法 <code>Eval&lt;T&gt;</code> trait，<code>Timeline</code> 不再存 item 状态，<code>RanimScene::seal()</code> 后任意时刻可独立求值（见"动画编码重写"一节）</p></li><li><p>渲染：平面基 VItem 与真深度（depth pre-pass）、RenderGraph、OIT（flattened k-buffer）、GPU-driven 合批（单 instanced draw）、双缓冲读回（见"渲染"各节）</p></li><li><p><code>MeshItem</code>/<code>Surface</code>/<code>Sphere</code>：3D 网格渲染，Z-up 球坐标相机</p></li><li><p>几何与锚点：<code>Arc</code>/<code>Circle</code>/<code>RegularPolygon</code>/<code>Ellipse</code>/<code>EllipticArc</code>/<code>Parallelogram</code>/<code>Line</code> 构造器，<code>Locate&lt;T&gt;</code> 锚点体系（<code>Origin</code>/<code>Focus</code>/<code>Centroid</code>），<code>TextItem</code>（Typst SVG）</p></li><li><p>输出：多格式（Mp4/Webm/Mov ProRes 4444/Gif）、<code>#[output]</code> 多路输出、帧级精确的采样时序、4K 输出</p></li><li><p>包结构：ranim-core 纯化、<code>ranim-app</code> 并入 <code>ranim</code>、<code>#[scene]</code> 生成同名 module</p></li></ul></section><section><h2 id="breaking-changes">BREAKING CHANGES</h2><ul><li><p><strong>动画编码</strong>：<code>Evaluator&lt;T&gt;</code>/<code>AnimationSpan&lt;T&gt;</code>/<code>ItemTimeline&lt;T&gt;</code> 移除，动画统一为 <code>AnimationCell</code>（<code>Box&lt;dyn Eval&gt;</code> + <code>AnimationInfo</code>），场景 API 改为 <code>RanimScene::{insert, insert_with, timeline_mut, seal}</code>（<a href="https://github.com/AzurIce/ranim/pull/99">#99</a>/<a href="https://github.com/AzurIce/ranim/pull/104">#104</a>）</p></li><li><p><strong>VItem 数据模型</strong>：旧的 3D 点列表 <code>VItem</code> 移除，VItem 变为平面基表示（<code>origin</code> + <code>Basis2d</code> + 平面内 2D 点，每点带 <code>is_closed</code>）（<a href="https://github.com/AzurIce/ranim/pull/107">#107</a>/<a href="https://github.com/AzurIce/ranim/pull/112">#112</a>）</p></li><li><p><strong>锚点与 trait 重命名</strong>：<code>BoundingBox</code> → <code>Aabb</code>（<code>aabb()/aabb_size()/aabb_center()</code>），enum 锚点 → <code>Locate&lt;T&gt;</code> trait + <code>AabbPoint</code>；场景 API <code>new_timeline*</code> → <code>insert_empty*</code>（<a href="https://github.com/AzurIce/ranim/pull/120">#120</a>）</p></li><li><p><strong><code>Rectangle</code> 构造语义</strong>：<code>p1</code>/<code>p2</code> 从左上/右下改为最小/最大角（数学惯例的向上 Y）（<a href="https://github.com/AzurIce/ranim/pull/116">#116</a>）</p></li><li><p><strong><code>CameraFrame::phi</code></strong>：从"相对 XY 平面的仰角"改为"Z-up 坐系下相对 +Z 的极角"，迁移：<code>PI/2 - old_phi</code>（<a href="https://github.com/AzurIce/ranim/pull/146">#146</a>）</p></li><li><p><strong><code>Output.dir</code></strong>：不再拼接在固定 <code>./output/</code> 下，即输出目录本身；默认值 <code>"./"</code> → <code>"./output"</code>（<a href="https://github.com/AzurIce/ranim/pull/159">#159</a>）</p></li><li><p><strong>宏属性</strong>：<code>pixel_size = (w, h)</code> → <code>width = w, height = h</code>；<code>frame_rate = n</code> → <code>fps = n</code>（<a href="https://github.com/AzurIce/ranim/pull/161">#161</a>）</p></li><li><p><strong>包结构</strong>：<code>Scene</code>/<code>Output</code>/<code>OutputFormat</code> 等类型从 <em>ranim-core</em> 移至 <em>ranim</em>；<code>ranim-app</code> 并入 <code>ranim</code>（feature <code>render</code>/<code>preview</code>）（<a href="https://github.com/AzurIce/ranim/pull/133">#133</a>/<a href="https://github.com/AzurIce/ranim/pull/143">#143</a>）</p></li></ul></section><section><h2 id="动画编码重写-从带状态的-timeline-到纯编码">动画编码重写：从带状态的 Timeline 到纯编码</h2><p>相关 PR：<a href="https://github.com/AzurIce/ranim/pull/99">#99</a>（动画实现重构）、<a href="https://github.com/AzurIce/ranim/pull/104">#104</a>（移除 timeline 状态），对应 issue <a href="https://github.com/AzurIce/ranim/pull/95">#95</a>（改进动画编码结构）。</p><p>v0.1 末期的动画编码有两块累赘：<code>Evaluator&lt;T&gt;</code>/<code>AnimationSpan&lt;T&gt;</code> 的双层抽象带着 <code>Arc</code> 引用计数管线，<code>ItemTimeline&lt;T&gt;</code> 在动画列表之外还维护一份<strong>实时更新的 item 状态</strong> <code>state: T</code>。状态意味着求值必须顺序推进——预览想 scrub 到任意时刻就得重放。</p><p>重写后的编码是纯数据：</p><ul><li><p><code>trait Eval&lt;T&gt; { fn eval_alpha(&amp;self, alpha: f64) -&gt; T; }</code>——"动画基本上是时间上的函数"（单方法 <code>Eval</code> trait 在此确立，v0.3 进一步演化为关联类型版本，见 v0.3 篇）；</p></li><li><p><code>AnimationCell&lt;T&gt; { inner: Box&lt;dyn Eval&lt;T&gt;&gt;, info: AnimationInfo, anim_name }</code> 统一承载动画，<code>AnimationInfo { rate_func, start_sec, duration_secs, enabled }</code> 持有全部播放参数（默认速率函数 <code>linear</code>）；</p></li><li><p><code>Timeline</code> 只持 <code>Vec&lt;Box&lt;dyn CoreItemAnimation&gt;&gt;</code> 加构造期游标（<code>cur_sec</code>/<code>planning_static_start_sec</code>），<code>show()</code>/<code>hide()</code> 用 <code>Static</code> 动画把窗口外的末态物化进编码，<strong>item 状态不再被存储</strong>，任意 <code>sec</code> 经 <code>eval_at_sec</code> 独立求值；</p></li><li><p>场景层：<code>RanimScene { timelines, time_marks }</code>、<code>seal() -&gt; SealedRanimScene</code>（<code>total_secs</code> + <code>eval_at_sec</code> 产出 <code>((timeline_idx, anim_idx), CoreItem)</code> 流）、<code>TimeMark::Capture</code> 标记；<code>Extract</code> 的 <code>extract_into(&amp;self, &amp;mut Vec&lt;Target&gt;)</code> 形状也由此确立。</p></li></ul><blockquote data-notist-kind="quote"><p>注意 <code>Timeline</code> 仍保留构造期游标（<code>cur_sec</code>/<code>planning_static_start_sec</code>），被移除的是 item 的实时状态；预览 UI 的 <code>TimelineState</code>（egui 控件）不受影响。</p></blockquote><p><a href="https://github.com/AzurIce/ranim/pull/99">#99</a> 同时把 eval 基准提升 20–30%（render 约 1%）。</p></section><section><h2 id="渲染-i-平面化-vitem-深度与-oit">渲染 I：平面化 VItem、深度与 OIT</h2><p>相关 PR：<a href="https://github.com/AzurIce/ranim/pull/107">#107</a>（VItem2d 实验）、<a href="https://github.com/AzurIce/ranim/pull/109">#109</a>（RenderGraph）、<a href="https://github.com/AzurIce/ranim/pull/110">#110</a>（OIT 实验）、<a href="https://github.com/AzurIce/ranim/pull/112">#112</a>（转正），对应 issue <a href="https://github.com/AzurIce/ranim/pull/102">#102</a>（深度）/ <a href="https://github.com/AzurIce/ranim/pull/105">#105</a>（OIT）/ <a href="https://github.com/AzurIce/ranim/pull/106">#106</a>（RenderGraph）</p><section><h3 id="vitem2d-点有了真深度-107">VItem2d：点有了真深度（<a href="https://github.com/AzurIce/ranim/pull/107">#107</a>）</h3><p>旧 VItem 是一列 3D 点，在 compute shader 里投影到相机平面——问题在于"当角点更多时，实际上无法定义曲面的形状"。</p><p><span class="notist-embed"><img src="assets/vitem2d-plane-projection.png" alt="点的深度：compute shader 将不在同一平面上的点投影到相机平面渲染（）"></span></p><p><a href="https://github.com/AzurIce/ranim/pull/107">#107</a> 把 VItem 换成<strong>平面表示</strong>：<code>origin</code> + <code>Basis2d</code>（平面在 3D 中的正交基）+ 平面内的 2D 点，每个点因此有了深度信息，也为日后与 3D mesh item 无缝融合铺路（"will be added in future"——后来是 <a href="https://github.com/AzurIce/ranim/pull/146">#146</a>）。分层关系不再依赖插入顺序，而是有了真正的 depth pre-pass：<code>Depth32Float</code> 深度缓冲 + <code>VItem2dDepth</code>/<code>VItem2dColor</code> 双 pass + 一个 compute pass 做 2D clip box。</p><p><span class="notist-embed"><img src="assets/depth-vs-insert-order.png" alt="此前：分层依赖插入顺序，中部交叠区出错（）"></span></p><p><span class="notist-embed"><img src="assets/depth-pass.png" alt="现在：depth pre-pass 让交叠按真实深度解析（）"></span></p></section><section><h3 id="rendergraph-109">RenderGraph（<a href="https://github.com/AzurIce/ranim/pull/109">#109</a>）</h3><p>渲染循环从硬编码改为声明式节点图：<code>GlobalRenderGraph</code>（slotmap 存节点）上每个节点实现 <code>GlobalRenderNodeTrait</code>，以关联 <code>Query: RenderPacketsQuery</code> 从 <code>RenderPackets</code> 存储取输入（元组查询经 <code>variadics_please</code> 生成）；资源侧出现 <code>RenderPool</code>/<code>PipelinesPool</code>/<code>RenderTextures</code>。节点图在此之后持续演化，直到 v0.3 被 Bevy ECS schedule 取代（见 v0.3 篇）。v0.2.0 定型的默认渲染图（含 <a href="https://github.com/AzurIce/ranim/pull/146">#146</a> 加入的 mesh 节点与两条交叉边）：</p><notist-b4666d0e3ef46445-diagram notist-protocol="2" notist-function="/home/runner/work/ranim/ranim/book/_components/pele/lib.notc.diagram" notist-content="block" notist-source="flowchart TB
     CL[&quot;Clear&quot;] --&gt; VG
     subgraph VG[&quot;ViewRenderGraph（逐 view）&quot;]
@@ -258,17 +455,20 @@
     B --&gt; C[&quot;单次 instanced draw&lt;br/&gt;draw(0..4, 0..item_count)&quot;]
     C --&gt; D[&quot;fragment：&lt;br/&gt;2D 贝塞尔/线段 SDF 求值&quot;]
     D --&gt; E[&quot;写入 OIT k-buffer&quot;]" notist-theme="auto"></notist-b4666d0e3ef46445-diagram><ul><li><p>每帧把全部 VItem 打包进连续 buffer（<code>VItemsBuffer</code>）：<code>item_infos</code> 索引表、<code>planes</code>、<code>points3d</code>、描边宽度与填/描色属性；</p></li><li><p>compute pass（workgroup 256）每点一个 invocation：二分 <code>item_infos</code> 找到所属 item，把 3D 世界坐标点投影到平面基上，并用 <code>atomicMin</code>/<code>atomicMax</code> 维护每 item 的定 点 clip box（含描边宽度的四边形扩张界）；</p></li><li><p>渲染 pass 完全 instanced（<code>draw(0..4, 0..item_count)</code>）：vertex 阶段按 clip box 生成每 item 大小的 quad，fragment 阶段做 2D 二次贝塞尔/线段的符号距离求值再写入 OIT k-buffer。注意这不是 indirect draw 式的 GPU-driven——裁剪与 quad 尺寸由 GPU 算，draw 调用仍是 CPU 发的单次 instanced。</p></li></ul><p>CPU 提交成本自此与 VItem 数量无关（bench <code>gpu_render</code>）：</p><table><thead><tr><th scope="col"><p>VItem 数</p></th><th scope="col"><p>CPU 提交（前）</p></th><th scope="col"><p>CPU 提交（后）</p></th><th scope="col"><p>提升</p></th></tr></thead><tbody><tr><td><p>25</p></td><td><p>1.61 ms</p></td><td><p>1.64 ms</p></td><td><p>~1×</p></td></tr><tr><td><p>400</p></td><td><p>25.2 ms</p></td><td><p>1.79 ms</p></td><td><p>14×</p></td></tr><tr><td><p>3600</p></td><td><p>220 ms</p></td><td><p>1.90 ms</p></td><td><p>116×</p></td></tr></tbody></table><p>CPU+GPU 总耗时在 3600 items 下 256 ms → 5.0 ms（51×），输出与旧路径逐像素一致（含 OIT 与深度排序）。<a href="https://github.com/AzurIce/ranim/pull/142">#142</a> 同日把旧 per-item 路径整体删除，实验直接转正。</p></section><section><h2 id="渲染-iii-双缓冲读回">渲染 III：双缓冲读回</h2><p><a href="https://github.com/AzurIce/ranim/pull/132">#132</a>（closes <a href="https://github.com/AzurIce/ranim/pull/119">#119</a>）</p><p>输出纹理从 <code>Renderer</code> 中拆出，读回异步化：<code>start_readback</code>（非阻塞入队）/ <code>finish_readback</code>（阻塞拷回）/ <code>try_finish_readback</code>。渲染循环读回第 N 帧与渲染第 N+1 帧重叠，报告约 +20% 吞吐。</p></section><section><h2 id="meshitem-进入-3d">MeshItem：进入 3D</h2><p><a href="https://github.com/AzurIce/ranim/pull/146">#146</a>（closes <a href="https://github.com/AzurIce/ranim/pull/101">#101</a>）</p><p><code>MeshItem { points, triangle_indices, transform, vertex_colors, vertex_normals }</code> 落地（v0.2 篇时代它还内嵌 <code>transform: Mat4</code>——v0.3 的变换系统重构会把它移出，见 v0.3 篇）：</p><ul><li><p><em>ranim-items</em> 侧配套 <code>Surface</code>（参数曲面 <code>(u, v) -&gt; DVec3</code> 网格生成）与 <code>Sphere</code>；<code>CameraFrame</code> 获得 Z-up 球坐标定位（<code>from_spherical</code>/<code>set_spherical</code>）与 <code>orbit</code> 动画；</p></li><li><p>渲染走合批路径（<code>MeshItemsBuffer</code> + depth/color 节点，与 vitem 节点交叉连边），空/零法向时 shader 以 <code>dpdx</code>/<code>dpdy</code> 回退平面着色；</p></li><li><p>trait 全覆盖：<code>Interpolatable</code>（顶点/颜色/法向/transform 插值，索引在 t=0.5 切换）、<code>Alignable</code>（不同拓扑间自动补点）、<code>Extract</code> → <code>CoreItem::MeshItem</code>；</p></li><li><p>新 example：<code>mesh_morph</code>（圆盘↔环面）、<code>perlin_terrain</code>（Perlin/分形/侵蚀地形）、<code>solar_system</code>、<code>tetrahedron_spheres</code>。</p></li></ul></section><section><h2 id="几何与锚点">几何与锚点</h2><p>相关 PR：<a href="https://github.com/AzurIce/ranim/pull/116">#116</a>、<a href="https://github.com/AzurIce/ranim/pull/120">#120</a>、<a href="https://github.com/AzurIce/ranim/pull/123">#123</a>、<a href="https://github.com/AzurIce/ranim/pull/128">#128</a>、<a href="https://github.com/AzurIce/ranim/pull/129">#129</a>、<a href="https://github.com/AzurIce/ranim/pull/149">#149</a>、<a href="https://github.com/AzurIce/ranim/pull/150">#150</a></p><ul><li><p><strong>锚点体系</strong>（<a href="https://github.com/AzurIce/ranim/pull/120">#120</a>，closes <a href="https://github.com/AzurIce/ranim/pull/117">#117</a>）：enum 锚点换成 <code>Locate&lt;T&gt;</code> trait——"任何类型都可以是锚点"，为它实现 <code>locate(&amp;self, target: &amp;T) -&gt; DVec3</code> 即可；内置 <code>DVec3</code>（自身即锚点）与 <code>AabbPoint</code>（bbox 相对坐标，原点为中心）。<code>BoundingBox</code> 更名 <code>Aabb</code>，<code>get_min_max</code> 去掉冗余中点返回（<a href="https://github.com/AzurIce/ranim/pull/116">#116</a>）；transform trait 收缩为最小方法（<code>rotate_at_point</code>/<code>scale_at_point</code>/<code>shift</code>），其余进 extension trait 且不再依赖 bbox；</p></li><li><p><strong>几何家族</strong>：<code>Rectangle</code> 构造语义改为最小/最大角（向上 Y 的数学惯例，<a href="https://github.com/AzurIce/ranim/pull/116">#116</a>）并新增 <code>from_min_size</code>/<code>from_two_points</code>；<code>Arc</code>/<code>ArcBetweenPoints</code>/<code>Circle</code>/<code>RegularPolygon</code>（<a href="https://github.com/AzurIce/ranim/pull/123">#123</a>，附 <code>Origin</code> 锚点）；<code>Ellipse</code>/<code>EllipticArc</code>（<a href="https://github.com/AzurIce/ranim/pull/128">#128</a>，附 <code>Focus</code> 锚点，<code>VPointVec</code> 的 AABB 改为曲线感知）；<code>Parallelogram</code> 与 <code>TextItem</code>（<a href="https://github.com/AzurIce/ranim/pull/129">#129</a>）；<code>Line</code> 线段 item（<a href="https://github.com/AzurIce/ranim/pull/150">#150</a>）；</p></li><li><p><strong><code>TextItem</code></strong>：单行文本，内部经 Typst 产出 SVG → <code>SvgItem</code> → VItems，携带 <code>TextFont</code>（字体族、<code>FontVariant</code>/<code>FontWeight</code> 等）；</p></li><li><p><code>OpaqueColor</code> 获得 <code>Interpolatable</code>（<a href="https://github.com/AzurIce/ranim/pull/149">#149</a>）。</p></li></ul></section><section><h2 id="输出体系">输出体系</h2><p>相关 PR：<a href="https://github.com/AzurIce/ranim/pull/125">#125</a>、<a href="https://github.com/AzurIce/ranim/pull/126">#126</a>、<a href="https://github.com/AzurIce/ranim/pull/137">#137</a>、<a href="https://github.com/AzurIce/ranim/pull/156">#156</a>、<a href="https://github.com/AzurIce/ranim/pull/159">#159</a>、<a href="https://github.com/AzurIce/ranim/pull/163">#163</a></p><ul><li><p><strong>去掉静态限制</strong>（<a href="https://github.com/AzurIce/ranim/pull/125">#125</a>）：<code>#[scene]</code> 宏生成 <code>StaticScene</code>/<code>StaticOutput</code>/<code>StaticSceneConfig</code>（C-ABI 友好）并可转 owned <code>Scene</code>；<code>find_scene</code> 返回 owned 值，render/preview API 一律收 <code>&amp;Scene</code>；新增 <code>render_scene!</code>/<code>preview_scene!</code> 声明宏直接以场景函数名调用；</p></li><li><p><strong>多格式输出</strong>（<a href="https://github.com/AzurIce/ranim/pull/126">#126</a>）：<code>#[output(format = "...")]</code> 支持一个场景多路输出，格式矩阵如下；ffmpeg 参数顺序一并理顺，MOV 输出稳定正确；新增 <code>rotating(angle, axis)</code> 旋转动画（逐帧增量旋转的真实圆弧运动，区别于首末态线性插值的 <code>Transform</code>）；</p><table><thead><tr><th scope="col"><p>格式</p></th><th scope="col"><p>codec / 像素格式</p></th><th scope="col"><p>alpha</p></th><th scope="col"><p>备注</p></th></tr></thead><tbody><tr><td><p>Mp4（默认）</p></td><td><p>libx264 / yuv420p</p></td><td><p>✗</p></td><td><p>—</p></td></tr><tr><td><p>Webm</p></td><td><p>libvpx-vp9 / yuva420p</p></td><td><p>✓</p></td><td><p>透明视频</p></td></tr><tr><td><p>Mov</p></td><td><p>prores_ks / yuva444p10le（ProRes 4444）</p></td><td><p>✓</p></td><td><p>macOS 可直接预览</p></td></tr><tr><td><p>Gif</p></td><td><p>gif / rgb8</p></td><td><p>✗</p></td><td><p>厘秒计时，fps 上限 50</p></td></tr></tbody></table></li><li><p><strong>帧采样间隔修复</strong>（<a href="https://github.com/AzurIce/ranim/pull/137">#137</a>，fixes <a href="https://github.com/AzurIce/ranim/pull/136">#136</a>）：渲染循环此前按 <code>i/(N-1)</code> 取 N 个闭区间采样点，把帧距从 <code>1/N</code> 拉伸成 <code>1/(N-1)</code>——视频时长与速度有细微错误。改为按 <code>i/fps</code> 常距采样 <code>ceil(total_secs * fps) + 1</code> 帧，末帧精确收在 <code>total_secs</code>，并直接走 <code>eval_at_sec</code> 免去 sec→alpha→sec 往返；</p></li><li><p><strong>预览体验</strong>（<a href="https://github.com/AzurIce/ranim/pull/114">#114</a>/<a href="https://github.com/AzurIce/ranim/pull/156">#156</a>/<a href="https://github.com/AzurIce/ranim/pull/159">#159</a>）：v0.1 的手写 winit 预览原型重构到 eframe 之上，新增深度缓冲可视化、eval/render 耗时显示与亮暗主题切换（<a href="https://github.com/AzurIce/ranim/pull/114">#114</a>，closes <a href="https://github.com/AzurIce/ranim/pull/78">#78</a>）；动态分辨率与宽高比预设（切换时按设备缓冲上限自动下调 OIT 层数）、播放传输条（逐帧/跳转/循环/0.1×–10× 变速）、导出对话框带进度、图标从 emoji 换成 <code>egui-phosphor</code>（<a href="https://github.com/AzurIce/ranim/pull/156">#156</a>/<a href="https://github.com/AzurIce/ranim/pull/159">#159</a>）；新增 <code>render_scene_output_with_progress</code> 进度回调；<code>Output.dir</code> 语义简化为直出目录；</p><p><span class="notist-embed"><img src="assets/app-light.png" alt="预览 app（eframe）：顶部为 Eval/Render 耗时、Depth/Output 与亮暗切换，底部为逐动画的时间轴（）"></span></p><p><span class="notist-embed"><img src="assets/app-dark.png" alt="亮/暗主题切换（）"></span></p></li><li><p><strong>4K 输出</strong>（<a href="https://github.com/AzurIce/ranim/pull/163">#163</a>，v0.2.1 唯一 PR，来自外部贡献者 @pointer-to-bios，致谢！）：设备创建改用 <code>adapter.limits()</code>，OIT storage buffer 在 UHD 下不再触及默认上限——4K 自此开箱即用（预览侧的分辨率自适应见 <a href="https://github.com/AzurIce/ranim/pull/156">#156</a>）。</p></li></ul></section><section><h2 id="包结构-ranim-core-成为纯动画引擎">包结构：ranim-core 成为纯动画引擎</h2><p>相关 PR：<a href="https://github.com/AzurIce/ranim/pull/133">#133</a>、<a href="https://github.com/AzurIce/ranim/pull/143">#143</a>、<a href="https://github.com/AzurIce/ranim/pull/144">#144</a>（依赖维护）、<a href="https://github.com/AzurIce/ranim/pull/161">#161</a>（发布准备）</p><ul><li><p><strong>ranim-core 纯化</strong>（<a href="https://github.com/AzurIce/ranim/pull/133">#133</a>，closes <a href="https://github.com/AzurIce/ranim/pull/131">#131</a>）：<code>Scene</code>/<code>Output</code>/<code>OutputFormat</code>/<code>SceneConfig</code>/<code>SceneConstructor</code> 与 <code>link_magic</code>（inventory 注册 + FFI 导出）全部移出 <em>ranim-core</em> 进 <em>ranim</em>，<code>inventory</code>/<code>wasm-bindgen</code> 依赖随之离开核心；依赖翻转——<code>ranim-app</code> 改为依赖 <code>ranim</code> + <code>ranim-render</code> 而非 <code>ranim-core</code>；<code>#[scene]</code> 不再靠 <code>paste!</code> 拼 <code>_SCENE</code> static，而是生成同名 module（Rust 允许 <code>fn</code> 与 <code>mod</code> 同名）导出 <code>pub fn scene() -&gt; Scene</code>；渲染相关依赖按 <code>cfg(not(target_family = "wasm"))</code> 隔离，book 新增包结构一章；</p></li><li><p><strong>ranim-app 并入 ranim</strong>（<a href="https://github.com/AzurIce/ranim/pull/143">#143</a>）：独立 crate 消失，<code>render_scene!</code>/<code>preview_scene!</code> 变成 <code>ranim</code> 在 <code>render</code>/<code>preview</code> feature 下的导出，packages/ 收敛为 ranim-anims、ranim-cli、ranim-core、ranim-items、ranim-macros、ranim-render 六个；</p></li><li><p><strong>v0.2.0 发布准备</strong>（<a href="https://github.com/AzurIce/ranim/pull/161">#161</a>）：宏属性与字段对齐（<code>pixel_size</code> → <code>width</code>/<code>height</code>，<code>frame_rate</code> → <code>fps</code>），egui 0.34 + wgpu 29，book 清理与 getting started 重写。</p></li></ul><p>v0.2.1（2026-05-28）携带 <a href="https://github.com/AzurIce/ranim/pull/163">#163</a> 的 4K 支持与两笔直接推送的依赖维护。</p></section></section></article>
+      
       <nav class="adjacent" aria-label="Page navigation">
         <a rel="prev" href="../v0.1/" class="adjacent-link previous"><span class="adjacent-label">Previous</span><span class="adjacent-title">v0.1</span></a>
         <a rel="next" href="../v0.3/" class="adjacent-link next"><span class="adjacent-label">Next</span><span class="adjacent-title">v0.3</span></a>
       </nav>
       
     </main>
+    
     <aside class="page-outline" aria-label="On this page">
       <nav id="page-outline" aria-label="Page outline"><p class="rail-label">On this page</p><ol class="outline-list"><li data-level="1"><a data-outline-link href="#v0-2">v0.2</a></li><li data-level="2"><a data-outline-link href="#%E6%96%B0%E5%A2%9E">新增</a></li><li data-level="2"><a data-outline-link href="#breaking-changes">BREAKING CHANGES</a></li><li data-level="2"><a data-outline-link href="#%E5%8A%A8%E7%94%BB%E7%BC%96%E7%A0%81%E9%87%8D%E5%86%99-%E4%BB%8E%E5%B8%A6%E7%8A%B6%E6%80%81%E7%9A%84-timeline-%E5%88%B0%E7%BA%AF%E7%BC%96%E7%A0%81">动画编码重写：从带状态的 Timeline 到纯编码</a></li><li data-level="2"><a data-outline-link href="#%E6%B8%B2%E6%9F%93-i-%E5%B9%B3%E9%9D%A2%E5%8C%96-vitem-%E6%B7%B1%E5%BA%A6%E4%B8%8E-oit">渲染 I：平面化 VItem、深度与 OIT</a></li><li data-level="3"><a data-outline-link href="#vitem2d-%E7%82%B9%E6%9C%89%E4%BA%86%E7%9C%9F%E6%B7%B1%E5%BA%A6-107">VItem2d：点有了真深度（#107）</a></li><li data-level="3"><a data-outline-link href="#rendergraph-109">RenderGraph（#109）</a></li><li data-level="3"><a data-outline-link href="#oit-flattened-k-buffer-110-112">OIT：flattened k-buffer（#110/#112）</a></li><li data-level="3"><a data-outline-link href="#%E8%BD%AC%E6%AD%A3-112">转正（#112）</a></li><li data-level="2"><a data-outline-link href="#%E6%B8%B2%E6%9F%93-ii-gpu-driven-%E5%90%88%E6%89%B9">渲染 II：GPU-driven 合批</a></li><li data-level="2"><a data-outline-link href="#%E6%B8%B2%E6%9F%93-iii-%E5%8F%8C%E7%BC%93%E5%86%B2%E8%AF%BB%E5%9B%9E">渲染 III：双缓冲读回</a></li><li data-level="2"><a data-outline-link href="#meshitem-%E8%BF%9B%E5%85%A5-3d">MeshItem：进入 3D</a></li><li data-level="2"><a data-outline-link href="#%E5%87%A0%E4%BD%95%E4%B8%8E%E9%94%9A%E7%82%B9">几何与锚点</a></li><li data-level="2"><a data-outline-link href="#%E8%BE%93%E5%87%BA%E4%BD%93%E7%B3%BB">输出体系</a></li><li data-level="2"><a data-outline-link href="#%E5%8C%85%E7%BB%93%E6%9E%84-ranim-core-%E6%88%90%E4%B8%BA%E7%BA%AF%E5%8A%A8%E7%94%BB%E5%BC%95%E6%93%8E">包结构：ranim-core 成为纯动画引擎</a></li></ol></nav>
     </aside>
+    
     <footer class="book-footer"><span>Ranim Book</span><a href="#page-content">Back to top</a></footer>
   </div>
-  <script type="module" src="./components.js"></script>
+  <script type="module" src="../../_notist/pages/news/v0.2/README.js"></script>
 </body>
 </html>

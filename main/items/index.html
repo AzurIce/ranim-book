@@ -1,3 +1,9 @@
+
+
+
+
+
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -17,8 +23,12 @@
       if (Number.isFinite(width) && width > 0) root.style.setProperty('--navigation-user-width', `${width}px`);
     } catch (_) {}
   </script>
-  <link rel="stylesheet" href="../_notist/theme/book.css"><link rel="stylesheet" href="../_notist/theme/status.css"><link rel="stylesheet" href="../_notist/theme/highlight.css"><link rel="stylesheet" href="../version-select.css">
-  <script src="../_notist/theme/book.js" defer></script><script src="../version-select.js" defer></script>
+  <link rel="stylesheet" href="../book.css">
+  <link rel="stylesheet" href="../status.css">
+  <link rel="stylesheet" href="../_notist/highlight.css">
+  <script src="../book.js" defer></script>
+  <link rel="stylesheet" href="../version-select.css">
+  <script src="../version-select.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#page-content">Skip to content</a>
@@ -34,142 +44,327 @@
   <div class="book-layout">
     <nav id="book-nav" class="book-navigation" aria-label="Contents">
       <div class="rail-heading"><p class="rail-label">Contents</p><button id="nav-close" class="text-button" type="button" aria-label="Close contents">Close</button></div>
-      <ul class="navigation-tree"><li class="nav-item">
-  <a href="../"><span class="nav-title">首页</span></a>
-</li>
+      <ul class="navigation-tree">
+
 
 <li class="nav-item">
-  <a href="../getting_started/"><span class="nav-title">Getting Started</span></a>
+  
+  
+<a href=".././"><span class="nav-title">首页</span></a>
+
+
+  
 </li>
 
-<li class="nav-item">
-  <a href="../project-entry/"><span class="nav-title">项目入口：场景库与跨平台宿主</span></a>
-</li>
+
 
 <li class="nav-item">
-  <a href="../packages/"><span class="nav-title">Ranim Packages</span></a>
+  
+  
+<a href="../getting_started/"><span class="nav-title">Getting Started</span></a>
+
+
+  
 </li>
 
+
+
 <li class="nav-item">
-  <a href="../cli/"><span class="nav-title">命令行入口</span></a>
+  
+  
+<a href="../project-entry/"><span class="nav-title">项目入口：场景库与跨平台宿主</span></a>
+
+
+  
 </li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../packages/"><span class="nav-title">Ranim Packages</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../cli/"><span class="nav-title">命令行入口</span></a>
+
+
+  
+</li>
+
+
 
 <li class="nav-part"><span role="heading" aria-level="2">理解 Ranim</span></li>
 
+
+
 <li class="nav-item">
-  <div class="nav-label"><a href="../understand/core/"><span class="nav-title">核心概念</span></a>
+  
+  <div class="nav-label">
+<a href="../understand/core/"><span class="nav-title">核心概念</span></a>
+
 </div>
   <details class="nav-branch" open>
     <summary class="nav-disclosure" aria-label="Toggle 核心概念"></summary>
-    <ul class="nav-children"><li class="nav-item">
-  <a href="../understand/core/anim/"><span class="nav-title">动画系统</span></a>
-</li>
+    <ul class="nav-children">
 
 <li class="nav-item">
-  <a href="../understand/core/extract/"><span class="nav-title">完整求值帧与渲染提取</span></a>
+  
+  
+<a href="../understand/core/anim/"><span class="nav-title">动画系统</span></a>
+
+
+  
 </li>
 
+
+
 <li class="nav-item">
-  <a href="../understand/core/transformed/"><span class="nav-title">Transformed&lt;T&gt;</span></a>
+  
+  
+<a href="../understand/core/extract/"><span class="nav-title">完整求值帧与渲染提取</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../understand/core/transformed/"><span class="nav-title">Transformed&lt;T&gt;</span></a>
+
+
+  
 </li>
 
 </ul>
   </details>
+  
 </li>
 
+
+
 <li class="nav-item">
-  <div class="nav-label"><a href="../understand/rendering/"><span class="nav-title">渲染表示与物件插件</span></a>
+  
+  <div class="nav-label">
+<a href="../understand/rendering/"><span class="nav-title">渲染表示与物件插件</span></a>
+
 </div>
   <details class="nav-branch" open>
     <summary class="nav-disclosure" aria-label="Toggle 渲染表示与物件插件"></summary>
-    <ul class="nav-children"><li class="nav-item">
-  <a href="../understand/rendering/vitem/"><span class="nav-title">RenderVItem</span></a>
-</li>
+    <ul class="nav-children">
 
 <li class="nav-item">
-  <a href="../understand/rendering/mesh_item/"><span class="nav-title">RenderMeshItem</span></a>
+  
+  
+<a href="../understand/rendering/vitem/"><span class="nav-title">RenderVItem</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../understand/rendering/mesh_item/"><span class="nav-title">RenderMeshItem</span></a>
+
+
+  
 </li>
 
 </ul>
   </details>
+  
 </li>
+
+
 
 <li class="nav-part"><span role="heading" aria-level="2">Items</span></li>
 
+
+
 <li class="nav-item">
-  <div class="nav-label"><a href="./" aria-current="page"><span class="nav-title">Items</span></a>
+  
+  <div class="nav-label">
+<a href="./" aria-current="page"><span class="nav-title">Items</span></a>
+
 </div>
   <details class="nav-branch" open>
     <summary class="nav-disclosure" aria-label="Toggle Items"></summary>
-    <ul class="nav-children"><li class="nav-item">
-  <a href="camera/"><span class="nav-title">CameraFrame</span></a>
-</li>
+    <ul class="nav-children">
 
 <li class="nav-item">
-  <div class="nav-label"><a href="vitem/"><span class="nav-title">VItem 类</span></a>
+  
+  
+<a href="camera/"><span class="nav-title">CameraFrame</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  <div class="nav-label">
+<a href="vitem/"><span class="nav-title">VItem 类</span></a>
+
 </div>
   <details class="nav-branch" open>
     <summary class="nav-disclosure" aria-label="Toggle VItem 类"></summary>
-    <ul class="nav-children"><li class="nav-item">
-  <a href="vitem/vitem/"><span class="nav-title">VItem</span></a>
-</li>
+    <ul class="nav-children">
 
 <li class="nav-item">
-  <a href="vitem/geometry/"><span class="nav-title">几何构造器</span></a>
+  
+  
+<a href="vitem/vitem/"><span class="nav-title">VItem</span></a>
+
+
+  
 </li>
 
-<li class="nav-item">
-  <a href="vitem/svg/"><span class="nav-title">SvgItem</span></a>
-</li>
+
 
 <li class="nav-item">
-  <a href="vitem/text/"><span class="nav-title">文字物件</span></a>
+  
+  
+<a href="vitem/geometry/"><span class="nav-title">几何构造器</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="vitem/svg/"><span class="nav-title">SvgItem</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="vitem/text/"><span class="nav-title">文字物件</span></a>
+
+
+  
 </li>
 
 </ul>
   </details>
+  
 </li>
 
+
+
 <li class="nav-item">
-  <div class="nav-label"><a href="mesh/"><span class="nav-title">MeshItem 类</span></a>
+  
+  <div class="nav-label">
+<a href="mesh/"><span class="nav-title">MeshItem 类</span></a>
+
 </div>
   <details class="nav-branch" open>
     <summary class="nav-disclosure" aria-label="Toggle MeshItem 类"></summary>
-    <ul class="nav-children"><li class="nav-item">
-  <a href="mesh/mesh_item/"><span class="nav-title">MeshItem</span></a>
-</li>
+    <ul class="nav-children">
 
 <li class="nav-item">
-  <a href="mesh/surface/"><span class="nav-title">Surface</span></a>
+  
+  
+<a href="mesh/mesh_item/"><span class="nav-title">MeshItem</span></a>
+
+
+  
 </li>
 
+
+
 <li class="nav-item">
-  <a href="mesh/sphere/"><span class="nav-title">Sphere</span></a>
+  
+  
+<a href="mesh/surface/"><span class="nav-title">Surface</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="mesh/sphere/"><span class="nav-title">Sphere</span></a>
+
+
+  
 </li>
 
 </ul>
   </details>
+  
 </li>
 
 </ul>
   </details>
+  
 </li>
+
 
 
 <li class="nav-separator" role="presentation"><hr></li>
 
+
+
 <li class="nav-part"><span role="heading" aria-level="2">News</span></li>
 
-<li class="nav-item">
-  <a href="../news/v0.1/"><span class="nav-title">v0.1</span></a>
-</li>
+
 
 <li class="nav-item">
-  <a href="../news/v0.2/"><span class="nav-title">v0.2</span></a>
+  
+  
+<a href="../news/v0.1/"><span class="nav-title">v0.1</span></a>
+
+
+  
 </li>
 
+
+
 <li class="nav-item">
-  <a href="../news/v0.3/"><span class="nav-title">v0.3</span></a>
+  
+  
+<a href="../news/v0.2/"><span class="nav-title">v0.2</span></a>
+
+
+  
+</li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../news/v0.3/"><span class="nav-title">v0.3</span></a>
+
+
+  
 </li>
 
 </ul>
@@ -227,20 +422,25 @@
     <div id="nav-resize" class="navigation-resize" role="separator" tabindex="0" aria-label="Resize contents" aria-orientation="vertical" aria-controls="book-nav" title="Drag or use arrow keys to resize contents; double-click or press Home to reset"></div>
     <main id="page-content" tabindex="-1">
       <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><span aria-current="page">Items</span></li></ol></nav>
+      
       <details class="mobile-outline">
         <summary>On this page <span class="outline-state" aria-hidden="true"><span class="outline-show">Show</span><span class="outline-hide">Hide</span></span></summary>
         <ol class="outline-list"><li data-level="1"><a data-outline-link href="#items">Items</a></li></ol>
       </details>
+      
       <article class="prose"><section><h1 id="items">Items</h1><blockquote data-notist-kind="quote"><p>[!caution]ai 生成，可能叙事逻辑和表述并不是很好，仅供参考。</p></blockquote><p><code>ranim-items</code> 提供<strong>用户层 item</strong>：编写场景时直接构造和做动画的类型。与渲染表示（见渲染表示大节）相比，它们用 f64（<code>DVec3</code> / <code>DAffine3</code>）描述、携带动画所需的辅助结构（如 <code>PointVec</code> 对齐包装），并实现了一批动画/变换trait（<code>Interpolatable</code>、<code>Alignable</code>、<code>FillColor</code>、<code>ShiftTransform</code> 等），可以直接配合 <code>morph</code>、<code>fade_in</code> 等动画使用。完整的动画输出原样保存在类型化帧中。启用 items 的 <code>render</code> feature 后，各物件实现值级 <code>Extract</code>；默认渲染配置已包含内置物件插件（<code>RanimItemsPlugin</code>），渲染裸内置类型无需装配。渲染未被覆盖的完整输出（容器、变换 wrapper、自定义类型）时，项目注册自定义<code>RenderSetup</code>，为实际完整输出安装 <code>ExtractPlugin&lt;T&gt;</code>；容器与变换 wrapper在渲染侧递归解释（见 <a href="../understand/core/extract/">完整求值帧与渲染提取</a>）。</p><p>可见几何分两类：</p><ul><li><p><a href="vitem/">VItem 类</a> — <code>vitem</code> 模块：矢量物件。核心是 <code>VItem</code>，外加几何构造器（<code>geometry</code>）、<code>SvgItem</code>、以及 <code>typst</code> feature 提供的文字物件。</p></li><li><p><a href="mesh/">MeshItem 类</a> — <code>mesh</code> 模块：三维网格物件。核心是<code>MeshItem</code>，外加参数曲面 <code>Surface</code> 和球体 <code>Sphere</code>。</p></li></ul><p><a href="camera/">CameraFrame</a> 定义相机数据与投影参数，<code>CameraFramePlugin</code> 负责其渲染提取与 viewport 准备（默认渲染配置已包含）。</p><p>另有 <code>debug</code> 模块提供调试辅助（如 <code>VisualizeAabbItem&lt;T&gt;</code>：把任意实现了<code>Aabb</code> 的 item 的包围盒可视化为线框矩形）。</p></section></article>
+      
       <nav class="adjacent" aria-label="Page navigation">
         <a rel="prev" href="../understand/rendering/mesh_item/" class="adjacent-link previous"><span class="adjacent-label">Previous</span><span class="adjacent-title">RenderMeshItem</span></a>
         <a rel="next" href="camera/" class="adjacent-link next"><span class="adjacent-label">Next</span><span class="adjacent-title">CameraFrame</span></a>
       </nav>
       
     </main>
+    
     <aside class="page-outline" aria-label="On this page">
       <nav id="page-outline" aria-label="Page outline"><p class="rail-label">On this page</p><ol class="outline-list"><li data-level="1"><a data-outline-link href="#items">Items</a></li></ol></nav>
     </aside>
+    
     <footer class="book-footer"><span>Ranim Book</span><a href="#page-content">Back to top</a></footer>
   </div>
   
