@@ -191,6 +191,21 @@
 
 
 
+<li class="nav-part"><span role="heading" aria-level="2">KDL</span></li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../../kdl/"><span class="nav-title">KDL</span></a>
+
+
+  
+</li>
+
+
+
 <li class="nav-part"><span role="heading" aria-level="2">Items</span></li>
 
 
@@ -428,13 +443,15 @@
         <ol class="outline-list"><li data-level="1"><a data-outline-link href="#%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5">核心概念</a></li></ol>
       </details>
       
-      <article class="prose"><section><h1 id="核心概念">核心概念</h1><blockquote data-notist-kind="quote"><p>[!caution]ai 生成，可能叙事逻辑和表述并不是很好，仅供参考。</p></blockquote><p>Ranim 将动画定义为可按任意时间采样的值，并通过 closed core + open leaves 的方式组织场景：</p><pre><code class="language-text">Eval&lt;Output = T&gt;                        visual leaf content
-  -&gt; IntoAnimNode                       default lowering (linear / 1s / enabled)
-  -&gt; Paramed&lt;A&gt; / At&lt;A&gt;                 playback params / placement
+      <article class="prose"><section><h1 id="核心概念">核心概念</h1><p>Ranim 的动画定义保留初始状态与配方，运行实例负责按时间采样；两者通过<code>build(&amp;self)</code> 连接：</p><pre><code class="language-text">Item + recipe                         anim / anim_ref / anim_mut
+  -&gt; AnimDef&lt;T, R&gt;                     retained input + recipe
+  -&gt; Paramed&lt;A&gt; / At&lt;A&gt;                playback params / placement
   -&gt; AnimSequence / AnimStack / AnimLagged
-  -&gt; AnimNode { timing shell, NodeContent }
+  -&gt; AnimDefNode { Children / Leaf }   retained definitions
+  -&gt; build(&amp;self)
+  -&gt; AnimNode { timing shell, NodeContent }  runtime execution
   -&gt; SealedRanimScene -&gt; SceneEvaluator
-</code></pre><ul><li><p>定义期（open）：叶子实现 <code>Eval</code>；容器/Sugar 位于 <code>animation::compose</code>，通过 <code>IntoAnimNode</code> lower 到运行时。</p></li><li><p>运行期（closed）：所有定义都 lower 成 <code>AnimNode</code>，其 <code>NodeContent</code> 是封闭的核心语言（<code>Children</code> 或 <code>Leaf</code>，叶子载荷为动画或音频）。视觉求值、音频烘焙、preview introspection 都是这棵树上的 interpreter。</p></li><li><p><a href="anim/"><code>Eval</code>、<code>IntoAnimNode</code>、容器与运行时</a> 描述叶子动画如何根据局部进度产生状态、附加播放参数，以及顺序 / 并行 / 交错容器如何把场景组织成动画树。</p></li><li><p><a href="extract/">完整求值帧与渲染提取</a> 描述完整输出如何保留在帧中，以及值级 <code>Extract</code> 与泛型插件如何在渲染侧递归消费它们。</p></li><li><p><a href="../rendering/">渲染表示与物件插件</a> 介绍 items 所有的 <code>RenderVItem</code>、<code>RenderMeshItem</code> 与相机插件；core 仅保留通用动画与变换。</p></li><li><p><code>RanimScene</code> 的根节点是一个 <code>AnimStack</code>。<code>r.play(animation)</code> 等价于向根 Stack 执行 <code>push</code>，因此多次根级 <code>play</code> 默认从 0 秒并行。</p></li></ul><p>新模型不维护 Scene 内可变的 <code>TimelineId</code> 或运行时物件表。需要独立生命周期的内容由各自的 <code>AnimSequence</code> 持有，最后通过 Stack 组合。</p></section></article>
+</code></pre><ul><li><p>定义期（open）：<code>AnimDefNode</code> 保留完整输入与配方；<code>animation::compose</code> 中的容器通过标准 <code>Into&lt;AnimDefNode&gt;</code> 转换排布子定义。Inspector 和 timeline 直接读取定义树，不展开配方产生的运行子树。</p></li><li><p>运行期（closed）：<code>AnimDefNode::build(&amp;self)</code> 构建独立的 <code>AnimNode</code>，不消费定义。其 <code>NodeContent</code> 是封闭的核心语言（<code>Children</code> 或 <code>Leaf</code>，叶子载荷为动画或音频），供视觉求值与音频烘焙遍历。</p></li><li><p><a href="anim/">动画系统</a> 从「初始状态 + 配方 → 运行结构」出发，单独解释 <code>anim</code> / <code>anim_ref</code> / <code>anim_mut</code> 的输入所有权与即时写回，再介绍定义树、播放配置、组合容器、运行时和 <code>Eval</code>，最后说明检查与持久化的边界。</p></li><li><p><a href="extract/">完整求值帧与渲染提取</a> 描述完整输出如何保留在帧中，以及值级 <code>Extract</code> 与泛型插件如何在渲染侧递归消费它们。</p></li><li><p><a href="../rendering/">渲染表示与物件插件</a> 介绍 items 所有的 <code>RenderVItem</code>、<code>RenderMeshItem</code> 与相机插件；core 仅保留通用动画与变换。</p></li><li><p><code>RanimScene</code> 的根节点是一个 <code>AnimStack</code>。<code>r.play(animation)</code> 等价于向根 Stack 执行 <code>push</code>，因此多次根级 <code>play</code> 默认从 0 秒并行。</p></li></ul><p>Scene 不维护可变的运行时物件表。需要独立生命周期的内容由各自的 <code>AnimSequence</code> 持有，最后通过 Stack 组合。</p></section></article>
       
       <nav class="adjacent" aria-label="Page navigation">
         <a rel="prev" href="../../cli/" class="adjacent-link previous"><span class="adjacent-label">Previous</span><span class="adjacent-title">命令行入口</span></a>

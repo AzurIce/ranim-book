@@ -191,6 +191,21 @@
 
 
 
+<li class="nav-part"><span role="heading" aria-level="2">KDL</span></li>
+
+
+
+<li class="nav-item">
+  
+  
+<a href="../kdl/"><span class="nav-title">KDL</span></a>
+
+
+  
+</li>
+
+
+
 <li class="nav-part"><span role="heading" aria-level="2">Items</span></li>
 
 
@@ -428,10 +443,10 @@
         <ol class="outline-list"><li data-level="1"><a data-outline-link href="#items">Items</a></li></ol>
       </details>
       
-      <article class="prose"><section><h1 id="items">Items</h1><blockquote data-notist-kind="quote"><p>[!caution]ai 生成，可能叙事逻辑和表述并不是很好，仅供参考。</p></blockquote><p><code>ranim-items</code> 提供<strong>用户层 item</strong>：编写场景时直接构造和做动画的类型。与渲染表示（见渲染表示大节）相比，它们用 f64（<code>DVec3</code> / <code>DAffine3</code>）描述、携带动画所需的辅助结构（如 <code>PointVec</code> 对齐包装），并实现了一批动画/变换trait（<code>Interpolatable</code>、<code>Alignable</code>、<code>FillColor</code>、<code>ShiftTransform</code> 等），可以直接配合 <code>morph</code>、<code>fade_in</code> 等动画使用。完整的动画输出原样保存在类型化帧中。启用 items 的 <code>render</code> feature 后，各物件实现值级 <code>Extract</code>；默认渲染配置已包含内置物件插件（<code>RanimItemsPlugin</code>），渲染裸内置类型无需装配。渲染未被覆盖的完整输出（容器、变换 wrapper、自定义类型）时，项目注册自定义<code>RenderSetup</code>，为实际完整输出安装 <code>ExtractPlugin&lt;T&gt;</code>；容器与变换 wrapper在渲染侧递归解释（见 <a href="../understand/core/extract/">完整求值帧与渲染提取</a>）。</p><p>可见几何分两类：</p><ul><li><p><a href="vitem/">VItem 类</a> — <code>vitem</code> 模块：矢量物件。核心是 <code>VItem</code>，外加几何构造器（<code>geometry</code>）、<code>SvgItem</code>、以及 <code>typst</code> feature 提供的文字物件。</p></li><li><p><a href="mesh/">MeshItem 类</a> — <code>mesh</code> 模块：三维网格物件。核心是<code>MeshItem</code>，外加参数曲面 <code>Surface</code> 和球体 <code>Sphere</code>。</p></li></ul><p><a href="camera/">CameraFrame</a> 定义相机数据与投影参数，<code>CameraFramePlugin</code> 负责其渲染提取与 viewport 准备（默认渲染配置已包含）。</p><p>另有 <code>debug</code> 模块提供调试辅助（如 <code>VisualizeAabbItem&lt;T&gt;</code>：把任意实现了<code>Aabb</code> 的 item 的包围盒可视化为线框矩形）。</p></section></article>
+      <article class="prose"><section><h1 id="items">Items</h1><blockquote data-notist-kind="quote"><p>[!caution]ai 生成，可能叙事逻辑和表述并不是很好，仅供参考。</p></blockquote><p><code>ranim-items</code> 提供<strong>用户层 item</strong>：编写场景时直接构造和做动画的类型。与渲染表示（见渲染表示大节）相比，它们用 f64（<code>DVec3</code> / <code>DAffine3</code>）描述、携带动画所需的辅助结构（如 <code>PointVec</code> 对齐包装），并实现了一批动画/变换trait（<code>Interpolatable</code>、<code>Alignable</code>、<code>FillColor</code>、<code>ShiftTransform</code> 等），可以通过 <code>anim</code> / <code>anim_ref</code> / <code>anim_mut</code> 配合 <code>Morph</code>、<code>FadeIn</code> 等操作参数使用。完整的动画输出原样保存在类型化帧中。启用 items 的 <code>render</code> feature 后，各物件实现值级 <code>Extract</code>；默认渲染配置已包含内置物件插件（<code>RanimItemsPlugin</code>），渲染裸内置类型无需装配。渲染未被覆盖的完整输出（容器、变换 wrapper、自定义类型）时，项目注册自定义<code>RenderSetup</code>，为实际完整输出安装 <code>ExtractPlugin&lt;T&gt;</code>；容器与变换 wrapper在渲染侧递归解释（见 <a href="../understand/core/extract/">完整求值帧与渲染提取</a>）。</p><p>可见几何分两类：</p><ul><li><p><a href="vitem/">VItem 类</a> — <code>vitem</code> 模块：矢量物件。核心是 <code>VItem</code>，外加几何构造器（<code>geometry</code>）、<code>SvgItem</code>、以及 <code>typst</code> feature 提供的文字物件。</p></li><li><p><a href="mesh/">MeshItem 类</a> — <code>mesh</code> 模块：三维网格物件。核心是<code>MeshItem</code>，外加参数曲面 <code>Surface</code> 和球体 <code>Sphere</code>。</p></li></ul><p><a href="camera/">CameraFrame</a> 定义相机数据与投影参数，<code>CameraFramePlugin</code> 负责其渲染提取与 viewport 准备（默认渲染配置已包含）。</p><p>另有 <code>debug</code> 模块提供调试辅助（如 <code>VisualizeAabbItem&lt;T&gt;</code>：把任意实现了<code>Aabb</code> 的 item 的包围盒可视化为线框矩形）。</p></section></article>
       
       <nav class="adjacent" aria-label="Page navigation">
-        <a rel="prev" href="../understand/rendering/mesh_item/" class="adjacent-link previous"><span class="adjacent-label">Previous</span><span class="adjacent-title">RenderMeshItem</span></a>
+        <a rel="prev" href="../kdl/" class="adjacent-link previous"><span class="adjacent-label">Previous</span><span class="adjacent-title">KDL 表达草案</span></a>
         <a rel="next" href="camera/" class="adjacent-link next"><span class="adjacent-label">Next</span><span class="adjacent-title">CameraFrame</span></a>
       </nav>
       
